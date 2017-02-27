@@ -7,14 +7,29 @@
 
 require('./bootstrap');
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+//路由
+import VueRouter from 'vue-router';
+//状态管理
+import store from './vuex/store.js';
+//国际化
+import VueI18n from 'vue-i18n';
 
-Vue.component('example', require('./components/Example.vue'));
+import routes from './routes.js';
+import locales from './lang';
 
-const app = new Vue({
-    el: '#app'
+import App from './App.vue';
+
+Vue.use(VueI18n);
+Vue.use(VueRouter);
+Vue.config.lang = window.Language;
+Object.keys(locales).forEach(function (lang){
+    Vue.locale(lang,locales[lang])
+})
+
+const router = new VueRouter({
+    mode: 'history',
+    base: __dirname,
+    linkActiveClass: 'active',
+    routes
 });
+new Vue(Vue.util.extend({ router, store },App)).$mount('#app');

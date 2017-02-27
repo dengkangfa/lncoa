@@ -1,9 +1,20 @@
 
-// Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+// Public
+@import "public";
 
-// Variables
-@import "variables";
+//Simplemde
+// @import "vendor/simplemde.min";
 
-// Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "navbar";
+// @import "_ibox";
+// @import "togglebutton";
+
+.width-5-percent {
+    width: 5%;
+}
+.width-10-percent {
+    width: 10%;
+}
+.no-margin {
+    margin: 0 !important;
+}

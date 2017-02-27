@@ -1,4 +1,5 @@
 <?php
+use App\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +19,15 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
+        'status' => true,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
     ];
 });
+
+// $factory->define(AApp\Role::class, function(Faker\Generator $faker) {
+//     var_dump($faker);
+//     // return [
+//     //     'name' =>
+//     // ];
+// });

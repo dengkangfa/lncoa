@@ -11,6 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// User Auth
+Auth::routes();
+
+Route::group(['middleware' => ['auth']], function () {
+   Route::get('{path?}', 'IndexController@index')->where('path', '[\/\w\.-]*');
 });

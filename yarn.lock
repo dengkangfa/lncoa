@@ -1995,6 +1995,10 @@ invert-kv@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/invert-kv/download/invert-kv-1.0.0.tgz#104a8e4aaca6d3d8cd157a8ef8bfab2d7a3ffdb6"
 
+ionicons@^2.0.1:
+  version "2.0.1"
+  resolved "http://registry.npm.taobao.org/ionicons/download/ionicons-2.0.1.tgz#ca398113293ea870244f538f0aabbd4b5b209a3e"
+
 ipaddr.js@1.2.0:
   version "1.2.0"
   resolved "http://registry.npm.taobao.org/ipaddr.js/download/ipaddr.js-1.2.0.tgz#8aba49c9192799585bdd643e0ccb50e8ae777ba4"
@@ -4163,6 +4167,10 @@ vue-hot-reload-api@^2.0.1:
   version "2.0.10"
   resolved "http://registry.npm.taobao.org/vue-hot-reload-api/download/vue-hot-reload-api-2.0.10.tgz#28a12ef10511e70c90f260b0cbc4066b050e8af8"
 
+vue-i18n@^4.8.0:
+  version "4.10.0"
+  resolved "http://registry.npm.taobao.org/vue-i18n/download/vue-i18n-4.10.0.tgz#70c6e69cd26dece8d472125db99358d290d78c9e"
+
 vue-loader@^10.0.2:
   version "10.3.0"
   resolved "http://registry.npm.taobao.org/vue-loader/download/vue-loader-10.3.0.tgz#436421736e9ad0f1c481330327c376963db86a19"
@@ -4185,6 +4193,10 @@ vue-resource@^1.0.3:
   dependencies:
     got "^6.7.1"
 
+vue-router@^2.1.1:
+  version "2.2.1"
+  resolved "http://registry.npm.taobao.org/vue-router/download/vue-router-2.2.1.tgz#b027f9fac2cf13462725e843d6dc631b6aa077f6"
+
 vue-style-loader@^2.0.0:
   version "2.0.1"
   resolved "http://registry.npm.taobao.org/vue-style-loader/download/vue-style-loader-2.0.1.tgz#3ec086e900f9a44086b639749dd40bc84673c3cd"
@@ -4206,6 +4218,10 @@ vue-template-es2015-compiler@^1.2.2:
 vue@^2.0.1:
   version "2.1.10"
   resolved "http://registry.npm.taobao.org/vue/download/vue-2.1.10.tgz#c9235ca48c7925137be5807832ac4e3ac180427b"
+
+vuex@^2.1.1:
+  version "2.1.3"
+  resolved "http://registry.npm.taobao.org/vuex/download/vuex-2.1.3.tgz#4f613f8425a274b85b79a83cd28b960938bf1670"
 
 watchpack@^1.2.0:
   version "1.3.1"
