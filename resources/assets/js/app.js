@@ -17,10 +17,13 @@ import VueI18n from 'vue-i18n';
 import routes from './routes.js';
 import locales from './lang';
 
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
 import App from './App.vue';
 
 Vue.use(VueI18n);
 Vue.use(VueRouter);
+Vue.use(ElementUI);
 Vue.config.lang = window.Language;
 Object.keys(locales).forEach(function (lang){
     Vue.locale(lang,locales[lang])
