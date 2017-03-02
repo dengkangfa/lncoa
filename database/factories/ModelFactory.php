@@ -1,5 +1,4 @@
 <?php
-use App\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,19 +14,34 @@ use App\Role;
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
+    $identicon = new \Identicon\Identicon();
+    $date_time = $faker->date.' '.$faker->time;
+    $name = $faker->name;
 
     return [
-        'name' => $faker->name,
+        'name' => $name,
+        'avatar' => $identicon->getImageDataUri($name),
         'email' => $faker->unique()->safeEmail,
         'status' => true,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
+        'created_at' => $date_time,
+        'updated_at' => $date_time,
     ];
 });
 
-// $factory->define(AApp\Role::class, function(Faker\Generator $faker) {
-//     var_dump($faker);
-//     // return [
-//     //     'name' =>
-//     // ];
-// });
+$factory->define(App\Role::class, function(Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'display_name' => $faker->name,
+        'description' => $faker->realText($maxNbChars = 200, $indexSize = 2),
+    ];
+});
+
+$factory->define(App\Permission::class, function(Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'display_name' => $faker->name,
+        'description' => $faker->realText($maxNbChars = 200, $indexSize = 2),
+    ];
+});

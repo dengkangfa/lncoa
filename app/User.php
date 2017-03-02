@@ -36,4 +36,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function roles() {
+        return $this->belongsToMany(
+          config('entrust.role'),
+           config('entrust.role_user_table'),
+            config('entrust.user_foreign_key'),
+             config('entrust.role_foreign_key')
+              )->withTimestamps();
+
+    }
 }

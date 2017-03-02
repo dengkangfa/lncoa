@@ -21,26 +21,16 @@
                     </a>
                 </div>
             </div>
-            <div id="leftside-navigation">
-                <li v-for="sort in sorts" class="sub-menu">
-                    <a @click="slideToggle($event)">
-                      <i :class="sort.icon"></i>
-                      {{ $t(sort.label) }}
-                    </a>
-                    <ul v-if="sort.menus">
-                        <li v-for="menu in sort.menus" v-if="menu">
-                            <router-link :to="menu.uri">
-                                <i :class="menu.icon"></i> {{ $t(menu.label) }}
-                            </router-link>
-                        </li>
-                    </ul>
-                </li>
-            </div>
-            <!-- <li v-for="menu in menus">
-                <router-link :to="menu.uri">
-                    <i :class="menu.icon"></i> {{ $t(menu.label) }}
-                </router-link>
-            </li> -->
+            <el-col>
+                <el-menu :router="true" theme="dark"
+                  :unique-opened="true" default-active="">
+                  <el-submenu :index="menu.uri" v-for="menu in tree" v-if="menu.items.length != 0" class="menu-height">
+                    <template slot="title"><i :class="menu.icon"></i>{{ $t("sidebar."+menu.title) }}</template>
+                      <el-menu-item :index="item.uri" v-for="item in menu.items"><i :class="item.icon"></i>{{ $t("sidebar."+item.title) }}</el-menu-item>
+                  </el-submenu>
+                  <el-menu-item :index="menu.uri" v-else><i :class="menu.icon"></i>{{ $t("sidebar."+menu.title) }}</el-menu-item>
+                </el-menu>
+            </el-col>
         </ul>
     </div>
 </template>
@@ -53,10 +43,12 @@
             return {
                 sorts,
                 user: {},
+                tree: {},
             }
         },
         mounted() {
-            this.user = window.User
+            this.user = window.User;
+            this.tree = window.Tree;
         },
         computed: {
             userInfo() {
@@ -64,12 +56,13 @@
             }
         },
         methods: {
-            slideToggle: function(e){
-
-              $(e.target).next().slideToggle(200, 'linear');
-
-            }
-        }
+         handleOpen(key, keyPath) {
+           console.log(key, keyPath);
+         },
+         handleClose(key, keyPath) {
+           console.log(key, keyPath);
+         }
+       }
     }
 </script>
 
@@ -113,7 +106,7 @@
 .user {
     text-align: center;
     padding-top: 15px;
-    background-color: #52697f;
+    background-color: #324b57;
 }
 
 .user .avatar {
@@ -157,8 +150,17 @@
     color: #fff !important;
 }
 
-.sidebar-nav li a i {
+// .sidebar-nav li a i {
+//     padding-right: 10px;
+// }
+
+.el-menu [class^=ion] {
+    vertical-align: baseline;
     padding-right: 10px;
+}
+
+.el-menu [class^=el-menu] {
+    height: 40px;
 }
 
 .sidebar-nav li a:active,

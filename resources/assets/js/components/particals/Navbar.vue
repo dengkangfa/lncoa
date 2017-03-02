@@ -8,6 +8,11 @@
             </div>
             <div class="user-nav">
                 <ul v-if="!statused">
+                  
+                  <span class="nav-lang" v-bind:class="{active: lang!='en'}"
+                   @click="switchLang('zh_cn')">中文</span>/
+                  <span class="nav-lang" v-bind:class="{active: lang=='en'}"
+                   @click="switchLang('en')">En</span>
                 <!--头像-->
                   <li class="profile-photo">
                       <img :src="user.avatar" alt="" class="img-responsive img-circle"/>
@@ -69,6 +74,7 @@
             return {
                 user: {},
                 status: true,
+                lang: {},
             }
         },
         methods:{
@@ -84,16 +90,21 @@
                 },response => {
                     console.log(response.data);
                 });
+            },
+            switchLang: function(lang){
+                Vue.config.lang = lang;
+                this.lang = lang;
             }
         },
         mounted() {
-            this.user = window.User
+            this.user = window.User;
+            this.lang = window.Language;
         },
         computed: {
           statused: function() {
             console.log(this.$store.state.sidebar.opened);
             return this.status = this.$store.state.sidebar.opened
-          }
+          },
         }
     }
 </script>
@@ -128,6 +139,18 @@ a:hover, a:focus {
     vertical-align:middle;
     font-size:15px;
 }
+
+.user-nav .nav-lang {
+    cursor: pointer;
+    font-size: 1.1em;
+    opacity: 0.8;
+}
+
+.user-nav .nav-lang.active{
+    opacity: 1;
+    font-weight: bold;
+}
+
 
 .user-nav.dropdown-toggle a:hover{
     color: #16a086;

@@ -49,6 +49,8 @@
                                 <button type="submit" class="btn btn-success form-control">
                                     {{ lang('Login') }}
                                 </button>
+                                <hr style="margin:12px auto 12px" />
+                                <a href="/register" class="btn btn-default btn-block">{{ lang('Register') }}</a>
                             </div>
                         </div>
 
@@ -73,12 +75,4 @@
                                 <a class="btn btn-link" href="{{ url('/password/reset') }}">
                                     {{ lang('Forgot Password') }}
                                 </a>
-                            </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection

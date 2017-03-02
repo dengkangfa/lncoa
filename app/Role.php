@@ -8,10 +8,16 @@ class Role extends EntrustRole
 {
     /**
      * The attributes that are mass assignable.
-     * 
+     *
      * @var array
      */
     protected $fillable = [
-        'name', 'display_name', 'description'
+        'name',
+        'display_name',
+        'description'
     ];
+
+    public function trees() {
+        return $this->belongsToMany('App\Tree')->withTimestamps();
+    }
 }

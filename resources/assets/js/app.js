@@ -26,8 +26,20 @@ Vue.use(VueRouter);
 Vue.use(ElementUI);
 Vue.config.lang = window.Language;
 Object.keys(locales).forEach(function (lang){
+    console.log(lang);
+    console.log(locales[lang]);
     Vue.locale(lang,locales[lang])
 })
+
+Vue.component(
+    'vue-table-pagination',
+    require('./components/TablePagination.vue')
+);
+
+Vue.component(
+    'vue-table',
+    require('./components/Table.vue')
+);
 
 const router = new VueRouter({
     mode: 'history',

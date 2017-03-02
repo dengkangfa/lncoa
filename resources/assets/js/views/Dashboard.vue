@@ -58,7 +58,7 @@
         height: 100%;
         margin-left: -250px;
         overflow-y: auto;
-        background: #4d5e70;
+        background: #324157;
         transition: all 0.5s ease;
     }
 

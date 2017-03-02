@@ -1,6 +1,9 @@
 export default {
     dashboard: '面板',
+    user_setting: '用户设置',
     user: '用户管理',
+    character: '角色管理',
+    authority: '权限管理',
     article: '文章管理',
     discussion: '讨论管理',
     comment: '评论管理',

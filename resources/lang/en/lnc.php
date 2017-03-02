@@ -20,7 +20,7 @@ return [
     'Dashboard'   => 'Dashboard',
     'Logout'      => 'Logout',
     'Login'       => 'Login In',
-    'Register'    => 'Register',
+    'Register'    => 'Not a member? Sign Up',
     'Edit Profile'=> 'Edit Profile',
     'Discuss Problem'  => 'Discuss Problem',
     'Discuss Subtitle' => 'Welcome to submit all kind of the problems',

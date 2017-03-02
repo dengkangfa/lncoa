@@ -21,7 +21,7 @@ export default [
                 children: [
                     {
                         path: '/',
-                        // component: require('./views/dashboard/user/User.vue')
+                        component: require('./views/user/User.vue')
                     },
                     {
                         path: 'create',
@@ -80,6 +80,12 @@ export default [
             {
                 path: 'system',
                 // component: require('./views/dashboard/System.vue')
+            },
+            {
+                path: 'characters',
+            },
+            {
+                path: 'authoritys'
             },
             {
                 path: '*',

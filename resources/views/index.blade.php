@@ -25,6 +25,7 @@
         }
 
         window.User = {!! Auth::user() !!}
+        window.Tree = {!! $tree !!}
 
         window.Language = "{{ config('app.locale') }}"
     </script>

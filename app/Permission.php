@@ -4,7 +4,7 @@ namespace App;
 
 use Zizaco\Entrust\EntrustPermission;
 
-class Permission extends EntrustPrtmission
+class Permission extends EntrustPermission
 {
     /**
      * The attributes that are mass assignable.
@@ -12,6 +12,8 @@ class Permission extends EntrustPrtmission
      * @var array
      */
     protected $fillable = [
-        'name', 'display_name', 'description'
+        'name',
+        'display_name',
+        'description'
     ];
 }

@@ -15,5 +15,8 @@
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
-   Route::get('{path?}', 'IndexController@index')->where('path', '[\/\w\.-]*');
+   Route::get('{path?}', 'TreeController@index')->where('path', '[\/\w\.-]*');
+});
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/', 'TreeController@index');
 });
