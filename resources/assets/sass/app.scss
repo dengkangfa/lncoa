@@ -6,8 +6,9 @@
 // @import "vendor/simplemde.min";
 
 @import "navbar";
-// @import "_ibox";
-// @import "togglebutton";
+@import "_ibox";
+@import "_toastr";
+@import "_togglebutton";
 
 .width-5-percent {
     width: 5%;

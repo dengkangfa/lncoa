@@ -25,5 +25,7 @@ export default {
     version: 'Version',
     extension: 'Extension',
     driver: 'Driver',
-    nothing: 'No Content'
+    nothing: 'No Content',
+    role: 'Role',
+    permission: 'Permission'
 }

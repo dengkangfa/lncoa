@@ -31,6 +31,21 @@ Object.keys(locales).forEach(function (lang){
     Vue.locale(lang,locales[lang])
 })
 
+//消息提示框对象
+window.toastr = require('toastr/build/toastr.min.js');
+
+window.toastr.options = {
+    positionClass: "toast-bottom-right",
+    showDuration: "300",
+    hideDuration: "1000",
+    timeOut: "5000",
+    extendedTimeOut: "1000",
+    showEasing: "swing",
+    hideEasing: "linear",
+    showMethod: "fadeIn",
+    hideMethod: "fadeOut"
+};
+
 Vue.component(
     'vue-table-pagination',
     require('./components/TablePagination.vue')
@@ -39,6 +54,11 @@ Vue.component(
 Vue.component(
     'vue-table',
     require('./components/Table.vue')
+);
+
+Vue.component(
+    'vue-form',
+    require('./components/Form.vue')
 );
 
 const router = new VueRouter({

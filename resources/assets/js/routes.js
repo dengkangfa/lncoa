@@ -25,11 +25,47 @@ export default [
                     },
                     {
                         path: 'create',
-                        // component: require('./views/dashboard/user/Create.vue')
+                        component: require('./views/user/Create.vue')
                     },
                     {
                         path: ':id/edit',
-                        // component: require('./views/dashboard/user/Edit.vue')
+                        component: require('./views/user/Edit.vue')
+                    }
+                ]
+            },
+            {
+                path: 'roles',
+                component: Parent,
+                children: [
+                    {
+                        path: '/',
+                        component: require('./views/role/Role.vue')
+                    },
+                    {
+                        path: 'create',
+                        component: require('./views/role/Create.vue')
+                    },
+                    {
+                        path: ':id/edit',
+                        component: require('./views/role/Edit.vue')
+                    }
+                ]
+            },
+            {
+                path: 'permissions',
+                component: Parent,
+                children: [
+                    {
+                        path: '/',
+                        component: require('./views/permission/Permission.vue')
+                    },
+                    {
+                        path: 'create',
+                        component: require('./views/permission/Create.vue')
+                    },
+                    {
+                        path: ':id/edit',
+                        component: require('./views/permission/Edit.vue')
                     }
                 ]
             },
@@ -79,7 +115,7 @@ export default [
             },
             {
                 path: 'system',
-                // component: require('./views/dashboard/System.vue')
+                component: require('./views/System.vue')
             },
             {
                 path: 'characters',

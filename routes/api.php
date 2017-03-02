@@ -13,10 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 Route::group([
-    'middleware' => ['auth:api'],
+    // 'middleware' => ['auth:api'],
     'namespace' => 'Api',
 ], function () {
-  Route::get('/user', function (Request $request) {
-      return $request->user();
-  })->middleware('auth:api');
+    Route::resource('user', 'UserController', ['except' => ['create', 'show']]);
+    Route::post('/user/{id}/status', 'UserController@status');
+    Route::resource('role', 'RoleController', ['except' => ['create', 'show']]);
+    Route::resource('permission', 'PermissionController', ['except' => ['create', 'show']]);
+    Route::get('system', 'SystemController@getSystemInfo');
 });

@@ -52,6 +52,13 @@ export default {
     'create_link': 'Create Link',
     'edit_link': 'Edit Link',
     'create': 'Create',
-    'edit': 'Edit'
+    'edit': 'Edit',
+    'role': 'Role Name',
+    'display_name': 'Display Name',
+    'edit_role': 'Edit Role',
+    'create_role': 'Create Role',
+    'permission': 'Permission Name',
+    'edit_permission': 'Edit Permission',
+    'create_permission': 'Creeate Permission'
 
 }

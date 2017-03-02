@@ -25,5 +25,9 @@ export default {
     click_num: 'Clicks Num',
     ip: 'IP',
     new_folder: 'New Folder',
-    upload: 'Uplaod'
+    upload: 'Uplaod',
+    role: 'Role',
+    display_name: 'Display Name',
+    description: 'Description',
+    permission: 'Permission'
 }

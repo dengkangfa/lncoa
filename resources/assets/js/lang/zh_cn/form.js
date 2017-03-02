@@ -52,6 +52,14 @@ export default {
     'create_link': '创建友链',
     'edit_link': '修改友链',
     'create': '创建',
-    'edit': '修改'
+    'edit': '修改',
+    'role': '角色名',
+    'display_name': '显示名称',
+    'edit_role': '修改角色',
+    'create_role': '创建角色',
+    'permission': '权限名',
+    'edit_permission': '修改权限',
+    'create_permission': '创建权限',
+
 
 }
