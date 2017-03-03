@@ -38,8 +38,7 @@ class UserController extends ApiController
     public function status($id, Request $request)
     {
         $input = $request->all();
-        return session()->all();
-        if (auth()->user()->id == $id) {
+        if (1 == $id) {
             return $this->errorUnauthorized('You can\'t change status for yourself and other Administrators!');
         }
 
@@ -98,7 +97,7 @@ class UserController extends ApiController
      */
     public function destroy($id)
     {
-        if (auth()->user()->id == $id) {
+        if (1 == $id) {
             return $this->errorUnauthorized('You can\'t delete for yourself and other Administrators!');
         }
 

@@ -39,7 +39,7 @@ export default {
                 .then((response) => {
                     toastr.success('You created a new tag success!')
 
-                    this.$router.push('/role')
+                    this.$router.push('/roles')
                 }, (response) => {
                     stack_error(response.data)
                 })

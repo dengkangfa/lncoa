@@ -28,8 +28,9 @@ require('vue-resource');
 
 Vue.http.interceptors.push((request, next) => {
     request.headers.set('X-CSRF-TOKEN', Laravel.csrfToken);
-
+    // var loading = Vue.prototype.$loading({target:document.table,body:true});
     next((response) => {
+        // loading.close();
         if ((typeof response.data.error === 'string') && (response.status === 400 || response.status === 401)){
             window.location = '/login';
         }

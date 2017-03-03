@@ -26,8 +26,6 @@ Vue.use(VueRouter);
 Vue.use(ElementUI);
 Vue.config.lang = window.Language;
 Object.keys(locales).forEach(function (lang){
-    console.log(lang);
-    console.log(locales[lang]);
     Vue.locale(lang,locales[lang])
 })
 

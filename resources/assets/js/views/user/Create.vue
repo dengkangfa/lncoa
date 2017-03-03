@@ -43,7 +43,7 @@
                     .then((response) => {
                         toastr.success('You create a new account success!')
 
-                        this.$router.push('/dashboard/users')
+                        this.$router.push('/users')
                     }, (response) => {
                         stack_error(response.data)
                     })
