@@ -1,14 +1,17 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import * as actions from './actions.js';
-import * as mutations from './mutations.js';
+import mutations from './mutations';
 
 Vue.use(Vuex);
 
 const state = {
     sidebar: {
         opened: false
-    }
+    },
+    isLogin: false,
+    user: {},
+    access_token: ''
 };
 
 export default new Vuex.Store({

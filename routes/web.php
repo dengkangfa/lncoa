@@ -12,11 +12,14 @@
 */
 
 // User Auth
-Auth::routes();
-
-Route::group(['middleware' => ['auth']], function () {
-   Route::get('{path?}', 'TreeController@index')->where('path', '[\/\w\.-]*');
-});
-Route::group(['middleware' => ['auth']], function () {
-    Route::get('/', 'TreeController@index');
+ // Auth::routes();
+//
+// Route::group(['middleware' => ['auth:api']], function () {
+   Route::get('{path?}', 'HomeController@index')->where('path', '[\/\w\.-]*');
+// });
+// Route::group(['middleware' => ['auth:api']], function () {
+    Route::get('/', 'HomeController@index');
+// });
+Route::get('/login', function(){
+    return view('index');
 });

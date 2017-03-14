@@ -189,9 +189,12 @@
                     url = url + page + this.currentPage
                     this.$router.push(page + this.currentPage)
                 }
-                console.log(this.$store.state.headers );
-                this.$http.get(url, { headers: this.$store.state.headers })
-                    .then(response => {
+
+                this.$http.get(url, {
+                    headers: {
+                        'Authorization': 'Bearer ' + this.$store.state.access_token
+                    }
+                 }).then(response => {
                         this.pagination = response.data.meta.pagination
                         this.items = response.data.data
                         this.totalPage = response.data.meta.pagination.total_pages

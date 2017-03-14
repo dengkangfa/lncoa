@@ -139,4 +139,11 @@ class UserRepository
     {
         return $this->getById($id)->delete();
     }
+
+    public function getRole($user)
+    {
+        $roles = $user->roles()->get(['display_name']);
+        $array = array_pluck($roles,'display_name');
+        return implode('\\',$array);
+    }
 }

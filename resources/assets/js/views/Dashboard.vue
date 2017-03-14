@@ -26,6 +26,20 @@
             isToggle () {
                 return this.$store.state.sidebar.opened
             }
+        },
+        created() {
+            // this.loadUser()
+        },
+        methods: {
+            loadUser: function() {
+                console.log(1);
+                // console.log(this.$store.state.headers);
+                // console.log(1);
+                // this.$http.get('api/user',{ headers: this.$store.state.headers })
+                // .tern( response => {
+                //     console.log(response);
+                // })
+            }
         }
     }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <vue-table :title="$t('page.users')" :fields="fields" api-url="/api/user" @table-action="tableActions" show-paginate>
+        <vue-table :title="$t('page.users')" :fields="fields" api-url="/api/users" @table-action="tableActions" show-paginate>
             <div slot="buttons">
                 <router-link to="/users/create" class="btn btn-success">{{ $t('page.create') }}</router-link>
             </div>
@@ -61,8 +61,11 @@
                 if (action == 'edit-item') {
                     this.$router.push('/users/' + data.id + '/edit')
                 } else if (action == 'delete-item') {
-                    this.$http.delete('/api/user/' + data.id)
-                        .then((response) => {
+                    this.$http.delete('/api/user/' + data.id, {
+                        headers: {
+                            'Authorization': 'Bearer ' + this.$store.state.access_token
+                        }
+                    }).then((response) => {
                             toastr.success('You delete the user success!')
 
                             this.$emit('reload')

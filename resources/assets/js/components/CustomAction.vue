@@ -38,8 +38,11 @@
                 })
             },
             postData(rowData) {
-                this.$http.post(this.apiUrl + '/' + rowData.id + '/status', {status: !rowData.status})
-                    .then(response => {
+                this.$http.post(this.apiUrl + '/' + rowData.id + '/status', {status: !rowData.status}, {
+                    headers: {
+                        'Authorization': 'Bearer ' + this.$store.state.access_token
+                    }
+                 }).then(response => {
                         if (response.data) {
                             this.rowData.status = !this.rowData.status
                             if (this.rowData.status) {

@@ -54,4 +54,6 @@ class LoginController extends Controller
 
         return response()->json('退出成功！','200');
     }
+
+
 }

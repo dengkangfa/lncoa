@@ -35,15 +35,21 @@ export default {
       }
   },
   created() {
-      this.$http.get('/api/permission/' + this.$route.params.id + '/edit')
-          .then((response) => {
+      this.$http.get('/api/permission/' + this.$route.params.id + '/edit', {
+          headers: {
+              'Authorization': 'Bearer ' + this.$store.state.access_token
+          }
+      }).then((response) => {
               this.permission = response.data.data
           })
   },
   methods: {
       edit() {
-          this.$http.put('/api/permission/' + this.$route.params.id, this.role)
-              .then((response) => {
+          this.$http.put('/api/permission/' + this.$route.params.id, this.permission, {
+              headers: {
+                  'Authorization': 'Bearer ' + this.$store.state.access_token
+              }
+          }).then((response) => {
                   toastr.success('You updated a new account information!')
 
                   this.$router.push('/permissions')

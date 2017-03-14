@@ -69,10 +69,6 @@ class PermissionController extends ApiController
      */
     public function destroy($id)
     {
-        // if (2 == $id) {
-        //     return $this->errorUnauthorized('You can\'t delete for yourself and other Administrators!');
-        // }
-
         $this->permission->destroy($id);
 
         return $this->noContent();

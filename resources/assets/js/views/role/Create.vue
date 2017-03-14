@@ -35,8 +35,11 @@ export default {
         create(event) {
             var formData = new FormData(event.target)
 
-            this.$http.post('/api/role', formData)
-                .then((response) => {
+            this.$http.post('/api/role', formData , {
+                headers: {
+                    'Authorization': 'Bearer ' + this.$store.state.access_token
+                }
+            }).then((response) => {
                     toastr.success('You created a new tag success!')
 
                     this.$router.push('/roles')

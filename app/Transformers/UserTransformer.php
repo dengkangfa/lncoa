@@ -16,6 +16,7 @@ class UserTransformer extends TransformerAbstract
             'status' => $user->status,
             'email' => $user->email,
             'nickname' => $user->nickname,
+            'role_name' => $user->role_name,
             'description' => $user->description,
             'created_at' => $user->created_at->toDateTimeString(),
         ];

@@ -20,6 +20,7 @@ import locales from './lang';
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import App from './App.vue';
+import server from './config/api'
 
 Vue.use(VueI18n);
 Vue.use(VueRouter);
@@ -65,4 +66,32 @@ const router = new VueRouter({
     linkActiveClass: 'active',
     routes
 });
+
+router.beforeEach ((to, from, next) => {
+    //还原滚动条
+    window.scrollTo(0, 0);
+    // Auth验证
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+       if (!store.state.isLogin) {
+          if (localStorage.access_token) {
+              store.commit('SET_ACCESS_TOKEN', localStorage.access_token);
+              store.commit('LOGIN');
+              Vue.http.get(server.api.user, {
+                  headers: {
+                      'Authorization': 'Bearer ' + store.state.access_token
+                  }
+              }).then((response) => {
+                console.log(response);
+                  store.commit('SET_USER', response.body.data);
+              },(response) => {
+                  return next('/login');
+              });
+              return next();
+          }
+          return next('/login');
+       }
+    }
+    return next();
+});
+
 new Vue(Vue.util.extend({ router, store },App)).$mount('#app');

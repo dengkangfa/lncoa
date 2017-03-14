@@ -12,10 +12,17 @@
     <link rel="shortcut icon" href="{{ config('lnc.default_icon') }}">
 
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <!-- Scripts -->
+    <script>
+        window.Laravel = <?php echo json_encode([
+            'csrfToken' => csrf_token(),
+        ]); ?>
+    </script>
   </head>
   <body>
-      <div class="main">
+      <div id="app">
           @yield('content')
       </div>
+      <script src="{{ mix('js/home.js') }}"></script>
   </body>
 </html>

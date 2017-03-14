@@ -8,7 +8,7 @@
             </div>
             <div class="user-nav">
                 <ul v-if="!statused">
-                  
+
                   <span class="nav-lang" v-bind:class="{active: lang!='en'}"
                    @click="switchLang('zh_cn')">中文</span>/
                   <span class="nav-lang" v-bind:class="{active: lang=='en'}"
@@ -67,12 +67,11 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
+    import { mapActions, mapState } from 'vuex';
 
     export default {
         data () {
             return {
-                user: {},
                 status: true,
                 lang: {},
             }
@@ -97,10 +96,13 @@
             }
         },
         mounted() {
-            this.user = window.User;
+            this.user = this.$store.state.user;
             this.lang = window.Language;
         },
         computed: {
+          ...mapState([
+            'user'
+          ]),
           statused: function() {
             console.log(this.$store.state.sidebar.opened);
             return this.status = this.$store.state.sidebar.opened

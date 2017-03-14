@@ -13,6 +13,8 @@ class User extends Authenticatable
 {
     use Notifiable, EntrustUserTrait, HasApiTokens;
 
+    const STATUS_NORMAL = 1;
+
     /**
      * 需要被转换成日期的属性(软删除)
      *
@@ -40,6 +42,12 @@ class User extends Authenticatable
     ];
 
     /**
+     * 额外添加属性 role_name为用户角色显示名称
+     * @var [type]
+     */
+    protected $appends = ['role_name'];
+
+    /**
      * The "booting" method of the model.
      *
      * @return void
@@ -51,7 +59,8 @@ class User extends Authenticatable
         static::addGlobalScope(new StatusScope());
     }
 
-    public function roles() {
+    public function roles()
+    {
         return $this->belongsToMany(
           config('entrust.role'),
            config('entrust.role_user_table'),
@@ -75,7 +84,18 @@ class User extends Authenticatable
      * 用于加密密码
      * @param [type] $password [description]
      */
-    public function setPasswordAttribute($password){
-      $this->attributes['password'] = bcrypt($password);
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
+    public function findForPassport($username)
+    {
+        return $this->where('email',$username)->first();
+    }
+
+    public function scopeNormal($query)
+    {
+        return $query->where('status',self::STATUS_NORMAL);
     }
 }

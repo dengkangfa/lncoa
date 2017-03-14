@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Repositories\UserRepository;
@@ -18,12 +19,21 @@ class UserController extends ApiController
         $this->user = $user;
     }
 
+    public function me()
+    {
+        $user = Auth::user();
+        //获取用户角色显示名称(多个角色以“/”分隔)
+        $roles = $this->user->getRole($user);
+        $user->role_name = $roles;
+        return $this->respondWithItem($user, new UserTransformer);
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return $this->respondWithPaginator($this->user->page(), new UserTransformer);
     }
@@ -38,7 +48,7 @@ class UserController extends ApiController
     public function status($id, Request $request)
     {
         $input = $request->all();
-        if (1 == $id) {
+        if (auth()->user()->id == $id) {
             return $this->errorUnauthorized('You can\'t change status for yourself and other Administrators!');
         }
 

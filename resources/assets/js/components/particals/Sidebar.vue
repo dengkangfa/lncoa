@@ -3,11 +3,11 @@
         <ul class="sidebar-nav">
             <div class="user">
                 <div class="avatar">
-                    <img class="img-responsive img-circle" :src="user.avatar">
+                    <img class="img-responsive img-circle" :src="user.avatar ? user.avatar : 'http://lncoa.app/images/default.png'">
                 </div>
                 <div class="nickname">
                     <p>{{ user.name }}</p>
-                    <p>{{ user.email }}</p>
+                    <p>[{{ user.role_name }}]</p>
                 </div>
                 <div class="buttons">
                     <a href="/">
@@ -36,21 +36,28 @@
 </template>
 
 <script>
-    import sorts from '../../config/sort.js'
-
+    import server from '../../config/api'
+    import {mapState} from 'vuex'
     export default {
         data () {
             return {
-                sorts,
-                user: {},
                 tree: {},
             }
         },
-        mounted() {
-            this.user = window.User;
-            this.tree = window.Tree;
+        created() {
+            this.$http.get(server.api.tree, {
+                headers: {
+                    'Authorization': 'Bearer ' + this.$store.state.access_token
+                }
+            }).then((response) => {
+              console.log(response);
+                this.tree=response.data;
+            })
         },
         computed: {
+            ...mapState([
+                'user'
+            ]),
             userInfo() {
                 return '/user/' + this.user.name
             }

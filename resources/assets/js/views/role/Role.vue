@@ -49,8 +49,11 @@ export default {
               if (action == 'edit-item') {
                   this.$router.push('/roles/' + data.id + '/edit')
               } else if (action == 'delete-item') {
-                  this.$http.delete('/api/role/' + data.id)
-                      .then((response) => {
+                  this.$http.delete('/api/role/' + data.id, {
+                      headers: {
+                          'Authorization': 'Bearer ' + this.$store.state.access_token
+                      }
+                   }).then((response) => {
                           toastr.success('You delete the tag success!')
 
                           this.$emit('reload')

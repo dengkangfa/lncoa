@@ -39,8 +39,11 @@
             create(event) {
                 const formData = new FormData(event.target)
 
-                this.$http.post('/api/user', formData)
-                    .then((response) => {
+                this.$http.post('/api/user', formData, {
+                    headers: {
+                        'Authorization': 'Bearer ' + this.$store.state.access_token
+                    }
+                }).then((response) => {
                         toastr.success('You create a new account success!')
 
                         this.$router.push('/users')

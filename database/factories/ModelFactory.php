@@ -20,7 +20,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
     return [
         'name' => $name,
-        'avatar' => $identicon->getImageDataUri($name),
+        'avatar' => $identicon->displayImage($name,80),
         'email' => $faker->unique()->safeEmail,
         'status' => true,
         'password' => $password ?: $password = bcrypt('secret'),

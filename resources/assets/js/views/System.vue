@@ -118,8 +118,11 @@
             }
         },
         created() {
-            this.$http.get('/api/system')
-                .then((response) => {
+            this.$http.get('/api/system', {
+                headers: {
+                    'Authorization': 'Bearer ' + this.$store.state.access_token
+                }
+            }).then((response) => {
                     this.system = response.data
                 })
         }
