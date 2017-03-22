@@ -15,7 +15,7 @@
                    @click="switchLang('en')">En</span>
                 <!--头像-->
                   <li class="profile-photo">
-                      <img :src="user.avatar" alt="" class="img-responsive img-circle"/>
+                      <img :src="user.avatar ? user.avatar : 'http://lncoa.app/images/default.png'" alt="" class="img-responsive img-circle"/>
                   </li>
                   <li class="dropdown settings">
                       <!--文本标签下拉框-->
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-    import { mapActions, mapState } from 'vuex';
+    import { mapActions, mapState, mapMutations} from 'vuex';
 
     export default {
         data () {
@@ -77,22 +77,20 @@
             }
         },
         methods:{
-            toggle: mapActions([
+            ...mapActions([
               'toggle'
-            ]).toggle,
+            ]),
+            ...mapMutations([
+                'OUT_LOGIN'
+            ]),
             logout: function(){
-                this.$http.post('/logout').then(response =>{
-                    console.log(response);
-                    if(response.status == 200){
-                        window.location.href="/login";
-                    }
-                },response => {
-                    console.log(response.data);
-                });
+                this.OUT_LOGIN();
+                this.$router.push('/login');
             },
             switchLang: function(lang){
                 Vue.config.lang = lang;
                 this.lang = lang;
+                localStorage.Language = lang;
             }
         },
         mounted() {
@@ -104,8 +102,7 @@
             'user'
           ]),
           statused: function() {
-            console.log(this.$store.state.sidebar.opened);
-            return this.status = this.$store.state.sidebar.opened
+            return this.status = !this.$store.state.sidebar.opened
           },
         }
     }

@@ -25,7 +25,7 @@ import server from './config/api'
 Vue.use(VueI18n);
 Vue.use(VueRouter);
 Vue.use(ElementUI);
-Vue.config.lang = window.Language;
+Vue.config.lang =localStorage.Language ? window.Language = localStorage.Language : window.Language;
 Object.keys(locales).forEach(function (lang){
     Vue.locale(lang,locales[lang])
 })
@@ -76,13 +76,9 @@ router.beforeEach ((to, from, next) => {
           if (localStorage.access_token) {
               store.commit('SET_ACCESS_TOKEN', localStorage.access_token);
               store.commit('LOGIN');
-              Vue.http.get(server.api.user, {
-                  headers: {
-                      'Authorization': 'Bearer ' + store.state.access_token
-                  }
-              }).then((response) => {
-                console.log(response);
-                  store.commit('SET_USER', response.body.data);
+              axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.access_token;
+              axios.get(server.api.user + '?include=roles').then((response) => {
+                  store.commit('SET_USER', response.data.data);
               },(response) => {
                   return next('/login');
               });
@@ -93,5 +89,4 @@ router.beforeEach ((to, from, next) => {
     }
     return next();
 });
-
 new Vue(Vue.util.extend({ router, store },App)).$mount('#app');

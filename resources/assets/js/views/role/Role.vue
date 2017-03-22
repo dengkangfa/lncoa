@@ -1,6 +1,6 @@
 <template lang="html">
       <div class="row">
-          <vue-table :title="$t('page.role')" :fields="fields" api-url="/api/role" @table-action="tableActions" show-paginate>
+          <vue-table :title="$t('page.role')" :fields="fields" api-url="/api/role?include=menus" @table-action="tableActions" show-paginate>
               <div slot="buttons">
                   <router-link to="/roles/create" class="btn btn-success">{{ $t('page.create') }}</router-link>
               </div>
@@ -28,6 +28,10 @@ export default {
                     trans: 'table.display_name'
                 },
                 {
+                    name: '__permission_menu',
+                    trans: 'table.permission_menu'
+                },
+                {
                     name: 'description',
                     trans: 'table.description'
                 },
@@ -49,7 +53,7 @@ export default {
               if (action == 'edit-item') {
                   this.$router.push('/roles/' + data.id + '/edit')
               } else if (action == 'delete-item') {
-                  this.$http.delete('/api/role/' + data.id, {
+                  axios.delete('/api/role/' + data.id, {
                       headers: {
                           'Authorization': 'Bearer ' + this.$store.state.access_token
                       }

@@ -10,8 +10,11 @@ class RoleRepository
 
     protected $model;
 
-    public function __construct(Role $role){
+    protected $menu;
+
+    public function __construct(Role $role, MenuRepository $menu){
         $this->model = $role;
+        $this->menu = $menu;
     }
 
     /**

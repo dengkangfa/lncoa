@@ -35,7 +35,7 @@ export default {
         create(event) {
             var formData = new FormData(event.target)
 
-            this.$http.post('/api/role', formData , {
+            axios.post('/api/role', formData , {
                 headers: {
                     'Authorization': 'Bearer ' + this.$store.state.access_token
                 }

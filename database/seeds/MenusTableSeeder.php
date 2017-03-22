@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class TreeTableSeeder extends Seeder
+class MenusTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,66 +16,78 @@ class TreeTableSeeder extends Seeder
         $dashboard = [
             'title' => 'dashboard',
             'description' => $faker->sentence,
-            'icon' => 'ion-iso-speedometer',
-            'uri' => '/home',
+            'icon' => 'ion-ios-speedometer',
+            'uri' => '/',
             'created_at' => $date_time,
             'updated_at' => $date_time,
         ];
-        $dashboard = App\Tree::create($dashboard);
+        $dashboard = App\Menu::create($dashboard);
 
         $userManagement = [
-            'title' => 'userManagement',
+            'title' => 'user_setting',
             'description' => $faker->sentence,
             'icon'  => 'ion-ios-people',
             'uri' => '',
             'created_at' => $date_time,
             'updated_at' => $date_time,
         ];
-        $userManagement = App\Tree::create($userManagement);
+        $userManagement = App\Menu::create($userManagement);
 
         $user = [
             'title' => 'user',
             'description' => $faker->sentence,
-            'icon' => 'ion-person-stalker',
+            'icon' => 'ion-person',
             'parent_id' => $userManagement->id,
             'uri' => '/users',
             'created_at' => $date_time,
             'updated_at' => $date_time,
         ];
-        $user = App\Tree::create($user);
+        $user = App\Menu::create($user);
 
         $character = [
             'title' => 'character',
             'description' => $faker->sentence,
             'icon' => 'ion-person-stalker',
             'parent_id' => $userManagement->id,
-            'uri' => '/characters',
+            'uri' => '/roles',
             'created_at' => $date_time,
             'updated_at' => $date_time,
         ];
-        $character = App\Tree::create($character);
+        $character = App\Menu::create($character);
 
         $authority = [
             'title' => 'authority',
             'description' => $faker->sentence,
-            'icon' => 'ion-person-stalker',
+            'icon' => 'ion-wrench',
             'parent_id' => $userManagement->id,
-            'uri' => '/authoritys',
+            'uri' => '/permissions',
             'created_at' => $date_time,
             'updated_at' => $date_time,
         ];
-        $authority = App\Tree::create($authority);
+        $authority = App\Menu::create($authority);
+
+        $system = [
+            'title' => 'system',
+            'description' => $faker->sentence,
+            'icon' => 'ion-gear-b',
+            'parent_id' => $userManagement->id,
+            'uri' => '/system',
+            'created_at' => $date_time,
+            'updated_at' => $date_time,
+        ];
+        $system = App\Menu::create($system);
 
         $role = App\Role::where('name','admin')->first();
-        $role->trees()->attach([
+        $role->menus()->attach([
             $dashboard->id,
             $userManagement->id,
             $user->id,
             $character->id,
-            $authority->id
+            $authority->id,
+            $system->id
         ]);
         $role = App\Role::where('name','=','owner')->first();
-        $role->trees()->attach([
+        $role->menus()->attach([
             $dashboard->id,
             $userManagement->id,
             $user->id,

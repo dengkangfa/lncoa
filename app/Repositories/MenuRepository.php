@@ -2,17 +2,17 @@
 
 namespace App\Repositories;
 
-use App\Tree;
+use App\Menu;
 use Auth;
 
-class TreeRepository
+class MenuRepository
 {
     use BaseRepository;
 
     protected $model;
 
-    public function __construct(Tree $tree) {
-        $this->model = $tree;
+    public function __construct(Menu $menu) {
+        $this->model = $menu;
     }
 
     /**
@@ -23,12 +23,18 @@ class TreeRepository
     public function getVisibleTree($roles) {
         $items = array();
         foreach($roles as $key=>$role) {
-            $items[$key] = $role->trees()->get(['id','title','icon','parent_id','uri']);
+            $items[$key] = $role->menus()->get(['id','title','icon','parent_id','uri']);
         }
         //当用户拥有多个角色，则将其每个角色对应的树合并。
         $items = array_unique(array_flatten($items));
-        $tree = $this->generateTree($items);
-        return $tree;
+        $menu = $this->generateTree($items);
+        return $menu;
+    }
+
+    public function getVisibleTreeByRole($role) {
+        $items = $role->menus()->get(['id','title','icon','parent_id','uri']);
+        $menu = $this->generateTree($items);
+        return $menu;
     }
 
 
@@ -38,20 +44,20 @@ class TreeRepository
      * @return array
      */
     function generateTree($items){
-        $tree = array();
+        $menus = array();
         foreach($items as $item){
-            $tree[$item['id']] = $item->toArray();
-            $tree[$item['id']]['items'] = array();
+            $menus[$item['id']] = $item->toArray();
+            $menus[$item['id']]['items'] = array();
             if(!empty($item['parent_id'])) {
-                $tree[$item['parent_id']]['items'][$item['id']] = $tree[$item['id']];
+                $menus[$item['parent_id']]['items'][$item['id']] = $menus[$item['id']];
             }
         }
-        foreach ($tree as $k=>$v) {
+        foreach ($menus as $k=>$v) {
             if(!empty($v['parent_id'])) {
-                unset($tree[$k]);
+                unset($menus[$k]);
             }
         }
-        return $tree;
+        return $menus;
     }
 
     /**
@@ -68,5 +74,16 @@ class TreeRepository
             }
         }
         return $link;
+    }
+
+
+    /**
+     * Get all the records
+     *
+     * @return array User
+     */
+    public function all()
+    {
+        return $this->model->get();
     }
 }

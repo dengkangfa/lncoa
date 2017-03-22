@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRoleTreeTable extends Migration
+class CreateMenuRoleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,17 +14,17 @@ class CreateRoleTreeTable extends Migration
     public function up()
     {
         // Create table for associating roles to users (Many-to-Many)
-        Schema::create('role_tree', function (Blueprint $table) {
-            $table->integer('tree_id')->unsigned();
+        Schema::create('menu_role', function (Blueprint $table) {
+            $table->integer('menu_id')->unsigned();
             $table->integer('role_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('tree_id')->references('id')->on('trees')
+            $table->foreign('menu_id')->references('id')->on('menus')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('role_id')->references('id')->on('roles')
                 ->onUpdate('cascade')->onDelete('cascade');
 
-            $table->primary(['tree_id', 'role_id']);
+            $table->primary(['menu_id', 'role_id']);
         });
     }
 
@@ -35,6 +35,6 @@ class CreateRoleTreeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('role_tree');
+        Schema::dropIfExists('menu_role');
     }
 }

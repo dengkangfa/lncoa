@@ -88,15 +88,15 @@ export default [
         component: require('./views/Login.vue'),
         meta: { requiresAuth: false }
     },
-    {
-        path: '/404',
-        component: require('./views/404.vue'),
-        meta: { requiresAuth: false }
-    },
-    {
-      path: '*',
-      redirect: '/404'
-    }
+    // {
+    //     path: '/404',
+    //     component: require('./views/404.vue'),
+    //     meta: { requiresAuth: false }
+    // },
+    // {
+    //   path: '*',
+    //   redirect: '/404'
+    // }
 ]
 
 function checkLogin (to, from, next) {

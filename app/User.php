@@ -38,14 +38,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'pivot'
     ];
 
     /**
-     * 额外添加属性 role_name为用户角色显示名称
-     * @var [type]
+     * 额外添加属性 role_names为用户角色显示名称
+     * @var array
      */
-    protected $appends = ['role_name'];
+    // protected $appends = ['roles'];
 
     /**
      * The "booting" method of the model.

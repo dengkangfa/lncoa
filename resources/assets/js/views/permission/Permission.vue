@@ -49,7 +49,7 @@ export default {
             if (action == 'edit-item') {
                 this.$router.push('/permissions/' + data.id + '/edit')
             } else if (action == 'delete-item') {
-                this.$http.delete('/api/permission/' + data.id, {
+                axios.delete('/api/permission/' + data.id, {
                     headers: {
                         'Authorization': 'Bearer ' + this.$store.state.access_token
                     }

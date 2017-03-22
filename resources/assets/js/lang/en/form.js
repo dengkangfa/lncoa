@@ -59,6 +59,7 @@ export default {
     'create_role': 'Create Role',
     'permission': 'Permission Name',
     'edit_permission': 'Edit Permission',
-    'create_permission': 'Creeate Permission'
+    'create_permission': 'Creeate Permission',
+    'set_role': 'Set Role'
 
 }

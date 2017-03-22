@@ -20,14 +20,14 @@
     </style>
 
     <script>
-        window.Laravel = {
-            csrfToken: "{{ csrf_token() }}"
-        }
+        // window.Laravel = {
+        //     csrfToken: "{{ csrf_token() }}"
+        // }
 
         window.Language = "{{ config('app.locale') }}"
     </script>
 </head>
-<body>
+<body class="skin-blue-light sidebar-mini">
     <div id="app"></div>
 
     <script src="{{ mix('js/app.js') }}"></script>

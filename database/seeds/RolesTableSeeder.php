@@ -15,16 +15,16 @@ class RolesTableSeeder extends Seeder
     {
         $owner = new Role();
         $owner->name         = 'owner';
-        $owner->display_name = 'Project Owner'; // optional
-        $owner->description  = 'User is the owner of a given project'; // optional
+        $owner->display_name = '使用者'; // optional
+        $owner->description  = '这个是描述'; // optional
         $owner->save();
         $user = User::where('name','邓康发')->first();
         $user->attachRole($owner);
 
         $admin = new Role();
         $admin->name         = 'admin';
-        $admin->display_name = 'User Administrator'; // optional
-        $admin->description  = 'User is allowed to manage and edit other users'; // optional
+        $admin->display_name = '超级管理员'; // optional
+        $admin->description  = '这个是描述'; // optional
         $admin->save();
         $user = User::where('name','admin')->first();
         $user->attachRole($admin);

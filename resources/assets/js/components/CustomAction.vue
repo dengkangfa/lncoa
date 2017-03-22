@@ -38,7 +38,7 @@
                 })
             },
             postData(rowData) {
-                this.$http.post(this.apiUrl + '/' + rowData.id + '/status', {status: !rowData.status}, {
+                axios.post(this.apiUrl + '/' + rowData.id + '/status', {status: !rowData.status}, {
                     headers: {
                         'Authorization': 'Bearer ' + this.$store.state.access_token
                     }

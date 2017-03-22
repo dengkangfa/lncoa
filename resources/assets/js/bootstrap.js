@@ -18,7 +18,6 @@ window.swal = require('sweetalert');
  */
 
 window.Vue = require('vue');
-require('vue-resource');
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of
@@ -26,19 +25,13 @@ require('vue-resource');
  * included with Laravel will automatically verify the header's value.
  */
 
-Vue.http.interceptors.push((request, next) => {
-    // request.headers.set('X-CSRF-TOKEN', Laravel.csrfToken);
-    request.headers['X-CSRF-TOKEN'] = Laravel.csrfToken;
-    // var loading = Vue.prototype.$loading({target:document.table,body:true});
-    next((response) => {
-        // loading.close();
-        if ((typeof response.data.error === 'string') && (response.status === 400 || response.status === 401)){
-            window.location = '/login';
-        }
+ window.axios = require('axios');
 
-        return response;
-    });
-});
+ window.axios.defaults.headers.common = {
+    //  'X-CSRF-TOKEN': window.Laravel.csrfToken,
+     'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+     'X-Requested-With': 'XMLHttpRequest'
+ };
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

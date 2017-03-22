@@ -7,6 +7,11 @@ use League\Fractal\TransformerAbstract;
 
 class RoleTransformer extends TransformerAbstract
 {
+    protected $availableIncludes = [
+        'menus',
+        'perms'
+    ];
+
     public function transform(Role $role)
     {
         return [
@@ -16,5 +21,12 @@ class RoleTransformer extends TransformerAbstract
             'description' => $role->description,
             'created_at' => $role->created_at->toDateTimeString(),
         ];
+    }
+
+    public function includeMenus(Role $role)
+    {
+        $menus = $role->menus;
+
+        return $this->collection($menus, new MenuTransformer);
     }
 }

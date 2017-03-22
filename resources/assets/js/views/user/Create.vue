@@ -39,7 +39,7 @@
             create(event) {
                 const formData = new FormData(event.target)
 
-                this.$http.post('/api/user', formData, {
+                axios.post('/api/user', formData, {
                     headers: {
                         'Authorization': 'Bearer ' + this.$store.state.access_token
                     }

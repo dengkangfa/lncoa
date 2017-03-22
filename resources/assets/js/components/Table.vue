@@ -6,30 +6,11 @@
             </small>
             <h5>{{ title }}</h5>
         </div>
-        <div class="ibox-content no-padding">
+        <div class="ibox-content table-responsive no-padding">
             <table :class="tableClass">
                 <thead>
                     <tr>
                         <template v-for="field in fields">
-                            <template v-if="isSpecialField(field.name)">
-                                <th v-if="field.name == '__actions'" :class="field.titleClass">
-                                    <template v-if="field.trans">
-                                        {{ $t(field.trans) }}
-                                    </template>
-                                    <template v-else>
-                                        {{ field.title ? field.title : '' }}
-                                    </template>
-                                </th>
-                                <th v-if="field.name == '__component'" :class="field.titleClass">
-                                    <template v-if="field.trans">
-                                        {{ $t(field.trans) }}
-                                    </template>
-                                    <template v-else>
-                                        {{ field.title ? field.title : field.name }}
-                                    </template>
-                                </th>
-                            </template>
-                            <template v-else>
                                 <th :class="field.titleClass">
                                     <template v-if="field.trans">
                                         {{ $t(field.trans) }}
@@ -38,7 +19,6 @@
                                         {{ field.title ? field.title : field.name }}
                                     </template>
                                 </th>
-                            </template>
                         </template>
                     </tr>
                 </thead>
@@ -62,6 +42,26 @@
                                             <custom-action :api-url="apiUrl" :row-data="item"></custom-action>
                                         </td>
                                     </template>
+                                    <template v-if="field.name == '__name'">
+                                      <td v-if="hasCallback(field)" :class="field.dataClass" v-html="callCallback(field, item)">
+                                      </td>
+                                      <td :class="field.dataClass" v-else>
+                                          <span style="display:block;">{{ item['name'] }}</span>
+                                          <el-tooltip  v-for="role in item['roles'].data" class="item" effect="dark" :content="role.description" placement="top">
+                                            <el-tag style="margin-right:5px">{{ role.display_name }}</el-tag>
+                                          </el-tooltip>
+                                      </td>
+                                    </template>
+                                    <template v-if="field.name == '__permission_menu'">
+                                        <td>
+                                            <span>
+                                                <el-button type="text" @click="permissionVisible = true" >权限</el-button>
+                                                <el-button type="text" @click="clickTree(item['menus'].data)" >可见菜单</el-button>
+                                            </span>
+
+
+                                        </td>
+                                    </template>
                                 </template>
                                 <template v-else>
                                     <td v-if="hasCallback(field)" :class="field.dataClass" v-html="callCallback(field, item)">
@@ -72,8 +72,17 @@
                                 </template>
                             </template>
                         </tr>
+                        <el-dialog title="提示" v-model="permissionVisible" size="tiny">
+                          <span>权限</span>
+                        </el-dialog>
+
+                        <el-dialog title="可见菜单" v-model="treeVisible" size="tiny">
+                          <el-tree :data="menus" :props="defaultProps" :default-expand-all="true"></el-tree>
+                        </el-dialog>
                     </template>
                 </tbody>
+                <tfoot>
+                </tfoot>
             </table>
             <h3 class="none text-center" v-if="items.length == 0">{{ $t('page.nothing') }}</h3>
             <table-pagination ref="pagination" v-on:loadPage="loadPage" v-if="showPaginate && items.length > 0"></table-pagination>
@@ -144,8 +153,15 @@
                 items: [],
                 totalPage: 0,
                 currentPage: 0,
-                pagination: null
-            }
+                pagination: null,
+                treeVisible: false,
+                permissionVisible: false,
+                defaultProps: {
+                   children: 'items',
+                   label: 'title'
+                },
+                menus: [],
+           }
         },
         watch: {
             $route() {
@@ -159,6 +175,7 @@
             }
         },
         created() {
+            this.currentPage = this.$route.query.page;
             this.loadData()
         },
         mounted() {
@@ -186,15 +203,10 @@
                     } else {
                         page = '?page='
                     }
-                    url = url + page + this.currentPage
-                    this.$router.push(page + this.currentPage)
+                    url = url + page + this.currentPage;
+                    this.$router.push('?page=' + this.currentPage)
                 }
-
-                this.$http.get(url, {
-                    headers: {
-                        'Authorization': 'Bearer ' + this.$store.state.access_token
-                    }
-                 }).then(response => {
+                axios.get(url).then(response => {
                         this.pagination = response.data.meta.pagination
                         this.items = response.data.data
                         this.totalPage = response.data.meta.pagination.total_pages
@@ -267,7 +279,38 @@
             },
             reload() {
                 this.loadData()
-            }
+            },
+            clickTree(menus) {
+                var temp = [];
+                for(let i in menus){
+                    temp[menus[i]['id']] = menus[i];
+                    temp[menus[i]['id']]['title'] = temp[menus[i]['id']]['title'];
+                    temp[menus[i]['id']]['items'] = [];
+                    if(menus[i]['parent_id'] != null) {
+                        temp[menus[i]['parent_id']]['items'].push(menus[i]);
+                    }
+                }
+                temp.forEach(function(value, index, array){
+
+                    if(value['parent_id'] != null) {
+                      delete array[index]
+                    }
+                })
+                let tree = [];
+                for(let i in temp) {
+                    tree.push(temp[i])
+                }
+                this.menus = tree;
+                this.treeVisible = true;
+            },
+            addSidebar(data) {
+                let vm = this;
+                data.forEach(function(value, index, array){
+                    value['menus'].data.forEach(function(value, index, array){
+                        value['title'] = vm.$t('sidebar.' + value['title']);
+                    })
+                })
+            },
         }
     }
 </script>

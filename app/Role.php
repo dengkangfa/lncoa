@@ -17,7 +17,11 @@ class Role extends EntrustRole
         'description'
     ];
 
-    public function trees() {
-        return $this->belongsToMany('App\Tree')->withTimestamps();
+    protected $hidden = [
+        'pivot'
+    ];
+
+    public function menus() {
+        return $this->belongsToMany('App\Menu')->withTimestamps();
     }
 }

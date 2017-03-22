@@ -29,5 +29,6 @@ export default {
     role: 'Role',
     display_name: 'Display Name',
     description: 'Description',
-    permission: 'Permission'
+    permission: 'Permission',
+    permission_menu: 'Permission and menu'
 }

@@ -7,7 +7,9 @@
                 </div>
                 <div class="nickname">
                     <p>{{ user.name }}</p>
-                    <p>[{{ user.role_name }}]</p>
+                    <span v-for="role in user.roles">
+                      <el-tag type="success" v-for="data in role">{{ data.display_name }}</el-tag>
+                    </span>
                 </div>
                 <div class="buttons">
                     <a href="/">
@@ -23,8 +25,8 @@
             </div>
             <el-col>
                 <el-menu :router="true" theme="dark"
-                  :unique-opened="true" default-active="">
-                  <el-submenu :index="menu.uri" v-for="menu in tree" v-if="menu.items.length != 0" class="menu-height">
+                  :unique-opened="true" :default-active="defaultActive" :default-openeds="defaultMenu">
+                  <el-submenu :index="menu.id+''" v-for="menu in menus" :key="menu.id" v-if="menu.items.length != 0" class="menu-height">
                     <template slot="title"><i :class="menu.icon"></i>{{ $t("sidebar."+menu.title) }}</template>
                       <el-menu-item :index="item.uri" v-for="item in menu.items"><i :class="item.icon"></i>{{ $t("sidebar."+item.title) }}</el-menu-item>
                   </el-submenu>
@@ -41,18 +43,20 @@
     export default {
         data () {
             return {
-                tree: {},
+                menus: {},
+                defaultActive: null,
+                defaultMenu: []
             }
         },
         created() {
-            this.$http.get(server.api.tree, {
-                headers: {
-                    'Authorization': 'Bearer ' + this.$store.state.access_token
-                }
-            }).then((response) => {
-              console.log(response);
-                this.tree=response.data;
-            })
+            let vm = this;
+            axios.get(server.api.menu).then((response) => {
+                vm.menus=response.data;
+                this.defaultMenuId(vm.menus);
+            });
+            let path = this.$route.path;
+            //根据当前路由设置菜单默认选中项
+            this.defaultActive = path.substr(0,path.indexOf('/',1)!=-1?path.indexOf('/',1):path.length);
         },
         computed: {
             ...mapState([
@@ -60,7 +64,7 @@
             ]),
             userInfo() {
                 return '/user/' + this.user.name
-            }
+            },
         },
         methods: {
          handleOpen(key, keyPath) {
@@ -68,9 +72,19 @@
          },
          handleClose(key, keyPath) {
            console.log(key, keyPath);
-         }
-       }
+         },
+         defaultMenuId(menus) {
+            //当前应打开的菜单组
+            for(var menu in menus){
+               for(let value in menus[menu]['items']){
+                  if(menus[menu]['items'][value]['uri'] == this.defaultActive) {
+                      this.defaultMenu.push(menus[menu]['id']+'');
+                  }
+              }
+           }
+        }
     }
+  }
 </script>
 
 <style lang="scss" scoped>

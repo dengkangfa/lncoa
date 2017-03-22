@@ -20,7 +20,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
     return [
         'name' => $name,
-        'avatar' => $identicon->displayImage($name,80),
+        'avatar' => $identicon->getImageDataUri($name, 80),
         'email' => $faker->unique()->safeEmail,
         'status' => true,
         'password' => $password ?: $password = bcrypt('secret'),
@@ -34,7 +34,7 @@ $factory->define(App\Role::class, function(Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'display_name' => $faker->name,
-        'description' => $faker->realText($maxNbChars = 200, $indexSize = 2),
+        'description' => '这个是描述',
     ];
 });
 
@@ -42,6 +42,6 @@ $factory->define(App\Permission::class, function(Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'display_name' => $faker->name,
-        'description' => $faker->realText($maxNbChars = 200, $indexSize = 2),
+        'description' => '这个是描述',
     ];
 });

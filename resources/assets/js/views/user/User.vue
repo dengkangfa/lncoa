@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <vue-table :title="$t('page.users')" :fields="fields" api-url="/api/users" @table-action="tableActions" show-paginate>
+        <vue-table :title="$t('page.users')" :fields="fields" api-url="/api/users?include=roles" @table-action="tableActions" show-paginate>
             <div slot="buttons">
                 <router-link to="/users/create" class="btn btn-success">{{ $t('page.create') }}</router-link>
             </div>
@@ -27,7 +27,7 @@
                         callback: 'avatar'
                     },
                     {
-                        name: 'name',
+                        name: '__name',
                         trans: 'table.username'
                     },
                     {
@@ -61,7 +61,7 @@
                 if (action == 'edit-item') {
                     this.$router.push('/users/' + data.id + '/edit')
                 } else if (action == 'delete-item') {
-                    this.$http.delete('/api/user/' + data.id, {
+                    axios.delete('/api/user/' + data.id, {
                         headers: {
                             'Authorization': 'Bearer ' + this.$store.state.access_token
                         }

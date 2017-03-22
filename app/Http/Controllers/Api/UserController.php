@@ -21,11 +21,7 @@ class UserController extends ApiController
 
     public function me()
     {
-        $user = Auth::user();
-        //获取用户角色显示名称(多个角色以“/”分隔)
-        $roles = $this->user->getRole($user);
-        $user->role_name = $roles;
-        return $this->respondWithItem($user, new UserTransformer);
+        return $this->respondWithItem(Auth::user(), new UserTransformer);
     }
 
     /**

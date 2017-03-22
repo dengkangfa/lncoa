@@ -62,7 +62,8 @@ class UserRepository
      */
     public function page($number = 10, $sort = 'desc', $sortColumn = 'created_at')
     {
-        return $this->model->withoutGlobalScope(StatusScope::class)->orderBy($sortColumn, $sort)->paginate($number);
+        $users = $this->model->withoutGlobalScope(StatusScope::class)->orderBy($sortColumn, $sort)->paginate($number);
+        return $users;
     }
 
     /**
@@ -86,7 +87,7 @@ class UserRepository
     public function update($id, $input)
     {
         $this->model = $this->model->withoutGlobalScope(StatusScope::class)->findOrFail($id);
-
+        $this->model->roles()->sync($input['roles']);
         return $this->save($this->model, $input);
     }
 
@@ -140,10 +141,16 @@ class UserRepository
         return $this->getById($id)->delete();
     }
 
-    public function getRole($user)
-    {
-        $roles = $user->roles()->get(['display_name']);
-        $array = array_pluck($roles,'display_name');
-        return implode('\\',$array);
-    }
+    // /**
+    //  * 获取用户的角色
+    //  *
+    //  * @param  App\User $user
+    //  * @return mixed
+    //  */
+    // public function getRole($user)
+    // {
+    //     $roles = $user->roles()->get(['display_name']);
+    //     $array = array_pluck($roles,'display_name');
+    //     return $array;
+    // }
 }

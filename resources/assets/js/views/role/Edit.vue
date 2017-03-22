@@ -18,9 +18,33 @@
                         <label for="description">{{ $t('form.description') }}</label>
                         <textarea class="form-control" name="description" id="description" :placeholder="$t('form.description')" v-model="role.description"></textarea>
                     </div>
+
+                    <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">用户管理</el-checkbox>
+                    <div style="margin: 15px 0;"></div>
+                    <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+                      <el-checkbox v-for="city in cities" :label="city">{{city}}</el-checkbox>
+                    </el-checkbox-group>
+
+                    <el-button type="text" @click="treeVisible = true" >设置可见菜单</el-button>
+
                     <div class="form-group">
                         <button type="submit" class="btn btn-info">{{ $t('form.edit') }}</button>
                     </div>
+
+
+                    <el-dialog title="可见菜单" v-model="treeVisible" size="tiny">
+                        <el-tree
+                          :data="tree"
+                          show-checkbox
+                          node-key="id"
+                          :default-checked-keys="menusId"
+                          :props="defaultProps">
+                        </el-tree>
+                        <div slot="footer" class="dialog-footer">
+                          <el-button @click="treeVisible = false">{{ $t('form.cancel') }}</el-button>
+                          <el-button type="primary" @click="treeVisible = false">{{ $t('form.ok') }}</el-button>
+                        </div>
+                    <el-dialog>
                 </form>
             </div>
         </div>
@@ -28,33 +52,92 @@
 </template>
 
 <script>
+const cityOptions = ['上海', '北京', '广州', '深圳'];
 export default {
   data() {
       return {
-          role: {}
+          role: {},
+          menus: [],
+          menusId: [],
+          treeVisible: false,
+          defaultProps: {
+             children: 'items',
+             label: 'title'
+          },
+          checkAll: true,
+           checkedCities: ['上海', '北京'],
+           cities: cityOptions,
+           isIndeterminate: true
       }
   },
   created() {
-      this.$http.get('/api/role/' + this.$route.params.id + '/edit', {
-          headers: {
-              'Authorization': 'Bearer ' + this.$store.state.access_token
-          }
-      }).then((response) => {
-              this.role = response.data.data
-          })
+      let vm = this;
+      axios.all([this.getRole(), this.getMenus()])
+        .then(axios.spread(function (role,menus){
+            vm.role = role.data.data;
+            vm.setMenusId();
+            vm.menus = menus.data.data;
+        }));
   },
   methods: {
+      getRole(){
+          return axios.get('/api/role/' + this.$route.params.id + '/edit'+'?include=menus');
+      },
+      getMenus(){
+          return axios.get('/api/menus');
+      },
       edit() {
-          this.$http.put('/api/role/' + this.$route.params.id, this.role, {
-              headers: {
-                  'Authorization': 'Bearer ' + this.$store.state.access_token
-              }
-          }).then((response) => {
+          axios.put('/api/role/' + this.$route.params.id, this.role).then((response) => {
                   toastr.success('You updated a new account information!')
 
                   this.$router.push('/roles')
               })
-      }
+      },
+      setMenusId() {
+        console.log(this.role);
+          let menus = this.role['menus'].data,vm = this;
+          menus.forEach(function(value, index ,array){
+              if(value['uri'] != ''){
+                vm.menusId.push(value['id']);
+              }
+          })
+      },
+      handleCheckAllChange(event) {
+      this.checkedCities = event.target.checked ? cityOptions : [];
+      this.isIndeterminate = false;
+    },
+    handleCheckedCitiesChange(value) {
+      console.log(value);
+      let checkedCount = value.length;
+      this.checkAll = checkedCount === this.cities.length;
+      this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+    }
+
+  },
+  computed: {
+      tree() {
+          let temp = [],menus = this.menus;
+          for(let i in menus){
+              temp[menus[i]['id']] = menus[i];
+              temp[menus[i]['id']]['title'] = temp[menus[i]['id']]['title'];
+              temp[menus[i]['id']]['items'] = [];
+              if(menus[i]['parent_id'] != null) {
+                  temp[menus[i]['parent_id']]['items'].push(menus[i]);
+              }
+          }
+          temp.forEach(function(value, index, array){
+
+              if(value['parent_id'] != null) {
+                delete array[index]
+              }
+          })
+          let tree = [];
+          for(let i in temp) {
+              tree.push(temp[i])
+          }
+          return tree;
+      },
+
   }
 }
 </script>

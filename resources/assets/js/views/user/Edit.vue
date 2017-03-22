@@ -9,13 +9,16 @@
                     <div class="form-group text-center">
                         <img :src="user.avatar ? user.avatar : 'http://lncoa.app/images/default.png'" id="avatar" class="img-circle" width="100" :alt="user.name">
                     </div>
+
+
                     <div class="form-group">
                         <label for="name">{{ $t('form.name') }}</label>
-                        <input type="text" class="form-control" id="name" :placeholder="$t('form.name')" v-model="user.name" disabled>
+                        <input type="text" class="form-control" id="name" :placeholder="$t('form.name')" v-model="user.name">
                     </div>
+
                     <div class="form-group">
                         <label for="email">{{ $t('form.email') }}</label>
-                        <input type="email" class="form-control" id="email" :placeholder="$t('form.email')" v-model="user.email">
+                        <input type="email" class="form-control" id="email" :placeholder="$t('form.email')" v-model="user.email" disabled>
                     </div>
                     <div class="form-group">
                         <label for="nickname">{{ $t('form.nickname') }}</label>
@@ -25,6 +28,29 @@
                         <label for="description">{{ $t('form.description') }}</label>
                         <input type="text" class="form-control" id="description" :placeholder="$t('form.description')" v-model="user.description">
                     </div>
+
+                    <!-- Form -->
+                    <!-- 设置角色 -->
+                    <div class="form-group">
+                      <label for="role">{{ $t('table.role') }}</label>
+                      <div id="role">
+                        <el-tag v-for="role in user_role" style="margin-right:5px">{{role}}</el-tag>
+                        <i @click="openRole" class="el-icon-edit"></i>
+                      </div>
+                    </div>
+
+                    <!-- 设置角色弹出框 -->
+                    <el-dialog title="设置角色" v-model="dialogFormVisible">
+                      <el-checkbox-group v-model="user_role">
+                        <el-checkbox v-for="role in roles" :label="role.display_name" :data="role.id"></el-checkbox>
+                      </el-checkbox-group>
+                    <div slot="footer" class="dialog-footer">
+                      <el-button @click="cancel">{{ $t('form.cancel') }}</el-button>
+                      <el-button type="primary" @click="dialogFormVisible = false">{{ $t('form.ok') }}</el-button>
+                    </div>
+                    </el-dialog>
+                    <!-- 设置角色弹出框END -->
+
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">{{ $t('form.edit') }}</button>
                     </div>
@@ -38,30 +64,68 @@
     export default{
         data() {
             return {
-                user: {}
+                user: {},
+                roles: {},
+                user_role: [],
+                oldCheckList: {},
+                dialogFormVisible: false,
+                formLabelWidth: '120px'
             }
         },
         created() {
-            this.$http.get('/api/user/' + this.$route.params.id + '/edit', {
-                headers: {
-                    'Authorization': 'Bearer ' + this.$store.state.access_token
-                }
-            }).then((response) => {
-                    this.user = response.data.data
-            })
+            //在加载的过程中从服务端获取当前ID所对应的用户信息，以及获取所有角色信息。
+            let vm = this;
+            axios.all([this.getUserInfo(),this.getRoles()])
+              .then(axios.spread(function (user,roles){
+                  vm.user = user.data.data;
+                  //获取当前用户拥有的角色
+                  let checkRoles = user.data.data.roles.data;
+                  checkRoles.forEach(function (e){
+                      //将其拥有的角色对应的角色显示名称存放进user_role数组中
+                      vm.user_role.push(e.display_name);
+                  });
+                  vm.roles = roles.data.data;
+              }));
         },
         methods: {
             edit() {
-                this.$http.put('/api/user/' + this.$route.params.id, this.user, {
-                    headers: {
-                        'Authorization': 'Bearer ' + this.$store.state.access_token
-                    }
-                }).then((response) => {
+                //在请求服务端修改数据前，重新加载一下用户新的角色id数组
+                this.updateUserRoleValue();
+                axios.put('/api/user/' + this.$route.params.id, this.user).then((response) => {
                         toastr.success('You updated a new account information!')
 
                         this.$router.push('/users')
                 })
+            },
+            getUserInfo() {
+                //获取当前需要修改的用户信息
+                return axios.get('/api/user/' + this.$route.params.id + '/edit' + '?include=roles');
+            },
+            getRoles() {
+                //获取所有角色信息
+                return axios.get('/api/role');
+            },
+            openRole() {
+                this.oldCheckList = this.user_role;
+                this.dialogFormVisible = true;
+            },
+            cancel() {
+                //弹出框取消事件函数，将其拥有的角色数据回调到打开弹出框前。
+                this.user_role = this.oldCheckList;
+                this.dialogFormVisible = false;
+            },
+            updateUserRoleValue() {
+                //check_id拥有的角色id数组
+                let check_id = [], vm = this;
+                //遍历角色数组，查找当前用户拥有的角色其对应的id数组
+                vm.roles.forEach(function (e){
+                    if(vm.user_role.indexOf(e.display_name) > -1){
+                        check_id.push(e.id);
+                      }
+                });
+                vm.user.roles = check_id;
             }
+
         }
     }
 </script>

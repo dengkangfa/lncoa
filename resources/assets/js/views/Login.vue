@@ -69,26 +69,26 @@
           ]),
           onLogin:function(){
               var vm = this;
-              vm.$http.post(server.api.login, {
+              axios.post(server.api.login, {
                   'grant_type': 'password',
                   'username' : vm.email,
                   'password' : vm.password,
                   'client_id': server.client.client_id,
                   'client_secret': server.client.client_secret
               }).then((response) => {
-                  vm.SET_ACCESS_TOKEN(response.body.access_token);
+                  vm.SET_ACCESS_TOKEN(response.data.access_token);
                   vm.LOGIN();
                   localStorage.access_token = vm.$store.state.access_token;
-                  vm.$http.get(server.api.user, {
+                  axios.get(server.api.user + '?include=roles', {
                       headers: {
                           'Authorization': 'Bearer ' + vm.$store.state.access_token
                       }
                   }).then((response) => {
-                      vm.SET_USER(response.body.data);
+                      vm.SET_USER(response.data.data);
                       this.$router.go(-1);
                   })
               }, (response) => {
-                console.log(response.body);
+                console.log(response.data);
               })
           }
       }

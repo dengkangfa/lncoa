@@ -29,5 +29,6 @@ export default {
     role: '角色',
     display_name: '显示名称',
     description: '描述',
-    permission: '权限'
+    permission: '权限',
+    permission_menu: '权限-可见菜单',
 }

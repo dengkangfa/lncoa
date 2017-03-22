@@ -6,12 +6,12 @@ let api = {
     //用户信息
     user: config.host + config.prefix + '/user',
     //用户的可以访问的菜单树
-    tree: config.host + config.prefix + '/tree',
+    menu: config.host + config.prefix + '/menu',
 }
 
 let client = {
     client_id: '2',
-    client_secret: 'whEHsJxz48FWlCmvd1U8SfNhuz9cvlY8jdR9KxP1'
+    client_secret: 'OkABZOuxDMaiaaFJBrESpYnmIMf6eSwyU42fPVdM'
 }
 
 export default {

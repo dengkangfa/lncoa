@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTreesTable extends Migration
+class CreateMenusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class CreateTreesTable extends Migration
     public function up()
     {
         Schema::enableForeignKeyConstraints();
-        Schema::create('trees', function (Blueprint $table) {
+        Schema::create('menus', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title')->uniqid()->comment('菜单标题');
             $table->text('description')->nullabel()->comment('菜单描述');
@@ -33,6 +33,6 @@ class CreateTreesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trees');
+        Schema::dropIfExists('menus');
     }
 }

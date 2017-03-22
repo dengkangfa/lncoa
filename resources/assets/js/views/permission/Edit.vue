@@ -35,7 +35,7 @@ export default {
       }
   },
   created() {
-      this.$http.get('/api/permission/' + this.$route.params.id + '/edit', {
+      axios.get('/api/permission/' + this.$route.params.id + '/edit', {
           headers: {
               'Authorization': 'Bearer ' + this.$store.state.access_token
           }
@@ -45,7 +45,7 @@ export default {
   },
   methods: {
       edit() {
-          this.$http.put('/api/permission/' + this.$route.params.id, this.permission, {
+          axios.put('/api/permission/' + this.$route.params.id, this.permission, {
               headers: {
                   'Authorization': 'Bearer ' + this.$store.state.access_token
               }

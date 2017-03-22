@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
         $users = [
             [
                 'name' => 'admin',
-                'avatar' => $identicon->getImageDataUri('dkf'),
+                'avatar' => $identicon->getImageDataUri('dkf', 80),
                 'email' => 'admin@pigjian.com',
                 'password' => Hash::make('admin'),
                 'status' => true,
@@ -26,7 +26,7 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'name' => '邓康发',
-                'avatar' => $identicon->getImageDataUri('dkf'),
+                'avatar' => $identicon->getImageDataUri('dkf', 80),
                 'email' => 'admin@admin.com',
                 'password' => Hash::make('admin'),
                 'status' => true,

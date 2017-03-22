@@ -118,7 +118,7 @@
             }
         },
         created() {
-            this.$http.get('/api/system', {
+            axios.get('/api/system', {
                 headers: {
                     'Authorization': 'Bearer ' + this.$store.state.access_token
                 }
