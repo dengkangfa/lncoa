@@ -34,6 +34,27 @@ export default [
                 ]
             },
             {
+                path: 'user',
+                component: Parent,
+                children: [
+                    // {
+                    //     path: ':name',
+                    //     component: require('./views/user/Home.vue'),
+                    //     meta: { requiresAuth: true }
+                    // },
+                    {
+                        path: 'profile',
+                        component: require('./views/user/Profile'),
+                        meta: { requiresAuth: true }
+                    },
+                    {
+                        path: 'setting',
+                        component: require('./views/user/setting'),
+                        meta: { requiresAuth: true }
+                    }
+                ]
+            },
+            {
                 path: 'roles',
                 component: Parent,
                 children: [
@@ -76,6 +97,27 @@ export default [
                 ]
             },
             {
+                path: 'sites',
+                component: Parent,
+                children: [
+                    {
+                        path: '/',
+                        component: require('./views/site/Site.vue'),
+                        meta: { requiresAuth: true }
+                    },
+                    {
+                        path: 'create',
+                        component: require('./views/site/Create.vue'),
+                        meta: { requiresAuth: true}
+                    }
+                ]
+            },
+            {
+                path: 'files',
+                component: require('./views/File.vue'),
+                meta: { requiresAuth: true }
+            },
+            {
                 path: 'system',
                 component: require('./views/System.vue'),
                 meta: { requiresAuth: true }
@@ -88,11 +130,16 @@ export default [
         component: require('./views/Login.vue'),
         meta: { requiresAuth: false }
     },
-    // {
-    //     path: '/404',
-    //     component: require('./views/404.vue'),
-    //     meta: { requiresAuth: false }
-    // },
+    {
+        path: '/500',
+        component: require('./views/500.vue'),
+        meta: { requiresAuth: false }
+    },
+    {
+        path: '/404',
+        component: require('./views/404.vue'),
+        meta: { requiresAuth: false }
+    },
     // {
     //   path: '*',
     //   redirect: '/404'

@@ -33,6 +33,8 @@ Object.keys(locales).forEach(function (lang){
 //消息提示框对象
 window.toastr = require('toastr/build/toastr.min.js');
 
+require('Nestable/jquery.nestable.js');
+
 window.toastr.options = {
     positionClass: "toast-bottom-right",
     showDuration: "300",
@@ -59,6 +61,14 @@ Vue.component(
     'vue-form',
     require('./components/Form.vue')
 );
+
+Vue.component(
+    'vue-table-filtra',
+    require('./components/TableFiltra.vue')
+);
+
+Vue.component('avatar', require('./components/AvatarUpload.vue'));
+
 
 const router = new VueRouter({
     mode: 'history',

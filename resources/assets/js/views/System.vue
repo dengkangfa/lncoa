@@ -2,7 +2,7 @@
     <div class="row">
         <div class="ibox">
             <div class="ibox-title">
-                <h5>{{ $t('page.systems') }}</h5>
+                <h5>{{ $t('el.page.systems') }}</h5>
             </div>
             <div class="ibox-content">
                 <div class="row">
@@ -10,13 +10,13 @@
                         <div class="sidebar">
                             <ul>
                                 <li aria-expanded="false" :class="[type == 'system' ? 'active' : '']" @click="type = 'system'">
-                                    <a> <i class="ion-ios-toggle"></i>{{ $t('page.system') }}</a>
+                                    <a> <i class="ion-ios-toggle"></i>{{ $t('el.page.system') }}</a>
                                 </li>
                                 <li aria-expanded="true" :class="[type == 'php' ? 'active' : '']" @click="type = 'php'">
                                     <a><i class="ion-code"></i> PHP</a>
                                 </li>
                                 <li aria-expanded="false" :class="[type == 'database' ? 'active' : '']" @click="type = 'database'">
-                                    <a><i class="ion-social-buffer"></i> {{ $t('page.database') }}</a>
+                                    <a><i class="ion-social-buffer"></i> {{ $t('el.page.database') }}</a>
                                 </li>
                             </ul>
                         </div>
@@ -24,21 +24,21 @@
 
                     <ul id="tab-content" class="col-md-10">
                         <li aria-hidden="true" v-if="type == 'system'">
-                            <h2>{{ $t('page.system') }}</h2>
+                            <h2>{{ $t('el.page.system') }}</h2>
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th class="pk-table-width-150">{{ $t('page.key') }}</th>
-                                        <th>{{ $t('page.value') }}</th>
+                                        <th class="pk-table-width-150">{{ $t('el.page.key') }}</th>
+                                        <th>{{ $t('el.page.value') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>{{ $t('page.server') }}</td>
+                                    <td>{{ $t('el.page.server') }}</td>
                                     <td>{{ system.server }}</td>
                                 </tr>
                                     <tr>
-                                        <td>{{ $t('page.domain') }}</td>
+                                        <td>{{ $t('el.page.domain') }}</td>
                                         <td>{{ system.http_host }}</td>
                                     </tr>
                                     <tr>
@@ -57,13 +57,13 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>{{ $t('page.key') }}</th>
-                                        <th>{{ $t('page.value') }}</th>
+                                        <th>{{ $t('el.page.key') }}</th>
+                                        <th>{{ $t('el.page.value') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>{{ $t('page.version') }}</td>
+                                        <td>{{ $t('el.page.version') }}</td>
                                         <td>{{ system.php }}</td>
                                     </tr>
                                     <tr>
@@ -71,32 +71,32 @@
                                         <td>{{ system.sapi_name }}</td>
                                     </tr>
                                     <tr>
-                                        <td>{{ $t('page.extension') }}</td>
+                                        <td>{{ $t('el.page.extension') }}</td>
                                         <td>{{ system.extensions }}</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </li>
                         <li aria-hidden="true" v-if="type == 'database'">
-                            <h2>{{ $t('page.database') }}</h2>
+                            <h2>{{ $t('el.page.database') }}</h2>
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>{{ $t('page.key') }}</th>
-                                        <th>{{ $t('page.value') }}</th>
+                                        <th>{{ $t('el.page.key') }}</th>
+                                        <th>{{ $t('el.page.value') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>{{ $t('page.driver') }}</td>
+                                        <td>{{ $t('el.page.driver') }}</td>
                                         <td>{{ system.db_connection }}</td>
                                     </tr>
                                     <tr>
-                                        <td>{{ $t('page.database') }}</td>
+                                        <td>{{ $t('el.page.database') }}</td>
                                         <td>{{ system.db_database }}</td>
                                     </tr>
                                     <tr>
-                                        <td>{{ $t('page.version') }}</td>
+                                        <td>{{ $t('el.page.version') }}</td>
                                         <td>{{ system.db_version }}</td>
                                     </tr>
                                 </tbody>

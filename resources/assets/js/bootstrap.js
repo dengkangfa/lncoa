@@ -11,6 +11,7 @@ window.$ = window.jQuery = require('jquery');
 require('bootstrap-sass');
 window.swal = require('sweetalert');
 
+
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces
  * using reactive data binding and reusable components. Vue's API is clean
@@ -32,6 +33,29 @@ window.Vue = require('vue');
      'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
      'X-Requested-With': 'XMLHttpRequest'
  };
+
+//  axios.interceptors.request.use(
+//      config => {
+//          if (store.state.token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
+//              config.headers.Authorization = `token ${store.state.token}`;
+//          }
+//          return config;
+//      },
+//      err => {
+//          return Promise.reject(err);
+// });
+
+axios.interceptors.response.use(
+   response => {
+      return response;
+   },
+   error => {
+     console.log(error.response);
+     if ((error.response.statusText == 'Unauthorized') && (error.response.status === 400 || error.response.status === 401)) {
+            window.location = '/login';
+     }
+     return Promise.reject(error.response.data);
+})
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

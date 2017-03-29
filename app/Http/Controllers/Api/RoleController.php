@@ -18,8 +18,11 @@ class RoleController extends ApiController
         $this->role = $role;
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        if($request->has('pageSize')){
+          return $this->respondWithPaginator($this->role->page($request->pageSize), new RoleTransformer);
+        }
         return $this->respondWithPaginator($this->role->page(), new RoleTransformer);
     }
 

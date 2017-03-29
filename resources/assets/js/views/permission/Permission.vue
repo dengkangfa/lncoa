@@ -1,8 +1,10 @@
 <template lang="html">
   <div class="row">
-      <vue-table :title="$t('page.permission')" :fields="fields" api-url="/api/permission" @table-action="tableActions" show-paginate>
+      <vue-table :title="$t('el.page.permission')" :fields="fields" api-url="/api/permission" @table-action="tableActions" show-paginate>
           <div slot="buttons">
-              <router-link to="/permissions/create" class="btn btn-success">{{ $t('page.create') }}</router-link>
+              <router-link to="/permissions/create" class="btn btn-info btn-xs"  style="margin-bottom:2px">
+                {{ $t('el.page.create') }}
+              </router-link>
           </div>
       </vue-table>
   </div>
@@ -15,29 +17,29 @@ export default {
           fields: [
               {
                   name: 'id',
-                  trans: 'table.id',
+                  trans: 'el.table.id',
                   titleClass: 'width-5-percent text-center',
                   dataClass: 'text-center'
               },
               {
                   name: 'name',
-                  trans: 'table.permission'
+                  trans: 'el.table.permission'
               },
               {
                   name: 'display_name',
-                  trans: 'table.display_name'
+                  trans: 'el.table.display_name'
               },
               {
                   name: 'description',
-                  trans: 'table.description'
+                  trans: 'el.table.description'
               },
               {
                   name: 'created_at',
-                  trans: 'table.created_at'
+                  trans: 'el.table.created_at'
               },
               {
                   name: '__actions',
-                  trans: 'table.action',
+                  trans: 'el.table.action',
                   titleClass: 'text-center',
                   dataClass: 'text-center'
               }

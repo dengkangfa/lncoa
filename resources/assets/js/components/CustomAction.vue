@@ -38,24 +38,24 @@
                 })
             },
             postData(rowData) {
-                axios.post(this.apiUrl + '/' + rowData.id + '/status', {status: !rowData.status}, {
-                    headers: {
-                        'Authorization': 'Bearer ' + this.$store.state.access_token
-                    }
-                 }).then(response => {
-                        if (response.data) {
-                            this.rowData.status = !this.rowData.status
-                            if (this.rowData.status) {
-                                toastr.success('You changed a record of the status success!')
-                            } else {
-                                toastr.warning('You changed a record of the status, Please check again!')
-                            }
-                        }
-                    }, (response) => {
-                        if (response.data.error) {
-                            toastr.error(response.data.error.message)
+                axios.post('/api/user/' + rowData.id + '/status', {status: !rowData.status})
+                    .then(response => {
+                      console.log(response);
+                          if (!response.data) {
+                              this.rowData.status = !this.rowData.status
+                              if (this.rowData.status) {
+                                  toastr.success('You changed a record of the status success!')
+                              } else {
+                                  toastr.warning('You changed a record of the status, Please check again!')
+                              }
+                          }
+                    })
+                    .catch(error => {
+                      console.log(error);
+                        if (error.error) {
+                            toastr.error(error.error.message)
                         } else {
-                            toastr.error(response.status + ' : Resource ' + response.statusText)
+                            toastr.error(error.error.http_code + ' : Resource ' + error.error.message)
                         }
                     })
             }

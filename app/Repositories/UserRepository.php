@@ -87,7 +87,12 @@ class UserRepository
     public function update($id, $input)
     {
         $this->model = $this->model->withoutGlobalScope(StatusScope::class)->findOrFail($id);
-        $this->model->roles()->sync($input['roles']);
+        // if(isset($input['roles'])){
+        //   $this->model->roles()->sync($input['roles']);
+        // }
+        if (isset($_GET['include']) && $_GET['include'] == 'roles') {
+             $this->model->roles()->sync($input['roles']);
+        }
         return $this->save($this->model, $input);
     }
 
@@ -111,7 +116,7 @@ class UserRepository
      */
     public function changePassword($user, $password)
     {
-        return $user->update(['password' => bcrypt($password)]);
+        return $user->update(['password' => $password]);
     }
 
     /**

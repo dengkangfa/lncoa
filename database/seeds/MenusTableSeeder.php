@@ -13,6 +13,7 @@ class MenusTableSeeder extends Seeder
     {
         $faker = app(Faker\Generator::class);
         $date_time = $faker->date.' '.$faker->time;
+        //面板
         $dashboard = [
             'title' => 'dashboard',
             'description' => $faker->sentence,
@@ -23,6 +24,7 @@ class MenusTableSeeder extends Seeder
         ];
         $dashboard = App\Menu::create($dashboard);
 
+        // 用户设置
         $userManagement = [
             'title' => 'user_setting',
             'description' => $faker->sentence,
@@ -33,6 +35,7 @@ class MenusTableSeeder extends Seeder
         ];
         $userManagement = App\Menu::create($userManagement);
 
+        // 用户管理
         $user = [
             'title' => 'user',
             'description' => $faker->sentence,
@@ -44,6 +47,7 @@ class MenusTableSeeder extends Seeder
         ];
         $user = App\Menu::create($user);
 
+        // 角色管理
         $character = [
             'title' => 'character',
             'description' => $faker->sentence,
@@ -55,6 +59,7 @@ class MenusTableSeeder extends Seeder
         ];
         $character = App\Menu::create($character);
 
+        // 权限管理
         $authority = [
             'title' => 'authority',
             'description' => $faker->sentence,
@@ -66,6 +71,42 @@ class MenusTableSeeder extends Seeder
         ];
         $authority = App\Menu::create($authority);
 
+        // 系统管理
+        $systemManage = [
+            'title' => 'system_manage',
+            'description' => "系统管理",
+            'icon' => 'ion-cube',
+            'uri' => '',
+            'created_at' => $date_time,
+            'updated_at' => $date_time,
+        ];
+        $systemManage = App\Menu::create($systemManage);
+
+        //场地管理
+        $site = [
+            'title' => 'site',
+            'description' => '场地管理',
+            'icon' => 'ion-clipboard',
+            'parent_id' => $systemManage->id,
+            'uri' => '/sites',
+            'created_at' => $date_time,
+            'updated_at' => $date_time,
+        ];
+        $site = App\Menu::create($site);
+
+        //文件管理
+        $file = [
+            'title' => 'file',
+            'description' => '文件管理',
+            'icon' => 'ion-ios-folder',
+            'parent_id' => $systemManage->id,
+            'uri' => '/files',
+            'created_at' => $date_time,
+            'updated_at' => $date_time,
+        ];
+        $file = App\Menu::create($file);
+
+        // 系统配置
         $system = [
             'title' => 'system',
             'description' => $faker->sentence,

@@ -1,5 +1,5 @@
-import en from './en'
-import zh_cn from './zh_cn'
+import en from './en.js'
+import zh_cn from './zh-CN.js'
 
 export default {
     en,

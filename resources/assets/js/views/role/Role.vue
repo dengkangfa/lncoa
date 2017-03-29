@@ -1,8 +1,10 @@
 <template lang="html">
       <div class="row">
-          <vue-table :title="$t('page.role')" :fields="fields" api-url="/api/role?include=menus" @table-action="tableActions" show-paginate>
+          <vue-table :title="$t('el.page.role')" :fields="fields" api-url="/api/role?include=menus" @table-action="tableActions" show-paginate>
               <div slot="buttons">
-                  <router-link to="/roles/create" class="btn btn-success">{{ $t('page.create') }}</router-link>
+                  <router-link to="/roles/create" class="btn btn-info btn-xs"  style="margin-bottom:2px">
+                    {{ $t('el.page.create') }}
+                  </router-link>
               </div>
           </vue-table>
       </div>
@@ -15,33 +17,33 @@ export default {
             fields: [
                 {
                     name: 'id',
-                    trans: 'table.id',
+                    trans: 'el.table.id',
                     titleClass: 'width-5-percent text-center',
                     dataClass: 'text-center'
                 },
                 {
                     name: 'name',
-                    trans: 'table.role'
+                    trans: 'el.table.role'
                 },
                 {
                     name: 'display_name',
-                    trans: 'table.display_name'
+                    trans: 'el.table.display_name'
                 },
                 {
                     name: '__permission_menu',
-                    trans: 'table.permission_menu'
+                    trans: 'el.table.permission_menu'
                 },
                 {
                     name: 'description',
-                    trans: 'table.description'
+                    trans: 'el.table.description'
                 },
                 {
                     name: 'created_at',
-                    trans: 'table.created_at'
+                    trans: 'el.table.created_at'
                 },
                 {
                     name: '__actions',
-                    trans: 'table.action',
+                    trans: 'el.table.action',
                     titleClass: 'text-center',
                     dataClass: 'text-center'
                 }

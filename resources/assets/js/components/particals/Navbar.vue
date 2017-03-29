@@ -102,7 +102,7 @@
             'user'
           ]),
           statused: function() {
-            return this.status = !this.$store.state.sidebar.opened
+            return this.status = this.$store.state.sidebar.opened
           },
         }
     }

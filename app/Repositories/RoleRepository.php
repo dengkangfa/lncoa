@@ -41,4 +41,15 @@ class RoleRepository
         return $this->model->findOrFail($id);
     }
 
+
+    public function update($id, $input)
+    {
+        $this->model = $this->getById($id);
+        if(is_array($input['menus'])){
+            $this->model->menus()->sync($input['menus']);
+        }
+
+        return $this->save($this->model, $input);
+    }
+
 }

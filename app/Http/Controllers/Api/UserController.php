@@ -3,20 +3,27 @@
 namespace App\Http\Controllers\Api;
 
 use Auth;
+use Hash;
+use Image;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Repositories\UserRepository;
 use App\Transformers\UserTransformer;
+use App\Services\FileManager\UploadManager;
 
 class UserController extends ApiController
 {
     protected $user;
 
-    public function __construct(UserRepository $user)
+    protected $manager;
+
+    public function __construct(UserRepository $user, UploadManager $manager)
     {
         parent::__construct();
 
         $this->user = $user;
+
+        $this->manager = $manager;
     }
 
     public function me()
@@ -31,6 +38,9 @@ class UserController extends ApiController
      */
     public function index(Request $request)
     {
+        if($request->has('pageSize')){
+          return $this->respondWithPaginator($this->user->page($request->pageSize), new UserTransformer);
+        }
         return $this->respondWithPaginator($this->user->page(), new UserTransformer);
     }
 
@@ -61,11 +71,14 @@ class UserController extends ApiController
      */
     public function store(UserRequest $request)
     {
+        $identicon = new \Identicon\Identicon();
         $data = array_merge($request->all(), [
-            'confirm_code' => str_random(64)
+            // 'confirm_code' => str_random(64),
+            'avatar' => $identicon->getImageDataUri($request->name,80),
         ]);
 
         $this->user->store($data);
+        $this->user->store($request->all());
 
         return $this->noContent();
     }
@@ -111,4 +124,68 @@ class UserController extends ApiController
 
         return $this->noContent();
     }
+
+    /**
+   * Upload the avatar.
+   *
+   * @param Request $request
+   * @return mixed
+   */
+    public function avatar(Request $request)
+    {
+        $file = $request->file('file');
+
+        $validator = \Validator::make([ 'file' => $file ], [ 'file' => 'image' ]);
+
+        if($validator->fails()) {
+            return response()->json([
+                    'success' => false,
+                    'errors'  => $validator->getMessageBag()->toArray()
+                ]);
+        }
+
+        $path = 'avatars/' . Auth::user()->id;
+
+        $result = $this->manager->store($file, $path);
+
+        return response()->json($result);
+    }
+
+    /**
+     * Crop Avatar
+     *
+     * @param  Request $request
+     * @return array
+     */
+    public function cropAvatar(Request $request)
+    {
+        $currentImage = $request->get('image');
+        $data = $request->get('data');
+
+        $image = Image::make($currentImage['relative_url']);
+
+        $image->crop((int) $data['width'], (int) $data['height'], (int) $data['x'], (int) $data['y']);
+
+        $image->save($currentImage['relative_url']);
+
+        $this->user->saveAvatar(Auth::user()->id, $currentImage['url']);
+
+        return response()->json($currentImage);
+    }
+
+    public function changePassword(Request $request)
+    {
+
+        $this->validate($request, [
+          'old_password' => 'required',
+          'password_confirmation' => 'required',
+          'password' => 'required|max:16|min:6|confirmed',
+        ]);
+        if (! Hash::check($request->get('old_password'), Auth::user()->password)) {
+          // return response()->json(['old_password' => ['The password must be the same of current password.']], 422);
+          return response()->json(['old_password' => [trans('message.Inconsistent')]], 422);
+        }
+        $this->user->changePassword(Auth::user(), $request->password);
+    }
+
 }

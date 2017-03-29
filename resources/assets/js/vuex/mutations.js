@@ -4,6 +4,7 @@ import {
     LOGIN,
     OUT_LOGIN,
     SET_USER,
+    UPDATE_AVATAR,
 } from './mutation-types'
 
 export default {
@@ -25,5 +26,8 @@ export default {
 		},
 		[SET_USER] (state, user) {
 			state.user = user;
-		}
+		},
+    [UPDATE_AVATAR] (state, avatar) {
+      state.user.avatar = avatar;
+    }
 }

@@ -15,10 +15,10 @@
                     <a href="/">
                         <i class="ion-ios-home"></i>
                     </a>
-                    <a :href="userInfo">
+                    <a @click="userHome">
                         <i class="ion-person"></i>
                     </a>
-                    <a href="/setting">
+                    <a @click="setting">
                         <i class="ion-ios-gear"></i>
                     </a>
                 </div>
@@ -27,10 +27,10 @@
                 <el-menu :router="true" theme="dark"
                   :unique-opened="true" :default-active="defaultActive" :default-openeds="defaultMenu">
                   <el-submenu :index="menu.id+''" v-for="menu in menus" :key="menu.id" v-if="menu.items.length != 0" class="menu-height">
-                    <template slot="title"><i :class="menu.icon"></i>{{ $t("sidebar."+menu.title) }}</template>
-                      <el-menu-item :index="item.uri" v-for="item in menu.items"><i :class="item.icon"></i>{{ $t("sidebar."+item.title) }}</el-menu-item>
+                    <template slot="title"><i :class="menu.icon"></i>{{ $t("el.sidebar."+menu.title) }}</template>
+                      <el-menu-item :index="item.uri" v-for="item in menu.items"><i :class="item.icon"></i>{{ $t("el.sidebar."+item.title) }}</el-menu-item>
                   </el-submenu>
-                  <el-menu-item :index="menu.uri" v-else><i :class="menu.icon"></i>{{ $t("sidebar."+menu.title) }}</el-menu-item>
+                  <el-menu-item :index="menu.uri" v-else><i :class="menu.icon"></i>{{ $t("el.sidebar."+menu.title) }}</el-menu-item>
                 </el-menu>
             </el-col>
         </ul>
@@ -62,9 +62,6 @@
             ...mapState([
                 'user'
             ]),
-            userInfo() {
-                return '/user/' + this.user.name
-            },
         },
         methods: {
          handleOpen(key, keyPath) {
@@ -82,6 +79,14 @@
                   }
               }
            }
+        },
+        userHome() {
+            this.$router.push('/user/profile');
+            this.defaultActive = '';
+        },
+        setting() {
+            this.$router.push('/user/setting');
+            this.defaultActive = '';
         }
     }
   }

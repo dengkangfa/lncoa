@@ -1,25 +1,25 @@
 <template lang="html">
-  <vue-form :title="$t('form.create_role')">
+  <vue-form :title="$t('el.form.create_role')">
       <div slot="buttons">
-          <router-link to="/roles" class="btn btn-default" exact>{{ $t('form.back') }}</router-link>
+          <router-link to="/roles" class="btn btn-default" exact>{{ $t('el.form.back') }}</router-link>
       </div>
       <div slot="content">
           <div class="row">
               <form class="form col-md-4 col-md-offset-4" role="form" @submit.prevent="create">
                   <div class="form-group">
-                      <label for="name">{{ $t('form.role') }}</label>
-                      <input type="text" class="form-control" id="name" :placeholder="$t('form.role')" name="name">
+                      <label for="name">{{ $t('el.form.role') }}</label>
+                      <input type="text" class="form-control" id="name" :placeholder="$t('el.form.role')" name="name">
                   </div>
                   <div class="form-group">
-                      <label for="display_name">{{ $t('form.display_name') }}</label>
-                      <input type="text" class="form-control" id="display_name" :placeholder="$t('form.display_name')" name="display_name">
+                      <label for="display_name">{{ $t('el.form.display_name') }}</label>
+                      <input type="text" class="form-control" id="display_name" :placeholder="$t('el.form.display_name')" name="display_name">
                   </div>
                   <div class="form-group">
-                      <label for="description">{{ $t('form.description') }}</label>
-                      <textarea class="form-control" name="description" id="description" :placeholder="$t('form.description')"></textarea>
+                      <label for="description">{{ $t('el.form.description') }}</label>
+                      <textarea class="form-control" name="description" id="description" :placeholder="$t('el.form.description')"></textarea>
                   </div>
                   <div class="form-group">
-                      <button type="submit" class="btn btn-primary">{{ $t('form.create') }}</button>
+                      <button type="submit" class="btn btn-primary">{{ $t('el.form.create') }}</button>
                   </div>
               </form>
           </div>

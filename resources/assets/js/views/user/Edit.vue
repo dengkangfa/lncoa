@@ -1,7 +1,7 @@
 <template>
-    <vue-form :title="$t('form.edit_user')">
+    <vue-form :title="$t('el.form.edit_user')">
         <div slot="buttons">
-            <router-link to="/users" class="btn btn-default" exact>{{ $t('form.back') }}</router-link>
+            <router-link to="/users" class="btn btn-default" exact>{{ $t('el.form.back') }}</router-link>
         </div>
         <div slot="content">
             <div class="row">
@@ -12,27 +12,31 @@
 
 
                     <div class="form-group">
-                        <label for="name">{{ $t('form.name') }}</label>
-                        <input type="text" class="form-control" id="name" :placeholder="$t('form.name')" v-model="user.name">
+                        <label for="name">{{ $t('el.form.name') }}</label>
+                        <input type="text" class="form-control" id="name" :placeholder="$t('el.form.name')" v-model="user.name" disabled>
                     </div>
 
                     <div class="form-group">
-                        <label for="email">{{ $t('form.email') }}</label>
-                        <input type="email" class="form-control" id="email" :placeholder="$t('form.email')" v-model="user.email" disabled>
+                        <label for="email">{{ $t('el.form.email') }}</label>
+                        <input type="email" class="form-control" id="email" :placeholder="$t('el.form.email')" v-model="user.email" disabled>
                     </div>
                     <div class="form-group">
-                        <label for="nickname">{{ $t('form.nickname') }}</label>
-                        <input type="text" class="form-control" id="nickname" :placeholder="$t('form.nickname')" v-model="user.nickname">
+                        <label for="nickname">{{ $t('el.form.nickname') }}</label>
+                        <input type="text" class="form-control" id="nickname" :placeholder="$t('el.form.nickname')" v-model="user.nickname">
                     </div>
                     <div class="form-group">
-                        <label for="description">{{ $t('form.description') }}</label>
-                        <input type="text" class="form-control" id="description" :placeholder="$t('form.description')" v-model="user.description">
+                        <label for="description">{{ $t('el.form.description') }}</label>
+                        <input type="text" class="form-control" id="description" :placeholder="$t('el.form.description')" v-model="user.description">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">{{ $t('el.form.password') }}</label>
+                        <input type="password" class="form-control" id="password" :placeholder="$t('el.form.password')" v-model="user.password">
                     </div>
 
                     <!-- Form -->
                     <!-- 设置角色 -->
                     <div class="form-group">
-                      <label for="role">{{ $t('table.role') }}</label>
+                      <label for="role">{{ $t('el.table.role') }}</label>
                       <div id="role">
                         <el-tag v-for="role in user_role" style="margin-right:5px">{{role}}</el-tag>
                         <i @click="openRole" class="el-icon-edit"></i>
@@ -45,14 +49,14 @@
                         <el-checkbox v-for="role in roles" :label="role.display_name" :data="role.id"></el-checkbox>
                       </el-checkbox-group>
                     <div slot="footer" class="dialog-footer">
-                      <el-button @click="cancel">{{ $t('form.cancel') }}</el-button>
-                      <el-button type="primary" @click="dialogFormVisible = false">{{ $t('form.ok') }}</el-button>
+                      <el-button @click="cancel">{{ $t('el.form.cancel') }}</el-button>
+                      <el-button type="primary" @click="dialogFormVisible = false">{{ $t('el.form.ok') }}</el-button>
                     </div>
                     </el-dialog>
                     <!-- 设置角色弹出框END -->
 
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary">{{ $t('form.edit') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ $t('el.form.edit') }}</button>
                     </div>
                 </form>
             </div>
@@ -91,7 +95,7 @@
             edit() {
                 //在请求服务端修改数据前，重新加载一下用户新的角色id数组
                 this.updateUserRoleValue();
-                axios.put('/api/user/' + this.$route.params.id, this.user).then((response) => {
+                axios.put('/api/user/' + this.$route.params.id + '?include=roles', this.user).then(response => {
                         toastr.success('You updated a new account information!')
 
                         this.$router.push('/users')

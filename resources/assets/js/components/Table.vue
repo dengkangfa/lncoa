@@ -58,8 +58,6 @@
                                                 <el-button type="text" @click="permissionVisible = true" >权限</el-button>
                                                 <el-button type="text" @click="clickTree(item['menus'].data)" >可见菜单</el-button>
                                             </span>
-
-
                                         </td>
                                     </template>
                                 </template>
@@ -67,7 +65,7 @@
                                     <td v-if="hasCallback(field)" :class="field.dataClass" v-html="callCallback(field, item)">
                                     </td>
                                     <td :class="field.dataClass" v-else>
-                                        {{ item[field.name] }}
+                                        <i :class="item[field.name]?field.icon:''" :style="field.iconStyle"></i>{{ item[field.name] }}
                                     </td>
                                 </template>
                             </template>
@@ -84,9 +82,21 @@
                 <tfoot>
                 </tfoot>
             </table>
-            <h3 class="none text-center" v-if="items.length == 0">{{ $t('page.nothing') }}</h3>
-            <table-pagination ref="pagination" v-on:loadPage="loadPage" v-if="showPaginate && items.length > 0"></table-pagination>
+
+            <h3 class="none text-center" v-if="items.length == 0">{{ $t('el.page.nothing') }}</h3>
+            <!-- <table-pagination ref="pagination" v-on:loadPage="loadPage" v-if="showPaginate && items.length > 0"></table-pagination> -->
         </div>
+        <nav class="text-center">
+          <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[10, 20, 50, 100]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total" v-if="items.length > 0">
+        </el-pagination>
+      </nav>
     </div>
 </template>
 
@@ -151,9 +161,11 @@
         data() {
             return{
                 items: [],
+                total: 0,
                 totalPage: 0,
                 currentPage: 0,
-                pagination: null,
+                // pagination: null,
+                pageSize: 10,
                 treeVisible: false,
                 permissionVisible: false,
                 defaultProps: {
@@ -163,19 +175,9 @@
                 menus: [],
            }
         },
-        watch: {
-            $route() {
-                let pageNum = 1
-
-                if (this.$route.query.page) {
-                    pageNum = this.$route.query.page
-                }
-
-                this.loadPage(pageNum)
-            }
-        },
         created() {
             this.currentPage = this.$route.query.page;
+            this.pageSize = parseInt(this.$route.query.pageSize);
             this.loadData()
         },
         mounted() {
@@ -184,15 +186,6 @@
             })
         },
         methods: {
-            loadPage(page) {
-                if (page == 'prev') {
-                    this.goPreviousPage()
-                } else if (page == 'next') {
-                    this.goNextPage()
-                } else {
-                    this.goPage(page)
-                }
-            },
             loadData() {
                 var url = this.apiUrl;
 
@@ -206,36 +199,25 @@
                     url = url + page + this.currentPage;
                     this.$router.push('?page=' + this.currentPage)
                 }
+
+                if (this.pageSize > 10) {
+                    let pageSize = ''
+                    if (url.indexOf('?') != -1) {
+                        pageSize = '&pageSize='
+                    } else {
+                        pageSize = '?pageSize='
+                    }
+                    url = url + pageSize + this.pageSize;
+                    this.$router.push('?pageSize=' + this.pageSize)
+                }
                 axios.get(url).then(response => {
-                        this.pagination = response.data.meta.pagination
+                  console.log(response);
+                        // this.pagination = response.data.meta.pagination
                         this.items = response.data.data
                         this.totalPage = response.data.meta.pagination.total_pages
                         this.currentPage = response.data.meta.pagination.current_page
-
-                        if (this.showPaginate && this.items.length != 0) {
-                            this.$nextTick(() => {
-                                this.$refs.pagination.$data.pagination = this.pagination
-                            })
-                        }
+                        this.total = response.data.meta.pagination.total
                     })
-            },
-            goPreviousPage() {
-                if (this.currentPage > 1) {
-                    this.currentPage--
-                    this.loadData()
-                }
-            },
-            goNextPage() {
-                if (this.currentPage < this.totalPage) {
-                    this.currentPage++
-                    this.loadData()
-                }
-            },
-            goPage(page) {
-                if (page != this.currentPage && (page > 0 && page <= this.totalPage)) {
-                    this.currentPage = page
-                    this.loadData()
-                }
             },
             hasCallback(item) {
                 return item.callback ? true : false
@@ -281,18 +263,20 @@
                 this.loadData()
             },
             clickTree(menus) {
-                var temp = [];
-                for(let i in menus){
-                    temp[menus[i]['id']] = menus[i];
-                    temp[menus[i]['id']]['title'] = temp[menus[i]['id']]['title'];
-                    temp[menus[i]['id']]['items'] = [];
-                    if(menus[i]['parent_id'] != null) {
-                        temp[menus[i]['parent_id']]['items'].push(menus[i]);
+                //生成当前点击的角色可见菜单
+                let temp = [], menusClone = {};
+                menusClone = this.deepCopy(menus);
+                for(let i in menusClone){
+                    temp[menusClone[i]['id']] = menusClone[i];
+                    temp[menusClone[i]['id']]['title'] = this.$t('el.sidebar.' + temp[menusClone[i]['id']]['title']);
+                    temp[menusClone[i]['id']]['items'] = [];
+                    if(typeof menusClone[i]['parent_id'] != 'object') {
+                        temp[menusClone[i]['parent_id']]['items'].push(menusClone[i]);
                     }
                 }
-                temp.forEach(function(value, index, array){
 
-                    if(value['parent_id'] != null) {
+                temp.forEach(function(value, index, array){
+                    if(typeof value['parent_id'] != 'object') {
                       delete array[index]
                     }
                 })
@@ -303,14 +287,22 @@
                 this.menus = tree;
                 this.treeVisible = true;
             },
-            addSidebar(data) {
-                let vm = this;
-                data.forEach(function(value, index, array){
-                    value['menus'].data.forEach(function(value, index, array){
-                        value['title'] = vm.$t('sidebar.' + value['title']);
-                    })
-                })
-            },
+            handleSizeChange(val) {
+                this.pageSize = val;
+                this.loadData();
+           },
+           handleCurrentChange(val) {
+               //currentPage 改变时会触发
+               this.currentPage = val;
+               this.loadData();
+           },
+           deepCopy(source) {
+             var result={};
+              for (var key in source) {
+                   result[key] = typeof source[key]==='object'? this.deepCopy(source[key]): source[key];
+                }
+                return result;
+           }
         }
     }
 </script>

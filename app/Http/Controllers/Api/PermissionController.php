@@ -18,8 +18,11 @@ class PermissionController extends ApiController
         $this->permission = $permission;
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        if($request->has('pageSize')){
+          return $this->respondWithPaginator($this->permission->page($request->pageSize), new PermissionTransformer);
+        }
         return $this->respondWithPaginator($this->permission->page(), new PermissionTransformer);
     }
 

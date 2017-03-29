@@ -7,6 +7,8 @@ let api = {
     user: config.host + config.prefix + '/user',
     //用户的可以访问的菜单树
     menu: config.host + config.prefix + '/menu',
+    // 获取所有的角色信息
+    roles: config.host + config.prefix + '/role'
 }
 
 let client = {

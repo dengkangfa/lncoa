@@ -143,11 +143,11 @@
     .profile {
         margin: 15px auto;
         text-align: center;
-        img {
-            height: 125px;
-            border: 3px solid lightgrey;
-            border-radius: 200px;
-        }
+        // img {
+        //     height: 125px;
+        //     border: 3px solid lightgrey;
+        //     border-radius: 200px;
+        // }
         h1 {
             margin-top: 10px;
             color: white;
