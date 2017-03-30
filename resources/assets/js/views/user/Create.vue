@@ -47,8 +47,8 @@
                         toastr.success('You create a new account success!')
 
                         this.$router.push('/users')
-                    }, (response) => {
-                        stack_error(response)
+                    }, (error) => {
+                        stack_error(error.response.data)
                     })
             }
         }

@@ -63,8 +63,8 @@ export default {
                           toastr.success('You delete the tag success!')
 
                           this.$emit('reload')
-                      }, (response) => {
-                          toastr.error(response.status + ' : Resource ' + response.statusText)
+                      }, (error) => {
+                          toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
                       })
               }
           }

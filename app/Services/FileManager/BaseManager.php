@@ -92,6 +92,57 @@ class BaseManager
     }
 
     /**
+     * Create a new folder.
+     *
+     * @param $folder
+     * @return string
+     */
+    public function createFolder($folder)
+    {
+        $this->cleanFolder($folder);
+
+        if ($this->checkFolder($folder)) {
+            throw new UploadException("The Folder exists.");
+        }
+
+        return $this->disk->makeDirectory($folder);
+    }
+
+    /**
+     * Check if the folder exists.
+     *
+     * @param $folder
+     * @return mixed
+     */
+    public function checkFolder($folder)
+    {
+        return $this->disk->exists($folder);
+    }
+
+    /**
+     * Determine whether the file exists
+     * @param  string $path
+     * @return boolean
+     */
+    public function checkFile($path)
+    {
+        return $this->disk->exists($path);
+    }
+
+    /**
+     * save the file
+     * @param  $path
+     * @param  $content
+     * @return string
+     */
+    public function saveFile($path, $content)
+    {
+        $this->cleanFolder($path);
+        
+        return $this->disk->put($path, $content);
+    }
+
+    /**
      * Clean the folder.
      *
      * @param $folder

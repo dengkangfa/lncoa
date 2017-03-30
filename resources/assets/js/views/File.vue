@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </div>
-            <div class="ibox-content no-padding">
+            <div class="ibox-content table-responsive no-padding">
                 <table id="uploads-table" class="table table-striped table-hover">
                     <tbody>
                     <tr>
@@ -209,13 +209,13 @@
                         this.showFolder = false
                         this.$set(this.upload.subfolders, this.path, this.folder)
                         this.folder = ''
-                    }, (response) => {
-                        toastr.error(response.status + ' : ' + response.statusText)
+                    }, (error) => {
+                        toastr.error(error.response.status + ' : ' + error.response.statusText)
                     })
 
             },
             change(event) {
-                this.files = event.target.files
+              this.files = event.target.files.length ? event.target.files : '';
             },
             uploadFile() {
                 if (!this.files) {
@@ -236,11 +236,11 @@
                         this.upload.files.push(response.data)
                         this.file_name = ''
                         this.showFile = false
-                    }, (response) => {
-                        if (response.data.error) {
-                            toastr.error(response.data.error.message)
+                    }, (error) => {
+                        if (error.response.data.error) {
+                            toastr.error(error.response.data.error.message)
                         } else {
-                            toastr.error(response.status + ' : Resource ' + response.statusText)
+                            toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
                         }
                     })
             },
@@ -251,8 +251,8 @@
                         toastr.success('You delete a folder success!')
 
                         this.$delete(this.upload.subfolders, path + '/' + name)
-                    }, (response) => {
-                        toastr.error(response.status + ' : Resource ' + response.statusText)
+                    }, (error) => {
+                        toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
                     })
             },
             deleteFile(file, index) {

@@ -50,11 +50,10 @@ axios.interceptors.response.use(
       return response;
    },
    error => {
-     console.log(error.response);
      if ((error.response.statusText == 'Unauthorized') && (error.response.status === 400 || error.response.status === 401)) {
             window.location = '/login';
      }
-     return Promise.reject(error.response.data);
+     return Promise.reject(error);
 })
 
 /**

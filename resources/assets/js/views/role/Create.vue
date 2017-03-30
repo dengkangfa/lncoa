@@ -43,8 +43,8 @@ export default {
                     toastr.success('You created a new tag success!')
 
                     this.$router.push('/roles')
-                }, (response) => {
-                    stack_error(response.data)
+                }, (error) => {
+                    stack_error(error.response.data)
                 })
         }
     }
