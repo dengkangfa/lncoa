@@ -307,4 +307,7 @@
     .preview-size {
         max-width: 500px;
     }
+    input[type="file"] {
+        display: block;
+    }
 </style>

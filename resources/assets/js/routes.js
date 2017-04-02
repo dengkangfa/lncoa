@@ -97,20 +97,35 @@ export default [
                 ]
             },
             {
-                path: 'sites',
+                path: 'types',
                 component: Parent,
                 children: [
                     {
                         path: '/',
-                        component: require('./views/site/Site.vue'),
+                        component: require('./views/type/Type.vue'),
                         meta: { requiresAuth: true }
                     },
                     {
                         path: 'create',
-                        component: require('./views/site/Create.vue'),
+                        component: require('./views/type/Create.vue'),
                         meta: { requiresAuth: true}
+                    },
+                    {
+                        path: ':id/edit',
+                        component: require('./views/type/Edit.vue'),
+                        meta: { requiresAuth: true }
                     }
                 ]
+            },
+            {
+                path: 'applicat',
+                component: require('./views/Applicat.vue'),
+                meta: { requiresAuth: true}
+            },
+            {
+                path:'applicat-audit',
+                component: require('./views/Applicat-audit.vue'),
+                meta: { requiresAuth: true}
             },
             {
                 path: 'files',

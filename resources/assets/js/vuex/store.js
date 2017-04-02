@@ -6,12 +6,20 @@ import mutations from './mutations';
 Vue.use(Vuex);
 
 const state = {
+    //右侧导航状态
     sidebar: {
         opened: false
     },
+    //登录状态
     isLogin: false,
+    //用户信息
     user: {},
-    access_token: ''
+    //用户令牌
+    access_token: '',
+    //所有角色信息
+    roles: [],
+    //场地信息
+    types: [],
 };
 
 export default new Vuex.Store({

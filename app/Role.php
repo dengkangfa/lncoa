@@ -17,11 +17,17 @@ class Role extends EntrustRole
         'description'
     ];
 
-    protected $hidden = [
-        'pivot'
-    ];
+    // protected $hidden = [
+    //     'pivot'
+    // ];
 
-    public function menus() {
+    public function menus()
+    {
         return $this->belongsToMany('App\Menu')->withTimestamps();
+    }
+
+    public function types()
+    {
+        return $this->belogsToMany('App\Type')->withTimestamps();
     }
 }

@@ -130,7 +130,7 @@ export default {
       'edit_user': '修改用户',
       'back': '返回',
       'nickname': '昵称',
-      'website': '网站地址',
+      'webtype': '网站地址',
       'create_article': '创建文章',
       'edit_article': '修改文章',
       'create_discussion': '创建讨论',
@@ -154,10 +154,17 @@ export default {
       'edit_permission': '修改权限',
       'create_permission': '创建权限',
       'set_role': '设置角色',
-      'create_site': '新建场地',
+      'create_type': '新建类型',
       'modify_avatar': '修改头像',
       'crop_avatar': '裁剪头像',
       'mobile': '联系方式',
+      'type_name': '类型名称',
+      'approver': '审核人',
+      'approver_select': '请选择审核人',
+      'add_approver': '新增审核人',
+      'submit': '提交',
+      'reset': '重置',
+      'delete': '删除'
     },
     page: {
       users: '用户列表',
@@ -190,7 +197,8 @@ export default {
       role: '角色',
       permission: '权限',
       search: '搜索',
-      export: '导出'
+      export: '导出',
+      applicat: '申请中心'
     },
     sidebar: {
       dashboard: '面板',
@@ -202,7 +210,9 @@ export default {
       visitor: '访问列表',
       system: '系统配置',
       system_manage: '系统管理',
-      site: '场地管理'
+      type: '类型管理',
+      applicat: '申请中心',
+      applicat_audit: '申请审核'
     },
     table: {
       id: 'ID',
@@ -240,8 +250,10 @@ export default {
       mobile: '联系方式'
     },
     notification: {
-        update_profile: '更新资料成功！',
-        update_password: '密码重置成功！',
+        update_profile: '更新资料成功!',
+        update_password: '密码重置成功!',
+        create_type: '新增类型成功!',
+        type_sert: '类型已重新排序!'
     }
   }
 };

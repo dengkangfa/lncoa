@@ -41,5 +41,11 @@ Route::group([
     Route::post('file/delete', 'UploadController@deleteFile');
 
     Route::resource('permission', 'PermissionController', ['except' => ['create', 'show']]);
+
+    Route::put('type/sorts', 'TypeController@updateSorts');
+    Route::resource('type', 'TypeController');
+
     Route::get('system', 'SystemController@getSystemInfo');
 });
+
+Route::get('mechanism', 'MechanismController@index');

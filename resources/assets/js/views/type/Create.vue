@@ -98,7 +98,7 @@
            let vm = this;
            axios.post(server.api.type, this.type).then( response => {
                toastr.success(vm.$t('el.notification.create_type'))
-               vm.SET_typeS(response.data)
+               vm.SET_TYPES(response.data)
                vm.$router.push('/types')
            }, error => {
                 stack_error(error.response.data);

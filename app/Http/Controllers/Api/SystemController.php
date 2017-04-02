@@ -9,7 +9,7 @@ class SystemController extends ApiController
 {
     /**
      * Get the system info.
-     * 
+     *
      * @return mixed
      */
     public function getSystemInfo()

@@ -83,16 +83,40 @@ class MenusTableSeeder extends Seeder
         $systemManage = App\Menu::create($systemManage);
 
         //场地管理
-        $site = [
-            'title' => 'site',
-            'description' => '场地管理',
+        $type = [
+            'title' => 'type',
+            'description' => '类型管理',
             'icon' => 'ion-clipboard',
             'parent_id' => $systemManage->id,
-            'uri' => '/sites',
+            'uri' => '/types',
             'created_at' => $date_time,
             'updated_at' => $date_time,
         ];
-        $site = App\Menu::create($site);
+        $type = App\Menu::create($type);
+
+        //申请中心
+        $applicat = [
+            'title' => 'applicat',
+            'description' => '申请中心',
+            'icon' => 'ion-ios-compose',
+            'parent_id' => $systemManage->id,
+            'uri' => '/applicat',
+            'created_at' => $date_time,
+            'updated_at' => $date_time,
+        ];
+        $applicat = App\Menu::create($applicat);
+
+        //场地管理
+        $applicat_audit = [
+            'title' => 'applicat_audit',
+            'description' => '申请审核',
+            'icon' => 'ion-ios-barcode',
+            'parent_id' => $systemManage->id,
+            'uri' => '/applicat-audit',
+            'created_at' => $date_time,
+            'updated_at' => $date_time,
+        ];
+        $applicat_audit = App\Menu::create($applicat);
 
         //文件管理
         $file = [

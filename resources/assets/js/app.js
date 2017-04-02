@@ -33,8 +33,6 @@ Object.keys(locales).forEach(function (lang){
 //消息提示框对象
 window.toastr = require('toastr/build/toastr.min.js');
 
-require('Nestable/jquery.nestable.js');
-
 window.toastr.options = {
     positionClass: "toast-bottom-right",
     showDuration: "300",
@@ -69,6 +67,8 @@ Vue.component(
 
 Vue.component('avatar', require('./components/AvatarUpload.vue'));
 
+Vue.component('type-item', require('./components/TypeItem.vue'));
+
 
 const router = new VueRouter({
     mode: 'history',
@@ -89,6 +89,13 @@ router.beforeEach ((to, from, next) => {
               axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.access_token;
               axios.get(server.api.user + '?include=roles').then((response) => {
                   store.commit('SET_USER', response.data.data);
+                    console.log(store.state.user);
+              },(response) => {
+                  return next('/login');
+              });
+              axios.get(server.api.type + "?structure=tree").then((response) => {
+                  store.commit('SET_TYPES', response.data);
+                  console.log(store.state.types);
               },(response) => {
                   return next('/login');
               });

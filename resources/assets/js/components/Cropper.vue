@@ -54,7 +54,7 @@ export default {
       this.cropper.replace(this.image.url)
     },
     createCropper() {
-      var image = document.getElementById('cropImage');
+      let image = document.getElementById('cropImage');
       this.cropper = new Cropper(image, {
         aspectRatio: 1,
         autoCropArea: 1,

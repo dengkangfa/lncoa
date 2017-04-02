@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddPidToPermissionsTable extends Migration
+class CreateMechanismsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddPidToPermissionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('permissions', function (Blueprint $table) {
-            $table->integer('pid')->unsigned()->nullable();
+        Schema::create('mechanisms', function (Blueprint $table) {
+            $table->increments('id')->unsigned();
+            $table->string('name')->max(50)->unique();
         });
     }
 
@@ -25,8 +26,6 @@ class AddPidToPermissionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('permissions', function (Blueprint $table) {
-            $table->dropColumn('pid');
-        });
+        Schema::dropIfExists('mechanisms');
     }
 }

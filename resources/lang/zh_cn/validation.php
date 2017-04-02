@@ -128,7 +128,8 @@ return [
         'meta_description' => '主要描述',
         'link'         => '链接',
         'tags'         => '标签',
-        'display_name' => '显示名称'
+        'display_name' => '显示名称',
+        'approver'     => '审核人'
     ],
 
 ];

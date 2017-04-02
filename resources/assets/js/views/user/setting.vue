@@ -41,7 +41,7 @@ export default {
                 toastr.success(this.$t( 'el.notification.update_password' ));
                 this.$router.push('/');
             }, error => {
-                stack_error(error)
+                stack_error(error.response.data)
             })
         }
     }

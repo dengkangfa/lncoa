@@ -98,4 +98,7 @@
       transition: transform .6s ease-in,-webkit-transform .6s ease-in;
       margin-bottom: 20px;
   }
+  input[type="file"] {
+      display: block;
+  }
 </style>

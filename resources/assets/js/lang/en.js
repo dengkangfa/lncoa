@@ -154,10 +154,17 @@ export default {
       'edit_permission': 'Edit Permission',
       'create_permission': 'Creeate Permission',
       'set_role': 'Set Role',
-      'create_site': 'Create Site',
+      'create_type': 'Create Type',
       'modify_avatar': 'Modify Acatar',
       'crop_avatar': 'Crop Acatar',
       'mobile': 'Mobile',
+      'type_name': 'Type Name',
+      'approver': 'Approver',
+      'approver_select': 'Please select the approver',
+      'add_approver': 'Add approver',
+      'submit': 'Submit',
+      'reset': 'Reset',
+      'delete': 'Delete'
     },
     page: {
       users: 'Users',
@@ -190,7 +197,8 @@ export default {
       role: 'Role',
       permission: 'Permission',
       search: 'Search',
-      export: 'Export'
+      export: 'Export',
+      applicat: 'Applicat'
     },
     sidebar: {
       dashboard: 'Dashboard',
@@ -208,7 +216,9 @@ export default {
       visitor: 'Visitors',
       system: 'Systems',
       system_manage: 'System Manage',
-      site: 'Site Manage'
+      type: 'Type Manage',
+      applicat: 'Applicat',
+      applicat_audit: 'Applicat Audit'
     },
     table: {
       id: 'ID',
@@ -248,6 +258,8 @@ export default {
     notification: {
         update_profile: 'Update data is successful !',
         update_password: 'Password reset successful !',
+        create_type: 'Added type success !',
+        type_sert: 'The type has been reordered !'
     }
   }
 };
