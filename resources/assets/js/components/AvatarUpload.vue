@@ -8,7 +8,7 @@
 
     <modal :show="dialogVisible" @cancel="dialogVisible = false">
         <div slot="title">{{ $t('el.form.crop_avatar') }}</div>
-        <cropper :image="cropImage" @canceled="dialogVisible = false" @succeed="succeed"></cropper>
+        <cropper :image="cropImage" @canceled="dialogVisible = false"  @succeed="succeed"></cropper>
     </modal>
   </div>
 </template>

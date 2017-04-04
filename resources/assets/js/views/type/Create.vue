@@ -35,17 +35,28 @@
                   :label="$t('el.form.approver') + index"
                   :key="approver.key"
                   :prop="'approvers.' + index + '.id'"
+                  class="form-inline"
                 >
                   <!-- <el-input v-model="approver.value" style="width: 80%; margin-right: 10px"></el-input> -->
-                  <el-select v-model="approver.id" filterable :placeholder="$t('el.form.approver_select')" @change="change">
+                  <!-- <el-select v-model="approver.id" multiple  style="padding-left: 0" filterable :placeholder="$t('el.form.approver_select')" @change="change">
                     <el-option
                       v-for="item in roles"
                       :label="item.display_name"
                       :value="item.id"
                       :disabled="item.disabled">
                     </el-option>
-                  </el-select>
-                  <el-button @click.prevent="removeApprover(approver)">{{ $t('el.form.delete') }}</el-button>
+                  </el-select> -->
+                    <select class=" form-control">
+                        <option
+                          v-for="item in roles"
+                          :label="item.display_name"
+                          :value="item.id"
+                          :disabled="item.disabled"
+                          >
+                          {{ item.display_name }}
+                        </option>
+                    </select>
+                    <el-button  @click.prevent="removeApprover(approver)">{{ $t('el.form.delete') }}</el-button>
                 </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="submitForm('type')">{{ $t('el.form.submit') }}</el-button>
@@ -59,8 +70,8 @@
 </template>
 
 <script>
-  import { stack_error } from '../../config/helper.js'
   import server from '../../config/api';
+  import { stack_error } from '../../config/helper.js'
   import { mapState, mapMutations } from 'vuex'
 
   export default {

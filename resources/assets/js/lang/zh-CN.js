@@ -164,7 +164,9 @@ export default {
       'add_approver': '新增审核人',
       'submit': '提交',
       'reset': '重置',
-      'delete': '删除'
+      'delete': '删除',
+      'visible_tree': '可见菜单',
+      'set_tree': '设置可见菜单'
     },
     page: {
       users: '用户列表',

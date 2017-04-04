@@ -94,4 +94,11 @@ export default {
       margin-right: 40px;
     }
   }
+
+  @media (max-width: 768px){
+    .footer button{
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
 </style>

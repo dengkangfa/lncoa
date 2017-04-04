@@ -184,4 +184,9 @@ export default {
     .btn-outline {
         color: #fff;
     }
+    @media (max-width: 768px){
+      .modal-dialog {
+        width: 70%;
+      }
+    }
 </style>

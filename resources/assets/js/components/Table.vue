@@ -74,9 +74,12 @@
                           <span>权限</span>
                         </el-dialog>
 
-                        <el-dialog title="可见菜单" v-model="treeVisible" size="tiny">
+                        <!-- <el-dialog title="可见菜单" v-model="treeVisible" size="tiny"> -->
+                        <modal :show="treeVisible" @cancel="treeVisible = false" :full="true">
+                          <div slot="title">{{ $t('el.form.visible_tree') }}</div>
                           <el-tree :data="menus" :props="defaultProps" :default-expand-all="true"></el-tree>
-                        </el-dialog>
+                        </modal>
+                        <!-- </el-dialog> -->
                     </template>
                 </tbody>
                 <tfoot>
@@ -87,15 +90,28 @@
             <!-- <table-pagination ref="pagination" v-on:loadPage="loadPage" v-if="showPaginate && items.length > 0"></table-pagination> -->
         </div>
         <nav class="text-center">
-          <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-sizes="[10, 20, 50, 100]"
-          :page-size="pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total" v-if="items.length > 0">
-        </el-pagination>
+            <div v-if="items.length < 1"></div>
+            <template v-else>
+                <el-pagination
+                v-if="!isPhone"
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="currentPage"
+                :page-sizes="[10, 20, 50, 100]"
+                :page-size="pageSize"
+                :layout="'total, sizes, prev, pager, next, jumper'"
+                :total="total">
+              </el-pagination>
+
+              <el-pagination
+              v-else
+              :small="true"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage"
+              :layout="'prev, pager, next'"
+              :total="total">
+            </el-pagination>
+          </template>
       </nav>
     </div>
 </template>
@@ -103,6 +119,8 @@
 <script>
     import CustomAction from './CustomAction.vue'
     import TablePagination from './TablePagination.vue'
+    import Modal from '../components/Modal'
+    import { mapState } from 'vuex'
 
     export default{
         props: {
@@ -156,7 +174,13 @@
         },
         components: {
             TablePagination,
-            CustomAction
+            CustomAction,
+            Modal,
+        },
+        computed: {
+            ...mapState([
+                'isPhone'
+            ])
         },
         data() {
             return{

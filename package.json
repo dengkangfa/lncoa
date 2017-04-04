@@ -26,6 +26,7 @@
   "dependencies": {
     "Nestable": "29th/Nestable",
     "cropperjs": "^1.0.0-beta.2",
-    "element-ui": "^1.2.1"
+    "element-ui": "^1.2.1",
+    "select2": "select2/select2"
   }
 }

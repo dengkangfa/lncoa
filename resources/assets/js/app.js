@@ -86,6 +86,7 @@ router.beforeEach ((to, from, next) => {
           if (localStorage.access_token) {
               store.commit('SET_ACCESS_TOKEN', localStorage.access_token);
               store.commit('LOGIN');
+              store.commit('JUDGE_PHONE');
               axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.access_token;
               axios.get(server.api.user + '?include=roles').then((response) => {
                   store.commit('SET_USER', response.data.data);

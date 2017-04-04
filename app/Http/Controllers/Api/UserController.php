@@ -78,7 +78,6 @@ class UserController extends ApiController
         ]);
 
         $this->user->store($data);
-        $this->user->store($request->all());
 
         return $this->noContent();
     }

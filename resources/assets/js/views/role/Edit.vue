@@ -26,8 +26,7 @@
                     </el-checkbox-group>
 
                     <el-button type="text" @click="openTree" >设置可见菜单</el-button>
-
-                    <el-dialog title="可见菜单" v-model="treeVisible" size="tiny">
+                    <el-dialog title="可见菜单" v-model="treeVisible" :size="isPhone ? 'full' : 'tiny'">
                       <el-tree
                       :data="tree"
                       show-checkbox
@@ -41,7 +40,6 @@
                       <el-button type="primary" @click="treeVisible = false">{{ $t('el.form.ok') }}</el-button>
                     </div>
                     </el-dialog>
-
                     <div class="form-group">
                         <button type="submit" class="btn btn-info">{{ $t('el.form.edit') }}</button>
                     </div>
@@ -52,141 +50,160 @@
 </template>
 
 <script>
-const cityOptions = ['上海', '北京', '广州', '深圳'];
-export default {
-  data() {
-      return {
-          role: {},
-          menus: [],
-          menusId: [],
-          oldCheckList: {},
-          treeVisible: false,
-          defaultProps: {
-             children: 'items',
-             label: 'title'
-          },
-          checkAll: true,
-           checkedCities: ['上海', '北京'],
-           cities: cityOptions,
-           isIndeterminate: true
-      }
-  },
-  created() {
-      let vm = this;
-      axios.all([this.getRole(), this.getMenus()])
-        .then(axios.spread(function (role,menus){
-            vm.role = role.data.data;
-            vm.setMenusId();
-            vm.menus = menus.data.data;
-        }));
-  },
-  methods: {
-      getRole(){
-          return axios.get('/api/role/' + this.$route.params.id + '/edit'+'?include=menus');
-      },
-      getMenus(){
-          return axios.get('/api/menus');
-      },
-      edit() {
-          this.updateRoleMenuValue();
-          axios.put('/api/role/' + this.$route.params.id, this.role).then((response) => {
-                  toastr.success('You updated a new account information!')
-
-                  this.$router.push('/roles')
-              })
-      },
-      setMenusId() {
-        //当前用户可见菜单
-        console.log(this.role);
-          let menus = this.role['menus'].data,vm = this;
-          menus.forEach(function(value, index ,array){
-              if(value['uri'] != ''){
-                vm.menusId.push(value['id']);
-              }
-          })
-      },
-      handleCheckAllChange(event) {
-      this.checkedCities = event.target.checked ? cityOptions : [];
-      this.isIndeterminate = false;
-    },
-    handleCheckedCitiesChange(value) {
-      console.log(value);
-      let checkedCount = value.length;
-      this.checkAll = checkedCount === this.cities.length;
-      this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
-    },
-    updateRoleMenuValue() {
-      console.log(this.$refs.tree.getCheckedNodes());
-        //如果可见菜单未做修改，则将role对象的menus字段设为null
-        if(typeof this.$refs.tree == 'undefined'){
-            this.role['menus'] = null;
-        }else{
-            let temp = [], items = this.$refs.tree.getCheckedNodes();
-            for (var i = 0; i < items.length; i++) {
-              temp.push(items[i].id);
-              if(items[i].parent_id != null) {
-                  temp.push(items[i].parent_id);
-              }
-            }
-            let a = {}, j=0;
-            for(var i = 0; i < temp.length; i++){
-              if(typeof a[temp[i]] == "undefined")
-                  a[temp[i]] = 1;
-            }
-            temp.splice(0,temp.length);
-
-            for(let i in a)
-              temp.push(i);
-            temp.splice(-1,1)
-            this.role['menus'] = temp;
+  import Modal from '../../components/Modal'
+  import { mapState } from 'vuex'
+  const cityOptions = ['上海', '北京', '广州', '深圳'];
+  export default {
+    data() {
+        return {
+            role: {},
+            menus: [],
+            menusId: [],
+            oldCheckList: {},
+            treeVisible: false,
+            defaultProps: {
+               children: 'items',
+               label: 'title'
+            },
+            checkAll: true,
+             checkedCities: ['上海', '北京'],
+             cities: cityOptions,
+             isIndeterminate: true
         }
     },
-    deepCopy(source) {
-      var result={};
-       for (var key in source) {
-            result[key] = typeof source[key]==='object'? this.deepCopy(source[key]): source[key];
-         }
-         return result;
+    created() {
+        let vm = this;
+        axios.all([this.getRole(), this.getMenus()])
+          .then(axios.spread(function (role,menus){
+              vm.role = role.data.data;
+              vm.setMenusId();
+              vm.menus = menus.data.data;
+          }));
     },
-    openTree() {
-      console.log(2);
-        this.oldCheckList = this.menus;
-        console.log(this.oldCheckList);
-        this.treeVisible = true;
+    components: {
+        Modal,
     },
-    cancel() {
-      console.log(1);
-        //弹出框取消事件函数，将其拥有的角色数据回调到打开弹出框前。
-        this.menus = this.oldCheckList;
-        console.log(this.menus);
-        this.treeVisible = false;
-    },
-  },
-  computed: {
-      tree() {
-          //将一维数组的菜单转换成为二维(目前项目只考虑二级)菜单树
-          let temp = [],menus = this.deepCopy(this.menus);
-          for(let i in menus){
-              temp[menus[i]['id']] = menus[i];
-              temp[menus[i]['id']]['title'] = this.$t( 'el.sidebar.' + temp[menus[i]['id']]['title'] );
-              temp[menus[i]['id']]['items'] = [];
-              if(typeof menus[i]['parent_id'] != 'object') {
-                  temp[menus[i]['parent_id']]['items'].push(menus[i]);
-              }
-          }
-          temp.forEach(function(value, index, array){
+    computed: {
+        tree() {
+            //将一维数组的菜单转换成为二维(目前项目只考虑二级)菜单树
+            let temp = [],menus = this.deepCopy(this.menus);
+            for(let i in menus){
+                temp[menus[i]['id']] = menus[i];
+                temp[menus[i]['id']]['title'] = this.$t( 'el.sidebar.' + temp[menus[i]['id']]['title'] );
+                temp[menus[i]['id']]['items'] = [];
+                if(typeof menus[i]['parent_id'] != 'object') {
+                    temp[menus[i]['parent_id']]['items'].push(menus[i]);
+                }
+            }
+            temp.forEach(function(value, index, array){
 
-              if(typeof value['parent_id'] != 'object') {
-                delete array[index]
+                if(typeof value['parent_id'] != 'object') {
+                  delete array[index]
+                }
+            })
+            let tree = [];
+            for(let i in temp) {
+                tree.push(temp[i])
+            }
+            return tree;
+        },
+        ...mapState([
+            'isPhone'
+        ])
+    },
+    methods: {
+        getRole(){
+            return axios.get('/api/role/' + this.$route.params.id + '/edit'+'?include=menus');
+        },
+        getMenus(){
+            return axios.get('/api/menus');
+        },
+        edit() {
+            this.updateRoleMenuValue();
+            axios.put('/api/role/' + this.$route.params.id, this.role).then((response) => {
+                    toastr.success('You updated a new account information!')
+
+                    this.$router.push('/roles')
+                })
+        },
+        setMenusId() {
+          //当前用户可见菜单
+          console.log(this.role);
+            let menus = this.role['menus'].data,vm = this;
+            menus.forEach(function(value, index ,array){
+                if(value['uri'] != ''){
+                  vm.menusId.push(value['id']);
+                }
+            })
+        },
+        handleCheckAllChange(event) {
+        this.checkedCities = event.target.checked ? cityOptions : [];
+        this.isIndeterminate = false;
+      },
+      handleCheckedCitiesChange(value) {
+        console.log(value);
+        let checkedCount = value.length;
+        this.checkAll = checkedCount === this.cities.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+      },
+      updateRoleMenuValue() {
+        console.log(this.$refs.tree.getCheckedNodes());
+          //如果可见菜单未做修改，则将role对象的menus字段设为null
+          if(typeof this.$refs.tree == 'undefined'){
+              this.role['menus'] = null;
+          }else{
+              let temp = [], items = this.$refs.tree.getCheckedNodes();
+              for (var i = 0; i < items.length; i++) {
+                temp.push(items[i].id);
+                if(items[i].parent_id != null) {
+                    temp.push(items[i].parent_id);
+                }
               }
-          })
-          let tree = [];
-          for(let i in temp) {
-              tree.push(temp[i])
+              let a = {}, j=0;
+              for(var i = 0; i < temp.length; i++){
+                if(typeof a[temp[i]] == "undefined")
+                    a[temp[i]] = 1;
+              }
+              temp.splice(0,temp.length);
+
+              for(let i in a)
+                temp.push(i);
+              temp.splice(-1,1)
+              this.role['menus'] = temp;
           }
-          return tree;
+      },
+      deepCopy(source) {
+        //克隆对象
+        var result={};
+         for (var key in source) {
+              result[key] = typeof source[key]==='object'? this.deepCopy(source[key]): source[key];
+           }
+           return result;
+      },
+      openTree() {
+          //设置菜单面板打开时调用
+          this.oldCheckList = this.menus;
+          console.log(this.oldCheckList);
+          this.treeVisible = true;
+      },
+      cancel() {
+          //弹出框取消事件函数，将其拥有的角色数据回调到打开弹出框前。
+          this.menus = this.oldCheckList;
+          console.log(this.menus);
+          this.treeVisible = false;
+      },
+      confirm() {
+        console.log(this.tree);
+          this.treeVisible = false;
       },
 
+    },
   }
-}
 </script>
+<style media="screen">
+  @media (max-width: 768px){
+    .dialog {
+      width: 70%;
+    }
+  }
+</style>

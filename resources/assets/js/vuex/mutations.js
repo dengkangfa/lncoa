@@ -6,7 +6,9 @@ import {
     SET_USER,
     UPDATE_AVATAR,
     SET_TYPES,
-    SET_ROLES
+    SET_ROLES,
+    SET_EQUIPMENT,
+    JUDGE_PHONE
 } from './mutation-types'
 
 export default {
@@ -37,5 +39,17 @@ export default {
     },
     [SET_ROLES] (state, roles) {
       state.roles = roles;
+    },
+    [JUDGE_PHONE] (state) {
+      let userAgentInfo = window.navigator.userAgent.toLowerCase();
+      let agents = new Array("android", "iphone", "symbianos", "windows phone", "ipad", "ipod");
+      var flag = false;
+      for (var v = 0; v < agents.length; v++) {
+          if (userAgentInfo.indexOf(agents[v]) != -1) {
+              flag = true;
+              break;
+          }
+      }
+      state.isPhone = flag;
     }
 }

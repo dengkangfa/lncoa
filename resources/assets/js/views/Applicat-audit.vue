@@ -9,7 +9,7 @@
                 <el-row :gutter="20">
                     <el-col :span="6" v-for="card in cards">
                       <el-card :body-style="{ padding: '0px' }">
-                        <div style="padding: 25px;text-align: center">
+                        <div style="text-align: center">
                           <span>{{card.number}}</span>
                           <div class="bottom clearfix">
                               {{card.content}}
@@ -100,45 +100,60 @@
                 <span>申请详情</span>
             </div> -->
             <div class="row" style="margin:0px">
-            <div class="col-md-9">
-              <el-row>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <!-- <el-row class="row-eq-height">
+                <el-col :span="4"><div class="grid-content bg-purple">申请人</div></el-col>
                 <el-col :span="6"><div class="grid-content bg-purple">申请机构</div></el-col>
-                <el-col :span="6"><div class="grid-content bg-purple-light">软件园协会</div></el-col>
-                <el-col :span="6"><div class="grid-content bg-purple">申请类型</div></el-col>
-                <el-col :span="6"><div class="grid-content bg-purple-light">励能公共厨房</div></el-col>
+                <el-col :span="4"><div class="grid-content bg-purple">负责人</div></el-col>
+                <el-col :span="5"><div class="grid-content bg-purple">申请类型</div></el-col>
+                <el-col :span="5"><div class="grid-content bg-purple">联系方式</div></el-col>
               </el-row>
-              <el-row>
-                <el-col :span="6"><div class="grid-content bg-purple">负责人</div></el-col>
-                <el-col :span="6"><div class="grid-content bg-purple-light">邓康发</div></el-col>
-                <el-col :span="6"><div class="grid-content bg-purple">联系方式</div></el-col>
-                <el-col :span="6"><div class="grid-content bg-purple-light">110</div></el-col>
+              <el-row class="row-eq-height">
+                <el-col :span="4"><div class="grid-content bg-purple-light">吴国钧</div></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple-light">软件园协会软件园协会软件园协会</div></el-col>
+                <el-col :span="4"><div class="grid-content bg-purple-light">邓康发</div></el-col>
+                <el-col :span="5"><div class="grid-content bg-purple-light">励能公共厨房</div></el-col>
+                <el-col :span="5"><div class="grid-content bg-purple-light">13590098323</div></el-col>
+              </el-row> -->
+              <el-row class="row-eq-height">
+                <div class="col-xs-2 grid-content bg-purple ">申请人</div>
+                <div class="col-xs-3 grid-content bg-purple ">申请机构</div>
+                <div class="col-xs-2 grid-content bg-purple ">负责人</div>
+                <div class="col-xs-3 grid-content bg-purple ">申请类型</div>
+                <div class="col-xs-2 grid-content bg-purple ">联系方式</div>
               </el-row>
-              <el-row>
-                <el-col :span="6"><div class="grid-content bg-purple">联合机构</div></el-col>
-                <el-col :span="18"><div class="grid-content bg-purple-light">
-                  We’re pleased to announce the open source release of Yarn, a collaboration between Facebook, Exponent, Google, and Tilde. With Yarn, engineers still have access to the npm registry, but can install packages more quickly and manage dependencies consistently across machines or in secure offline environments. Yarn enables engineers to move faster and with confidence when using shared code so they can focus on what matters — building new products and features. Read the full announcement on code.facebook.com.
-                </div>
-              </el-col>
-              <el-row>
-                <el-col :span="6"><div class="grid-content bg-purple">申请缘由</div></el-col>
-                <el-col :span="18"><div class="grid-content bg-purple-light">
-                  We’re pleased to announce the open source release of Yarn, a collaboration between Facebook, Exponent, Google, and Tilde. With Yarn, engineers still have access to the npm registry, but can install packages more quickly and manage dependencies consistently across machines or in secure offline environments. Yarn enables engineers to move faster and with confidence when using shared code so they can focus on what matters — building new products and features. Read the full announcement on code.facebook.com.
-                </div>
-              </el-col>
-              <el-row>
-                <el-col :span="6"><div class="grid-content bg-purple">物资申请</div></el-col>
-                <el-col :span="18"><div class="grid-content bg-purple-light">
-                  We’re pleased to announce the open source release of Yarn, a collaboration between Facebook, Exponent, Google, and Tilde. With Yarn, engineers still have access to the npm registry, but can install packages more quickly and manage dependencies consistently across machines or in secure offline environments. Yarn enables engineers to move faster and with confidence when using shared code so they can focus on what matters — building new products and features. Read the full announcement on code.facebook.com.
-                </div>
-              </el-col>
+              <el-row class="row-eq-height">
+                <div class="col-xs-2 grid-content bg-purple-light ">吴国钧</div>
+                <div class="col-xs-3 grid-content bg-purple-light ">软件园协会软件园协会软件园协会</div>
+                <div class="col-xs-2 grid-content bg-purple-light ">邓康发</div>
+                <div class="col-xs-3 grid-content bg-purple-light ">励能公共厨房</div>
+                <div class="col-xs-2 grid-content bg-purple-light ">13590098323</div>
               </el-row>
-              <el-row>
-                <el-col :span="6"><div class="grid-content bg-purple">时段(开始时间-结束时间)</div></el-col>
-                <el-col :span="18"><div class="grid-content bg-purple-light">不知道说什么</div></el-col>
-              </el-row>
-            </div>
-            <div class="col-md-3">
 
+              <el-row><div class="grid-content bg-purple">时段(开始时间-结束时间)</div></el-row>
+                <el-row><div class="grid-content bg-purple-light">2017-04-10 00:00:00 - 2017-04-10 00:00:00</div></el-row>
+
+              <el-row><div class="grid-content bg-purple">联合机构</div></el-row>
+                <el-row><div class="grid-content bg-purple-light">
+                  软件开发三班
+                </div>
+            </el-row>
+
+              <el-row><div class="grid-content bg-purple">申请缘由</div></el-row>
+                <el-row><div class="grid-content bg-purple-light">
+                  我想申请玩一下
+                </div>
+            </el-row>
+              <el-row><div class="grid-content bg-purple">物资申请</div></el-row>
+                <el-row><div class="grid-content bg-purple-light">
+                  苹果一个
+                </div>
+              </el-row>
+              <el-row><div class="grid-content bg-purple">意见</div></el-row>
+                <el-row><div class="grid-content bg-purple-light">
+                  We’re pleased to announce the open source release of Yarn, a collaboration between Facebook, Exponent, Google, and Tilde. With Yarn, engineers still have access to the npm registry, but can install packages more quickly and manage dependencies consistently across machines or in secure offline environments. Yarn enables engineers to move faster and with confidence when using shared code so they can focus on what matters — building new products and features. Read the full announcement on code.facebook.com.
+                </div>
+            </el-row>
             </div>
           </div>
             <div slot="footer" style="text-align:center">
@@ -254,10 +269,16 @@ export default {
     }
     .el-row {
       text-align: center;
+      line-height: 36px;
     margin-bottom: 20px;
     &:last-child {
       margin-bottom: 0;
     }
+  }
+  .row-eq-height {
+    /*display: flex;*/
+    word-break: break-all;
+    word-wrap: break-word;
   }
   .el-col {
     border-radius: 4px;

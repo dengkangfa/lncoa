@@ -20,6 +20,8 @@ const state = {
     roles: [],
     //场地信息
     types: [],
+    //是否是手机
+    isPhone: false,
 };
 
 export default new Vuex.Store({

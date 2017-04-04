@@ -164,7 +164,9 @@ export default {
       'add_approver': 'Add approver',
       'submit': 'Submit',
       'reset': 'Reset',
-      'delete': 'Delete'
+      'delete': 'Delete',
+      'visible_tree': 'Visible Tree',
+      'set_tree': 'Set Tree'
     },
     page: {
       users: 'Users',

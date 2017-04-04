@@ -60,6 +60,7 @@ export default {
     'permission': '权限名',
     'edit_permission': '修改权限',
     'create_permission': '创建权限',
-    'set_role': '设置角色'
+    'set_role': '设置角色',
+    'visible_tree': '可见菜单'
 
 }

@@ -129,7 +129,14 @@ return [
         'link'         => '链接',
         'tags'         => '标签',
         'display_name' => '显示名称',
-        'approver'     => '审核人'
+        'approver'     => '审核人',
+        'principal'    => '负责人',
+        'mobile'       => '联系方式',
+        'mechanism_id'    => '申请机构',
+        'type_id'      => '申请类型',
+        'startTime'   => '开始时间',
+        'endTime'     => '结束时间',
+        'reason'       => '申请缘由'
     ],
 
 ];

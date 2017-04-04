@@ -18,10 +18,10 @@
                     </div>
                     <div class="col-md-6">
                         <small class="pull-right" style="margin-top: 7px;">
-                            <button type="button" class="btn btn-success btn-md" @click="showFolder = true">
+                            <button type="button" class="btn btn-success btn-sm" @click="showFolder = true">
                                 <i class="ion-ios-plus"></i> {{ $t('el.table.new_folder') }}
                             </button>
-                            <button type="button" class="btn btn-primary btn-md" @click="showFile = true">
+                            <button type="button" class="btn btn-primary btn-sm" @click="showFile = true">
                                 <i class="ion-ios-filing-outline"></i> {{ $t('el.table.upload') }}
                             </button>
                         </small>

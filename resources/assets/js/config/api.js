@@ -9,10 +9,13 @@ let api = {
     menu: config.host + config.prefix + '/menu',
     // 获取所有的角色信息
     roles: config.host + config.prefix + '/role',
-
+    //类型
     type: config.host + config.prefix + '/type',
-
+    //结构
     mechanism: config.host + config.prefix + '/mechanism',
+    //申请
+    applicat: config.host + config.prefix + '/applicat',
+
 }
 
 let client = {

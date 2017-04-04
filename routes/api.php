@@ -45,6 +45,9 @@ Route::group([
     Route::put('type/sorts', 'TypeController@updateSorts');
     Route::resource('type', 'TypeController');
 
+    Route::post('applicat/file', 'ApplicatController@upload');
+    Route::resource('applicat', 'ApplicatController');
+
     Route::get('system', 'SystemController@getSystemInfo');
 });
 

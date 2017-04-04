@@ -60,6 +60,7 @@ export default {
     'permission': 'Permission Name',
     'edit_permission': 'Edit Permission',
     'create_permission': 'Creeate Permission',
-    'set_role': 'Set Role'
+    'set_role': 'Set Role',
+    'visible_tree': 'Visible Tree'
 
 }
