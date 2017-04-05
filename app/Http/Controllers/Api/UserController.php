@@ -26,8 +26,14 @@ class UserController extends ApiController
         $this->manager = $manager;
     }
 
-    public function me()
+    public function me(Request $request)
     {
+        if(isset($_GET['login'])) {
+            $login = [];
+            $login['ip'] = $request->getClientIp();
+            $login['create_at'] = time();
+            \Redis::lpush('loginlogs', serialize($login));
+        }
         return $this->respondWithItem(Auth::user(), new UserTransformer);
     }
 
@@ -186,5 +192,27 @@ class UserController extends ApiController
         }
         $this->user->changePassword(Auth::user(), $request->password);
     }
+
+    public function check(Request $request)
+    {
+        $validator = \Validator::make(
+          ["{$request->rule}" => $request->{$request->rule}],
+          ["{$request->rule}" => "required|unique:users|max:8"],
+          ['email.required' => '我们需要知道你的 e-mail 地址！',
+           'email.unique' => '邮件已被注册！']
+        );
+
+        if($validator->fails()) {
+            return response()->json([
+                    'success' => false,
+                    'errors'  => $validator->getMessageBag()->toArray()
+                ]);
+        }else{
+            return response()->json([
+                    'success' => true,
+                ]);
+        }
+    }
+
 
 }

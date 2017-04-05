@@ -12,6 +12,7 @@
         "laravel/passport": "^2.0",
         "league/fractal": "^0.14.0",
         "predis/predis": "^1.1",
+        "simplesoftwareio/simple-qrcode": "^1.5",
         "yzalis/identicon": "^1.1",
         "zizaco/entrust": "^1.7"
     },

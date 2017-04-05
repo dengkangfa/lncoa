@@ -9,7 +9,7 @@ export default [
         children: [
             {
                 path: '',
-                // component: require('./views/user/User.vue'),
+                component: require('./views/Index.vue'),
                 meta: { requiresAuth: true }
             },
             {
@@ -119,17 +119,27 @@ export default [
             },
             {
                 path: 'applicat',
-                component: require('./views/Applicat.vue'),
+                component: require('./views/applicat/Applicat.vue'),
+                meta: { requiresAuth: true}
+            },
+            {
+                path: 'applicat-manage',
+                component: require('./views/applicat/Applicat-manage.vue'),
                 meta: { requiresAuth: true}
             },
             {
                 path:'applicat-audit',
-                component: require('./views/Applicat-audit.vue'),
+                component: require('./views/applicat/Applicat-audit.vue'),
                 meta: { requiresAuth: true}
             },
             {
                 path: 'files',
                 component: require('./views/File.vue'),
+                meta: { requiresAuth: true }
+            },
+            {
+                path: 'log',
+                component: require('./views/Log.vue'),
                 meta: { requiresAuth: true }
             },
             {
@@ -146,6 +156,12 @@ export default [
         meta: { requiresAuth: false }
     },
     {
+        path: '/register',
+        beforeEnter: checkLogin,
+        component: require('./views/Register.vue'),
+        meta: { requiresAuth: false }
+    },
+    {
         path: '/500',
         component: require('./views/500.vue'),
         meta: { requiresAuth: false }
@@ -155,10 +171,10 @@ export default [
         component: require('./views/404.vue'),
         meta: { requiresAuth: false }
     },
-    // {
-    //   path: '*',
-    //   redirect: '/404'
-    // }
+    {
+      path: '*',
+      redirect: '/404'
+    }
 ]
 
 function checkLogin (to, from, next) {

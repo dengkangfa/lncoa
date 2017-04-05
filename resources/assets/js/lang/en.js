@@ -200,7 +200,10 @@ export default {
       permission: 'Permission',
       search: 'Search',
       export: 'Export',
-      applicat: 'Applicat'
+      applicat: 'Applicat',
+      all_user: 'All User',
+      all_applicat: 'All Applicat',
+      new_file: 'New File'
     },
     sidebar: {
       dashboard: 'Dashboard',
@@ -220,7 +223,9 @@ export default {
       system_manage: 'System Manage',
       type: 'Type Manage',
       applicat: 'Applicat',
-      applicat_audit: 'Applicat Audit'
+      applicat_audit: 'Applicat Audit',
+      applicat_manage: 'Applicat Manage',
+      log: 'Log',
     },
     table: {
       id: 'ID',

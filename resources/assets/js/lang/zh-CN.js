@@ -200,7 +200,10 @@ export default {
       permission: '权限',
       search: '搜索',
       export: '导出',
-      applicat: '申请中心'
+      applicat: '申请中心',
+      all_user: '总用户数',
+      all_applicat: '总申请数',
+      new_file: '新策划文件'
     },
     sidebar: {
       dashboard: '面板',
@@ -214,7 +217,9 @@ export default {
       system_manage: '系统管理',
       type: '类型管理',
       applicat: '申请中心',
-      applicat_audit: '申请审核'
+      applicat_audit: '申请审核',
+      applicat_manage: '申请管理',
+      log: '日志',
     },
     table: {
       id: 'ID',

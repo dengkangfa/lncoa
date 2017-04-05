@@ -16,6 +16,7 @@ Route::group([
     'middleware' => ['auth:api'],
     'namespace' => 'Api',
 ], function () {
+    Route::get('statistics', 'IndexController@statistics');
     // Route::resource('user', 'UserController', ['except' => ['create', 'show']]);
     Route::get('/user', 'UserController@me');
     Route::post('/user', 'UserController@store');
@@ -49,6 +50,13 @@ Route::group([
     Route::resource('applicat', 'ApplicatController');
 
     Route::get('system', 'SystemController@getSystemInfo');
+
+    Route::get('errorlog', 'LogController@errorLog');
 });
 
-Route::get('mechanism', 'MechanismController@index');
+Route::group([
+    'namespace' => 'Api',
+], function () {
+    Route::get('user/{rule}/check', 'UserController@check');
+    Route::get('mechanism', 'MechanismController@index');
+});

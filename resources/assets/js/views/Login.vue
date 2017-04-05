@@ -35,7 +35,8 @@
                                   <!-- <a href="../auditingSystem2/Application/Home/View/index/index.html" class="btn btn-primary btn-block">Sign in</a> -->
                                   <button type="submit" class="btn btn-primary btn-block" name="button">Sign in</button>
                                   <hr />
-                                  <a href="pages-sign-up.html" class="btn btn-default btn-block">Not a member? Sign Up</a>
+                                  <!-- <a href="pages-sign-up.html" class="btn btn-default btn-block"></a> -->
+                                  <router-link to="/register" class="btn btn-default btn-block" exact>Not a member? Sign Up</router-link>
                               </div>
                           </div>
                       </form>

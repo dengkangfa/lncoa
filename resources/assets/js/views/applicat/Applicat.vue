@@ -124,8 +124,8 @@
 
 <script>
   import { mapState } from 'vuex'
-  import server from '../config/api'
-  import { stack_error } from '../config/helper.js'
+  import server from '../../config/api'
+  import { stack_error } from '../../config/helper.js'
 
   export default {
     data() {
