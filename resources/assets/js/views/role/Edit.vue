@@ -19,11 +19,14 @@
                         <textarea class="form-control" name="description" id="description" :placeholder="$t('el.form.description')" v-model="role.description"></textarea>
                     </div>
 
-                    <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">用户管理</el-checkbox>
-                    <div style="margin: 15px 0;"></div>
-                    <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-                      <el-checkbox v-for="city in cities" :label="city">{{city}}</el-checkbox>
-                    </el-checkbox-group>
+                    <div class="form-group">
+                        <label for="permission">权限</label>
+                        <div id="permission">
+                          <el-checkbox-group v-model="permsId" @change="handleCheckedCitiesChange">
+                            <el-checkbox v-for="permission in permissions" :label="permission.id">{{permission.display_name}}</el-checkbox>
+                          </el-checkbox-group>
+                        </div>
+                    </div>
 
                     <el-button type="text" @click="openTree" >设置可见菜单</el-button>
                     <el-dialog title="可见菜单" v-model="treeVisible" :size="isPhone ? 'full' : 'tiny'">
@@ -58,7 +61,9 @@
         return {
             role: {},
             menus: [],
+            permissions: '',
             menusId: [],
+            permsId: [],
             oldCheckList: {},
             treeVisible: false,
             defaultProps: {
@@ -66,18 +71,20 @@
                label: 'title'
             },
             checkAll: true,
-             checkedCities: ['上海', '北京'],
+            //  checkedCities: ['上海', '北京'],
              cities: cityOptions,
              isIndeterminate: true
         }
     },
     created() {
         let vm = this;
-        axios.all([this.getRole(), this.getMenus()])
-          .then(axios.spread(function (role,menus){
+        axios.all([this.getRole(), this.getMenus(), this.getPermission()])
+          .then(axios.spread(function (role,menus,permissions){
               vm.role = role.data.data;
               vm.setMenusId();
+              vm.setPermsId();
               vm.menus = menus.data.data;
+              vm.permissions = permissions.data.data;
           }));
     },
     components: {
@@ -113,14 +120,20 @@
     },
     methods: {
         getRole(){
-            return axios.get('/api/role/' + this.$route.params.id + '/edit'+'?include=menus');
+            return axios.get('/api/role/' + this.$route.params.id + '/edit'+'?include=menus,permissions');
         },
         getMenus(){
             return axios.get('/api/menus');
         },
+        getPermission(){
+            return axios.get('/api/permission');
+        },
         edit() {
             this.updateRoleMenuValue();
+            this.role.permissions = this.permsId;
+            console.log(this.role);
             axios.put('/api/role/' + this.$route.params.id, this.role).then((response) => {
+              console.log(response);
                     toastr.success('You updated a new account information!')
 
                     this.$router.push('/roles')
@@ -130,16 +143,22 @@
           //当前用户可见菜单
           console.log(this.role);
             let menus = this.role['menus'].data,vm = this;
-            menus.forEach(function(value, index ,array){
+            menus.forEach(function(value, index, array){
                 if(value['uri'] != ''){
                   vm.menusId.push(value['id']);
                 }
             })
         },
-        handleCheckAllChange(event) {
-        this.checkedCities = event.target.checked ? cityOptions : [];
-        this.isIndeterminate = false;
-      },
+        setPermsId(){
+            let permissions = this.role['permissions'].data,vm = this;
+            permissions.forEach(function(value, index, array){
+                vm.permsId.push(value['id']);
+            })
+        },
+      //   handleCheckAllChange(event) {
+      //   this.checkedCities = event.target.checked ? cityOptions : [];
+      //   this.isIndeterminate = false;
+      // },
       handleCheckedCitiesChange(value) {
         console.log(value);
         let checkedCount = value.length;
@@ -147,14 +166,16 @@
         this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
       },
       updateRoleMenuValue() {
-        console.log(this.$refs.tree.getCheckedNodes());
           //如果可见菜单未做修改，则将role对象的menus字段设为null
           if(typeof this.$refs.tree == 'undefined'){
+            console.log(this.$refs.tree);
               this.role['menus'] = null;
           }else{
               let temp = [], items = this.$refs.tree.getCheckedNodes();
+              console.log(items);
               for (var i = 0; i < items.length; i++) {
                 temp.push(items[i].id);
+                console.log(temp);
                 if(items[i].parent_id != null) {
                     temp.push(items[i].parent_id);
                 }

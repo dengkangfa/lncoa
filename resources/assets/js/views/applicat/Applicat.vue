@@ -81,7 +81,7 @@
                     <el-switch on-text="有" off-text="无" v-model="form.unite"></el-switch>
                   </el-form-item>
                   <el-form-item label="机构名称" v-if="form.unite">
-                    <el-input v-model="form.agency" ></el-input>
+                    <el-input type="textarea" autosize v-model="form.agency" ></el-input>
                   </el-form-item>
 
                   <el-form-item label="申请缘由">
@@ -97,7 +97,7 @@
                     <el-upload
                       ref="upload"
                       class="upload-demo"
-                      action="api/applicat/file"
+                      action="/api/applicat/file"
                       accept="application/msword,application/msexcel,application/pdf"
                       :headers="headers"
                       :on-preview="handlePreview"
@@ -149,7 +149,8 @@
          types: [],
          props: {
              value: 'id',
-             label: 'name'
+             label: 'name',
+             disabled: 'disabled'
          },
          options:[{label:'软件开发三班',value:1},{label:'软件开发二班',value:2}],
        }
@@ -179,10 +180,10 @@
          this.form.startTime = this.formatDataTime(this.form.startTime);
          this.form.endTime = this.formatDataTime(this.form.endTime);
          axios.post(server.api.applicat, this.form).then( response => {
+           console.log(response);
             toastr.success('申请已提交,结果将发到您邮箱,请注意查看!');
-            this.$router.push('/')
+            // this.$router.push('/')
          }, error => {
-           console.log(error.response);
             stack_error(error.response.data)
          })
          console.log(this.form);
@@ -190,7 +191,7 @@
         handleRemove(file, fileList) {
           //删除文件
           let path = file.response.relative_url,vm = this;
-          axios.post('api/file/delete', { path: path.substring(path.indexOf("/")+1)})
+          axios.post('/api/file/delete', { path: path.substring(path.indexOf("/")+1)})
           .then( response => {
               vm.form.fileList = fileList;
           }, error => {

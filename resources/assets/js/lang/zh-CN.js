@@ -166,7 +166,9 @@ export default {
       'reset': '重置',
       'delete': '删除',
       'visible_tree': '可见菜单',
-      'set_tree': '设置可见菜单'
+      'set_tree': '设置可见菜单',
+      'edit_notice': '编辑站点通告',
+      'notice': '站点通告'
     },
     page: {
       users: '用户列表',
@@ -195,7 +197,7 @@ export default {
       version: '版本',
       extension: '扩展',
       driver: '驱动',
-      nothing: 'No Content',
+      nothing: '没有任何内容',
       role: '角色',
       permission: '权限',
       search: '搜索',
@@ -220,6 +222,8 @@ export default {
       applicat_audit: '申请审核',
       applicat_manage: '申请管理',
       log: '日志',
+      notice: '站点通告',
+      personal_file: '个人文件夹'
     },
     table: {
       id: 'ID',
@@ -260,6 +264,7 @@ export default {
         update_profile: '更新资料成功!',
         update_password: '密码重置成功!',
         create_type: '新增类型成功!',
+        update_type: '修改类型成功！',
         type_sert: '类型已重新排序!'
     }
   }

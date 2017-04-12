@@ -46,10 +46,6 @@ align-text@^0.1.1, align-text@^0.1.3:
     longest "^1.0.1"
     repeat-string "^1.5.2"
 
-almond@~0.3.1:
-  version "0.3.3"
-  resolved "http://registry.npm.taobao.org/almond/download/almond-0.3.3.tgz#a0e7c95ac7624d6417b4494b1e68bff693168a20"
-
 alphanum-sort@^1.0.1, alphanum-sort@^1.0.2:
   version "1.0.2"
   resolved "http://registry.npm.taobao.org/alphanum-sort/download/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
@@ -57,6 +53,10 @@ alphanum-sort@^1.0.1, alphanum-sort@^1.0.2:
 amdefine@>=0.0.4:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/amdefine/download/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
+
+animate.css@^3.5.2:
+  version "3.5.2"
+  resolved "http://registry.npm.taobao.org/animate.css/download/animate.css-3.5.2.tgz#91e668dc069a808e5e499514867b97aae0166c36"
 
 ansi-html@0.0.7:
   version "0.0.7"
@@ -851,6 +851,26 @@ charenc@~0.0.1:
   version "0.0.2"
   resolved "http://registry.npm.taobao.org/charenc/download/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
 
+chart.js@^2.5.0:
+  version "2.5.0"
+  resolved "http://registry.npm.taobao.org/chart.js/download/chart.js-2.5.0.tgz#fe6e751a893769f56e72bee5ad91207e1c592957"
+  dependencies:
+    chartjs-color "^2.0.0"
+    moment "^2.10.6"
+
+chartjs-color-string@^0.4.0:
+  version "0.4.0"
+  resolved "http://registry.npm.taobao.org/chartjs-color-string/download/chartjs-color-string-0.4.0.tgz#57748d4530ae28d8db0a5492182ba06dfdf2f468"
+  dependencies:
+    color-name "^1.0.0"
+
+chartjs-color@^2.0.0:
+  version "2.1.0"
+  resolved "http://registry.npm.taobao.org/chartjs-color/download/chartjs-color-2.1.0.tgz#9c39ac830ccd98996ae80c9f11086ff12c98a756"
+  dependencies:
+    chartjs-color-string "^0.4.0"
+    color-convert "^0.5.3"
+
 chokidar@^1.4.3, chokidar@^1.6.0:
   version "1.6.1"
   resolved "http://registry.npm.taobao.org/chokidar/download/chokidar-1.6.1.tgz#2f4447ab5e96e50fb3d789fd90d4c72e0e4c70c2"
@@ -931,6 +951,20 @@ coa@~1.0.1:
 code-point-at@^1.0.0:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/code-point-at/download/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
+
+codemirror-spell-checker@*:
+  version "1.1.2"
+  resolved "http://registry.npm.taobao.org/codemirror-spell-checker/download/codemirror-spell-checker-1.1.2.tgz#1c660f9089483ccb5113b9ba9ca19c3f4993371e"
+  dependencies:
+    typo-js "*"
+
+codemirror@*:
+  version "5.25.0"
+  resolved "http://registry.npm.taobao.org/codemirror/download/codemirror-5.25.0.tgz#78e06939c7bb41f65707b8aa9c5328111948b756"
+
+color-convert@^0.5.3:
+  version "0.5.3"
+  resolved "http://registry.npm.taobao.org/color-convert/download/color-convert-0.5.3.tgz#bdb6c69ce660fadffe0b0007cc447e1b9f7282bd"
 
 color-convert@^1.3.0:
   version "1.9.0"
@@ -1388,9 +1422,9 @@ electron-to-chromium@^1.2.3:
   version "1.2.3"
   resolved "http://registry.npm.taobao.org/electron-to-chromium/download/electron-to-chromium-1.2.3.tgz#4b4d04d237c301f72e2d15c2137b2b79f9f5ab76"
 
-element-ui@^1.2.1:
-  version "1.2.1"
-  resolved "http://registry.npm.taobao.org/element-ui/download/element-ui-1.2.1.tgz#02b93500c07d7596faa73985b1450226865a2928"
+element-ui@^1.2.7:
+  version "1.2.7"
+  resolved "http://registry.npm.taobao.org/element-ui/download/element-ui-1.2.7.tgz#8d7060d74c772a85262502b996f251498392b0b7"
   dependencies:
     async-validator "^1.6.6"
     babel-helper-vue-jsx-merge-props "^2.0.0"
@@ -2170,10 +2204,6 @@ jodid25519@^1.0.0:
   dependencies:
     jsbn "~0.1.0"
 
-jquery-mousewheel@~3.1.13:
-  version "3.1.13"
-  resolved "http://registry.npm.taobao.org/jquery-mousewheel/download/jquery-mousewheel-3.1.13.tgz#06f0335f16e353a695e7206bf50503cb523a6ee5"
-
 jquery@^3.1.0:
   version "3.1.1"
   resolved "http://registry.npm.taobao.org/jquery/download/jquery-3.1.1.tgz#347c1c21c7e004115e0a4da32cece041fad3c8a3"
@@ -2553,7 +2583,7 @@ marked-terminal@^1.6.2:
     lodash.assign "^4.2.0"
     node-emoji "^1.4.1"
 
-marked@^0.3.6:
+marked@*, marked@^0.3.6:
   version "0.3.6"
   resolved "http://registry.npm.taobao.org/marked/download/marked-0.3.6.tgz#b2c6c618fccece4ef86c4fc6cb8a7cbf5aeda8d7"
 
@@ -2669,6 +2699,10 @@ mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkd
   resolved "http://registry.npm.taobao.org/mkdirp/download/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
     minimist "0.0.8"
+
+moment@^2.10.6:
+  version "2.18.1"
+  resolved "http://registry.npm.taobao.org/moment/download/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
 ms@0.7.1:
   version "0.7.1"
@@ -3666,13 +3700,6 @@ select-hose@^2.0.0:
   version "2.0.0"
   resolved "http://registry.npm.taobao.org/select-hose/download/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
 
-select2@select2/select2:
-  version "4.0.3"
-  resolved "https://codeload.github.com/select2/select2/tar.gz/c155ca5b60c2769da333d3922f4a14f54e9e50e4"
-  dependencies:
-    almond "~0.3.1"
-    jquery-mousewheel "~3.1.13"
-
 "semver@2 || 3 || 4 || 5", "semver@2.x || 3.x || 4 || 5", semver@^5.1.0, semver@~5.3.0:
   version "5.3.0"
   resolved "http://registry.npm.taobao.org/semver/download/semver-5.3.0.tgz#9b2ce5d3de02d17c6012ad326aa6b4d0cf54f94f"
@@ -3759,6 +3786,14 @@ sigmund@^1.0.1:
 signal-exit@^3.0.0:
   version "3.0.2"
   resolved "http://registry.npm.taobao.org/signal-exit/download/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
+
+simplemde@^1.11.2:
+  version "1.11.2"
+  resolved "http://registry.npm.taobao.org/simplemde/download/simplemde-1.11.2.tgz#a23a35d978d2c40ef07dec008c92f070d8e080e3"
+  dependencies:
+    codemirror "*"
+    codemirror-spell-checker "*"
+    marked "*"
 
 slash@^1.0.0:
   version "1.0.0"
@@ -4080,6 +4115,10 @@ type-is@~1.6.14:
   dependencies:
     media-typer "0.3.0"
     mime-types "~2.1.13"
+
+typo-js@*:
+  version "1.0.3"
+  resolved "http://registry.npm.taobao.org/typo-js/download/typo-js-1.0.3.tgz#54d8ebc7949f1a7810908b6002c6841526c99d5a"
 
 uglify-js@^2.7.5:
   version "2.7.5"

@@ -1,7 +1,7 @@
 <template>
   <vue-form :title="$t('el.form.create_type')">
       <div slot="buttons">
-          <router-link to="/types" class="btn btn-default" exact>{{ $t('el.form.back') }}</router-link>
+          <router-link to="/system-types" class="btn btn-default" exact>{{ $t('el.form.back') }}</router-link>
       </div>
       <div slot="content">
           <div class="row">
@@ -38,15 +38,18 @@
                   class="form-inline"
                 >
                   <!-- <el-input v-model="approver.value" style="width: 80%; margin-right: 10px"></el-input> -->
-                  <!-- <el-select v-model="approver.id" multiple  style="padding-left: 0" filterable :placeholder="$t('el.form.approver_select')" @change="change">
+                  <el-select v-model="approver.id"  style="padding-left: 0" filterable :placeholder="$t('el.form.approver_select')" @change="change">
                     <el-option
                       v-for="item in roles"
                       :label="item.display_name"
                       :value="item.id"
                       :disabled="item.disabled">
                     </el-option>
-                  </el-select> -->
-                    <select class=" form-control">
+                  </el-select>
+                    <!-- <select class=" form-control" v-model="approver.value ? 0 : approver.value" :placeholder="$t('el.form.approver_select')">
+                        <option value=0>
+                          请选择审核人
+                        </option>
                         <option
                           v-for="item in roles"
                           :label="item.display_name"
@@ -55,7 +58,7 @@
                           >
                           {{ item.display_name }}
                         </option>
-                    </select>
+                    </select> -->
                     <el-button  @click.prevent="removeApprover(approver)">{{ $t('el.form.delete') }}</el-button>
                 </el-form-item>
                 <el-form-item>
@@ -105,9 +108,11 @@
       },
       methods: {
          submitForm(formName) {
+           console.log(this.type);
            //提交
            let vm = this;
            axios.post(server.api.type, this.type).then( response => {
+             console.log(response);
                toastr.success(vm.$t('el.notification.create_type'))
                vm.SET_TYPES(response.data)
                vm.$router.push('/types')

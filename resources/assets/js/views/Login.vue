@@ -10,7 +10,7 @@
                   </div>
                   <div class="panel-body">
                       <p>Login to access your account.</p>
-                      <form class="form-horizontal" v-on:submit.prevent="onLogin" method="post" role="form">
+                      <form class="form-horizontal" @submit.prevent="onLogin" method="post" role="form">
                           <div class="form-group email">
                               <div class="col-md-12">
                                   <input type="email" class="form-control" id="email" placeholder="Email" v-model="email" required autofocus>
@@ -76,7 +76,7 @@
                   'password' : vm.password,
                   'client_id': server.client.client_id,
                   'client_secret': server.client.client_secret
-              }).then((response) => {
+              }).then( response => {
                   vm.SET_ACCESS_TOKEN(response.data.access_token);
                   vm.LOGIN();
                   localStorage.access_token = vm.$store.state.access_token;
@@ -84,9 +84,10 @@
                       headers: {
                           'Authorization': 'Bearer ' + vm.$store.state.access_token
                       }
-                  }).then((response) => {
+                  }).then( response => {
                       vm.SET_USER(response.data.data);
-                      this.$router.go(-1);
+                      // this.$router.go(-1);
+                      this.$router.go('/');
                   })
               }, (response) => {
                 console.log(response.data);

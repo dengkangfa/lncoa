@@ -166,7 +166,9 @@ export default {
       'reset': 'Reset',
       'delete': 'Delete',
       'visible_tree': 'Visible Tree',
-      'set_tree': 'Set Tree'
+      'set_tree': 'Set Tree',
+      'edit_notice': 'Edit Notice',
+      'notice': 'Notice'
     },
     page: {
       users: 'Users',
@@ -226,6 +228,8 @@ export default {
       applicat_audit: 'Applicat Audit',
       applicat_manage: 'Applicat Manage',
       log: 'Log',
+      notice: 'Notice',
+      personal_file: 'Folder'
     },
     table: {
       id: 'ID',
@@ -265,7 +269,8 @@ export default {
     notification: {
         update_profile: 'Update data is successful !',
         update_password: 'Password reset successful !',
-        create_type: 'Added type success !',
+        create_type: 'Added type successful !',
+        update_type: 'Update Type successful',
         type_sert: 'The type has been reordered !'
     }
   }

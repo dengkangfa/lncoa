@@ -15,6 +15,7 @@
  // Auth::routes();
 //
 // Route::group(['middleware' => ['auth:api']], function () {
+Route::get('signup/confirm/{token}', 'UserController@confirmEmail')->name('confirm_email');
    Route::get('{path?}', 'HomeController@index')->where('path', '[\/\w\.-]*');
 // });
 // Route::group(['middleware' => ['auth:api']], function () {

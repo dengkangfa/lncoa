@@ -41,7 +41,7 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::post('/oauth/token', [
               'uses' => '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken',
-        ]);
+        ])->name('login');
     }
 
     /**

@@ -44,8 +44,17 @@
     </div>
     <div class="row">
         <div class="col-md-8">
-            <div class="box">
-
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">XXX</h3>
+                    <div class="actions pull-right">
+                        <i :class="is_chart ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" @click='is_chart = !is_chart'></i>
+                        <!-- <i class="el-icon-arrow-up"></i> -->
+                    </div>
+                </div>
+                <div class="box-body animated fadeInDown" style="mix-height:160px" :class="is_chart ? '' : 'hide'">
+                  <chart :width="600" :height="300" :data="data" type="line"></chart>
+                </div>
             </div>
         </div>
         <div class="col-md-4">
@@ -76,27 +85,78 @@
             </div>
         </div>
     </div>
+    <div class="row">
+      <div class="col-md-8"  v-if="is_notice" style="max-height:80px">
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                  <h3 class="panel-title">站点通告</h3>
+                  <div class="actions pull-right">
+                      <i :class="is_chart ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+                      <!-- <i class="el-icon-arrow-up"></i> -->
+                  </div>
+              </div>
+              <div id="notice" class="box-body animated fadeInDown" style="mix-height:160px">
+
+              </div>
+          </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-export default {
-   data () {
-        return {
-            statistics: {}
-        }
-    },
-    mounted() {
-        axios.get('/api/statistics')
-            .then((response) => {
-              console.log(response);
-                this.statistics = response.data
-            })
-    }
-}
+  import Chart from '../components/Chartjs.vue'
+  export default {
+     data () {
+          return {
+              is_chart: true,
+              is_notice: true,
+              statistics: {},
+              data: {
+                  labels : ["January","February","March","April","May","June","July"],
+                  datasets : [
+                          		{
+                                label: "login history",
+                          			fillColor : "rgba(220,220,220,0.5)",
+                          			strokeColor : "rgba(220,220,220,1)",
+                          			pointColor : "rgba(220,220,220,1)",
+                          			pointStrokeColor : "#fff",
+                          			data : [65,59,90,81,56,55,40]
+                          		},
+                          		{
+                                label: "applicat number",
+                          			fillColor : "rgba(151,187,205,0.5)",
+                          			strokeColor : "rgba(151,187,205,1)",
+                          			pointColor : "rgba(151,187,205,1)",
+                          			pointStrokeColor : "#fff",
+                          			data : [28,48,40,19,96,27,100]
+                          		}
+                          	]
+              }
+          }
+      },
+      components: {
+            Chart
+      },
+      mounted() {
+          axios.get('/api/statistics')
+              .then((response) => {
+                  this.statistics = response.data
+                  $("#notice").html(response.data.notice);
+                  if(!response.data.notice) this.is_notice = false;
+                  console.log(response.data.notice);
+                  console.log(response);
+              })
+      },
+      created() {
+      }
+  }
 </script>
 
 <style lang="css" scoped>
+  .hide {
+      display: none;
+  }
   .dashboard-tile.detail, .dashboard-tile.header {
       position: relative;
       overflow: hidden;
@@ -165,6 +225,40 @@ export default {
       font-weight: 4 00;
       font-size: 14px;
       clear: both;
+  }
+
+  .panel-default > .panel-heading {
+      border-color: #eff2f7;
+      background: #fafafa;
+      color: #767676;
+  }
+
+  .panel > .panel-heading {
+      font-size: 13px;
+      font-weight: 400;
+      text-transform: uppercase;
+      padding: 15px;
+  }
+  .panel-heading {
+      padding: 10px 15px;
+      border-bottom: 1px solid transparent;
+      border-top-right-radius: 3px;
+      border-top-left-radius: 3px;
+  }
+
+  .panel .actions {
+      position: absolute;
+      right: 30px;
+      top: 18px;
+  }
+  .panel-default .actions i {
+      font-size: 1em;
+      color: #bdc3c7;
+      margin: 0 3px;
+  }
+
+  .panel-default .actions i:hover {
+      color: #566371;
   }
 
   .box {

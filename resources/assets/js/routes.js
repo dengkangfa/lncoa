@@ -97,7 +97,7 @@ export default [
                 ]
             },
             {
-                path: 'types',
+                path: '/system-types',
                 component: Parent,
                 children: [
                     {
@@ -123,19 +123,51 @@ export default [
                 meta: { requiresAuth: true}
             },
             {
+                path: 'audit',
+                component: Parent,
+                children: [
+                    {
+                        path: '/',
+                        component: require('./views/applicat/Audit.vue'),
+                        meta: { requiresAuth: true }
+                    },
+                    {
+                        path: 'details/:id',
+                        component: require('./views/applicat/Audit-details.vue'),
+                        meta: { requiresAuth: true}
+                    }
+                ]
+            },
+            // {
+            //   path:'applicat-audit',
+            //   component: require('./views/applicat/Applicat-audit.vue'),
+            //   meta: { requiresAuth: true}
+            // },
+            {
                 path: 'applicat-manage',
-                component: require('./views/applicat/Applicat-manage.vue'),
-                meta: { requiresAuth: true}
+                component: Parent,
+                children: [
+                    {
+                        path: '/',
+                        component: require('./views/applicat/Applicat-manage.vue'),
+                        meta: { requiresAuth: true }
+                    },
+                    {
+                        path: 'details/:id',
+                        component: require('./views/applicat/Applicat-manage-details.vue'),
+                        meta: { requiresAuth: true }
+                    }
+                ]
             },
             {
-                path:'applicat-audit',
-                component: require('./views/applicat/Applicat-audit.vue'),
-                meta: { requiresAuth: true}
-            },
-            {
-                path: 'files',
-                component: require('./views/File.vue'),
+                path: 'system-files',
+                component: require('./views/system/Filing.vue'),
                 meta: { requiresAuth: true }
+            },
+            {
+              path: '/notice',
+              component: require('./views/system/Notice.vue'),
+              meta: { requiresAuth: true }
             },
             {
                 path: 'log',
@@ -147,6 +179,11 @@ export default [
                 component: require('./views/System.vue'),
                 meta: { requiresAuth: true }
             },
+            {
+                path: '/files',
+                component: require('./views/user/Folder.vue'),
+                meta: { requiresAuth: true }
+            }
         ],
     },
     {
@@ -164,6 +201,11 @@ export default [
     {
         path: '/500',
         component: require('./views/500.vue'),
+        meta: { requiresAuth: false }
+    },
+    {
+        path: '/signup/confirm/:token',
+        component: require('./views/activa.vue'),
         meta: { requiresAuth: false }
     },
     {

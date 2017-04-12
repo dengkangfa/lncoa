@@ -17,6 +17,7 @@ class TypeTransformer extends TransformerAbstract
             'id' => $type->id,
             'name' => $type->name,
             'describe' => $type->describe,
+            'disabled' => $type->disabled,
             'parent_id' => $type->parent_id,
         ];
     }

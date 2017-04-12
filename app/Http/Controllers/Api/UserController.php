@@ -121,8 +121,11 @@ class UserController extends ApiController
      */
     public function destroy($id)
     {
-        if (1 == $id) {
-            return $this->errorUnauthorized('You can\'t delete for yourself and other Administrators!');
+        $isAdmin = \App\User::find($id)->hasRole('admin');
+        \Log::info($isAdmin);
+        if (Auth::id() == $id || $isAdmin = 1) {
+            // return $this->errorForbidden('You can\'t delete for yourself and other Administrators!');
+            return $this->errorForbidden(trans('notification.delete_user_error'));
         }
 
         $this->user->destroy($id);
@@ -193,26 +196,45 @@ class UserController extends ApiController
         $this->user->changePassword(Auth::user(), $request->password);
     }
 
-    public function check(Request $request)
-    {
-        $validator = \Validator::make(
-          ["{$request->rule}" => $request->{$request->rule}],
-          ["{$request->rule}" => "required|unique:users|max:8"],
-          ['email.required' => '我们需要知道你的 e-mail 地址！',
-           'email.unique' => '邮件已被注册！']
-        );
+    /**
+     * 新注册用户激活操作
+     * @param  [type] $token [description]
+     * @return [type]        [description]
+     */
+    public function confirmEmail($token){
+      $user = User::where('activation_token',$token)->firstOrFail();
+      return 1;
+      if(isset($user)){
+        response()->json([
+                'success' => false,
+                'errors'  => 'token无效'
+            ]);
+      }
+      $user->status = 0;
+      $user->activation_token = null;
+      $user->save();
 
-        if($validator->fails()) {
-            return response()->json([
-                    'success' => false,
-                    'errors'  => $validator->getMessageBag()->toArray()
-                ]);
-        }else{
-            return response()->json([
-                    'success' => true,
-                ]);
-        }
+      response()->json([
+              'success' => false,
+              // 'user'  => ['email' => ]
+          ]);
+
+      // $this->login($user);
+      // return redirect()->route('users.show',[$user]);
     }
 
+    protected function login($user)
+    {
+        $url = route('login',[
+          'grant_type' => 'password',
+          'client_id' => '2',
+          'client_secret' => 'OkABZOuxDMaiaaFJBrESpYnmIMf6eSwyU42fPVdM',
+          'name' => $user->email,
+          'password' => $user->password,
+        ]);
+        $request = Request::create(route($url, 'post'));
+        return $request;
+        echo "<script>localStorage.access_token = vm.$store.state.access_token </script>";
+    }
 
 }

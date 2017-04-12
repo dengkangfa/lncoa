@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div :class="isPhone ? '' : 'row'">
         <vue-table :title="$t('el.page.users')" :fields="fields" api-url="/api/users?include=roles" @table-action="tableActions" show-paginate>
             <div slot="buttons">
                 <vue-table-filtra :fiterFields="fiterFields"></vue-table-filtra>
@@ -12,6 +12,7 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
     export default {
         data () {
             return {
@@ -101,6 +102,11 @@
                 ]
             }
         },
+        computed: {
+            ...mapState([
+                'isPhone'
+            ]),
+        },
         // components: {
         //     TableFiltra
         // },
@@ -116,15 +122,15 @@
                         headers: {
                             'Authorization': 'Bearer ' + this.$store.state.access_token
                         }
-                    }).then((response) => {
+                    }).then(response => {
                             toastr.success('You delete the user success!')
-
                             this.$emit('reload')
-                        }, (response) => {
-                            if ((typeof response.data.error !== 'string') && response.data.error) {
-                                toastr.error(response.data.error.message)
+                        }, error => {
+                          console.log(error.response);
+                            if ((typeof error.response.data.error !== 'string') && error.response.data.error) {
+                                toastr.error(error.response.data.error.message)
                             } else {
-                                toastr.error(response.status + ' : Resource ' + response.statusText)
+                                toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
                             }
                         })
                 }

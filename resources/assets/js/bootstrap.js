@@ -11,6 +11,8 @@ window.$ = window.jQuery = require('jquery');
 require('bootstrap-sass');
 window.swal = require('sweetalert');
 
+require('animate.css');
+
 
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces

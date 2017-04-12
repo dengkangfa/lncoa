@@ -21,13 +21,34 @@ class Applicat extends Model
         return $this->belongsTo('App\Type');
     }
 
-    public function menchanism()
+    public function mechanism()
     {
-        return $this->belongsTo('App\Mechcnism');
+        return $this->belongsTo('App\Mechanism');
     }
 
     public function status()
     {
         return $this->belongsTo('App\Status');
+    }
+
+    public function opinions()
+    {
+        return $this->hasMany('App\Opinion');
+    }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        //当有新的申请进入时，提醒第一审核人
+        // static::creating(function ($applicat){
+        //     $users = \App\Type::find($applicat->type_id)->startRole()->first()->users;
+        //     \Notification::send($users, new pendReview($applicat));
+        // });
     }
 }

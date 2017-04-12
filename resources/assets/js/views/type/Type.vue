@@ -3,7 +3,7 @@
       <div class="ibox">
           <div class="ibox-title">
               <small class="pull-right" style="margin-top: 7px;">
-                  <router-link to="/types/create" class="btn btn-info btn-xs"  style="margin-bottom:2px">
+                  <router-link :to="$route.path+'/create'" class="btn btn-info btn-xs"  style="margin-bottom:2px">
                     {{ $t('el.page.create') }}
                   </router-link>
               </small>

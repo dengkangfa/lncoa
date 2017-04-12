@@ -1,7 +1,7 @@
 <template lang="html">
     <vue-form :title="$t('el.form.create_type')">
         <div slot="buttons">
-            <router-link to="/types" class="btn btn-default" exact>{{ $t('el.form.back') }}</router-link>
+            <router-link to="/system-types" class="btn btn-default" exact>{{ $t('el.form.back') }}</router-link>
         </div>
         <div slot="content">
             <div class="row">
@@ -15,11 +15,12 @@
                       <el-input type="textarea" autosize :placeholder="$t('el.form.description')" v-model="type.describe"></el-input>
                   </el-form-item>
                   <!-- 审核人组 -->
+                  <template v-if="type.roles">
                   <el-form-item
-                    v-for="(approver, index) in type.approvers"
+                    v-for="(approver, index) in type.roles.data"
                     :label="$t('el.form.approver') + index"
                     :key="approver.name"
-                    :prop="'approvers[' + index + '].id'"
+                    :prop="'roles.data.' + index + '.id'"
                   >
                     <el-select v-model="approver.id" filterable :placeholder="$t('el.form.approver_select')" @change="change">
                       <el-option
@@ -31,10 +32,21 @@
                     </el-select>
                     <el-button @click.prevent="removeApprover(approver)">{{ $t('el.form.delete') }}</el-button>
                   </el-form-item>
+                </template>
+                  <el-form-item
+                    :label="$t( 'el.form.is_enable' )"
+                    prop="disabled"
+                  >
+                    <el-switch
+                      v-model="status"
+                      on-text=""
+                      off-text="">
+                    </el-switch>
+                  </el-form-item>
                   <el-form-item>
                     <el-button type="primary" @click="submitForm('type')">{{ $t('el.form.submit') }}</el-button>
                     <el-button @click="addApprover">{{ $t('el.form.add_approver') }}</el-button>
-                    <el-button @click="resetForm('type')">{{ $t('el.form.reset') }}</el-button>
+                    <!-- <el-button @click="resetForm('type')">{{ $t('el.form.reset') }}</el-button> -->
                   </el-form-item>
                 </el-form>
             <div>
@@ -50,30 +62,19 @@
   export default {
     data() {
         return {
-          type: {
-            approvers: [{
-              value: ''
-            }],
-            parent_id: [],
-            name: '',
-            describe: '',
-          },
-          props: {
-              value: 'id',
-              label: 'name'
-          },
+          type: {},
           roles: [],
+          status: true,
         }
       },
       created() {
           let vm = this;
           axios.all([this.getRole(), this.gettype()])
             .then(axios.spread(function (roles, type){
+                //所有角色组
                 vm.roles = roles.data.data;
                 vm.type = type.data.data;
-                vm.type.approvers = type.data.data.roles.data;
-                console.log(vm.type);
-                console.log(vm.type.approvers);
+                vm.status = vm.type.disabled ? false : true;
             }));
       },
       computed: {
@@ -90,10 +91,13 @@
          },
          submitForm(formName) {
            let vm = this;
-           axios.post(server.api.type, this.type).then( response => {
-               toastr.success(vm.$t('el.notification.create_type'))
+           this.rolesId();
+           this.type.disabled = !this.status;
+           axios.put(server.api.type + "/" + this.$route.params.id, this.type).then( response => {
+             console.log(response);
+               toastr.success(vm.$t('el.notification.update_type'))
 
-               vm.$router.push('/types')
+               vm.$router.push('/system-types')
            }, error => {
                 stack_error(error.response.data);
            })
@@ -104,21 +108,21 @@
            this.change();
          },
          removeApprover(item) {
-           var index = this.type.approvers.indexOf(item)
+           var index = this.type.roles.data.indexOf(item)
            if (index !== -1) {
-             this.type.approvers.splice(index, 1)
+             this.type.roles.data.splice(index, 1)
              this.change()
            }
          },
          addApprover() {
-           this.type.approvers.push({
+           this.type.roles.data.push({
              id: '',
              name: Date.now()
            });
          },
          change(val) {
            var approversId = [];
-            this.type.approvers.forEach(function(value){
+            this.type.roles.data.forEach(function(value){
                 if(value.value != ''){
                   approversId.push(value.value);
                 }
@@ -148,6 +152,14 @@
                     }
                 }
             })
+         },
+         rolesId() {
+            let temp = [];
+            for (var i = 0; i < this.type.roles.data.length; i++) {
+                temp.push(this.type.roles.data[i].id);
+            }
+            this.type.approvers = temp;
+            console.log(this.type.approvers);
          }
      }
    }

@@ -26,7 +26,9 @@
                       <ul class="dropdown-menu animated fadeInDown">
                           <!--头像选项-->
                           <li>
-                              <a href="#"><i class="ion-person"></i> Profile</a>
+                            <router-link to='/user/profile'>
+                              <i class="ion-person"></i> Profile
+                            </router-link>
                           </li>
                           <!--日历选项-->
                           <li>
@@ -91,7 +93,7 @@
                 Vue.config.lang = lang;
                 this.lang = lang;
                 localStorage.Language = lang;
-            }
+            },
         },
         mounted() {
             this.user = this.$store.state.user;

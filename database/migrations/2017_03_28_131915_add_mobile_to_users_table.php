@@ -14,7 +14,7 @@ class AddMobileToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('mobile')->max('11')->after('avatar');
+            $table->string('mobile')->max('11')->nullable()->after('avatar');
         });
     }
 

@@ -60,6 +60,20 @@ class TypeRepository
         return get_attr($this->all()->toArray(),null);
     }
 
+    public function update($id, $input)
+    {
+        //获取当前id对应的资源
+        $this->model = $this->model->findOrFail($id);
+        $array = $input['approvers'];
+        unset($input['approvers']);
+        $this->save($this->model, $input);
+        $temp = [];
+        foreach($array as $key=>$value){
+            $temp["$value"] =  ['priority' => $key];
+        }
+        $this->model->roles()->sync($temp);
+    }
+
     /**
      * recursively sort
      *

@@ -78,6 +78,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach ((to, from, next) => {
+    // localStorage.clear();
     //还原滚动条
     window.scrollTo(0, 0);
     // Auth验证

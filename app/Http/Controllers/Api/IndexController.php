@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Redis;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Storage;
@@ -27,8 +28,9 @@ class IndexController extends ApiController
         $applicats = $this->applicat->getNumber();
         $files = $this->getNewFiles('proposal');
         $loginLogs = $this->getLoginLog();
+        $notice = $this->getNotice();
 
-        $data = compact('users', 'applicats', 'files', 'loginLogs');
+        $data = compact('users', 'applicats', 'files', 'loginLogs', 'notice');
 
         return $this->respondWithArray($data);
     }
@@ -49,6 +51,11 @@ class IndexController extends ApiController
         return $number;
     }
 
+    /**
+     * 获取今天的时间戳
+     * @param  [type] $time [description]
+     * @return [type]       [description]
+     */
     public function getDate($time)
     {
         $begintime = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
@@ -61,7 +68,7 @@ class IndexController extends ApiController
 
     public function getLoginLog()
     {
-        $loginLogs = \Redis::lrange('loginlogs', 0, 10);
+        $loginLogs = Redis::lrange('loginlogs', 0, 10);
         $loginLogsArr = [];
         foreach($loginLogs as $key=>$loginLog) {
            if($key > 7) {
@@ -70,5 +77,10 @@ class IndexController extends ApiController
            $loginLogsArr[] = unserialize($loginLog);
         }
         return $loginLogsArr;
+    }
+
+    public function getNotice()
+    {
+        return Redis::get('notice');
     }
 }

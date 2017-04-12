@@ -164,7 +164,7 @@ class ApiController extends Controller
      */
     public function errorForbidden($message = 'Forbidden')
     {
-        return $this->setStatusCode(500)
+        return $this->setStatusCode(403)
                     ->respondWithError($message, self::CODE_FORBIDDEN);
     }
 
@@ -203,6 +203,7 @@ class ApiController extends Controller
         return $this->setStatusCode(401)
                     ->respondWithError($message, self::CODE_UNAUTHORIZED);
     }
+
 
     /**
      * Respond the error of 'Wrong Arguments'.

@@ -41,7 +41,7 @@
           typeActions(action, data) {
               let vm = this;
               if (action == 'edit-item') {
-                  vm.$router.push('/types/' + data.id + '/edit')
+                  vm.$router.push(this.$route.path + '/' + data.id + '/edit')
               } else if (action == 'delete-item') {
                   axios.delete(server.api.type + '/' + data.id).then((response) => {
                           toastr.success('You delete the type success!')

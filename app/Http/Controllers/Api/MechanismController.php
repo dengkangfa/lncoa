@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 
-class MechanismController extends Controller
+class MechanismController extends ApiController
 {
     public function index()
     {

@@ -26,8 +26,18 @@ class Role extends EntrustRole
         return $this->belongsToMany('App\Menu')->withTimestamps();
     }
 
+    public function permissions()
+    {
+        return $this->belongsToMany('App\Permission')->withTimestamps();
+    }
+
     public function types()
     {
-        return $this->belogsToMany('App\Type')->withTimestamps();
+        return $this->belongsToMany('App\Type')->withTimestamps();
+    }
+
+    public function applicats()
+    {
+        return $this->hasManyThrough('App\Applicat', 'App\Type');
     }
 }

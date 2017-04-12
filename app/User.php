@@ -57,6 +57,11 @@ class User extends Authenticatable
         parent::boot();
 
         static::addGlobalScope(new StatusScope());
+        static::creating(function ($user){
+          $user->activation_token = str_random(30);
+          $identicon = new \Identicon\Identicon();
+          $user->avatar = $identicon->getImageDataUri($user->name,80);
+        });
     }
 
     public function roles()

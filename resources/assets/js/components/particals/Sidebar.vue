@@ -63,6 +63,9 @@
                 'user'
             ]),
         },
+        watch: {
+            '$route': 'currentDefaultActive'
+        },
         methods: {
          handleOpen(key, keyPath) {
            console.log(key, keyPath);
@@ -79,6 +82,11 @@
                   }
               }
            }
+        },
+        currentDefaultActive() {
+          let path = this.$route.path;
+          //根据当前路由设置菜单默认选中项
+          this.defaultActive = path.substr(0,path.indexOf('/',1)!=-1?path.indexOf('/',1):path.length);
         },
         userHome() {
             this.$router.push('/user/profile');

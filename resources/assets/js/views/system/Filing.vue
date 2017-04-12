@@ -125,7 +125,7 @@
 </template>
 
 <script>
-    import Modal from '../components/Modal.vue'
+    import Modal from '../../components/Modal.vue'
 
     export default {
         components: {
@@ -184,7 +184,6 @@
             }
         },
         mounted() {
-          console.log(1);
             this.getFileInfo(this.$route.query.folder)
         },
         methods: {
@@ -282,7 +281,7 @@
                         if (this.upload.subfolders instanceof Array) {
                             this.upload.subfolders = {}
                         }
-                        this.$router.push('/files' + '?folder=' + path)
+                        this.$router.push(this.$route.path + '?folder=' + path)
                     })
             },
             checkImageType(fileType) {

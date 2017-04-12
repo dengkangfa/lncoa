@@ -48,6 +48,7 @@ class RoleRepository
         if(is_array($input['menus'])){
             $this->model->menus()->sync($input['menus']);
         }
+        $this->model->permissions()->sync($input['permissions']);
 
         return $this->save($this->model, $input);
     }

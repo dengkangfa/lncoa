@@ -11,7 +11,8 @@ class MenuRepository
 
     protected $model;
 
-    public function __construct(Menu $menu) {
+    public function __construct(Menu $menu)
+    {
         $this->model = $menu;
     }
 
@@ -20,7 +21,8 @@ class MenuRepository
      * @param  [type] $roles [description]
      * @return [type]        [description]
      */
-    public function getVisibleTree($roles) {
+    public function getVisibleTree($roles)
+    {
         $items = array();
         foreach($roles as $key=>$role) {
             $items[$key] = $role->menus()->get(['id','title','icon','parent_id','uri']);
@@ -31,7 +33,8 @@ class MenuRepository
         return $menu;
     }
 
-    public function getVisibleTreeByRole($role) {
+    public function getVisibleTreeByRole($role)
+    {
         $items = $role->menus()->get(['id','title','icon','parent_id','uri']);
         $menu = $this->generateTree($items);
         return $menu;
@@ -43,7 +46,8 @@ class MenuRepository
      * @param  array $items 可见的菜单项
      * @return array
      */
-    function generateTree($items){
+    function generateTree($items)
+    {
         $menus = array();
         foreach($items as $item){
             $menus[$item['id']] = $item->toArray();
@@ -65,7 +69,8 @@ class MenuRepository
      *
      * @return array
      */
-    public function  getAllList() {
+    public function  getAllList()
+    {
         $lists = $this->model::all();
         $list = array();
         if(!empty($lists)){
