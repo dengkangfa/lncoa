@@ -15,7 +15,7 @@
             <table class="table table-hover">
                 <tbody>
                 <template v-if="applicats.length > 0">
-                  <tr v-for="applicat in applicats">
+                  <tr v-for="applicat in applicats" :class="{'current' : $route.params.id == applicat.id}">
                       <td class="project-status">
                           <span class="label label-primary">{{applicat.status}}
                       </td>
@@ -140,7 +140,7 @@
                                                           </div>
                                                       </div>
                                                     </template>
-                                                    <div class="feed-element">
+                                                    <div class="feed-element" v-if="is_opinion">
                                                         <div class="media-body ">
                                                           <el-input type="textarea" v-model="form.opinion" placeholder="您的意见" class="opinion"></el-input>
                                                           <div class="">
@@ -169,13 +169,14 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState, mapMutations } from 'vuex'
   export default {
       data() {
           return {
               applicats: [],
               applicat: {},
               fileList: {},
+              is_opinion: true,
               id: '',
               form: {
                   radio: '',
@@ -198,10 +199,14 @@
       },
       computed: {
           ...mapState([
-              'isPhone'
+              'isPhone',
+              'user'
           ])
       },
       methods: {
+          ...mapMutations([
+              'DELETE_NOTIFICAT'
+          ]),
           loadData() {
               //加载数据
               this.id = this.$route.params.id;
@@ -241,6 +246,8 @@
             axios.get('/api/applicat/' + this.$route.params.id + '?include=opinions').then( response => {
               console.log(response);
                 this.applicat = response.data.data;
+                this.DELETE_NOTIFICAT(this.applicat.id);
+                this.isOpinion();
             })
           },
           currentApplicat() {
@@ -248,11 +255,24 @@
               for (var i = 0; i < this.applicats.length; i++) {
                   if(this.applicats[i].id == this.$route.params.id) {
                       this.applicat = this.applicats[i];
+                      this.DELETE_NOTIFICAT(this.applicats[i].id);
+                      this.isOpinion();
                       break;
                   }
               }
               this.form.opinion = '';
               this.form.radio = '';
+          },
+          isOpinion() {
+              //判断是否可发表意见
+              let opinions = this.applicat.opinions.data;
+              for (var i = 0; i < opinions.length; i++) {
+                  if(opinions[i].user.id == this.user.id) {
+                      this.is_opinion = false;
+                      return;
+                  }
+              }
+              this.is_opinion = true;
           },
           // getApplicat() {
           //     axios.get('/api/applicat/ ' + this.$route.params.id);
@@ -264,6 +284,7 @@
               this.form.applicat_id = this.$route.params.id;
               axios.post('/api/opinion/', this.form).then( response => {
                   toastr.success('您的审核以及意见已提交');
+                  this.$router.push('/audit');
               }, error => {
                   toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
               })
@@ -321,6 +342,9 @@
   }
   .feed-element > .pull-left {
       margin-right: 10px;
+  }
+  .current {
+      background-color: #f5f5f5;
   }
 
 </style>

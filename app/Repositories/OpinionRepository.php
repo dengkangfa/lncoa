@@ -24,8 +24,8 @@ class OpinionRepository
     public function store($input)
     {
         $applicat = $this->applicat->getById($input['applicat_id']);
+        $applicat->stage = $applicat->stage+1;
         if($input['radio'] == '通过') {
-            $applicat->stage = $applicat->stage+1;
             //获取需要经过角色组的审核数
             $roles_count = $applicat->type()
                                       ->withCount('roles')
@@ -49,11 +49,11 @@ class OpinionRepository
                 //获取添加异常类
                 return;
             }
-            $applicat->save();
         }else{
-            $status_id = \DB::table('statuses')->where('name', '审核不通过')->get();
-            $applicat->status_id = $status_id;
+            $status = \DB::table('statuses')->where('name', '审核不通过')->first();
+            $applicat->status_id = $status->id;
         }
+        $applicat->save();
         //将当前审核人的意见添加进数据库
         unset($input['radio']);
         $input['user_id'] = \Auth::id();

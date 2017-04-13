@@ -31,7 +31,16 @@
                                     <template v-if="applicats.length > 0">
                                       <tr v-for="applicat in applicats">
                                           <td class="project-status col-md-1">
-                                              <span class="label label-primary">{{applicat.status}}
+                                              <span class="label"
+                                                  :class="[
+                                                      {'label-warning' : applicat.status == '待审核'},
+                                                      {'label-info' : applicat.status == '审核中'},
+                                                      {'label-success' : applicat.status == '审核通过'},
+                                                      {'label-danger' : applicat.status == '审核不通过'}
+                                                      ]
+                                                    "
+                                                >{{applicat.status}}
+                                              </span>
                                           </td>
                                           <td class="project-title col-md-4">
                                               <a href="project_detail.html">{{ applicat.mechanism }} - {{ applicat.type }}</a>
@@ -47,7 +56,9 @@
                                           </td> -->
                                           <td class="project-roles col-md-5">
                                             <el-steps :space="150" :active="applicat.stage" :direction="isPhone ? 'vertical' : 'horizontal'" finish-status="success">
-                                              <el-step v-for="role in applicat.roles.data" :description="role.display_name"></el-step>
+                                              <el-step v-for="(role, index) in applicat.roles.data"
+                                                :description="role.display_name"
+                                                :status="(applicat.status == '审核不通过' && index == applicat.stage-1) ? 'error' : '' "></el-step>
                                             </el-steps>
                                           </td>
                                           <td class="project-actions col-md-2">
@@ -178,18 +189,7 @@
       padding: 15px 10px;
       vertical-align: middle;
   }
-  .label {
-    background-color: #d1dade;
-    color: #5e5e5e;
-    font-size: 10px;
-    font-weight: 600;
-    padding: 3px 8px;
-    text-shadow: none;
-  }
-  .label-primary, .badge-primary {
-      background-color: #23b7e5;
-      color: #FFFFFF;
-  }
+
   .project-title a {
       font-size: 14px;
       color: #676a6c;

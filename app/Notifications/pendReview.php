@@ -61,6 +61,13 @@ class pendReview extends Notification
      */
     public function toArray($notifiable)
     {
-        return $this->applicat->toArray();
+        // return $this->applicat->toArray();
+        $user = $this->applicat->user;
+        return [
+            'applicat_id' => $this->applicat->id,
+            'avatar'      => $user->avatar,
+            'name'        => $user->name,
+            'reason'      => $this->applicat->reason,
+        ];
     }
 }

@@ -154,7 +154,19 @@
     }
 </script>
 
-<style lang="css" >
+<style lang="css" scoped>
+    .label {
+      background-color: #d1dade;
+      color: #5e5e5e;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      text-shadow: none;
+    }
+    .label-primary, .badge-primary {
+        background-color: #23b7e5;
+        color: #FFFFFF;
+    }
     .height {
         height: 50%;
     }

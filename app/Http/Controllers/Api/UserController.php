@@ -26,6 +26,11 @@ class UserController extends ApiController
         $this->manager = $manager;
     }
 
+    /**
+     * 获取当前登录用户的信息
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function me(Request $request)
     {
         if(isset($_GET['login'])) {
@@ -196,45 +201,45 @@ class UserController extends ApiController
         $this->user->changePassword(Auth::user(), $request->password);
     }
 
-    /**
-     * 新注册用户激活操作
-     * @param  [type] $token [description]
-     * @return [type]        [description]
-     */
-    public function confirmEmail($token){
-      $user = User::where('activation_token',$token)->firstOrFail();
-      return 1;
-      if(isset($user)){
-        response()->json([
-                'success' => false,
-                'errors'  => 'token无效'
-            ]);
-      }
-      $user->status = 0;
-      $user->activation_token = null;
-      $user->save();
+    // /**
+    //  * 新注册用户激活操作
+    //  * @param  [type] $token [description]
+    //  * @return [type]        [description]
+    //  */
+    // public function confirmEmail($token){
+    //   $user = User::where('activation_token',$token)->firstOrFail();
+    //   return 1;
+    //   if(isset($user)){
+    //     response()->json([
+    //             'success' => false,
+    //             'errors'  => 'token无效'
+    //         ]);
+    //   }
+    //   $user->status = 0;
+    //   $user->activation_token = null;
+    //   $user->save();
+    //
+    //   response()->json([
+    //           'success' => false,
+    //           // 'user'  => ['email' => ]
+    //       ]);
+    //
+    //   // $this->login($user);
+    //   // return redirect()->route('users.show',[$user]);
+    // }
 
-      response()->json([
-              'success' => false,
-              // 'user'  => ['email' => ]
-          ]);
-
-      // $this->login($user);
-      // return redirect()->route('users.show',[$user]);
-    }
-
-    protected function login($user)
-    {
-        $url = route('login',[
-          'grant_type' => 'password',
-          'client_id' => '2',
-          'client_secret' => 'OkABZOuxDMaiaaFJBrESpYnmIMf6eSwyU42fPVdM',
-          'name' => $user->email,
-          'password' => $user->password,
-        ]);
-        $request = Request::create(route($url, 'post'));
-        return $request;
-        echo "<script>localStorage.access_token = vm.$store.state.access_token </script>";
-    }
+    // protected function login($user)
+    // {
+    //     $url = route('login',[
+    //       'grant_type' => 'password',
+    //       'client_id' => '2',
+    //       'client_secret' => 'OkABZOuxDMaiaaFJBrESpYnmIMf6eSwyU42fPVdM',
+    //       'name' => $user->email,
+    //       'password' => $user->password,
+    //     ]);
+    //     $request = Request::create(route($url, 'post'));
+    //     return $request;
+    //     echo "<script>localStorage.access_token = vm.$store.state.access_token </script>";
+    // }
 
 }

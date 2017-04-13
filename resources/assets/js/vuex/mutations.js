@@ -8,7 +8,9 @@ import {
     SET_TYPES,
     SET_ROLES,
     SET_EQUIPMENT,
-    JUDGE_PHONE
+    JUDGE_PHONE,
+    SET_NOTIFICAT,
+    DELETE_NOTIFICAT
 } from './mutation-types'
 
 export default {
@@ -51,5 +53,18 @@ export default {
           }
       }
       state.isPhone = flag;
+    },
+    [SET_NOTIFICAT] (state, notificats) {
+      state.notificats = notificats;
+    },
+    [DELETE_NOTIFICAT] (state, applicat_id) {
+        let notificats = state.notificats;
+        for(let i=0; i<notificats.length; i++) {
+            if(notificats[i].data.applicat_id == applicat_id) {
+                axios.delete('/api/notificat/' + notificats[i].id).then( response => {
+                    notificats.splice(i,1);
+                })
+            }
+        }
     }
 }

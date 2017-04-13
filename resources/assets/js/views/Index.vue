@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="">
+  <div class="dashboard">
     <div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="dashboard-tile detail tile-red">
@@ -42,7 +42,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="margin-top:15px">
         <div class="col-md-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -156,6 +156,16 @@
 <style lang="css" scoped>
   .hide {
       display: none;
+  }
+  /*#page-content-wrapper .container-fluid .dashboard .row {
+       margin: 0px;
+  }*/
+  .dashboard {
+      padding-top: 30px;
+  }
+  .row{
+      /*margin-left: -15px !important;*/
+      margin: -15px !important;
   }
   .dashboard-tile.detail, .dashboard-tile.header {
       position: relative;
