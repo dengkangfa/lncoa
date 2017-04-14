@@ -208,11 +208,11 @@ export default [
         component: require('./views/activa.vue'),
         meta: { requiresAuth: false }
     },
-    {
-        path: '/404',
-        component: require('./views/404.vue'),
-        meta: { requiresAuth: false }
-    },
+    // {
+    //     path: '/404',
+    //     component: require('./views/404.vue'),
+    //     meta: { requiresAuth: false }
+    // },
     {
       path: '*',
       redirect: '/404'

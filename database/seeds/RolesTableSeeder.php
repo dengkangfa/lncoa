@@ -18,8 +18,6 @@ class RolesTableSeeder extends Seeder
         $owner->display_name = '使用者'; // optional
         $owner->description  = '这个是描述'; // optional
         $owner->save();
-        $user = User::where('name','邓康发')->first();
-        $user->attachRole($owner);
 
         $admin = new Role();
         $admin->name         = 'admin';

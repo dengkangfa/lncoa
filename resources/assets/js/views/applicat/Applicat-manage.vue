@@ -43,7 +43,9 @@
                                               </span>
                                           </td>
                                           <td class="project-title col-md-4">
-                                              <a href="project_detail.html">{{ applicat.mechanism }} - {{ applicat.type }}</a>
+                                              <router-link :to="$route.path + '/details/' + applicat.id">
+                                                {{ applicat.mechanism }} - {{ applicat.type }}
+                                              </router-link>
                                               <br/>
                                               <small>创建于 {{ applicat.created_at }}</small>
                                           </td>

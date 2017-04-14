@@ -1,5 +1,6 @@
 <?php
 
+use App\Menu;
 use Illuminate\Database\Seeder;
 
 class MenusTableSeeder extends Seeder
@@ -22,7 +23,7 @@ class MenusTableSeeder extends Seeder
             'created_at' => $date_time,
             'updated_at' => $date_time,
         ];
-        $dashboard = App\Menu::create($dashboard);
+        $dashboard = Menu::create($dashboard);
 
         // 用户设置
         $userManagement = [
@@ -33,7 +34,7 @@ class MenusTableSeeder extends Seeder
             'created_at' => $date_time,
             'updated_at' => $date_time,
         ];
-        $userManagement = App\Menu::create($userManagement);
+        $userManagement = Menu::create($userManagement);
 
         // 用户管理
         $user = [
@@ -45,7 +46,7 @@ class MenusTableSeeder extends Seeder
             'created_at' => $date_time,
             'updated_at' => $date_time,
         ];
-        $user = App\Menu::create($user);
+        $user = Menu::create($user);
 
         // 角色管理
         $character = [
@@ -57,7 +58,7 @@ class MenusTableSeeder extends Seeder
             'created_at' => $date_time,
             'updated_at' => $date_time,
         ];
-        $character = App\Menu::create($character);
+        $character = Menu::create($character);
 
         // 权限管理
         $authority = [
@@ -69,7 +70,7 @@ class MenusTableSeeder extends Seeder
             'created_at' => $date_time,
             'updated_at' => $date_time,
         ];
-        $authority = App\Menu::create($authority);
+        $authority = Menu::create($authority);
 
         // 系统管理
         $systemManage = [
@@ -80,43 +81,19 @@ class MenusTableSeeder extends Seeder
             'created_at' => $date_time,
             'updated_at' => $date_time,
         ];
-        $systemManage = App\Menu::create($systemManage);
+        $systemManage = Menu::create($systemManage);
 
-        //场地管理
+        //类型管理
         $type = [
             'title' => 'type',
             'description' => '类型管理',
             'icon' => 'ion-clipboard',
             'parent_id' => $systemManage->id,
-            'uri' => '/types',
+            'uri' => '/system-types',
             'created_at' => $date_time,
             'updated_at' => $date_time,
         ];
-        $type = App\Menu::create($type);
-
-        //申请中心
-        $applicat = [
-            'title' => 'applicat',
-            'description' => '申请中心',
-            'icon' => 'ion-ios-compose',
-            'parent_id' => $systemManage->id,
-            'uri' => '/applicat',
-            'created_at' => $date_time,
-            'updated_at' => $date_time,
-        ];
-        $applicat = App\Menu::create($applicat);
-
-        //场地管理
-        $applicat_audit = [
-            'title' => 'applicat_audit',
-            'description' => '申请审核',
-            'icon' => 'ion-ios-barcode',
-            'parent_id' => $systemManage->id,
-            'uri' => '/applicat-audit',
-            'created_at' => $date_time,
-            'updated_at' => $date_time,
-        ];
-        $applicat_audit = App\Menu::create($applicat);
+        $type = Menu::create($type);
 
         //文件管理
         $file = [
@@ -124,11 +101,55 @@ class MenusTableSeeder extends Seeder
             'description' => '文件管理',
             'icon' => 'ion-ios-folder',
             'parent_id' => $systemManage->id,
-            'uri' => '/files',
+            'uri' => '/system-files',
             'created_at' => $date_time,
             'updated_at' => $date_time,
         ];
-        $file = App\Menu::create($file);
+        $file = Menu::create($file);
+
+        //申请中心
+        $applicat = [
+            'title' => 'applicat',
+            'description' => '申请中心',
+            'icon' => 'ion-ios-compose',
+            'uri' => '/applicat',
+            'created_at' => $date_time,
+            'updated_at' => $date_time,
+        ];
+        $applicat = Menu::create($applicat);
+
+        //申请审核
+        $applicat_audit = [
+            'title' => 'applicat_audit',
+            'description' => '申请审核',
+            'icon' => 'ion-ios-barcode',
+            'uri' => '/audit',
+            'created_at' => $date_time,
+            'updated_at' => $date_time,
+        ];
+        $applicat_audit = Menu::create($applicat);
+
+        //申请管理
+        $applicat_manage = [
+            'title' => 'applicat_manage',
+            'description' => '申请管理',
+            'icon' => 'ion-briefcase',
+            'uri' => '/applicat-manage',
+            'created_at' => $date_time,
+            'updated_at' => $date_time,
+        ];
+        $applicat_manage = Menu::create($applicat_manage);
+
+        //通告
+        $notice = [
+            'title' => 'notice',
+            'description' => '站点通告',
+            'icon' => 'ion-chatbox',
+            'uri' => '/notice',
+            'created_at' => $date_time,
+            'updated_at' => $date_time,
+        ];
+        $notice = Menu::create($notice);
 
         // 系统配置
         $system = [
@@ -140,7 +161,7 @@ class MenusTableSeeder extends Seeder
             'created_at' => $date_time,
             'updated_at' => $date_time,
         ];
-        $system = App\Menu::create($system);
+        $system = Menu::create($system);
 
         $role = App\Role::where('name','admin')->first();
         $role->menus()->attach([
@@ -149,7 +170,14 @@ class MenusTableSeeder extends Seeder
             $user->id,
             $character->id,
             $authority->id,
-            $system->id
+            $systemManage->id,
+            $type->id,
+            $file->id,
+            $applicat->id,
+            $applicat_audit->id,
+            $applicat_manage->id,
+            $notice->id,
+            $system->id,
         ]);
         $role = App\Role::where('name','=','owner')->first();
         $role->menus()->attach([

@@ -180,13 +180,11 @@
          this.form.startTime = this.formatDataTime(this.form.startTime);
          this.form.endTime = this.formatDataTime(this.form.endTime);
          axios.post(server.api.applicat, this.form).then( response => {
-           console.log(response);
             toastr.success('申请已提交,结果将发到您邮箱,请注意查看!');
-            // this.$router.push('/')
+            // this.$router.push('/applicat-manage');
          }, error => {
             stack_error(error.response.data)
          })
-         console.log(this.form);
        },
         handleRemove(file, fileList) {
           //删除文件
@@ -199,7 +197,7 @@
           })
         },
         handlePreview(file) {
-          console.log(file);
+          // console.log(file);
         },
         handleSuccess(response, file, fileList) {
           //上传文件
@@ -209,10 +207,9 @@
             stack_error(response.errors);
             fileList.splice(-1,1);
           }
-          console.log(this.form);
         },
         handleChange(val) {
-          console.log(val);
+          // console.log(val);
         },
         handleUpload(file) {
           //上传之前的回调函数

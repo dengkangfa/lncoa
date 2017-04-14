@@ -2,8 +2,10 @@
 
 namespace App\Repositories;
 
+use App\User;
 use App\Opinion;
-use App\Notifications\pendReview;
+use App\Notifications\PendReview;
+use App\Notifications\AuditResults;
 use App\Repositories\ApplicatRepository;
 
 class OpinionRepository
@@ -39,7 +41,9 @@ class OpinionRepository
             }else if($applicat->stage < $roles_count){
                 //找出下一审核组成员，并发送邮件提示
                 $users = $applicat->type->roles()->wherePivot('priority',$applicat->stage)->first()->users;
-                \Notification::send($users, new pendReview($applicat));
+                if(!$users) $users = User::find(1);
+                \Notification::send($users, new PendReview($applicat));
+
                 //如果是刚刚通过，将该申请状态调整为审核中
                 if($applicat->stage < 2) {
                     $status = \DB::table('statuses')->where('name', '审核中')->first();
@@ -62,8 +66,8 @@ class OpinionRepository
 
     public function reviewEndNotificat($user_id, $applicat)
     {
-        $user = \App\User::find($user_id);
+        $user = User::find($user_id);
         \Log::info(serialize($user));
-        $user->notify(new pendReview($applicat));
+        $user->notify(new AuditResults($applicat));
     }
 }

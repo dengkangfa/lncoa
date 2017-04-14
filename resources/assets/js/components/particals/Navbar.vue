@@ -19,7 +19,7 @@
                               <h1>You have
                                   <strong>{{ notifications.length }}</strong> new messages</h1>
                           </li>
-                          <li v-for="notification in notifications">
+                          <li v-for="(notification, index) in notifications" v-if="index < 5">
                               <router-link :to="'/audit/details/' + notification.data.applicat_id">
                                   <div class="profile-photo">
                                       <img :src="notification.data.avatar" width=50 heigth=50 alt="" class="img-circle">
@@ -426,6 +426,12 @@ li.dropdown ul.dropdown-menu.alert>li h1 {
 }
 .navbar-header {
     display: inline-block;
+}
+
+@media (max-width: 479px) {
+  .user-nav .dropdown.messages {
+      display: none;
+  }
 }
 
 </style>

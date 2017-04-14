@@ -17,9 +17,20 @@
           <button type="button" class="btn btn-info" name="button" @click="updatePwd">修改</button>
       </form>
    </el-tab-pane>
-   <el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
-   <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
-   <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
+   <el-tab-pane label="我的类型" name="second" id="type">
+      <div class="row" v-for="(types, index) in types">
+        <div class="col-md-offset-4 col-md-4">
+          <!-- 类型名称 -->
+          <h3>{{ index }}</h3>
+          <!-- 管理该类型的角色组 -->
+          <template v-for="(roles, priority) in types">
+              <el-steps :space="200">
+                <el-step v-for="(role, index) in roles" :class="{'bg' : index == priority}" :title="role.display_name"></el-step>
+              </el-steps>
+          </template>
+        </div>
+      </div>
+   </el-tab-pane>
   </el-tabs>
 </template>
 
@@ -32,8 +43,15 @@ export default {
               'old_password': '',
               'password': '',
               'password_confirmation': ''
-            }
+            },
+            types: [],
         }
+    },
+    created() {
+      axios.get('/api/type/me').then( response => {
+          this.types = response.data;
+          console.log(response);
+      })
     },
     methods: {
         updatePwd() {
@@ -49,4 +67,9 @@ export default {
 </script>
 
 <style lang="css">
+  .bg > div:first-child {
+      background: #20a0ff !important;
+      border-color: #20a0ff !important;
+  }
+
 </style>

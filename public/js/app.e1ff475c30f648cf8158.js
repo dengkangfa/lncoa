@@ -44380,19 +44380,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 };
 
 /***/ }),
-/* 218 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = {};
-
-/***/ }),
+/* 218 */,
 /* 219 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -45568,6 +45556,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = {
@@ -45827,13 +45817,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       this.form.startTime = this.formatDataTime(this.form.startTime);
       this.form.endTime = this.formatDataTime(this.form.endTime);
       axios.post(__WEBPACK_IMPORTED_MODULE_1__config_api__["a" /* default */].api.applicat, this.form).then(function (response) {
-        console.log(response);
         toastr.success('申请已提交,结果将发到您邮箱,请注意查看!');
-        // this.$router.push('/')
+        // this.$router.push('/applicat-manage');
       }, function (error) {
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__config_helper_js__["a" /* stack_error */])(error.response.data);
       });
-      console.log(this.form);
     },
     handleRemove: function handleRemove(file, fileList) {
       //删除文件
@@ -45846,7 +45834,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       });
     },
     handlePreview: function handlePreview(file) {
-      console.log(file);
+      // console.log(file);
     },
     handleSuccess: function handleSuccess(response, file, fileList) {
       //上传文件
@@ -45856,10 +45844,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__config_helper_js__["a" /* stack_error */])(response.errors);
         fileList.splice(-1, 1);
       }
-      console.log(this.form);
     },
     handleChange: function handleChange(val) {
-      console.log(val);
+      // console.log(val);
     },
     handleUpload: function handleUpload(file) {
       //上传之前的回调函数
@@ -48292,6 +48279,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = {
@@ -48301,17 +48299,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 'old_password': '',
                 'password': '',
                 'password_confirmation': ''
-            }
+            },
+            types: []
         };
+    },
+    created: function created() {
+        var _this = this;
+
+        axios.get('/api/type/me').then(function (response) {
+            _this.types = response.data;
+            console.log(response);
+        });
     },
 
     methods: {
         updatePwd: function updatePwd() {
-            var _this = this;
+            var _this2 = this;
 
             axios.put('/api/user/changepwd', this.user).then(function (response) {
-                toastr.success(_this.$t('el.notification.update_password'));
-                _this.$router.push('/');
+                toastr.success(_this2.$t('el.notification.update_password'));
+                _this2.$router.push('/');
             }, function (error) {
                 __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__config_helper_js__["a" /* stack_error */])(error.response.data);
             });
@@ -49161,11 +49168,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     path: '/signup/confirm/:token',
     component: __webpack_require__(403),
     meta: { requiresAuth: false }
-}, {
-    path: '/404',
-    component: __webpack_require__(394),
-    meta: { requiresAuth: false }
-}, {
+},
+// {
+//     path: '/404',
+//     component: require('./views/404.vue'),
+//     meta: { requiresAuth: false }
+// },
+{
     path: '*',
     redirect: '/404'
 }];
@@ -68017,7 +68026,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.bg > div:first-child {\n    background: #20a0ff !important;\n    border-color: #20a0ff !important;\n}\n\n", ""]);
 
 // exports
 
@@ -68087,7 +68096,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n#repbar[data-v-577741ad] {\n  margin-left: -15px;\n}\na[data-v-577741ad]:hover, a[data-v-577741ad]:focus {\n  text-decoration: none;\n}\n.navbar-nav li a[data-v-577741ad] {\n  padding-top: 0px;\n  padding-bottom: 0px;\n  line-height: 60px;\n}\n.user-nav[data-v-577741ad] {\n  float: right;\n  margin-top: 8px;\n  padding-right: 20px;\n}\n.user-nav ul li[data-v-577741ad] {\n  display: inline-block;\n  vertical-align: middle;\n  font-size: 15px;\n}\n.user-nav .nav-lang[data-v-577741ad] {\n  cursor: pointer;\n  font-size: 1.1em;\n  opacity: 0.8;\n}\n.user-nav .nav-lang.active[data-v-577741ad] {\n  opacity: 1;\n  font-weight: bold;\n}\n.user-nav.dropdown-toggle a[data-v-577741ad]:hover {\n  color: #16a086;\n}\n.user-nav ul li.dropdown.settings .dropdown-menu[data-v-577741ad] {\n  width: 125px;\n  left: -90px;\n  top: 40px;\n  position: absolute;\n}\n.user-nav ul li .dropdown-menu[data-v-577741ad]:before {\n  bottom: 100%;\n  left: 78%;\n  border: solid transparent;\n  content: \" \";\n  height: 0;\n  width: 0;\n  position: absolute;\n  pointer-events: none;\n  border-color: rgba(82, 105, 128, 0);\n  border-bottom-color: #52697f;\n  border-width: 8px;\n  margin-left: -8px;\n  top: -17px;\n}\n.user-nav .dropdown-menu li[data-v-577741ad] {\n  width: 100%;\n  border-radius: 5px;\n}\n.user-nav .dropdown .badge[data-v-577741ad] {\n  background-color: #e84c3d;\n  color: #fff;\n}\n.user-nav .messages .badge[data-v-577741ad] {\n  position: absolute;\n  top: -10px;\n  left: -5px;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu[data-v-577741ad] {\n  border-radius: 3px;\n  left: -150px;\n  top: 48px;\n  background-color: #F6F6F6;\n  border: none;\n  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);\n  padding: 0;\n  width: 350px;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu[data-v-577741ad]:before {\n  bottom: 100%;\n  left: 48%;\n  border: solid transparent;\n  content: \" \";\n  height: 0;\n  width: 0;\n  position: absolute;\n  pointer-events: none;\n  border-color: rgba(238, 238, 238, 0);\n  border-bottom-color: #e84c3d;\n  border-width: 8px;\n  margin-left: -8px;\n}\n.dropdown.messages .dropdown-menu > li[data-v-577741ad], .dropdown.settings .dropdown-menu > li[data-v-577741ad] {\n  display: block;\n}\nli.dropdown ul.dropdown-menu.alert > li h1[data-v-577741ad] {\n  border-radius: 3px 3px 0 0;\n  background-color: #e84c3d;\n  margin: 0;\n  font-size: 13px;\n  padding: 10px;\n  font-weight: 400;\n  color: #fff;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu > li > a[data-v-577741ad] {\n  margin: 10px;\n  border-radius: 5px;\n  background-color: #fcfcfc;\n  color: #797979;\n}\n.user-nav ul li .profile-photo[data-v-577741ad] {\n  display: inline-block;\n  overflow: hidden;\n  vertical-align: middle;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu > li > a .message-info[data-v-577741ad] {\n  vertical-align: top;\n  display: inline-block;\n  font-size: 11px;\n  margin-left: 5px;\n  width: 225px;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu > li > a .message-info .sender[data-v-577741ad] {\n  font-weight: 500;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu > li > a .message-info .time[data-v-577741ad] {\n  font-weight: 300;\n  font-size: 9px;\n  color: #b2b2b2;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu > li > a .message-info .message-content[data-v-577741ad] {\n  white-space: normal;\n  margin-top: 5px;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu > li > a[data-v-577741ad]:hover, .user-nav ul li.dropdown.messages .dropdown-menu > li > a:hover .message-info .time[data-v-577741ad] {\n  background: #1abc9c;\n  color: #fff;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu > li:last-child a[data-v-577741ad] {\n  background-color: #fff;\n  font-weight: 400;\n  font-size: 12px;\n  margin: 0;\n  border-radius: 0 0 3px 3px;\n  text-align: right;\n  padding: 10px 15px;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu > li:last-child a[data-v-577741ad]:hover {\n  background: #1abc9c;\n  color: #fff;\n}\n.user-nav .dropdown .btn-default[data-v-577741ad] {\n  padding: 3px 9px;\n  background: #F6F6F6;\n  border-radius: 50%;\n  -moz-border-radius: 50%;\n  -webkit-border-radius: 50%;\n  width: 35px;\n  height: 35px;\n  border-color: #f6f6f6;\n}\n.user-nav #toggle-mail[data-v-577741ad]:hover {\n  background: #1abc9c;\n}\n.user-nav .dropdown .btn-default[data-v-577741ad]:hover {\n  color: #fff;\n  background-color: #cacfd2;\n  border-color: #cacfd2;\n}\n.user-nav .dropdown .btn-default[data-v-577741ad]:focus {\n  color: #fff;\n  background-color: #cacfd2;\n  border-color: #cacfd2;\n}\n.user-nav .messages[data-v-577741ad] {\n  margin: 0 15px;\n}\n.user-nav .profile-photo[data-v-577741ad] {\n  margin: 0 5px;\n}\n.user-profile-photo[data-v-577741ad] {\n  display: inline-block;\n  overflow: hidden;\n  vertical-align: middle;\n  width: 40px;\n  height: 40px;\n}\n.message-info[data-v-577741ad] {\n  max-height: 60px;\n  overflow: hidden;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu > li > a .message-info .message-content[data-v-577741ad] {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  max-height: 40px;\n}\n.navbar-toggle[data-v-577741ad] {\n  margin: 0;\n  font-size: 20px;\n  text-decoration: none;\n  padding: 13px 20px 0;\n  border: 0;\n  color: #777;\n  cursor: pointer;\n}\n.navbar-inverse .navbar-toggle[data-v-577741ad]:hover {\n  border: 0;\n  border-radius: 0;\n  background-color: #fff !important;\n  text-decoration: none;\n  color: #888;\n}\n.navbar-header[data-v-577741ad] {\n  display: inline-block;\n}\n", ""]);
+exports.push([module.i, "\n#repbar[data-v-577741ad] {\n  margin-left: -15px;\n}\na[data-v-577741ad]:hover, a[data-v-577741ad]:focus {\n  text-decoration: none;\n}\n.navbar-nav li a[data-v-577741ad] {\n  padding-top: 0px;\n  padding-bottom: 0px;\n  line-height: 60px;\n}\n.user-nav[data-v-577741ad] {\n  float: right;\n  margin-top: 8px;\n  padding-right: 20px;\n}\n.user-nav ul li[data-v-577741ad] {\n  display: inline-block;\n  vertical-align: middle;\n  font-size: 15px;\n}\n.user-nav .nav-lang[data-v-577741ad] {\n  cursor: pointer;\n  font-size: 1.1em;\n  opacity: 0.8;\n}\n.user-nav .nav-lang.active[data-v-577741ad] {\n  opacity: 1;\n  font-weight: bold;\n}\n.user-nav.dropdown-toggle a[data-v-577741ad]:hover {\n  color: #16a086;\n}\n.user-nav ul li.dropdown.settings .dropdown-menu[data-v-577741ad] {\n  width: 125px;\n  left: -90px;\n  top: 40px;\n  position: absolute;\n}\n.user-nav ul li .dropdown-menu[data-v-577741ad]:before {\n  bottom: 100%;\n  left: 78%;\n  border: solid transparent;\n  content: \" \";\n  height: 0;\n  width: 0;\n  position: absolute;\n  pointer-events: none;\n  border-color: rgba(82, 105, 128, 0);\n  border-bottom-color: #52697f;\n  border-width: 8px;\n  margin-left: -8px;\n  top: -17px;\n}\n.user-nav .dropdown-menu li[data-v-577741ad] {\n  width: 100%;\n  border-radius: 5px;\n}\n.user-nav .dropdown .badge[data-v-577741ad] {\n  background-color: #e84c3d;\n  color: #fff;\n}\n.user-nav .messages .badge[data-v-577741ad] {\n  position: absolute;\n  top: -10px;\n  left: -5px;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu[data-v-577741ad] {\n  border-radius: 3px;\n  left: -150px;\n  top: 48px;\n  background-color: #F6F6F6;\n  border: none;\n  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);\n  padding: 0;\n  width: 350px;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu[data-v-577741ad]:before {\n  bottom: 100%;\n  left: 48%;\n  border: solid transparent;\n  content: \" \";\n  height: 0;\n  width: 0;\n  position: absolute;\n  pointer-events: none;\n  border-color: rgba(238, 238, 238, 0);\n  border-bottom-color: #e84c3d;\n  border-width: 8px;\n  margin-left: -8px;\n}\n.dropdown.messages .dropdown-menu > li[data-v-577741ad], .dropdown.settings .dropdown-menu > li[data-v-577741ad] {\n  display: block;\n}\nli.dropdown ul.dropdown-menu.alert > li h1[data-v-577741ad] {\n  border-radius: 3px 3px 0 0;\n  background-color: #e84c3d;\n  margin: 0;\n  font-size: 13px;\n  padding: 10px;\n  font-weight: 400;\n  color: #fff;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu > li > a[data-v-577741ad] {\n  margin: 10px;\n  border-radius: 5px;\n  background-color: #fcfcfc;\n  color: #797979;\n}\n.user-nav ul li .profile-photo[data-v-577741ad] {\n  display: inline-block;\n  overflow: hidden;\n  vertical-align: middle;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu > li > a .message-info[data-v-577741ad] {\n  vertical-align: top;\n  display: inline-block;\n  font-size: 11px;\n  margin-left: 5px;\n  width: 225px;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu > li > a .message-info .sender[data-v-577741ad] {\n  font-weight: 500;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu > li > a .message-info .time[data-v-577741ad] {\n  font-weight: 300;\n  font-size: 9px;\n  color: #b2b2b2;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu > li > a .message-info .message-content[data-v-577741ad] {\n  white-space: normal;\n  margin-top: 5px;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu > li > a[data-v-577741ad]:hover, .user-nav ul li.dropdown.messages .dropdown-menu > li > a:hover .message-info .time[data-v-577741ad] {\n  background: #1abc9c;\n  color: #fff;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu > li:last-child a[data-v-577741ad] {\n  background-color: #fff;\n  font-weight: 400;\n  font-size: 12px;\n  margin: 0;\n  border-radius: 0 0 3px 3px;\n  text-align: right;\n  padding: 10px 15px;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu > li:last-child a[data-v-577741ad]:hover {\n  background: #1abc9c;\n  color: #fff;\n}\n.user-nav .dropdown .btn-default[data-v-577741ad] {\n  padding: 3px 9px;\n  background: #F6F6F6;\n  border-radius: 50%;\n  -moz-border-radius: 50%;\n  -webkit-border-radius: 50%;\n  width: 35px;\n  height: 35px;\n  border-color: #f6f6f6;\n}\n.user-nav #toggle-mail[data-v-577741ad]:hover {\n  background: #1abc9c;\n}\n.user-nav .dropdown .btn-default[data-v-577741ad]:hover {\n  color: #fff;\n  background-color: #cacfd2;\n  border-color: #cacfd2;\n}\n.user-nav .dropdown .btn-default[data-v-577741ad]:focus {\n  color: #fff;\n  background-color: #cacfd2;\n  border-color: #cacfd2;\n}\n.user-nav .messages[data-v-577741ad] {\n  margin: 0 15px;\n}\n.user-nav .profile-photo[data-v-577741ad] {\n  margin: 0 5px;\n}\n.user-profile-photo[data-v-577741ad] {\n  display: inline-block;\n  overflow: hidden;\n  vertical-align: middle;\n  width: 40px;\n  height: 40px;\n}\n.message-info[data-v-577741ad] {\n  max-height: 60px;\n  overflow: hidden;\n}\n.user-nav ul li.dropdown.messages .dropdown-menu > li > a .message-info .message-content[data-v-577741ad] {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  max-height: 40px;\n}\n.navbar-toggle[data-v-577741ad] {\n  margin: 0;\n  font-size: 20px;\n  text-decoration: none;\n  padding: 13px 20px 0;\n  border: 0;\n  color: #777;\n  cursor: pointer;\n}\n.navbar-inverse .navbar-toggle[data-v-577741ad]:hover {\n  border: 0;\n  border-radius: 0;\n  background-color: #fff !important;\n  text-decoration: none;\n  color: #888;\n}\n.navbar-header[data-v-577741ad] {\n  display: inline-block;\n}\n@media (max-width: 479px) {\n.user-nav .dropdown.messages[data-v-577741ad] {\n    display: none;\n}\n}\n", ""]);
 
 // exports
 
@@ -68219,20 +68228,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 
 /***/ }),
-/* 341 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\nbody{\n  /*background-color: #324865;*/\n}\n.error{\n    color: #324865;\n    font-size: 250px;\n    text-align: center;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 341 */,
 /* 342 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -68303,7 +68299,20 @@ exports.push([module.i, "\n.editor-toolbar.fullscreen {\n      z-index: 1000 !im
 
 
 /***/ }),
-/* 347 */,
+/* 347 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n.label[data-v-e8f15b76] {\n    background-color: #d1dade;\n    color: #5e5e5e;\n    font-size: 10px;\n    font-weight: 600;\n    padding: 3px 8px;\n    text-shadow: none;\n}\n.label-primary[data-v-e8f15b76], .badge-primary[data-v-e8f15b76] {\n      background-color: #23b7e5;\n      color: #FFFFFF;\n}\n.height[data-v-e8f15b76] {\n      height: 50%;\n}\n.split-line[data-v-e8f15b76] {\n      border-top: 1px solid #E9E9E9\n}\n.info-container[data-v-e8f15b76] {\n      font-size: 12px;\n      width:250px;\n      float: right;\n}\n.el-row[data-v-e8f15b76] {\n    text-align: center;\n    line-height: 36px;\n  margin-bottom: 20px;\n&:last-child {\n    margin-bottom: 0;\n}\n}\n.row-eq-height[data-v-e8f15b76] {\n  /*display: flex;*/\n  word-break: break-all;\n  word-wrap: break-word;\n}\n.el-col[data-v-e8f15b76] {\n  border-radius: 4px;\n}\n.bg-purple-dark[data-v-e8f15b76] {\n  background: #99a9bf;\n}\n.bg-purple[data-v-e8f15b76] {\n  font-weight: bold;\n  background: #d3dce6;\n}\n.bg-purple-light[data-v-e8f15b76] {\n  background: #e5e9f2;\n}\n.grid-content[data-v-e8f15b76] {\n  min-height: 36px;\n}\n.row-bg[data-v-e8f15b76] {\n  padding: 10px 0;\n  background-color: #f9fafc;\n}\n.el-row[data-v-e8f15b76] {\n    margin: 0px;\n}\n.el-dialog__header[data-v-e8f15b76] {\n  border-bottom: 1px solid #E9E9E9;\n  padding-bottom: 20px;\n}\n/*.el-pager li.active {\n  border-color: #324b57 !important;\n  background-color: #324b57 !important;\n}*/\n.none[data-v-e8f15b76] {\n    color: #ECF0F1;\n    padding-bottom: 20px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
 /* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -119879,44 +119888,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 394 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(502)
-
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(218),
-  /* template */
-  __webpack_require__(462),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/vagrant/Code/SourceCode/lnc/resources/assets/js/views/404.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] 404.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-968a8f32", Component.options)
-  } else {
-    hotAPI.reload("data-v-968a8f32", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
+/* 394 */,
 /* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -120412,7 +120384,7 @@ module.exports = Component.exports
 
 
 /* styles */
-__webpack_require__(525)
+__webpack_require__(508)
 
 var Component = __webpack_require__(1)(
   /* script */
@@ -122980,20 +122952,32 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("修改")])])]), _vm._v(" "), _c('el-tab-pane', {
     attrs: {
-      "label": "配置管理",
-      "name": "second"
+      "label": "我的类型",
+      "name": "second",
+      "id": "type"
     }
-  }, [_vm._v("配置管理")]), _vm._v(" "), _c('el-tab-pane', {
-    attrs: {
-      "label": "角色管理",
-      "name": "third"
-    }
-  }, [_vm._v("角色管理")]), _vm._v(" "), _c('el-tab-pane', {
-    attrs: {
-      "label": "定时任务补偿",
-      "name": "fourth"
-    }
-  }, [_vm._v("定时任务补偿")])], 1)
+  }, _vm._l((_vm.types), function(types, index) {
+    return _c('div', {
+      staticClass: "row"
+    }, [_c('div', {
+      staticClass: "col-md-offset-4 col-md-4"
+    }, [_c('h3', [_vm._v(_vm._s(index))]), _vm._v(" "), _vm._l((types), function(roles, priority) {
+      return [_c('el-steps', {
+        attrs: {
+          "space": 200
+        }
+      }, _vm._l((roles), function(role, index) {
+        return _c('el-step', {
+          class: {
+            'bg': index == priority
+          },
+          attrs: {
+            "title": role.display_name
+          }
+        })
+      }))]
+    })], 2)])
+  }))], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -123652,8 +123636,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v(_vm._s(_vm.notifications.length))]) : _vm._e(), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('ul', {
     staticClass: "dropdown-menu alert animated fadeInDown"
-  }, [_c('li', [_c('h1', [_vm._v("You have\n                              "), _c('strong', [_vm._v(_vm._s(_vm.notifications.length))]), _vm._v(" new messages")])]), _vm._v(" "), _vm._l((_vm.notifications), function(notification) {
-    return _c('li', [_c('router-link', {
+  }, [_c('li', [_c('h1', [_vm._v("You have\n                              "), _c('strong', [_vm._v(_vm._s(_vm.notifications.length))]), _vm._v(" new messages")])]), _vm._v(" "), _vm._l((_vm.notifications), function(notification, index) {
+    return (index < 5) ? _c('li', [_c('router-link', {
       attrs: {
         "to": '/audit/details/' + notification.data.applicat_id
       }
@@ -123675,7 +123659,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "time"
     }, [_vm._v(_vm._s(notification.created_at))]), _vm._v(" "), _c('div', {
       staticClass: "message-content"
-    }, [_vm._v(_vm._s(notification.data.reason))])])])], 1)
+    }, [_vm._v(_vm._s(notification.data.reason))])])])], 1) : _vm._e()
   }), _vm._v(" "), _c('li', [_c('router-link', {
     attrs: {
       "to": "/audit"
@@ -123846,11 +123830,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       ]
     }, [_vm._v(_vm._s(applicat.status) + "\n                                            ")])]), _vm._v(" "), _c('td', {
       staticClass: "project-title col-md-4"
-    }, [_c('a', {
+    }, [_c('router-link', {
       attrs: {
-        "href": "project_detail.html"
+        "to": _vm.$route.path + '/details/' + applicat.id
       }
-    }, [_vm._v(_vm._s(applicat.mechanism) + " - " + _vm._s(applicat.type))]), _vm._v(" "), _c('br'), _vm._v(" "), _c('small', [_vm._v("创建于 " + _vm._s(applicat.created_at))])]), _vm._v(" "), _c('td', {
+    }, [_vm._v("\n                                              " + _vm._s(applicat.mechanism) + " - " + _vm._s(applicat.type) + "\n                                            ")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('small', [_vm._v("创建于 " + _vm._s(applicat.created_at))])], 1), _vm._v(" "), _c('td', {
       staticClass: "project-roles col-md-5"
     }, [_c('el-steps', {
       attrs: {
@@ -125237,23 +125221,7 @@ if (false) {
 }
 
 /***/ }),
-/* 462 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', {
-    staticClass: "error"
-  }, [_vm._v("404")])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-968a8f32", module.exports)
-  }
-}
-
-/***/ }),
+/* 462 */,
 /* 463 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -129121,32 +129089,7 @@ if(false) {
 }
 
 /***/ }),
-/* 502 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(341);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("a57fc280", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-968a8f32!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./404.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-968a8f32!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./404.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
+/* 502 */,
 /* 503 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -129277,7 +129220,32 @@ if(false) {
 }
 
 /***/ }),
-/* 508 */,
+/* 508 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(347);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("028ac4cc", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-e8f15b76&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Audit.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-e8f15b76&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Audit.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
 /* 509 */
 /***/ (function(module, exports) {
 
@@ -129326,58 +129294,6 @@ module.exports = function() {
 __webpack_require__(162);
 module.exports = __webpack_require__(163);
 
-
-/***/ }),
-/* 512 */,
-/* 513 */,
-/* 514 */,
-/* 515 */,
-/* 516 */,
-/* 517 */,
-/* 518 */,
-/* 519 */,
-/* 520 */,
-/* 521 */,
-/* 522 */,
-/* 523 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.label[data-v-e8f15b76] {\n    background-color: #d1dade;\n    color: #5e5e5e;\n    font-size: 10px;\n    font-weight: 600;\n    padding: 3px 8px;\n    text-shadow: none;\n}\n.label-primary[data-v-e8f15b76], .badge-primary[data-v-e8f15b76] {\n      background-color: #23b7e5;\n      color: #FFFFFF;\n}\n.height[data-v-e8f15b76] {\n      height: 50%;\n}\n.split-line[data-v-e8f15b76] {\n      border-top: 1px solid #E9E9E9\n}\n.info-container[data-v-e8f15b76] {\n      font-size: 12px;\n      width:250px;\n      float: right;\n}\n.el-row[data-v-e8f15b76] {\n    text-align: center;\n    line-height: 36px;\n  margin-bottom: 20px;\n&:last-child {\n    margin-bottom: 0;\n}\n}\n.row-eq-height[data-v-e8f15b76] {\n  /*display: flex;*/\n  word-break: break-all;\n  word-wrap: break-word;\n}\n.el-col[data-v-e8f15b76] {\n  border-radius: 4px;\n}\n.bg-purple-dark[data-v-e8f15b76] {\n  background: #99a9bf;\n}\n.bg-purple[data-v-e8f15b76] {\n  font-weight: bold;\n  background: #d3dce6;\n}\n.bg-purple-light[data-v-e8f15b76] {\n  background: #e5e9f2;\n}\n.grid-content[data-v-e8f15b76] {\n  min-height: 36px;\n}\n.row-bg[data-v-e8f15b76] {\n  padding: 10px 0;\n  background-color: #f9fafc;\n}\n.el-row[data-v-e8f15b76] {\n    margin: 0px;\n}\n.el-dialog__header[data-v-e8f15b76] {\n  border-bottom: 1px solid #E9E9E9;\n  padding-bottom: 20px;\n}\n/*.el-pager li.active {\n  border-color: #324b57 !important;\n  background-color: #324b57 !important;\n}*/\n.none[data-v-e8f15b76] {\n    color: #ECF0F1;\n    padding-bottom: 20px;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 524 */,
-/* 525 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(523);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("028ac4cc", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-e8f15b76&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Audit.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-e8f15b76&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Audit.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
 
 /***/ })
 /******/ ]);

@@ -23,6 +23,21 @@ class TypeController extends ApiController
         $this->type = $type;
     }
 
+    public function me()
+    {
+        $roles = \Auth::user()->roles;
+        $types = [];
+        //遍历角色获取每一个角色对应的申请类型
+        foreach($roles as $role) {
+            foreach( $role->types as $type) {
+                // $types[$type->pivot->priority] = $type;
+                $types[$type->name] = [$type->pivot->priority => $type->roles];
+            }
+        }
+        return $types;
+        // foreach ($roles as $role)
+    }
+
     /**
      * add type
      * @param  typeRequest

@@ -24,7 +24,7 @@ class TypeTransformer extends TransformerAbstract
 
     public function includeRoles(Type $type)
     {
-        $roles = $type->roles;
+        $roles = $type->roles()->orderBy('priority')->get();
 
         return $this->collection($roles, new RoleTransformer);
     }

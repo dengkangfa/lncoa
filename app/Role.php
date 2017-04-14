@@ -33,7 +33,7 @@ class Role extends EntrustRole
 
     public function types()
     {
-        return $this->belongsToMany('App\Type')->withTimestamps();
+        return $this->belongsToMany('App\Type')->withTimestamps()->withPivot('priority');
     }
 
     public function applicats()

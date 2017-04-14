@@ -48,7 +48,7 @@ class ApplicatController extends ApiController
         return $this->respondWithItem($this->applicat->getById($id), new ApplicatTransformer);
     }
 
-    public function store(Request $request)
+    public function store(ApplicatRequest $request)
     {
         $applicat = $this->applicat->store($request->all());
         $users = \App\Type::find($applicat->type_id)->startRole()->first()->users;

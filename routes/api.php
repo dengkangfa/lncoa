@@ -44,6 +44,7 @@ Route::group([
 
     Route::resource('permission', 'PermissionController', ['except' => ['create', 'show']]);
 
+    Route::get('type/me', 'TypeController@me');
     Route::put('type/sorts', 'TypeController@updateSorts');
     Route::resource('type', 'TypeController');
 
