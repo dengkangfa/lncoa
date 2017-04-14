@@ -21,8 +21,8 @@ class CreateApplicatsTable extends Migration
             $table->integer('mechanism_id')->unsigned()->comment('申请机构');
             $table->smallInteger('number')->comment('参与人数');
             $table->integer('type_id')->unsigned()->comment('类型');
-            $table->timestamp('startTime')->comment('开始时间');
-            $table->timestamp('finishTime')->comment('结束时间');
+            $table->dateTime('startTime')->comment('开始时间');
+            $table->dateTime('endTime')->comment('结束时间');
             $table->string('agency')->nullable()->comment('联合机构');
             $table->text('reason')->comment('申请缘由');
             $table->text('goods')->nullabel()->comment('物资申请');
