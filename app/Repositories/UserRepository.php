@@ -60,9 +60,13 @@ class UserRepository
      * @param  string $sortColumn
      * @return Paginate
      */
-    public function page($number = 10, $sort = 'desc', $sortColumn = 'created_at')
+    public function page($option = [], $number = 10, $sort = 'desc', $sortColumn = 'created_at')
     {
-        $users = $this->model->withoutGlobalScope(StatusScope::class)->orderBy($sortColumn, $sort)->paginate($number);
+        $users = $this->model
+        ->withoutGlobalScope(StatusScope::class)
+        ->where($option)
+        ->orderBy($sortColumn, $sort)
+        ->paginate($number);
         return $users;
     }
 

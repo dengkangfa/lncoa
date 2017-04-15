@@ -111,7 +111,11 @@
           return {
               is_chart: true,
               is_notice: true,
-              statistics: {},
+              statistics: {
+                  users: 0,
+                  applicats: 0,
+                  files: 0
+              },
               data: {
                   labels : ["January","February","March","April","May","June","July"],
                   datasets : [

@@ -49,10 +49,17 @@ class UserController extends ApiController
      */
     public function index(Request $request)
     {
+        $option = [];
+        $request->has('id') ? $option[] = ['id',$request->id] : '';
+        $request->has('name') ? $option[] = ['name', 'like' , '%' + $request->name + '%'] : '';
+        $request->has('email') ? $option[] = ['email',$request->email] : '';
+        // $request->has('role') ? $option[] = ['id',$request->id] : '';
+        // $request->has('status') ? $option[] = ['status',$request->status] : '';
+        // $request->has('created_at') ? $option[] = ['status',$request->status] : '';
         if($request->has('pageSize')){
-          return $this->respondWithPaginator($this->user->page($request->pageSize), new UserTransformer);
+          return $this->respondWithPaginator($this->user->page($option, $request->pageSize), new UserTransformer);
         }
-        return $this->respondWithPaginator($this->user->page(), new UserTransformer);
+        return $this->respondWithPaginator($this->user->page($option), new UserTransformer);
     }
 
     /**

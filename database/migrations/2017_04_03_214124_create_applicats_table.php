@@ -25,8 +25,8 @@ class CreateApplicatsTable extends Migration
             $table->dateTime('endTime')->comment('结束时间');
             $table->string('agency')->nullable()->comment('联合机构');
             $table->text('reason')->comment('申请缘由');
-            $table->text('goods')->nullabel()->comment('物资申请');
-            $table->text('files')->nullabel();
+            $table->text('goods')->nullable()->comment('物资申请');
+            $table->text('files')->nullable();
             $table->tinyInteger('stage')->default(0)->comment('阶段');
             $table->integer('status_id')->default(1)->unsigned()->comment('状态');
             $table->timestamps();

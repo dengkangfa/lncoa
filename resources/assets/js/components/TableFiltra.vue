@@ -79,13 +79,20 @@
           determine() {
               console.log(this.fiterFields);
               let str = '';
+              let queryVal = {};
               this.fiterFields.forEach( function(e){
-                  str = str + '&' + e.name + '=' + e.val;
+                  // str = str + '&' + e.name + '=' + e.val;
+                  queryVal[e.name] = e.val;
               })
+              console.log(queryVal);
+              this.$router.push({ path: this.$route.fullPath, query: queryVal});
               console.log(str);
-              this.$route.query = str;
-              // this.$route.push(str);
+              //获取参数和 hash 的完整路径
+              let path = this.$route.fullPath;
+              console.log(path);
+              // this.$router.push('/users?pageSize=20&id=5&name=&email=&role=&status=%E6%89%80%E6%9C%89&created_at=');
               this.dialogVisible = false;
+              // this.$emit('loadData')
           }
       }
   }

@@ -24,7 +24,7 @@ class ApplicatRequest extends FormRequest
     public function rules()
     {
         return [
-            'principal' => 'required',
+            'principal' => 'required|min:2|max:5',
             'mobile' => 'required|regex:/^1[34578][0-9]{9}$/',
             'mechanism_id' => 'required',
             'number' => 'required|numeric|max:3000',

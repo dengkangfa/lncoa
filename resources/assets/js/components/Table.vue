@@ -211,6 +211,8 @@
         },
         methods: {
             loadData() {
+              console.log(1);
+              console.log(this.$route.fullPath);
                 var url = this.apiUrl;
 
                 if (this.currentPage) {

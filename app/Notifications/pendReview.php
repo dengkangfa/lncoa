@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class PendReview extends Notification
+class PendReview extends Notification implements ShouldQueue
 {
     use Queueable;
 
