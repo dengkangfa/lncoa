@@ -21,6 +21,16 @@ class Role extends EntrustRole
     //     'pivot'
     // ];
 
+    //Big block of caching functionality.
+    // public function cachedPermissions()
+    // {
+    //     $rolePrimaryKey = $this->primaryKey;
+    //     $cacheKey = 'entrust_permissions_for_role_'.$this->$rolePrimaryKey;
+    //     return Cache::tags(Config::get('entrust.permission_role_table'))->remember($cacheKey, Config::get('cache.ttl'), function () {
+    //         return $this->perms()->get();
+    //     });
+    // }
+
     public function menus()
     {
         return $this->belongsToMany('App\Menu')->withTimestamps();
@@ -40,4 +50,5 @@ class Role extends EntrustRole
     {
         return $this->hasManyThrough('App\Applicat', 'App\Type');
     }
+
 }

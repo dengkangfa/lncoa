@@ -60,13 +60,21 @@ class UserRepository
      * @param  string $sortColumn
      * @return Paginate
      */
-    public function page($option = [], $number = 10, $sort = 'desc', $sortColumn = 'created_at')
-    {
+    public function page($option = [],
+      $created_at = ['1970-01-01 00:00:01','2038-01-09 03:14:07'],
+      $number = 10,
+      $sort = 'desc',
+      $sortColumn = 'created_at'
+    ){
         $users = $this->model
         ->withoutGlobalScope(StatusScope::class)
         ->where($option)
+        ->when($created_at, function ($query) use ($created_at) {
+            return $query->whereBetween('created_at', $created_at);
+        })
         ->orderBy($sortColumn, $sort)
         ->paginate($number);
+        \Log::info($users);
         return $users;
     }
 

@@ -43664,6 +43664,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             }
         }
     },
+    watch: {
+        '$route': 'loadData'
+    },
     components: {
         TablePagination: __WEBPACK_IMPORTED_MODULE_1__TablePagination_vue___default.a,
         CustomAction: __WEBPACK_IMPORTED_MODULE_0__CustomAction_vue___default.a,
@@ -43704,31 +43707,16 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         loadData: function loadData() {
             var _this2 = this;
 
-            console.log(1);
-            console.log(this.$route.fullPath);
+            //获取当前全路由路径
+            var fullpath = this.$route.fullPath;
+            //获取相应的api地址
             var url = this.apiUrl;
 
-            if (this.currentPage) {
-                var page = '';
-                if (url.indexOf('?') != -1) {
-                    page = '&page=';
-                } else {
-                    page = '?page=';
-                }
-                url = url + page + this.currentPage;
-                this.$router.push('?page=' + this.currentPage);
-            }
+            console.log(fullpath.slice(fullpath.indexOf("?")));
+            //判断是否存在
+            if (fullpath.indexOf("?") != -1) url += '&' + fullpath.slice(fullpath.indexOf("?") + 1);
+            console.log(url);
 
-            if (this.pageSize > 10) {
-                var pageSize = '';
-                if (url.indexOf('?') != -1) {
-                    pageSize = '&pageSize=';
-                } else {
-                    pageSize = '?pageSize=';
-                }
-                url = url + pageSize + this.pageSize;
-                this.$router.push('?pageSize=' + this.pageSize);
-            }
             axios.get(url).then(function (response) {
                 console.log(response);
                 // this.pagination = response.data.meta.pagination
@@ -43807,11 +43795,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         },
         handleSizeChange: function handleSizeChange(val) {
             this.pageSize = val;
+            this.$router.push({ path: this.$route.fullPath, query: { pageSize: val } });
             this.loadData();
         },
         handleCurrentChange: function handleCurrentChange(val) {
             //currentPage 改变时会触发
             this.currentPage = val;
+            this.$router.push({ path: this.$route.fullPath, query: { currentPage: val } });
             this.loadData();
         },
         deepCopy: function deepCopy(source) {
@@ -43883,6 +43873,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = {
@@ -43896,37 +43887,80 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             roles: [],
             radio: '所有',
+            datatime: {},
             dialogVisible: false
         };
     },
     created: function created() {
         var vm = this;
-        axios.get(__WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].api.roles).then(function (response) {
-            console.log(response);
-            response.data.data.forEach(function (e) {
-                vm.roles.push({ value: e.name, label: e.display_name });
-            });
+        vm.fiterFields.forEach(function (e) {
+            var key = e.name;
+            e.val = vm.$route.query[key];
+            // if(key == 'created_at') {
+            //     vm.datatime = vm.$route.query[key];
+            // }
         });
+        //获取所有的角色组数据
+        // axios.get(server.api.roles).then( response => {
+        //   console.log(response);
+        //     response.data.data.forEach(function (e){
+        //         vm.roles.push({value: e.name, label: e.display_name});
+        //     });
+        // })
     },
 
     methods: {
         determine: function determine() {
-            console.log(this.fiterFields);
             var str = '';
             var queryVal = {};
-            this.fiterFields.forEach(function (e) {
-                // str = str + '&' + e.name + '=' + e.val;
-                queryVal[e.name] = e.val;
+            var vm = this;
+            vm.fiterFields.forEach(function (e) {
+                //如果是角色筛选，则将数组拼接成字符串
+                if (e.name == 'status') {
+                    var statusId = void 0;
+                    if (e.val == '激活') {
+                        statusId = 1;
+                    } else if (e.val == '未激活') {
+                        statusId = 0;
+                    } else {
+                        statusId = '';
+                    }
+                    queryVal[e.name] = statusId;
+                } else if (e.name == 'created_at') {
+                    if (e.val[0] != null && e.val[1] != null) {
+                        console.log(e.val);
+                        var startTime = vm.formatDataTime(e.val[0]);
+                        var endTime = vm.formatDataTime(e.val[1]);
+                        var created_at = startTime + "#" + endTime;
+                        queryVal[e.name] = created_at;
+                    } else {
+                        queryVal[e.name] = '';
+                    }
+                } else {
+                    //筛选名 -> 筛选值
+                    queryVal[e.name] = e.val;
+                }
             });
-            console.log(queryVal);
-            this.$router.push({ path: this.$route.fullPath, query: queryVal });
-            console.log(str);
-            //获取参数和 hash 的完整路径
-            var path = this.$route.fullPath;
-            console.log(path);
-            // this.$router.push('/users?pageSize=20&id=5&name=&email=&role=&status=%E6%89%80%E6%9C%89&created_at=');
-            this.dialogVisible = false;
-            // this.$emit('loadData')
+            vm.$router.push({ path: vm.$route.fullPath, query: queryVal });
+            vm.dialogVisible = false;
+        },
+        refresh: function refresh() {
+            this.$router.push({ path: this.$route.fullPath, query: { id: '', name: '', email: '', status: '', created_at: '' } });
+        },
+        formatDataTime: function formatDataTime(date) {
+            //时间格式化
+            if (date.getFullYear) {
+                var y = date.getFullYear();
+                var m = date.getMonth() + 1;
+                m = m < 10 ? '0' + m : m;
+                var d = date.getDate();
+                d = d < 10 ? '0' + d : d;
+                var h = date.getHours();
+                var minute = date.getMinutes();
+                minute = minute < 10 ? '0' + minute : minute;
+                return y + '-' + m + '-' + d + ' ' + h + ':' + minute;
+            }
+            return date;
         }
     }
 };
@@ -48266,12 +48300,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 trans: 'el.table.email',
                 type: 'text',
                 val: ''
-            }, {
-                name: 'role',
-                trans: 'el.table.role',
-                type: 'select',
-                val: ''
-            }, {
+            },
+            // {
+            //     name: 'role',
+            //     trans: 'el.table.role',
+            //     type: 'select',
+            //     val: ''
+            // },
+            {
                 name: 'status',
                 trans: 'el.table.status',
                 type: 'radio',
@@ -122458,6 +122494,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "primary",
       "size": "mini"
+    },
+    on: {
+      "click": _vm.refresh
     }
   }, [_c('i', {
     staticClass: "ion-refresh"
@@ -122483,39 +122522,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('hr'), _vm._v(" "), _c('form', _vm._l((_vm.fiterFields), function(fiterField) {
     return _c('div', {
       staticClass: "input-group input-group-sm"
-    }, [(fiterField.type == 'select') ? [_c('span', {
-      staticClass: "input-group-addon"
-    }, [_vm._v(_vm._s(_vm.$t(fiterField.trans)))]), _vm._v(" "), _c('el-select', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (fiterField.val),
-        expression: "fiterField.val"
-      }],
-      attrs: {
-        "multiple": "",
-        "placeholder": _vm.$t('el.select.placeholder'),
-        "size": "large"
-      },
-      domProps: {
-        "value": (fiterField.val)
-      },
-      on: {
-        "input": function($event) {
-          fiterField.val = $event
-        }
-      }
-    }, _vm._l((_vm.roles), function(item) {
-      return _c('el-option', {
-        staticStyle: {
-          "border-radius": "0"
-        },
-        attrs: {
-          "label": item.label,
-          "value": item.value
-        }
-      })
-    }))] : (fiterField.type == 'radio') ? [_c('el-radio-group', {
+    }, [(fiterField.type == 'radio') ? [_c('el-radio-group', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -122552,6 +122559,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         expression: "fiterField.val"
       }],
       attrs: {
+        "value": "datatime",
         "type": "daterange",
         "placeholder": _vm.$t('el.datepicker.selectDateRange')
       },

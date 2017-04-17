@@ -64,6 +64,16 @@ class User extends Authenticatable
         });
     }
 
+    public function hasMenu($menu)
+    {
+        $roles = $this->roles();
+        foreach($roles as $role) {
+          if($role->menus()->get()->contains($menu))
+            return true;
+        }
+        return false;
+    }
+
     public function roles()
     {
         return $this->belongsToMany(

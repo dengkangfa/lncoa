@@ -81,12 +81,12 @@
                         type: 'text',
                         val: ''
                     },
-                    {
-                        name: 'role',
-                        trans: 'el.table.role',
-                        type: 'select',
-                        val: ''
-                    },
+                    // {
+                    //     name: 'role',
+                    //     trans: 'el.table.role',
+                    //     type: 'select',
+                    //     val: ''
+                    // },
                     {
                         name: 'status',
                         trans: 'el.table.status',

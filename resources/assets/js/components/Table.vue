@@ -172,6 +172,9 @@
                 }
             }
         },
+        watch: {
+            '$route': 'loadData'
+        },
         components: {
             TablePagination,
             CustomAction,
@@ -211,31 +214,17 @@
         },
         methods: {
             loadData() {
-              console.log(1);
-              console.log(this.$route.fullPath);
-                var url = this.apiUrl;
+                //获取当前全路由路径
+                let fullpath = this.$route.fullPath
+                //获取相应的api地址
+                let url = this.apiUrl;
 
-                if (this.currentPage) {
-                    let page = ''
-                    if (url.indexOf('?') != -1) {
-                        page = '&page='
-                    } else {
-                        page = '?page='
-                    }
-                    url = url + page + this.currentPage;
-                    this.$router.push('?page=' + this.currentPage)
-                }
+                console.log(fullpath.slice(fullpath.indexOf("?")));
+                //判断是否存在
+                if(fullpath.indexOf("?") != -1)
+                url += '&' + fullpath.slice(fullpath.indexOf("?") + 1);
+                console.log(url);
 
-                if (this.pageSize > 10) {
-                    let pageSize = ''
-                    if (url.indexOf('?') != -1) {
-                        pageSize = '&pageSize='
-                    } else {
-                        pageSize = '?pageSize='
-                    }
-                    url = url + pageSize + this.pageSize;
-                    this.$router.push('?pageSize=' + this.pageSize)
-                }
                 axios.get(url).then(response => {
                   console.log(response);
                         // this.pagination = response.data.meta.pagination
@@ -315,11 +304,13 @@
             },
             handleSizeChange(val) {
                 this.pageSize = val;
+                this.$router.push({ path: this.$route.fullPath, query: { pageSize: val }});
                 this.loadData();
            },
            handleCurrentChange(val) {
                //currentPage 改变时会触发
-               this.currentPage = val;
+               this.currentPage =val;
+               this.$router.push({ path: this.$route.fullPath, query: { currentPage: val }});
                this.loadData();
            },
            deepCopy(source) {

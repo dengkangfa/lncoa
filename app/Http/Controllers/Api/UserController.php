@@ -50,16 +50,21 @@ class UserController extends ApiController
     public function index(Request $request)
     {
         $option = [];
-        $request->has('id') ? $option[] = ['id',$request->id] : '';
-        $request->has('name') ? $option[] = ['name', 'like' , '%' + $request->name + '%'] : '';
+        //id
+        $request->has('id') ? $option[] = ['id', $request->id] : '';
+        //用户名过滤
+        $request->has('name') ? $option[] = ['name', 'like' , '%' . $request->name . '%'] : '';
+        //邮件过滤
         $request->has('email') ? $option[] = ['email',$request->email] : '';
-        // $request->has('role') ? $option[] = ['id',$request->id] : '';
-        // $request->has('status') ? $option[] = ['status',$request->status] : '';
-        // $request->has('created_at') ? $option[] = ['status',$request->status] : '';
+        // 激活状态
+        $request->has('status') ? $option[] = ['status',$request->status] : '';
+        //某段时间创建的用户
+        $create_at = $request->has('created_at') ? explode('#', $request->created_at) : '';
+        \Log::info($create_at);
         if($request->has('pageSize')){
-          return $this->respondWithPaginator($this->user->page($option, $request->pageSize), new UserTransformer);
+          return $this->respondWithPaginator($this->user->page($option, $create_at, $request->pageSize), new UserTransformer);
         }
-        return $this->respondWithPaginator($this->user->page($option), new UserTransformer);
+        return $this->respondWithPaginator($this->user->page($option, $create_at), new UserTransformer);
     }
 
     /**

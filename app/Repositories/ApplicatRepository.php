@@ -27,26 +27,28 @@ class ApplicatRepository
         //获取当前登录的用户角色
         $roles = \Auth::user()->roles()->with('types')->get();
         $typeIds = [];
-        $priority = [];
+        $roleId = [];
         //遍历角色获取每一个角色对应的申请类型
+        $applicats = [];
         foreach($roles as $role) {
             foreach( $role->types as $type) {
+                $roleId[] = $role->id;
                 // 获取该类型对应的申请
                 $typeIds[] = $type->id;
-                \Log::info($type);
-                $priority[] = $type->pivot->priority;
             }
         }
+        $roleId = implode(',', $roleId);
         //获取到当前用户审核的申请
         $applicats = $this->model
                     ->whereIn('type_id',$typeIds)
-                    ->whereIn('stage',$priority)
+                    ->where('stage',\DB::raw(
+                      "(select priority from role_type r where
+                        r.type_id = applicats.type_id
+                        and (r.role_id in ($roleId)) limit 1)"
+                      ))
                       ->with('user', 'mechanism', 'type', 'status', 'opinions')
-                        ->orderBy($sortColumn, $sort)->paginate($number);
-                        // ->where(function ($query) {
-                        //     $query->where('stage', \DB::table('role_type')->whereIn(''));
-                        //     // ->where('title', '<>', 'Admin');
-                        // })
+                        ->orderBy($sortColumn, $sort)
+                         ->paginate($number);
         return $applicats;
     }
 

@@ -3,13 +3,13 @@
       <el-button type="primary" size="mini"><i class="ion-archive"></i> {{ $t('el.page.export') }}</el-button>
     <el-button-group style="margin-bottom:2px">
       <el-button type="primary" icon="search" size="mini" @click="dialogVisible=true">{{ $t('el.page.search') }}</el-button>
-      <el-button type="primary" size="mini"><i class="ion-refresh"></i></el-button>
+      <el-button type="primary" size="mini" @click="refresh"><i class="ion-refresh"></i></el-button>
     </el-button-group>
     <el-dialog title="过滤" v-model="dialogVisible" size="tiny">
       <hr>
       <form>
         <div class="input-group input-group-sm" v-for="fiterField in fiterFields">
-            <template v-if="fiterField.type == 'select'">
+            <!-- <template v-if="fiterField.type == 'select'">
               <span class="input-group-addon">{{ $t( fiterField.trans ) }}</span>
               <el-select v-model="fiterField.val" multiple :placeholder="$t( 'el.select.placeholder' )" size="large">
                 <el-option
@@ -19,8 +19,8 @@
                   :value="item.value">
                 </el-option>
               </el-select>
-            </template>
-            <template v-else-if="fiterField.type == 'radio'">
+            </template> -->
+            <template v-if="fiterField.type == 'radio'">
               <el-radio-group v-model="fiterField.val">
                 <el-radio-button label="所有"></el-radio-button>
                 <el-radio-button label="激活"></el-radio-button>
@@ -31,6 +31,7 @@
               <span class="input-group-addon">{{ $t( fiterField.trans ) }}</span>
               <el-date-picker
                 v-model="fiterField.val"
+                value= "datatime"
                 type="daterange"
                 :placeholder="$t( 'el.datepicker.selectDateRange' )">
               </el-date-picker>
@@ -63,37 +64,80 @@
           return {
               roles: [],
               radio: '所有',
+              datatime: {},
               dialogVisible: false,
           };
       },
       created() {
           let vm = this;
-          axios.get(server.api.roles).then( response => {
-            console.log(response);
-              response.data.data.forEach(function (e){
-                  vm.roles.push({value: e.name, label: e.display_name});
-              });
+          vm.fiterFields.forEach( function(e){
+              let key = e.name
+              e.val = vm.$route.query[key];
+              // if(key == 'created_at') {
+              //     vm.datatime = vm.$route.query[key];
+              // }
           })
+          //获取所有的角色组数据
+          // axios.get(server.api.roles).then( response => {
+          //   console.log(response);
+          //     response.data.data.forEach(function (e){
+          //         vm.roles.push({value: e.name, label: e.display_name});
+          //     });
+          // })
       },
       methods: {
           determine() {
-              console.log(this.fiterFields);
               let str = '';
               let queryVal = {};
-              this.fiterFields.forEach( function(e){
-                  // str = str + '&' + e.name + '=' + e.val;
-                  queryVal[e.name] = e.val;
+              let vm = this;
+              vm.fiterFields.forEach( function(e){
+                  //如果是角色筛选，则将数组拼接成字符串
+                if( e.name == 'status') {
+                      let statusId;
+                      if(e.val == '激活') {
+                          statusId = 1;
+                      }else if(e.val == '未激活') {
+                          statusId = 0;
+                      }else {
+                          statusId = '';
+                      }
+                        queryVal[e.name] = statusId;
+                  }else if( e.name == 'created_at'){
+                      if(e.val[0]!=null && e.val[1]!=null){
+                        console.log(e.val);
+                        let startTime = vm.formatDataTime(e.val[0]);
+                        let endTime = vm.formatDataTime(e.val[1]);
+                        let created_at = startTime + "#" + endTime;
+                        queryVal[e.name] = created_at;
+                      }else{
+                        queryVal[e.name] = '';
+                      }
+                  }else {
+                      //筛选名 -> 筛选值
+                      queryVal[e.name] = e.val;
+                  }
               })
-              console.log(queryVal);
-              this.$router.push({ path: this.$route.fullPath, query: queryVal});
-              console.log(str);
-              //获取参数和 hash 的完整路径
-              let path = this.$route.fullPath;
-              console.log(path);
-              // this.$router.push('/users?pageSize=20&id=5&name=&email=&role=&status=%E6%89%80%E6%9C%89&created_at=');
-              this.dialogVisible = false;
-              // this.$emit('loadData')
-          }
+              vm.$router.push({ path: vm.$route.fullPath, query: queryVal});
+              vm.dialogVisible = false;
+          },
+          refresh() {
+              this.$router.push({ path: this.$route.fullPath, query: { id: '', name: '', email: '', status: '', created_at: '' }})
+          },
+          formatDataTime (date) {
+            //时间格式化
+            if(date.getFullYear){
+               var y = date.getFullYear();
+               var m = date.getMonth() + 1;
+               m = m < 10 ? ('0' + m) : m;
+               var d = date.getDate();
+               d = d < 10 ? ('0' + d) : d;
+               var h = date.getHours();
+               var minute = date.getMinutes();
+               minute = minute < 10 ? ('0' + minute) : minute;
+               return y + '-' + m + '-' + d+' '+h+':'+minute;
+             }
+             return date;
+         },
       }
   }
 </script>
