@@ -89,7 +89,9 @@ router.beforeEach ((to, from, next) => {
               store.commit('LOGIN');
               store.commit('JUDGE_PHONE');
               axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.access_token;
-              axios.get(server.api.user + '?include=roles&login').then((response) => {
+              axios.get(server.api.user + '?include=roles,menus&login').then((response) => {
+                console.log(response);
+                  store.commit('SET_MENUS', response.data.data.menus.data);
                   store.commit('SET_USER', response.data.data);
               },(response) => {
                   return next('/login');

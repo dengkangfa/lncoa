@@ -40312,16 +40312,15 @@ router.beforeEach(function (to, from, next) {
                 __WEBPACK_IMPORTED_MODULE_1__vuex_store_js__["a" /* default */].commit('LOGIN');
                 __WEBPACK_IMPORTED_MODULE_1__vuex_store_js__["a" /* default */].commit('JUDGE_PHONE');
                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + __WEBPACK_IMPORTED_MODULE_1__vuex_store_js__["a" /* default */].state.access_token;
-                axios.get(__WEBPACK_IMPORTED_MODULE_8__config_api__["a" /* default */].api.user + '?include=roles&login').then(function (response) {
+                axios.get(__WEBPACK_IMPORTED_MODULE_8__config_api__["a" /* default */].api.user + '?include=roles,menus&login').then(function (response) {
                     console.log(response);
+                    __WEBPACK_IMPORTED_MODULE_1__vuex_store_js__["a" /* default */].commit('SET_MENUS', response.data.data.menus.data);
                     __WEBPACK_IMPORTED_MODULE_1__vuex_store_js__["a" /* default */].commit('SET_USER', response.data.data);
-                    console.log(__WEBPACK_IMPORTED_MODULE_1__vuex_store_js__["a" /* default */].state.user);
                 }, function (response) {
                     return next('/login');
                 });
                 axios.get(__WEBPACK_IMPORTED_MODULE_8__config_api__["a" /* default */].api.type + "?structure=tree").then(function (response) {
                     __WEBPACK_IMPORTED_MODULE_1__vuex_store_js__["a" /* default */].commit('SET_TYPES', response.data);
-                    console.log(__WEBPACK_IMPORTED_MODULE_1__vuex_store_js__["a" /* default */].state.types);
                 }, function (response) {
                     return next('/login');
                 });
@@ -49140,6 +49139,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }, {
         path: 'user',
         component: __WEBPACK_IMPORTED_MODULE_1__views_Parent_vue___default.a,
+        beforeEnter: checkUrl,
         children: [
         // {
         //     path: ':name',
@@ -49294,6 +49294,11 @@ function checkLogin(to, from, next) {
     return next();
 }
 
+function checkUrl(to, form, next) {
+    console.log(this.$store);
+    console.log(1);
+}
+
 /***/ }),
 /* 254 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -49322,6 +49327,7 @@ var toggle = function toggle(_ref) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return JUDGE_PHONE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return SET_NOTIFICAT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return DELETE_NOTIFICAT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return SET_MENUS; });
 var TOGGLE = 'TOGGLE';
 var SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN';
 var LOGIN = 'LOGIN';
@@ -49333,6 +49339,7 @@ var SET_ROLES = 'SET_ROLES';
 var JUDGE_PHONE = 'JUDGE_PHONE';
 var SET_NOTIFICAT = 'SET_NOTIFICAT';
 var DELETE_NOTIFICAT = 'DELETE_NOTIFICAT';
+var SET_MENUS = 'SET_MENUS';
 
 /***/ }),
 /* 256 */
@@ -49392,6 +49399,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     for (var i = 0; i < notificats.length; i++) {
         _loop(i);
     }
+}), _defineProperty(_TOGGLE$SET_ACCESS_TO, __WEBPACK_IMPORTED_MODULE_0__mutation_types__["l" /* SET_MENUS */], function (state, menus) {
+    state.menus = menus;
 }), _TOGGLE$SET_ACCESS_TO;
 
 /***/ }),
@@ -49430,7 +49439,9 @@ var state = {
     //是否是手机
     isPhone: false,
     //通知
-    notificats: []
+    notificats: [],
+    //可视菜单
+    menus: []
 };
 
 /* harmony default export */ __webpack_exports__["a"] = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({

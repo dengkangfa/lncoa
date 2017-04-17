@@ -8,7 +8,8 @@ use League\Fractal\TransformerAbstract;
 class UserTransformer extends TransformerAbstract
 {
     protected $availableIncludes = [
-        'roles'
+        'roles',
+        'menus'
     ];
 
     public function transform(User $user)
@@ -31,5 +32,17 @@ class UserTransformer extends TransformerAbstract
         $roles = $user->roles;
 
         return $this->collection($roles, new RoleTransformer);
+    }
+
+    /**
+     * 获取用户关联的菜单
+     * @param  User   $user [description]
+     * @return [type]       [description]
+     */
+    public function includeMenus(User $user)
+    {
+        $menus = $user->menus();
+
+        return $this->collection($menus, new MenuTransformer);
     }
 }

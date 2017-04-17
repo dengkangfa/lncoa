@@ -64,14 +64,18 @@ class User extends Authenticatable
         });
     }
 
-    public function hasMenu($menu)
+    public function menus()
     {
-        $roles = $this->roles();
+        $menus = [];
+        //获取当前用户的角色组
+        $roles = $this->roles()->get();
         foreach($roles as $role) {
-          if($role->menus()->get()->contains($menu))
-            return true;
+            //获取每个角色对应的可视菜单组
+            $menus[] = $role->menus;
         }
-        return false;
+        //将多个数组合并成为一个数组并清除重复的键值对
+        $menus = array_unique(array_collapse($menus));
+        return $menus;
     }
 
     public function roles()

@@ -10,7 +10,8 @@ import {
     SET_EQUIPMENT,
     JUDGE_PHONE,
     SET_NOTIFICAT,
-    DELETE_NOTIFICAT
+    DELETE_NOTIFICAT,
+    SET_MENUS
 } from './mutation-types'
 
 export default {
@@ -66,5 +67,8 @@ export default {
                 })
             }
         }
+    },
+    [SET_MENUS] (state, menus) {
+        state.menus = menus;
     }
 }

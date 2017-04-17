@@ -23,7 +23,9 @@ const state = {
     //是否是手机
     isPhone: false,
     //通知
-    notificats: []
+    notificats: [],
+    //可视菜单
+    menus: []
 };
 
 export default new Vuex.Store({

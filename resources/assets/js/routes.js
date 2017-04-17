@@ -36,6 +36,7 @@ export default [
             {
                 path: 'user',
                 component: Parent,
+                beforeEnter: checkUrl,
                 children: [
                     // {
                     //     path: ':name',
@@ -224,4 +225,9 @@ function checkLogin (to, from, next) {
         return next('/');
     }
     return next();
+}
+
+function checkUrl (to, form, next) {
+  console.log(this.$store);
+  console.log(1);
 }
