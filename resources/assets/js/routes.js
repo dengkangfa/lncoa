@@ -1,6 +1,7 @@
 import Dashboard from './views/Dashboard.vue'
 import Parent from './views/Parent.vue'
 import server from './config/api'
+import store from './vuex/store.js';
 
 export default [
     {
@@ -15,6 +16,7 @@ export default [
             {
                 path: 'users',
                 component: Parent,
+                beforeEnter: checkUrl,
                 children: [
                     {
                         path: '/',
@@ -36,7 +38,6 @@ export default [
             {
                 path: 'user',
                 component: Parent,
-                beforeEnter: checkUrl,
                 children: [
                     // {
                     //     path: ':name',
@@ -58,6 +59,7 @@ export default [
             {
                 path: 'roles',
                 component: Parent,
+                beforeEnter: checkUrl,
                 children: [
                     {
                         path: '/',
@@ -79,6 +81,7 @@ export default [
             {
                 path: 'permissions',
                 component: Parent,
+                beforeEnter: checkUrl,
                 children: [
                     {
                         path: '/',
@@ -100,6 +103,7 @@ export default [
             {
                 path: '/system-types',
                 component: Parent,
+                beforeEnter: checkUrl,
                 children: [
                     {
                         path: '/',
@@ -119,13 +123,15 @@ export default [
                 ]
             },
             {
-                path: 'applicat',
+                path: '/applicat',
                 component: require('./views/applicat/Applicat.vue'),
+                beforeEnter: checkUrl,
                 meta: { requiresAuth: true}
             },
             {
                 path: 'audit',
                 component: Parent,
+                beforeEnter: checkUrl,
                 children: [
                     {
                         path: '/',
@@ -147,6 +153,7 @@ export default [
             {
                 path: 'applicat-manage',
                 component: Parent,
+                beforeEnter: checkUrl,
                 children: [
                     {
                         path: '/',
@@ -163,11 +170,13 @@ export default [
             {
                 path: 'system-files',
                 component: require('./views/system/Filing.vue'),
+                beforeEnter: checkUrl,
                 meta: { requiresAuth: true }
             },
             {
               path: '/notice',
               component: require('./views/system/Notice.vue'),
+              beforeEnter: checkUrl,
               meta: { requiresAuth: true }
             },
             {
@@ -178,6 +187,7 @@ export default [
             {
                 path: 'system',
                 component: require('./views/System.vue'),
+                beforeEnter: checkUrl,
                 meta: { requiresAuth: true }
             },
             {
@@ -228,6 +238,11 @@ function checkLogin (to, from, next) {
 }
 
 function checkUrl (to, form, next) {
-  console.log(this.$store);
-  console.log(1);
+  //遍历判断当前用户是否可以访问to的路由
+  for (var i = 0; i < store.state.menus.length; i++) {
+    if(  store.state.menus[i].uri == to.path) {
+        return next();
+    }
+  }
+  return next('/');
 }

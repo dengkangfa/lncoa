@@ -52,6 +52,7 @@ class ApplicatController extends ApiController
     {
         $applicat = $this->applicat->store($request->all());
         $users = \App\Type::find($applicat->type_id)->startRole()->first()->users;
+        \Log::info($users);
         \Notification::send($users, new pendReview($applicat));
         return $this->noContent();
     }

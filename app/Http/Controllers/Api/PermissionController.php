@@ -15,6 +15,10 @@ class PermissionController extends ApiController
     {
         parent::__construct();
 
+        $this->middleware('permission:index-permission')->only('index,show');
+        $this->middleware('permission:create-permission')->only('store');
+        $this->middleware('permission:delete-permission')->only('destroy');
+
         $this->permission = $permission;
     }
 

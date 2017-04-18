@@ -89,18 +89,43 @@ router.beforeEach ((to, from, next) => {
               store.commit('LOGIN');
               store.commit('JUDGE_PHONE');
               axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.access_token;
-              axios.get(server.api.user + '?include=roles,menus&login').then((response) => {
-                console.log(response);
-                  store.commit('SET_MENUS', response.data.data.menus.data);
-                  store.commit('SET_USER', response.data.data);
-              },(response) => {
-                  return next('/login');
-              });
+              // Vue.nextTick(() => {
+              // axios.get(server.api.user + '?include=roles,menus,permissions&login').then((response) => {
+              //   console.log(response);
+              //     store.commit('SET_MENUS', response.data.data.menus.data);
+              //     store.commit('SET_USER', response.data.data);
+              //     store.commit('SET_PERMISSIONS', response.data.data.permissions.data);
+              // },(response) => {
+              //     return next('/login');
+              // });
+
+              //拥有后面的路由权限判断需要用到用户的菜单信息，所有将默认的异步获取
+              //数据改成同步
+              let settings = {
+                 type: "GET",
+                 async: false,
+                 url: server.api.user + '?include=roles,menus,permissions&login',
+                 success: function(response,textStatus) {
+                   store.commit('SET_MENUS', response.data.menus.data);
+                   store.commit('SET_USER', response.data);
+                   store.commit('SET_PERMISSIONS', response.data.permissions.data);
+                 },
+                 error: function (){
+                   return next('/login');
+                 },
+                 headers: {
+                     "Authorization":'Bearer ' + store.state.access_token,
+                 }
+             };
+
+              $.ajax(settings);
+
               axios.get(server.api.type + "?structure=tree").then((response) => {
                   store.commit('SET_TYPES', response.data);
               },(response) => {
                   return next('/login');
               });
+            // })
               return next();
           }
           return next('/login');

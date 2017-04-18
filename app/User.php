@@ -78,6 +78,20 @@ class User extends Authenticatable
         return $menus;
     }
 
+    public function permissions()
+    {
+        $permissions = [];
+        //获取当前用户的角色组
+        $roles = $this->roles()->get();
+        foreach($roles as $role) {
+            //获取每个角色对应的可视菜单组
+            $permissions[] = $role->permissions;
+        }
+        //将多个数组合并成为一个数组并清除重复的键值对
+        $permissions = array_unique(array_collapse($permissions));
+        return $permissions;
+    }
+
     public function roles()
     {
         return $this->belongsToMany(

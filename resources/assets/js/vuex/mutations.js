@@ -11,7 +11,8 @@ import {
     JUDGE_PHONE,
     SET_NOTIFICAT,
     DELETE_NOTIFICAT,
-    SET_MENUS
+    SET_MENUS,
+    SET_PERMISSIONS,
 } from './mutation-types'
 
 export default {
@@ -70,5 +71,8 @@ export default {
     },
     [SET_MENUS] (state, menus) {
         state.menus = menus;
+    },
+    [SET_PERMISSIONS] (state, permissions) {
+        state.permissions = permissions;
     }
 }

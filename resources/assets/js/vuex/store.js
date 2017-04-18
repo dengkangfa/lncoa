@@ -25,7 +25,9 @@ const state = {
     //通知
     notificats: [],
     //可视菜单
-    menus: []
+    menus: [],
+    //拥有权限
+    permissions: [],
 };
 
 export default new Vuex.Store({

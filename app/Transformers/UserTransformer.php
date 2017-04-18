@@ -9,7 +9,8 @@ class UserTransformer extends TransformerAbstract
 {
     protected $availableIncludes = [
         'roles',
-        'menus'
+        'menus',
+        'permissions'
     ];
 
     public function transform(User $user)
@@ -44,5 +45,12 @@ class UserTransformer extends TransformerAbstract
         $menus = $user->menus();
 
         return $this->collection($menus, new MenuTransformer);
+    }
+
+    public function includePermissions(User $user)
+    {
+        $permissions = $user->permissions();
+
+        return $this->collection($permissions, new PermissionTransformer);
     }
 }
