@@ -62,7 +62,7 @@
     position: relative;
     margin: 0 auto;
     display: block;
-    width: 100px;
+    max-width: 100px;
     height: 30px;
     line-height: 30px;
     font-size: 10px;
@@ -100,5 +100,11 @@
   }
   input[type="file"] {
       display: block;
+  }
+  @media (max-width: 640px){
+      .profile .cover-avatar .avatar {
+          width: 50px;
+          height: 50px;
+      }
   }
 </style>

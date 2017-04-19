@@ -146,7 +146,10 @@
             'user'
           ]),
           statused: function() {
-            return this.status = this.$store.state.sidebar.opened
+              if(this.$store.state.isPhone){
+                  return this.status = this.$store.state.sidebar.opened
+              }
+              return this.status = !this.$store.state.sidebar.opened
           },
         }
     }

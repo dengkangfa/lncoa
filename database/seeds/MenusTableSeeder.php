@@ -156,7 +156,6 @@ class MenusTableSeeder extends Seeder
             'title' => 'system',
             'describe' => $faker->sentence,
             'icon' => 'ion-gear-b',
-            'parent_id' => $userManagement->id,
             'uri' => '/system',
             'created_at' => $date_time,
             'updated_at' => $date_time,

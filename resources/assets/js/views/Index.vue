@@ -43,7 +43,7 @@
         </div>
     </div>
     <div class="row" style="margin-top:15px">
-        <div class="col-md-8">
+        <div class="col-md-8 col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">XXX</h3>
@@ -57,7 +57,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 col-xs-12">
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title"></h3>
@@ -67,12 +67,12 @@
                     <table class="table table-hover">
                         <tbody>
                             <tr>
-                                <th>IP</th>
+                                <th class="ishide">IP</th>
                                 <th>Position</th>
                                 <th>Created at</th>
                             </tr>
                             <tr v-for="loginLog in statistics.loginLogs">
-                                <td><el-tag type="primary">{{ loginLog.ip }}</el-tag></td>
+                                <td class="ishide"><el-tag type="primary">{{ loginLog.ip }}</el-tag></td>
                                 <td>{{ }}</td>
                                 <td>{{ loginLog.create_at }}</td>
                             </tr>
@@ -285,5 +285,10 @@
       margin-bottom: 20px;
       width: 100%;
       box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  }
+  @media (max-width:570px) {
+      .ishide {
+          display: none;
+      }
   }
 </style>

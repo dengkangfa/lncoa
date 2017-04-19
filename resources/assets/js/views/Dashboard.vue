@@ -24,7 +24,7 @@
         },
         computed: {
             isToggle () {
-                return this.$store.state.sidebar.opened
+                return this.$store.state.sidebar.opened;
             }
         },
         created() {
