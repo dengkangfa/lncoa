@@ -127,7 +127,7 @@ class MenusTableSeeder extends Seeder
             'created_at' => $date_time,
             'updated_at' => $date_time,
         ];
-        $applicat_audit = Menu::create($applicat);
+        $applicat_audit = Menu::create($applicat_audit);
 
         //申请管理
         $applicat_manage = [
