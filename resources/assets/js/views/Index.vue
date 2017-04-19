@@ -144,12 +144,14 @@
       },
       mounted() {
           axios.get('/api/statistics')
-              .then((response) => {
+              .then(response => {
                   this.statistics = response.data
                   $("#notice").html(response.data.notice);
                   if(!response.data.notice) this.is_notice = false;
                   console.log(response.data.notice);
                   console.log(response);
+              }, error => {
+                  toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
               })
       },
       created() {
