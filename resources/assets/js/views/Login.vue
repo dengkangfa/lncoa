@@ -93,6 +93,7 @@
                       'client_secret': server.client.client_secret,
                   }
               }
+              console.log(1);
               axios.post(server.api.login, data).then( response => {
                   vm.message = '';
                   vm.state = 'success';
@@ -110,7 +111,7 @@
                   }).then( response => {
                       vm.SET_USER(response.data.data);
                       // this.$router.go(-1);
-                      vm.$router.go('/');
+                      // vm.$router.go('/');
                   })
               }, (response) => {
                 console.log(response.response);

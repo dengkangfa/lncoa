@@ -44840,6 +44840,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         onLogin: function onLogin() {
             var vm = this;
             var data = {};
+            //如果存在refresh_token则重新刷新令牌，反之重新获取令牌
             if (localStorage.refresh_token) {
                 data = {
                     'grant_type': 'refresh_token',
@@ -44858,10 +44859,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     'client_secret': __WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].client.client_secret
                 };
             }
+            console.log(1);
             axios.post(__WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].api.login, data).then(function (response) {
                 vm.message = '';
                 vm.state = 'success';
+                console.log(response);
+                //将用于刷新的令牌存储进localstorage
                 localStorage.refresh_token = response.data.refresh_token;
+                //将用于验证身份的令牌存储进vuex
                 vm.SET_ACCESS_TOKEN(response.data.access_token);
                 localStorage.access_token = vm.$store.state.access_token;
                 vm.LOGIN();
@@ -44872,7 +44877,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 }).then(function (response) {
                     vm.SET_USER(response.data.data);
                     // this.$router.go(-1);
-                    vm.$router.go('/');
+                    // vm.$router.go('/');
                 });
             }, function (response) {
                 console.log(response.response);
