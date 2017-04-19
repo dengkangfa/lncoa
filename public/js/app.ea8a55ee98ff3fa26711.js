@@ -6242,7 +6242,7 @@ module.exports = {
 
 var api = {
     //登录
-    login: __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].host + '/oauth/token',
+    login: __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].host + __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].prefix + '/login',
     //用户信息
     user: __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].host + __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].prefix + '/user',
     //用户的可以访问的菜单树
@@ -40362,7 +40362,6 @@ router.beforeEach(function (to, from, next) {
                 __WEBPACK_IMPORTED_MODULE_1__vuex_store_js__["a" /* default */].commit('JUDGE_PHONE');
                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + __WEBPACK_IMPORTED_MODULE_1__vuex_store_js__["a" /* default */].state.access_token;
                 // Vue.nextTick(() => {
-                console.log(1);
                 // axios.get(server.api.user + '?include=roles,menus,permissions&login').then((response) => {
                 //   console.log(response);
                 //     store.commit('SET_MENUS', response.data.data.menus.data);
@@ -40372,6 +40371,8 @@ router.beforeEach(function (to, from, next) {
                 //     return next('/login');
                 // });
 
+                //拥有后面的路由权限判断需要用到用户的菜单信息，所有将默认的异步获取
+                //数据改成同步
                 var settings = {
                     type: "GET",
                     async: false,
@@ -44817,6 +44818,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
 
 
 
@@ -44828,25 +44830,41 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             email: null,
             password: null,
             emailError: null,
-            PasswordError: null
+            PasswordError: null,
+            state: '',
+            message: ''
         };
     },
 
     methods: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["mapMutations"])(['SET_ACCESS_TOKEN', 'LOGIN', 'SET_USER']), {
         onLogin: function onLogin() {
-            var _this = this;
-
             var vm = this;
-            axios.post(__WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].api.login, {
-                'grant_type': 'password',
-                'username': vm.email,
-                'password': vm.password,
-                'client_id': __WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].client.client_id,
-                'client_secret': __WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].client.client_secret
-            }).then(function (response) {
+            var data = {};
+            if (localStorage.refresh_token) {
+                data = {
+                    'grant_type': 'refresh_token',
+                    'email': vm.email,
+                    'password': vm.password,
+                    'client_id': __WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].client.client_id,
+                    'client_secret': __WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].client.client_secret,
+                    'refresh_token': localStorage.refresh_token
+                };
+            } else {
+                data = {
+                    'grant_type': 'password',
+                    'email': vm.email,
+                    'password': vm.password,
+                    'client_id': __WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].client.client_id,
+                    'client_secret': __WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].client.client_secret
+                };
+            }
+            axios.post(__WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].api.login, data).then(function (response) {
+                vm.message = '';
+                vm.state = 'success';
+                localStorage.refresh_token = response.data.refresh_token;
                 vm.SET_ACCESS_TOKEN(response.data.access_token);
-                vm.LOGIN();
                 localStorage.access_token = vm.$store.state.access_token;
+                vm.LOGIN();
                 axios.get(__WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].api.user + '?include=roles', {
                     headers: {
                         'Authorization': 'Bearer ' + vm.$store.state.access_token
@@ -44854,10 +44872,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 }).then(function (response) {
                     vm.SET_USER(response.data.data);
                     // this.$router.go(-1);
-                    _this.$router.go('/');
+                    vm.$router.go('/');
                 });
             }, function (response) {
-                console.log(response.data);
+                console.log(response.response);
+                vm.message = response.response.data.message;
+                vm.state = response.response.data.status;
             });
         }
     })
@@ -49345,7 +49365,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }, {
         path: 'audit',
         component: __WEBPACK_IMPORTED_MODULE_1__views_Parent_vue___default.a,
-        // beforeEnter: checkUrl,
+        beforeEnter: checkUrl,
         children: [{
             path: '/',
             component: __webpack_require__(405),
@@ -49435,8 +49455,6 @@ function checkLogin(to, from, next) {
 }
 
 function checkUrl(to, form, next) {
-    console.log(__WEBPACK_IMPORTED_MODULE_3__vuex_store_js__["a" /* default */].state.menus);
-    console.log(to.path);
     //遍历判断当前用户是否可以访问to的路由
     for (var i = 0; i < __WEBPACK_IMPORTED_MODULE_3__vuex_store_js__["a" /* default */].state.menus.length; i++) {
         if (__WEBPACK_IMPORTED_MODULE_3__vuex_store_js__["a" /* default */].state.menus[i].uri == to.path) {
@@ -49512,7 +49530,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     state.isLogin = false;
     state.user = null;
     state.access_token = '';
-    localStorage.clear();
+    localStorage.removeItem('access_token');
 }), _defineProperty(_TOGGLE$SET_ACCESS_TO, __WEBPACK_IMPORTED_MODULE_0__mutation_types__["e" /* SET_USER */], function (state, user) {
     state.user = user;
 }), _defineProperty(_TOGGLE$SET_ACCESS_TO, __WEBPACK_IMPORTED_MODULE_0__mutation_types__["f" /* UPDATE_AVATAR */], function (state, avatar) {
@@ -68305,7 +68323,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n#login-container{\n  width:100%;\n  height:100%;\n  position:absolute;\n  -webkit-transition:all .3s ease-in-out;\n  -moz-transition:all .3s ease-in-out;\n  // -o-transition:all .3s ease-in-out;\n  transition:all .3s ease-in-out\n}\n#login-wrapper{\n    margin:100px auto;\n    float:none;\n}\n#login-wrapper .form-control{\n  color:#717171;\n  outline:0;\n  height:18px;\n  padding:6px 11px;\n  line-height:18px;\n  font-size:13px;\n  background-color:#fafafa;\n  min-height:36px;\n  -webkit-filter:none!important;\n          filter:none!important;\n  box-shadow:none!important;\n  border-radius:3px;\n  -webkit-transition:all .2s linear;\n  transition:all .2s linear;\n}\n#login-wrapper .form-control:focus{\n    border-color:#7c7c7c;\n}\n#login-wrapper #email, #login-wrapper #password {\n    padding-left: 32px;\n}\n#login-wrapper .form-group i {\n    position: absolute;\n    left: 27px;\n    top: 5px;\n}\n.email .help-block{\n    margin-bottom: -10px;\n}\n@media (max-width: 768px){\n#login-wrapper {\n      width: 90%;\n      margin-top: 50px;\n}\n}\n\n", ""]);
+exports.push([module.i, "\n#login-container{\n  width:100%;\n  height:100%;\n  position:absolute;\n  -webkit-transition:all .3s ease-in-out;\n  -moz-transition:all .3s ease-in-out;\n  // -o-transition:all .3s ease-in-out;\n  transition:all .3s ease-in-out\n}\n#login-wrapper{\n    margin:100px auto;\n    float:none;\n}\n#login-wrapper .form-control{\n  color:#717171;\n  outline:0;\n  height:18px;\n  padding:6px 11px;\n  line-height:18px;\n  font-size:13px;\n  background-color:#fafafa;\n  min-height:36px;\n  -webkit-filter:none!important;\n          filter:none!important;\n  -webkit-box-shadow:none!important;\n  -moz-box-shadow:none!important;\n  border-radius:3px;\n  -webkit-transition:all .2s linear;\n  transition:all .2s linear;\n}\n#login-wrapper .form-control:focus{\n    border-color:#7c7c7c;\n}\n#login-wrapper #email, #login-wrapper #password {\n    padding-left: 32px;\n}\n#login-wrapper .form-group i {\n    position: absolute;\n    left: 27px;\n    top: 5px;\n}\n.email .help-block{\n    margin-bottom: -10px;\n}\n@media (max-width: 768px){\n#login-wrapper {\n      width: 90%;\n      margin-top: 50px;\n}\n}\n\n", ""]);
 
 // exports
 
@@ -123682,9 +123700,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('div', {
-    staticClass: "form-group email"
+    staticClass: "form-group email has-feedback",
+    class: {
+      'has-error': _vm.state == 'error'
+    }
   }, [_c('div', {
-    staticClass: "col-md-12"
+    staticClass: "col-md-12 "
   }, [_c('input', {
     directives: [{
       name: "model",
@@ -123715,13 +123736,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.emailError),
-      expression: "emailError"
+      value: (_vm.state == 'error'),
+      expression: "state == 'error'"
     }],
     staticClass: "help-block"
-  }, _vm._l((_vm.emailError), function(errorItem) {
-    return _c('strong', [_vm._v(_vm._s(errorItem))])
-  }))])]), _vm._v(" "), _c('div', {
+  }, [_c('strong', [_vm._v(_vm._s(_vm.message))])])])]), _vm._v(" "), _c('div', {
     staticClass: "form-group"
   }, [_c('div', {
     staticClass: "col-md-12"

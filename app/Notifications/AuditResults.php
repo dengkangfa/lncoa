@@ -41,7 +41,7 @@ class AuditResults extends Notification
     public function toMail($notifiable)
     {
         $img = \QrCode::format('png')->generate('Embed me into an e-mail!');
-        return (new MailMessage)->markdown('mail.audit.results',['img' => $img]);
+        return (new MailMessage)->markdown('mail.audit.results',['img' => $img,'name' => 'dkf']);
     }
 
     /**

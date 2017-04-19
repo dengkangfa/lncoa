@@ -12,14 +12,8 @@
 */
 
 Route::get('text', function () {
-  return \App\Applicat::
-              whereIn('type_id',[11,14,15,16,18])
-              ->where(function ($query){
-                \Log::info($this->id);
-                  $query->where('stage',1);
-              })
-                ->with('user', 'mechanism', 'type', 'status', 'opinions')
-                  ->orderBy('created_at', 'desc')->paginate(10);
+  $user = \App\User::find(1);
+  $user->notify(new App\Notifications\AuditResults(\App\Applicat::find(1)));
 });
 // Route::get('/users', 'HomeController@index')->middleware('menu:/users');
 // Route::get('/users', ['middleware' => ['menu:/users'], 'uses' => 'HomeController@index']);

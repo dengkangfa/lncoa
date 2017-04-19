@@ -2,7 +2,7 @@ import config from './api-config'
 
 let api = {
     //登录
-    login: config.host + '/oauth/token',
+    login: config.host+ config.prefix  + '/login',
     //用户信息
     user: config.host + config.prefix + '/user',
     //用户的可以访问的菜单树

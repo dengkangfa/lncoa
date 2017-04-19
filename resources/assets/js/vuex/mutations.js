@@ -30,7 +30,7 @@ export default {
 			state.isLogin = false;
 			state.user = null;
 			state.access_token = '';
-      localStorage.clear();
+      localStorage.removeItem('access_token');
 		},
 		[SET_USER] (state, user) {
 			state.user = user;

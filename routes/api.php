@@ -69,6 +69,7 @@ Route::group([
 Route::group([
     'namespace' => 'Api',
 ], function () {
+    Route::post('login', 'LoginController@login');
     Route::get('register/{rule}/check', 'RegisterController@check');
     Route::post('register', 'RegisterController@register');
     Route::get('mechanism', 'MechanismController@index');

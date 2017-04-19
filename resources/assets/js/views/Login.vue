@@ -11,12 +11,13 @@
                   <div class="panel-body">
                       <p>Login to access your account.</p>
                       <form class="form-horizontal" @submit.prevent="onLogin" method="post" role="form">
-                          <div class="form-group email">
-                              <div class="col-md-12">
+                          <div class="form-group email has-feedback"
+                            :class="{'has-error' : state == 'error'}">
+                              <div class="col-md-12 ">
                                   <input type="email" class="form-control" id="email" placeholder="Email" v-model="email" required autofocus>
                                   <i class="ion-android-person"></i>
-                                  <span v-show="emailError" class="help-block">
-                                      <strong v-for="errorItem in emailError">{{errorItem}}</strong>
+                                  <span v-show="state == 'error'" class="help-block">
+                                      <strong >{{ message }}</strong>
                                   </span>
                               </div>
                           </div>
@@ -60,6 +61,8 @@
               password : null,
               emailError: null,
               PasswordError: null,
+              state: '',
+              message: ''
           }
       },
       methods:{
@@ -70,16 +73,32 @@
           ]),
           onLogin:function(){
               var vm = this;
-              axios.post(server.api.login, {
-                  'grant_type': 'password',
-                  'username' : vm.email,
-                  'password' : vm.password,
-                  'client_id': server.client.client_id,
-                  'client_secret': server.client.client_secret
-              }).then( response => {
+              let data = {};
+              if(localStorage.refresh_token) {
+                  data = {
+                        'grant_type': 'refresh_token',
+                        'email' : vm.email,
+                        'password' : vm.password,
+                        'client_id': server.client.client_id,
+                        'client_secret': server.client.client_secret,
+                        'refresh_token': localStorage.refresh_token
+                    }
+              }else{
+                  data = {
+                      'grant_type': 'password',
+                      'email' : vm.email,
+                      'password' : vm.password,
+                      'client_id': server.client.client_id,
+                      'client_secret': server.client.client_secret,
+                  }
+              }
+              axios.post(server.api.login, data).then( response => {
+                  vm.message = '';
+                  vm.state = 'success';
+                  localStorage.refresh_token = response.data.refresh_token;
                   vm.SET_ACCESS_TOKEN(response.data.access_token);
-                  vm.LOGIN();
                   localStorage.access_token = vm.$store.state.access_token;
+                  vm.LOGIN();
                   axios.get(server.api.user + '?include=roles', {
                       headers: {
                           'Authorization': 'Bearer ' + vm.$store.state.access_token
@@ -87,10 +106,12 @@
                   }).then( response => {
                       vm.SET_USER(response.data.data);
                       // this.$router.go(-1);
-                      this.$router.go('/');
+                      vm.$router.go('/');
                   })
               }, (response) => {
-                console.log(response.data);
+                console.log(response.response);
+                  vm.message = response.response.data.message;
+                  vm.state = response.response.data.status;
               })
           }
       }
@@ -125,7 +146,6 @@
   filter:none!important;
   -webkit-box-shadow:none!important;
   -moz-box-shadow:none!important;
-  box-shadow:none!important;
   -webkit-border-radius:3px;
   -moz-border-radius:3px;
   -ms-border-radius:3px;
