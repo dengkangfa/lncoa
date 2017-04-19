@@ -93,11 +93,9 @@
                       'client_secret': server.client.client_secret,
                   }
               }
-              console.log(1);
               axios.post(server.api.login, data).then( response => {
                   vm.message = '';
                   vm.state = 'success';
-                  console.log(response);
                   //将用于刷新的令牌存储进localstorage
                   localStorage.refresh_token = response.data.refresh_token;
                   //将用于验证身份的令牌存储进vuex
@@ -111,7 +109,7 @@
                   }).then( response => {
                       vm.SET_USER(response.data.data);
                       // this.$router.go(-1);
-                      // vm.$router.go('/');
+                      vm.$router.go('/');
                   })
               }, (response) => {
                 console.log(response.response);
