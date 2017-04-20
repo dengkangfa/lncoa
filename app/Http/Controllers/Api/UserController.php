@@ -6,6 +6,7 @@ use Auth;
 use Hash;
 use Image;
 use Illuminate\Http\Request;
+use App\Events\UserAccessEvent;
 use App\Http\Requests\UserRequest;
 use App\Repositories\UserRepository;
 use App\Transformers\UserTransformer;
@@ -34,10 +35,7 @@ class UserController extends ApiController
     public function me(Request $request)
     {
         if(isset($_GET['login'])) {
-            $login = [];
-            $login['ip'] = $request->getClientIp();
-            $login['create_at'] = time();
-            \Redis::lpush('loginlogs', serialize($login));
+            event(new UserAccessEvent(Auth::user(), $request->ip()));
         }
         return $this->respondWithItem(Auth::user(), new UserTransformer);
     }

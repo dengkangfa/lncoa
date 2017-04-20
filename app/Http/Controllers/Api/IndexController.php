@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Redis;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Storage;
@@ -28,9 +29,10 @@ class IndexController extends ApiController
         $applicats = $this->applicat->getNumber();
         $files = $this->getNewFiles('proposal');
         $loginLogs = $this->getLoginLog();
+        $accessCountLogs = $this->getAccessCount();
         $notice = $this->getNotice();
 
-        $data = compact('users', 'applicats', 'files', 'loginLogs', 'notice');
+        $data = compact('users', 'applicats', 'files', 'loginLogs', 'accessCountLogs', 'notice');
 
         return $this->respondWithArray($data);
     }
@@ -72,7 +74,7 @@ class IndexController extends ApiController
      */
     public function getLoginLog()
     {
-        $loginLogs = Redis::lrange('loginlogs', 0, 10);
+        $loginLogs = Redis::lrange('user:loginlogs', 0, 10);
         $loginLogsArr = [];
         foreach($loginLogs as $key=>$loginLog) {
            if($key > 7) {
@@ -85,6 +87,26 @@ class IndexController extends ApiController
         return $loginLogsArr;
     }
 
+    /**
+     * 获取最近一个星期的访问量记录
+     * @return [type] [description]
+     */
+    public function getAccessCount()
+    {
+        $AccessLog = [];
+        for($i=6; $i >= 0; $i--){
+            $date = Carbon::now()->subDays($i)->toDateString();
+            $AccessDateKey = 'lncoa:accesscount:' . $date;
+            $AccessLog['labels'][] = $date;
+            $AccessLog['data'][] = Redis::command('GET', [$AccessDateKey]);
+        }
+        return $AccessLog;
+    }
+
+    /**
+     * 获取站内通告
+     * @return [type] [description]
+     */
     public function getNotice()
     {
         return Redis::get('notice');

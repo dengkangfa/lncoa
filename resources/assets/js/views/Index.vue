@@ -52,7 +52,7 @@
                         <!-- <i class="el-icon-arrow-up"></i> -->
                     </div>
                 </div>
-                <div class="box-body animated fadeInDown" style="mix-height:160px" :class="is_chart ? '' : 'hide'">
+                <div class="box-body animated fadeInDown" style="mix-height:160px"  v-show="chart_show" :class="is_chart ? '' : 'hide'">
                   <chart :width="600" :height="300" :data="data" type="line"></chart>
                 </div>
             </div>
@@ -67,13 +67,18 @@
                     <table class="table table-hover">
                         <tbody>
                             <tr>
-                                <th>IP</th>
+                                <th>user</th>
                                 <th>Position</th>
                                 <th>Created at</th>
                             </tr>
                             <tr v-for="loginLog in statistics.loginLogs">
-                                <td><el-tag type="primary">{{ loginLog.ip }}</el-tag></td>
-                                <td>{{ loginLog.iplookup }}</td>
+                                <td><el-tag type="primary">{{ loginLog.user_name }}</el-tag></td>
+                                <template v-if="loginLog.iplookup.country">
+                                  <td>{{ loginLog.iplookup.country+' '+loginLog.iplookup.province+' '+loginLog.iplookup.city }}</td>
+                                </template>
+                                <template v-else>
+                                  <td></td>
+                                </template>
                                 <td>{{ loginLog.create_at }}</td>
                             </tr>
                         </tbody>
@@ -111,6 +116,7 @@
           return {
               is_chart: true,
               is_notice: true,
+              chart_show: false,
               statistics: {
                   users: 0,
                   applicats: 0,
@@ -142,20 +148,21 @@
       components: {
             Chart
       },
-      mounted() {
+      created() {
           axios.get('/api/statistics')
               .then(response => {
                   this.statistics = response.data
                   $("#notice").html(response.data.notice);
+                  this.data.labels = response.data.accessCountLogs.labels;
+                  this.data.datasets[0].data = response.data.accessCountLogs.data;
+                  this.chart_show = true;
                   if(!response.data.notice) this.is_notice = false;
-                  console.log(response.data.notice);
-                  console.log(response);
               }, error => {
                   toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
               })
       },
-      created() {
-      },
+      // created() {
+      // },
       methods: {
           // getIpLookup(ip) {
           //     axios.get('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=' + ip).then( response => {

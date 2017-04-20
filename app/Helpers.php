@@ -70,12 +70,6 @@ if(!function_exists('getIpLookup')) {
       preg_match('#\{.+?\}#', $res, $jsonMatches);
       if(!isset($jsonMatches[0])){ return false; }
       $json = json_decode($jsonMatches[0], true);
-      if(isset($json['ret']) && $json['ret'] == 1){
-          $json['ip'] = $ip;
-          unset($json['ret']);
-      }else{
-          return false;
-      }
       return $json;
   }
 }

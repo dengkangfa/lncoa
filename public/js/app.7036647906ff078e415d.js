@@ -44735,6 +44735,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = {
@@ -44742,6 +44747,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             is_chart: true,
             is_notice: true,
+            chart_show: false,
             statistics: {
                 users: 0,
                 applicats: 0,
@@ -44771,21 +44777,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: {
         Chart: __WEBPACK_IMPORTED_MODULE_0__components_Chartjs_vue___default.a
     },
-    mounted: function mounted() {
+    created: function created() {
         var _this = this;
 
         axios.get('/api/statistics').then(function (response) {
             _this.statistics = response.data;
             $("#notice").html(response.data.notice);
+            _this.data.labels = response.data.accessCountLogs.labels;
+            _this.data.datasets[0].data = response.data.accessCountLogs.data;
+            _this.chart_show = true;
             if (!response.data.notice) _this.is_notice = false;
-            console.log(response.data.notice);
-            console.log(response);
         }, function (error) {
             toastr.error(error.response.status + ' : Resource ' + error.response.statusText);
         });
     },
-    created: function created() {},
 
+    // created() {
+    // },
     methods: {
         // getIpLookup(ip) {
         //     axios.get('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=' + ip).then( response => {
@@ -121843,6 +121851,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.chart_show),
+      expression: "chart_show"
+    }],
     staticClass: "box-body animated fadeInDown",
     class: _vm.is_chart ? '' : 'hide',
     staticStyle: {
@@ -121868,7 +121882,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "type": "primary"
       }
-    }, [_vm._v(_vm._s(loginLog.ip))])], 1), _vm._v(" "), _c('td', [_vm._v(_vm._s(loginLog.iplookup))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(loginLog.create_at))])])
+    }, [_vm._v(_vm._s(loginLog.user_name))])], 1), _vm._v(" "), (loginLog.iplookup.country) ? [_c('td', [_vm._v(_vm._s(loginLog.iplookup.country + ' ' + loginLog.iplookup.province + ' ' + loginLog.iplookup.city))])] : [_c('td')], _vm._v(" "), _c('td', [_vm._v(_vm._s(loginLog.create_at))])], 2)
   })], 2)])]), _vm._v(" "), _c('div', {
     staticClass: "box-footer"
   })])])]), _vm._v(" "), _c('div', {
@@ -121945,7 +121959,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "pull-right"
   })])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("IP")]), _vm._v(" "), _c('th', [_vm._v("Position")]), _vm._v(" "), _c('th', [_vm._v("Created at")])])
+  return _c('tr', [_c('th', [_vm._v("user")]), _vm._v(" "), _c('th', [_vm._v("Position")]), _vm._v(" "), _c('th', [_vm._v("Created at")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

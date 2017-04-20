@@ -171,6 +171,7 @@ return [
         Zizaco\Entrust\EntrustServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -230,7 +231,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
-        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 
