@@ -43,6 +43,7 @@
 
         axios.post('/api/user/avatar', formData)
             .then((response) => {
+              console.log(response);
               this.cropImage = response.data
 
               this.dialogVisible = true

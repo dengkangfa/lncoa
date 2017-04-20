@@ -75,7 +75,8 @@
               var vm = this;
               let data = {};
               //如果存在refresh_token则重新刷新令牌，反之重新获取令牌
-              if(localStorage.refresh_token) {
+              let refresh_token = localStorage.getItem(vm.email + '_refresh_token');
+              if(refresh_token) {
                   data = {
                         'grant_type': 'refresh_token',
                         'email' : vm.email,
@@ -97,7 +98,8 @@
                   vm.message = '';
                   vm.state = 'success';
                   //将用于刷新的令牌存储进localstorage
-                  localStorage.refresh_token = response.data.refresh_token;
+                  localStorage.setItem(vm.email + '_refresh_token', response.data.refresh_token)
+                  // localStorage.refresh_token = response.data.refresh_token;
                   //将用于验证身份的令牌存储进vuex
                   vm.SET_ACCESS_TOKEN(response.data.access_token);
                   localStorage.access_token = vm.$store.state.access_token;

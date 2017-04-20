@@ -43128,6 +43128,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       formData.append('file', files[0]);
 
       axios.post('/api/user/avatar', formData).then(function (response) {
+        console.log(response);
         _this.cropImage = response.data;
 
         _this.dialogVisible = true;
@@ -44392,6 +44393,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
 
 
 
@@ -44428,14 +44430,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         this.lang = window.Language;
     },
 
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["mapState"])(['user']), {
-        statused: function statused() {
-            if (this.$store.state.isPhone) {
-                return this.status = this.$store.state.sidebar.opened;
-            }
-            return this.status = !this.$store.state.sidebar.opened;
-        }
-    })
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["mapState"])(['user']))
 };
 
 /***/ }),
@@ -44913,7 +44908,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             var vm = this;
             var data = {};
             //如果存在refresh_token则重新刷新令牌，反之重新获取令牌
-            if (localStorage.refresh_token) {
+            var refresh_token = localStorage.getItem(vm.email + '_refresh_token');
+            if (refresh_token) {
                 data = {
                     'grant_type': 'refresh_token',
                     'email': vm.email,
@@ -44935,7 +44931,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 vm.message = '';
                 vm.state = 'success';
                 //将用于刷新的令牌存储进localstorage
-                localStorage.refresh_token = response.data.refresh_token;
+                localStorage.setItem(vm.email + '_refresh_token', response.data.refresh_token);
+                // localStorage.refresh_token = response.data.refresh_token;
                 //将用于验证身份的令牌存储进vuex
                 vm.SET_ACCESS_TOKEN(response.data.access_token);
                 localStorage.access_token = vm.$store.state.access_token;
@@ -124025,7 +124022,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "ion-navicon-round"
   })])]), _vm._v(" "), _c('div', {
     staticClass: "user-nav"
-  }, [(!_vm.statused) ? _c('ul', [_c('li', {
+  }, [_c('ul', [_c('li', {
     staticClass: "dropdown messages"
   }, [(_vm.notifications.length > 0) ? _c('span', {
     staticClass: "badge badge-danager animated bounceIn",
@@ -124117,7 +124114,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "ion-power"
-  }), _vm._v(" Logout")])])])])]) : _vm._e()]), _vm._v(" "), _c('div', {
+  }), _vm._v(" Logout")])])])])])]), _vm._v(" "), _c('div', {
     staticClass: "navbar-collapse collapse",
     attrs: {
       "id": "repbar"

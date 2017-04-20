@@ -7,7 +7,8 @@
                 </a>
             </div>
             <div class="user-nav">
-                <ul v-if="!statused">
+              <!-- v-if="!statused" -->
+                <ul>
 
                   <li class="dropdown messages">
                       <span v-if="notifications.length > 0" class="badge badge-danager animated bounceIn" id="new-messages">{{ notifications.length }}</span>
@@ -145,12 +146,12 @@
           ...mapState([
             'user'
           ]),
-          statused: function() {
-              if(this.$store.state.isPhone){
-                  return this.status = this.$store.state.sidebar.opened
-              }
-              return this.status = !this.$store.state.sidebar.opened
-          },
+          // statused: function() {
+          //     if(this.$store.state.isPhone){
+          //         return this.status = this.$store.state.sidebar.opened
+          //     }
+          //     return this.status = !this.$store.state.sidebar.opened
+          // },
         }
     }
 </script>
