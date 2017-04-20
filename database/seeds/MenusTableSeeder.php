@@ -181,8 +181,8 @@ class MenusTableSeeder extends Seeder
         $role = App\Role::where('name','=','owner')->first();
         $role->menus()->attach([
             $dashboard->id,
-            $userManagement->id,
-            $user->id,
+            $applicat->id,
+            $applicat_manage->id,
         ]);
 
 

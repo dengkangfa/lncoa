@@ -61,6 +61,8 @@ class User extends Authenticatable
           $user->activation_token = str_random(30);
           $identicon = new \Identicon\Identicon();
           $user->avatar = $identicon->getImageDataUri($user->name,80);
+          $role = App\Role::where('name','=','owner')->first();
+          $user->attachRole($role);
         });
     }
 

@@ -26,7 +26,5 @@ class RolesTableSeeder extends Seeder
         $admin->save();
         $user = User::where('name','admin')->first();
         $user->attachRole($admin);
-
-        factory(Role::class, 10)->create();
     }
 }
