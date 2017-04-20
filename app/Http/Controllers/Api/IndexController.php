@@ -66,6 +66,10 @@ class IndexController extends ApiController
         return false;
     }
 
+    /**
+     * 获取最近访问的后8位ip信息
+     * @return [type] [description]
+     */
     public function getLoginLog()
     {
         $loginLogs = Redis::lrange('loginlogs', 0, 10);
@@ -74,7 +78,9 @@ class IndexController extends ApiController
            if($key > 7) {
               break;
            }
-           $loginLogsArr[] = unserialize($loginLog);
+           $loginLog = unserialize($loginLog);
+           $loginLog['iplookup'] = getIpLookup($loginLog['ip']);
+           $loginLogsArr[] = $loginLog;
         }
         return $loginLogsArr;
     }

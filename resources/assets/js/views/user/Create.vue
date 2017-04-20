@@ -39,16 +39,16 @@
             create(event) {
                 const formData = new FormData(event.target)
 
-                axios.post('/api/user', formData, {
-                    headers: {
-                        'Authorization': 'Bearer ' + this.$store.state.access_token
-                    }
-                }).then((response) => {
+                axios.post('/api/user', formData).then( response => {
                         toastr.success('You create a new account success!')
 
                         this.$router.push('/users')
-                    }, (error) => {
-                        stack_error(error.response.data)
+                    }, error => {
+                        if(error.response.status == 403){
+                          toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+                        }else{
+                          stack_error(error.response.data)
+                        }
                     })
             }
         }

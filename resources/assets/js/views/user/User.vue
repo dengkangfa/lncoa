@@ -1,9 +1,17 @@
 <template>
     <div :class="isPhone ? '' : 'row'">
-        <vue-table :title="$t('el.page.users')" :fields="fields" api-url="/api/users?include=roles" @table-action="tableActions" show-paginate>
+        <vue-table :title="$t('el.page.users')"
+         :itemActions="itemActions"
+          :fields="fields"
+           api-url="/api/users?include=roles"
+            @table-action="tableActions"
+             show-paginate>
             <div slot="buttons">
                 <vue-table-filtra :fiterFields="fiterFields"></vue-table-filtra>
-                <router-link to="/users/create" class="btn btn-info btn-xs"  style="margin-bottom:2px">
+                <router-link to="/users/create"
+                 class="btn btn-info btn-xs"
+                  :class="{ disabled: !createUser }"
+                    style="margin-bottom:2px">
                   {{ $t('el.page.create') }}
                 </router-link>
             </div>
@@ -67,19 +75,19 @@
                         name: 'id',
                         trans: 'el.table.id',
                         type: 'text',
-                        val: ''
+                        value: ''
                     },
                     {
                         name: 'name',
                         trans: 'el.table.name',
                         type: 'text',
-                        val: ''
+                        value: ''
                     },
                     {
                         name: 'email',
                         trans: 'el.table.email',
                         type: 'text',
-                        val: ''
+                        value: ''
                     },
                     // {
                     //     name: 'role',
@@ -91,15 +99,37 @@
                         name: 'status',
                         trans: 'el.table.status',
                         type: 'radio',
-                        val: '所有'
+                        value: "所有"
                     },
                     {
                         name: 'created_at',
                         trans: 'el.table.created_at',
                         type: 'datetime',
-                        val: ''
+                        value: []
                     }
-                ]
+                ],
+                itemActions: [
+                    { name: 'delete-item', icon: 'ion-trash-b', class: 'btn btn-danger disabled' },
+                    { name: 'edit-item', icon: 'ion-edit', class: 'btn btn-info disabled' }
+                ],
+                createUser: false
+            }
+        },
+        created() {
+            let vm = this;
+            for (var i = 0; i < vm.$store.state.permissions.length; i++) {
+                if(vm.$store.state.permissions[i].name == 'create-user') {
+                    vm.createUser = true;
+                    continue;
+                }
+                if(vm.$store.state.permissions[i].name == 'delete-user') {
+                    vm.itemActions[0].class = 'btn btn-danger';
+                    continue;
+                }
+                if(vm.$store.state.permissions[i].name == 'update-user') {
+                    vm.itemActions[1].class = 'btn btn-info'
+                    continue;
+                }
             }
         },
         computed: {

@@ -63,17 +63,17 @@
                     <h3 class="box-title"></h3>
                     <div class="pull-right"></div>
                 </div>
-                <div class="box-body">
+                <div class="box-body table-responsive no-padding">
                     <table class="table table-hover">
                         <tbody>
                             <tr>
-                                <th class="ishide">IP</th>
+                                <th>IP</th>
                                 <th>Position</th>
                                 <th>Created at</th>
                             </tr>
                             <tr v-for="loginLog in statistics.loginLogs">
-                                <td class="ishide"><el-tag type="primary">{{ loginLog.ip }}</el-tag></td>
-                                <td>{{ }}</td>
+                                <td><el-tag type="primary">{{ loginLog.ip }}</el-tag></td>
+                                <td>{{ loginLog.iplookup }}</td>
                                 <td>{{ loginLog.create_at }}</td>
                             </tr>
                         </tbody>
@@ -155,6 +155,13 @@
               })
       },
       created() {
+      },
+      methods: {
+          // getIpLookup(ip) {
+          //     axios.get('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=' + ip).then( response => {
+          //         console.log(response);
+          //     })
+          // }
       }
   }
 </script>
