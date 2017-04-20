@@ -95,7 +95,7 @@ class IndexController extends ApiController
     {
         $AccessLog = [];
         for($i=6; $i >= 0; $i--){
-            $date = Carbon::now()->subDays($i)->toDateString();
+            $date = Carbon::now("Asia/Shanghai")->subDays($i)->toDateString();
             $AccessDateKey = 'lncoa:accesscount:' . $date;
             $AccessLog['labels'][] = $date;
             $AccessLog['data'][] = Redis::command('GET', [$AccessDateKey]);
