@@ -25,7 +25,7 @@ export default {
     click_num: '点击次数',
     ip: 'IP',
     new_folder: '创建文件夹',
-    upload: '上传图片',
+    upload: '上传文件',
     role: '角色',
     display_name: '显示名称',
     description: '描述',

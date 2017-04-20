@@ -111,7 +111,6 @@
 
                   this.SET_TYPES(response.data);
               }, (error) => {
-                console.log(error.response);
                   if ((typeof error.response.data.error !== 'string') && error.response.data.error) {
                       toastr.error(error.response.data.error.message)
                   } else {

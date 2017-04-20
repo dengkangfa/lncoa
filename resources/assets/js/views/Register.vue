@@ -165,31 +165,31 @@ export default {
           'SET_USER'
       ]),
       onsumber() {
-        console.log(1);
           axios.post('api/register',this.form).then( response => {
               console.log(response);
               let vm = this;
-              axios.post(server.api.login, {
-                  'grant_type': 'password',
-                  'username' : vm.form.email,
-                  'password' : vm.form.password,
-                  'client_id': server.client.client_id,
-                  'client_secret': server.client.client_secret
-              }).then( response => {
-                  vm.SET_ACCESS_TOKEN(response.data.access_token);
-                  vm.LOGIN();
-                  localStorage.access_token = vm.$store.state.access_token;
-                  axios.get(server.api.user + '?include=roles', {
-                      headers: {
-                          'Authorization': 'Bearer ' + vm.$store.state.access_token
-                      }
-                  }).then( response => {
-                      vm.SET_USER(response.data.data);
-                      this.$router.go('/');
-                  })
-              }, (response) => {
-                console.log(response.data);
-              })
+              toastr.success('等待管理员激活账号！')
+              // axios.post(server.api.login, {
+              //     'grant_type': 'password',
+              //     'email' : vm.form.email,
+              //     'password' : vm.form.password,
+              //     'client_id': server.client.client_id,
+              //     'client_secret': server.client.client_secret
+              // }).then( response => {
+              //     vm.SET_ACCESS_TOKEN(response.data.access_token);
+              //     vm.LOGIN();
+              //     localStorage.access_token = vm.$store.state.access_token;
+              //     axios.get(server.api.user + '?include=roles', {
+              //         headers: {
+              //             'Authorization': 'Bearer ' + vm.$store.state.access_token
+              //         }
+              //     }).then( response => {
+              //         vm.SET_USER(response.data.data);
+              //         this.$router.go('/');
+              //     })
+              // }, (response) => {
+              //   console.log(response.data);
+              // })
           }, error => {
               console.log(error.response);
           })

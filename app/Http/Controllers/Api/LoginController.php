@@ -14,6 +14,7 @@ class LoginController extends ApiController
     {
         //获取用户名和密码
         $credentials = $this->credentials($request);
+        \Log::info($credentials);
 
         //验证用户名和密码的正确性
         if ($this->guard('api')->attempt($credentials, $request->has('remember'))) {

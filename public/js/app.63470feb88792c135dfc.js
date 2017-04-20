@@ -45131,31 +45131,31 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         onsumber: function onsumber() {
             var _this = this;
 
-            console.log(1);
             axios.post('api/register', this.form).then(function (response) {
                 console.log(response);
                 var vm = _this;
-                axios.post(__WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].api.login, {
-                    'grant_type': 'password',
-                    'username': vm.form.email,
-                    'password': vm.form.password,
-                    'client_id': __WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].client.client_id,
-                    'client_secret': __WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].client.client_secret
-                }).then(function (response) {
-                    vm.SET_ACCESS_TOKEN(response.data.access_token);
-                    vm.LOGIN();
-                    localStorage.access_token = vm.$store.state.access_token;
-                    axios.get(__WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].api.user + '?include=roles', {
-                        headers: {
-                            'Authorization': 'Bearer ' + vm.$store.state.access_token
-                        }
-                    }).then(function (response) {
-                        vm.SET_USER(response.data.data);
-                        _this.$router.go('/');
-                    });
-                }, function (response) {
-                    console.log(response.data);
-                });
+                toastr.success('等待管理员激活账号！');
+                // axios.post(server.api.login, {
+                //     'grant_type': 'password',
+                //     'email' : vm.form.email,
+                //     'password' : vm.form.password,
+                //     'client_id': server.client.client_id,
+                //     'client_secret': server.client.client_secret
+                // }).then( response => {
+                //     vm.SET_ACCESS_TOKEN(response.data.access_token);
+                //     vm.LOGIN();
+                //     localStorage.access_token = vm.$store.state.access_token;
+                //     axios.get(server.api.user + '?include=roles', {
+                //         headers: {
+                //             'Authorization': 'Bearer ' + vm.$store.state.access_token
+                //         }
+                //     }).then( response => {
+                //         vm.SET_USER(response.data.data);
+                //         this.$router.go('/');
+                //     })
+                // }, (response) => {
+                //   console.log(response.data);
+                // })
             }, function (error) {
                 console.log(error.response);
             });
@@ -47775,7 +47775,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         console.log(response);
         toastr.success(vm.$t('el.notification.create_type'));
         vm.SET_TYPES(response.data);
-        vm.$router.push('/types');
+        vm.$router.push('/system-types');
       }, function (error) {
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__config_helper_js__["a" /* stack_error */])(error.response.data);
       });
@@ -48121,7 +48121,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
                 _this2.SET_TYPES(response.data);
             }, function (error) {
-                console.log(error.response);
                 if (typeof error.response.data.error !== 'string' && error.response.data.error) {
                     toastr.error(error.response.data.error.message);
                 } else {

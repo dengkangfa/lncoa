@@ -115,7 +115,7 @@
              console.log(response);
                toastr.success(vm.$t('el.notification.create_type'))
                vm.SET_TYPES(response.data)
-               vm.$router.push('/types')
+               vm.$router.push('/system-types')
            }, error => {
                 stack_error(error.response.data);
            })

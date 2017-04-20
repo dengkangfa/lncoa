@@ -51,10 +51,12 @@ class RegisterController extends Controller
             'email' => $request->email,
             'password' => $request->password,
           ]);
+          $role = \App\Role::where('name','=','owner')->first();
+          $user->attachRole($role);
 
           $this->sendEmailConfirmationTo($user);
 
-          $this->login($user);
+          // $this->login($user);
     }
 
     /**
@@ -79,8 +81,8 @@ class RegisterController extends Controller
      */
     protected function sendEmailConfirmationTo($user)
     {
-      $user->notify(new VerifyMail($user));
-      // \Mail::to($user)->send(new RegisterShipped($user));
+      // $user->notify(new VerifyMail($user));
+      \Mail::to($user)->send(new RegisterShipped($user));
     }
 
     protected function login($user)
