@@ -51,8 +51,9 @@ class ApplicatController extends ApiController
     public function store(ApplicatRequest $request)
     {
         $applicat = $this->applicat->store($request->all());
+        //找到优先级第一管理该类型申请的管理员用户组
         $users = \App\Type::find($applicat->type_id)->startRole()->first()->users;
-        \Log::info($users);
+        //发送通知
         \Notification::send($users, new pendReview($applicat));
         return $this->noContent();
     }

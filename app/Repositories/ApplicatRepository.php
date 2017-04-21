@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Applicat;
+use App\Events\NewApplyEvent;
 
 class ApplicatRepository
 {
@@ -97,6 +98,8 @@ class ApplicatRepository
         $input['files'] = json_encode(array_pluck($input['fileList'],'response'));
         $input['type_id'] = $input['type_id'][count($input['type_id'])-1];
         $input['user_id'] = \Auth::user()->id;
-        return $this->save($this->model, $input);
+        $applicat = $this->save($this->model, $input);
+        event(new NewApplyEvent());
+        return $applicat;
     }
 }

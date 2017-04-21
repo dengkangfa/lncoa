@@ -46,24 +46,27 @@
         <div class="col-md-8 col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">XXX</h3>
+                  <h3 class="panel-title">最近一星期的近况</h3>
                     <div class="actions pull-right">
-                        <i :class="is_chart ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" @click='is_chart = !is_chart'></i>
+                        <i :class="chart_show ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" @click='chart_show = !chart_show'></i>
                         <!-- <i class="el-icon-arrow-up"></i> -->
                     </div>
                 </div>
-                <div class="box-body animated fadeInDown" style="mix-height:160px"  v-show="chart_show" :class="is_chart ? '' : 'hide'">
+                <div class="panel-body animated fadeInDown" style="mix-height:160px"  v-show="chart_show">
                   <chart :width="600" :height="300" :data="data" type="line"></chart>
                 </div>
             </div>
         </div>
         <div class="col-md-4 col-xs-12">
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title"></h3>
-                    <div class="pull-right"></div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">最近访问记录</h3>
+                    <div class="actions pull-right">
+                        <i :class="access_log_show ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" @click='access_log_show = !access_log_show'></i>
+                        <!-- <i class="el-icon-arrow-up"></i> -->
+                    </div>
                 </div>
-                <div class="box-body table-responsive no-padding">
+                <div class="panel-body  animated fadeInDown table-responsive no-padding" v-show="access_log_show">
                     <table class="table table-hover">
                         <tbody>
                             <tr>
@@ -79,7 +82,7 @@
                                 <template v-else>
                                   <td></td>
                                 </template>
-                                <td>{{ loginLog.create_at }}</td>
+                                <td>{{ formatMsgTime(loginLog.create_at) }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -96,11 +99,11 @@
               <div class="panel-heading">
                   <h3 class="panel-title">站点通告</h3>
                   <div class="actions pull-right">
-                      <i :class="is_chart ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+                      <i :class="notice_show ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" @click='notice_show = !notice_show'></i>
                       <!-- <i class="el-icon-arrow-up"></i> -->
                   </div>
               </div>
-              <div id="notice" class="box-body animated fadeInDown" style="mix-height:160px">
+              <div id="notice" class="box-body animated fadeInDown" v-show="notice_show" style="mix-height:160px">
 
               </div>
           </div>
@@ -114,8 +117,9 @@
   export default {
      data () {
           return {
-              is_chart: true,
               is_notice: true,
+              access_log_show: true,
+              notice_show: true,
               chart_show: false,
               statistics: {
                   users: 0,
@@ -154,7 +158,8 @@
                   this.statistics = response.data
                   $("#notice").html(response.data.notice);
                   this.data.labels = response.data.accessCountLogs.labels;
-                  this.data.datasets[0].data = response.data.accessCountLogs.data;
+                  this.data.datasets[0].data = response.data.accessCountLogs.date;
+                  this.data.datasets[1].data = response.data.accessCountLogs.apply;
                   this.chart_show = true;
                   if(!response.data.notice) this.is_notice = false;
               }, error => {
@@ -164,6 +169,37 @@
       // created() {
       // },
       methods: {
+        formatMsgTime (timespan) {
+          var d = new Date(parseInt(timespan) * 1000);
+
+          var date = (d.getFullYear()) + "-" + (d.getMonth() + 1) + "-" + (d.getDate()) + "-" + (d.getHours()) + ":" + (d.getMinutes()) + ":" + (d.getSeconds());
+          //当前时间
+          var now = new Date();
+
+          var startTime = date;
+          startTime = startTime.replace(/\-/g, "/");
+          var sTime = new Date(startTime);
+          var totalTime = now.getTime() - sTime.getTime();
+
+          var days = parseInt(totalTime / parseInt(1000 * 60 * 60 * 24));
+          totalTime = totalTime % parseInt(1000 * 60 * 60 * 24);
+          var hours = parseInt(totalTime / parseInt(1000 * 60 * 60));
+          totalTime = totalTime % parseInt(1000 * 60 * 60);
+          var minutes = parseInt(totalTime / parseInt(1000 * 60));
+          totalTime = totalTime % parseInt(1000 * 60);
+          var seconds = parseInt(totalTime / parseInt(1000));
+          var time = "";
+          if (days >= 1) {
+              time = days + "天" + hours + "时" + minutes + "分" + seconds + "秒";
+          } else if (hours >= 1) {
+              time = hours + "时" + minutes + "分" + seconds + "秒";
+          } else if (minutes >= 1) {
+              time = minutes + "分" + seconds + "秒";
+          } else {
+              time = seconds + "秒";
+          }
+          return time + "前";
+        }
           // getIpLookup(ip) {
           //     axios.get('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=' + ip).then( response => {
           //         console.log(response);

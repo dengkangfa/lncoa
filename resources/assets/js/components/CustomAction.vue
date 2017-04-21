@@ -49,14 +49,8 @@
                                   toastr.warning('You changed a record of the status, Please check again!')
                               }
                           }
-                    })
-                    .catch(error => {
-                      console.log(error);
-                        if (error.error) {
-                            toastr.error(error.error.message)
-                        } else {
-                            toastr.error(error.error.http_code + ' : Resource ' + error.error.message)
-                        }
+                    }, error => {
+                        toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
                     })
             }
         }

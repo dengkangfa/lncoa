@@ -16,7 +16,7 @@ class CreateApplicatsTable extends Migration
         Schema::create('applicats', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->comment('提交用户');
-            $table->integer('principal')->comment('责任人');
+            $table->string('principal')->comment('责任人');
             $table->char('mobile',11)->comment('联系方式');
             $table->integer('mechanism_id')->unsigned()->comment('申请机构');
             $table->smallInteger('number')->comment('参与人数');

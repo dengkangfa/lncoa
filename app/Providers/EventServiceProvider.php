@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserAccessEvent' => [
             'App\Listeners\AccessAddListener',
         ],
+        'App\Events\NewApplyEvent' => [
+            'App\Listeners\NewApplyListener',
+        ],
         'Laravel\Passport\Events\AccessTokenCreated' => [
             'App\Listeners\Auth\RevokeOldTokens',
         ],

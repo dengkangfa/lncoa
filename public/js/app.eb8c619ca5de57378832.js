@@ -43360,13 +43360,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         toastr.warning('You changed a record of the status, Please check again!');
                     }
                 }
-            }).catch(function (error) {
-                console.log(error);
-                if (error.error) {
-                    toastr.error(error.error.message);
-                } else {
-                    toastr.error(error.error.http_code + ' : Resource ' + error.error.message);
-                }
+            }, function (error) {
+                toastr.error(error.response.status + ' : Resource ' + error.response.statusText);
             });
         }
     }
@@ -44052,7 +44047,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }
                     queryVal[e.name] = statusId;
                 } else if (e.name == 'created_at') {
-                    if (e.value != null) {
+                    if (e.value != '') {
                         console.log(e.value);
                         var startTime = vm.formatDataTime(e.value[0]);
                         var endTime = vm.formatDataTime(e.value[1]);
@@ -44735,13 +44730,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = {
     data: function data() {
         return {
-            is_chart: true,
             is_notice: true,
+            access_log_show: true,
+            notice_show: true,
             chart_show: false,
             statistics: {
                 users: 0,
@@ -44779,7 +44778,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.statistics = response.data;
             $("#notice").html(response.data.notice);
             _this.data.labels = response.data.accessCountLogs.labels;
-            _this.data.datasets[0].data = response.data.accessCountLogs.data;
+            _this.data.datasets[0].data = response.data.accessCountLogs.date;
+            _this.data.datasets[1].data = response.data.accessCountLogs.apply;
             _this.chart_show = true;
             if (!response.data.notice) _this.is_notice = false;
         }, function (error) {
@@ -44790,11 +44790,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     // created() {
     // },
     methods: {
+        formatMsgTime: function formatMsgTime(timespan) {
+            var d = new Date(parseInt(timespan) * 1000);
+
+            var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+            //当前时间
+            var now = new Date();
+
+            var startTime = date;
+            startTime = startTime.replace(/\-/g, "/");
+            var sTime = new Date(startTime);
+            var totalTime = now.getTime() - sTime.getTime();
+
+            var days = parseInt(totalTime / parseInt(1000 * 60 * 60 * 24));
+            totalTime = totalTime % parseInt(1000 * 60 * 60 * 24);
+            var hours = parseInt(totalTime / parseInt(1000 * 60 * 60));
+            totalTime = totalTime % parseInt(1000 * 60 * 60);
+            var minutes = parseInt(totalTime / parseInt(1000 * 60));
+            totalTime = totalTime % parseInt(1000 * 60);
+            var seconds = parseInt(totalTime / parseInt(1000));
+            var time = "";
+            if (days >= 1) {
+                time = days + "天" + hours + "时" + minutes + "分" + seconds + "秒";
+            } else if (hours >= 1) {
+                time = hours + "时" + minutes + "分" + seconds + "秒";
+            } else if (minutes >= 1) {
+                time = minutes + "分" + seconds + "秒";
+            } else {
+                time = seconds + "秒";
+            }
+            return time + "前";
+        }
         // getIpLookup(ip) {
         //     axios.get('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=' + ip).then( response => {
         //         console.log(response);
         //     })
         // }
+
     }
 };
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(10)))
@@ -121837,13 +121869,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "panel-heading"
   }, [_c('h3', {
     staticClass: "panel-title"
-  }, [_vm._v("XXX")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("最近一星期的近况")]), _vm._v(" "), _c('div', {
     staticClass: "actions pull-right"
   }, [_c('i', {
-    class: _vm.is_chart ? 'el-icon-arrow-up' : 'el-icon-arrow-down',
+    class: _vm.chart_show ? 'el-icon-arrow-up' : 'el-icon-arrow-down',
     on: {
       "click": function($event) {
-        _vm.is_chart = !_vm.is_chart
+        _vm.chart_show = !_vm.chart_show
       }
     }
   })])]), _vm._v(" "), _c('div', {
@@ -121853,8 +121885,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.chart_show),
       expression: "chart_show"
     }],
-    staticClass: "box-body animated fadeInDown",
-    class: _vm.is_chart ? '' : 'hide',
+    staticClass: "panel-body animated fadeInDown",
     staticStyle: {
       "mix-height": "160px"
     }
@@ -121868,17 +121899,36 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })], 1)])]), _vm._v(" "), _c('div', {
     staticClass: "col-md-4 col-xs-12"
   }, [_c('div', {
-    staticClass: "box"
-  }, [_vm._m(4), _vm._v(" "), _c('div', {
-    staticClass: "box-body table-responsive no-padding"
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-heading"
+  }, [_c('h3', {
+    staticClass: "panel-title"
+  }, [_vm._v("最近访问记录")]), _vm._v(" "), _c('div', {
+    staticClass: "actions pull-right"
+  }, [_c('i', {
+    class: _vm.access_log_show ? 'el-icon-arrow-up' : 'el-icon-arrow-down',
+    on: {
+      "click": function($event) {
+        _vm.access_log_show = !_vm.access_log_show
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.access_log_show),
+      expression: "access_log_show"
+    }],
+    staticClass: "panel-body  animated fadeInDown table-responsive no-padding"
   }, [_c('table', {
     staticClass: "table table-hover"
-  }, [_c('tbody', [_vm._m(5), _vm._v(" "), _vm._l((_vm.statistics.loginLogs), function(loginLog) {
+  }, [_c('tbody', [_vm._m(4), _vm._v(" "), _vm._l((_vm.statistics.loginLogs), function(loginLog) {
     return _c('tr', [_c('td', [_c('el-tag', {
       attrs: {
         "type": "primary"
       }
-    }, [_vm._v(_vm._s(loginLog.user_name))])], 1), _vm._v(" "), (loginLog.iplookup.country) ? [_c('td', [_vm._v(_vm._s(loginLog.iplookup.country + ' ' + loginLog.iplookup.province + ' ' + loginLog.iplookup.city))])] : [_c('td')], _vm._v(" "), _c('td', [_vm._v(_vm._s(loginLog.create_at))])], 2)
+    }, [_vm._v(_vm._s(loginLog.user_name))])], 1), _vm._v(" "), (loginLog.iplookup.country) ? [_c('td', [_vm._v(_vm._s(loginLog.iplookup.country + ' ' + loginLog.iplookup.province + ' ' + loginLog.iplookup.city))])] : [_c('td')], _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatMsgTime(loginLog.create_at)))])], 2)
   })], 2)])]), _vm._v(" "), _c('div', {
     staticClass: "box-footer"
   })])])]), _vm._v(" "), _c('div', {
@@ -121897,8 +121947,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("站点通告")]), _vm._v(" "), _c('div', {
     staticClass: "actions pull-right"
   }, [_c('i', {
-    class: _vm.is_chart ? 'el-icon-arrow-up' : 'el-icon-arrow-down'
+    class: _vm.notice_show ? 'el-icon-arrow-up' : 'el-icon-arrow-down',
+    on: {
+      "click": function($event) {
+        _vm.notice_show = !_vm.notice_show
+      }
+    }
   })])]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.notice_show),
+      expression: "notice_show"
+    }],
     staticClass: "box-body animated fadeInDown",
     staticStyle: {
       "mix-height": "160px"
@@ -121946,14 +122007,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "fa fa-bar-chart-o"
   })])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "box-header"
-  }, [_c('h3', {
-    staticClass: "box-title"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "pull-right"
-  })])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("user")]), _vm._v(" "), _c('th', [_vm._v("Position")]), _vm._v(" "), _c('th', [_vm._v("Created at")])])
 }]}
