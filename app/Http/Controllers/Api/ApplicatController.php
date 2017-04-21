@@ -52,7 +52,14 @@ class ApplicatController extends ApiController
     {
         $applicat = $this->applicat->store($request->all());
         //找到优先级第一管理该类型申请的管理员用户组
-        $users = \App\Type::find($applicat->type_id)->startRole()->first()->users;
+        $role = \App\Type::find($applicat->type_id)->startRole()->first();
+        if($role){
+           $users = $role->users;
+        }else{
+          return \Response::json([
+              'message' => ["该类型的申请还未开通"]
+          ], 403);
+        }
         //发送通知
         \Notification::send($users, new pendReview($applicat));
         return $this->noContent();

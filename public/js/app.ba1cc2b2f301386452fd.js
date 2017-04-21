@@ -44751,16 +44751,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 labels: ["January", "February", "March", "April", "May", "June", "July"],
                 datasets: [{
                     label: "login history",
-                    fillColor: "rgba(220,220,220,0.5)",
-                    strokeColor: "rgba(220,220,220,1)",
-                    pointColor: "rgba(220,220,220,1)",
+                    fill: false,
+                    borderColor: "rgba(75,192,192,1)",
                     pointStrokeColor: "#fff",
                     data: [65, 59, 90, 81, 56, 55, 40]
                 }, {
                     label: "applicat number",
-                    fillColor: "rgba(151,187,205,0.5)",
-                    strokeColor: "rgba(151,187,205,1)",
-                    pointColor: "rgba(151,187,205,1)",
+                    fill: false,
+                    borderColor: "rgba(255,192,70,1)",
                     pointStrokeColor: "#fff",
                     data: [28, 48, 40, 19, 96, 27, 100]
                 }]
@@ -46118,6 +46116,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                         //成功提交后跳转到申请管理页面
                         _this3.$router.push('/applicat-manage');
                     }, function (error) {
+                        console.log(error.response);
                         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__config_helper_js__["a" /* stack_error */])(error.response.data);
                     });
                 } else {

@@ -258,6 +258,7 @@
                  //成功提交后跳转到申请管理页面
                  this.$router.push('/applicat-manage');
               }, error => {
+                console.log(error.response);
                  stack_error(error.response.data)
               })
             } else {
