@@ -271,7 +271,14 @@ export default {
         update_password: 'Password reset successful !',
         create_type: 'Added type successful !',
         update_type: 'Update Type successful',
-        type_sert: 'The type has been reordered !'
+        type_sert: 'The type has been reordered !',
+        folder_required: 'The folder name must be required!',
+        create_file: 'You upload a file success!',
+        delete_file: 'You delete a file success!',
+        create_folder: 'You create a new folder success!',
+        delete_folder: 'You delete a folder success!',
+        folder_reserved: 'The folder name has been broadcast system reserved!',
+        folder_no_subdirectory: 'You can not create subfolders while creating a folder!'
     }
   }
 };

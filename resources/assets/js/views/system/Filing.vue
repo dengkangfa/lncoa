@@ -192,6 +192,7 @@
                 this.preview_image = path
             },
             confirm() {
+                //判断
                 if (!this.folder) {
                     toastr.error('The folder name must be required!')
                     return
@@ -216,12 +217,15 @@
             change(event) {
               this.files = event.target.files.length ? event.target.files : '';
             },
+            // 上传文件
             uploadFile() {
+                //判断文件是否为空
                 if (!this.files) {
                     toastr.error('The file must be required')
                     return
                 }
 
+                //获取表单数据
                 const formData = new FormData()
 
                 formData.append('file', this.files[0])
@@ -243,6 +247,7 @@
                         }
                     })
             },
+            //删除目录
             deleteFolder(name) {
                 const path = (this.upload.folder == '/') ? '' : this.upload.folder
                 axios.post('/api/folder/delete', { del_folder: name, folder: this.upload.folder })
@@ -254,6 +259,7 @@
                         toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
                     })
             },
+            //删除文件
             deleteFile(file, index) {
                 axios.post('/api/file/delete', { path: file.fullPath })
                     .then((response) => {

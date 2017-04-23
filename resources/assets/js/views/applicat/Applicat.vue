@@ -258,7 +258,6 @@
                  //成功提交后跳转到申请管理页面
                  this.$router.push('/applicat-manage');
               }, error => {
-                console.log(error.response);
                  stack_error(error.response.data)
               })
             } else {
@@ -273,7 +272,7 @@
           .then( response => {
               vm.form.fileList = fileList;
           }, error => {
-              console.log(error);
+              toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
           })
         },
         handlePreview(file) {

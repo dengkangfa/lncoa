@@ -1,15 +1,3 @@
-@component('mail::message', ['img' => $img])
-# Introduction
 
-The body of your message.
-{{ $img }}
-{{ $name }}
-<img src="$img">
 
-@component('mail::button', ['url' => ''])
-Button Text
-@endcomponent
-
-Thanks,<br>
-{{ config('app.name') }}
-@endcomponent
+<img src="{!!$message->embedData(QrCode::format('png')->size(500)->generate('/'), 'QrCode.png', 'image/png')!!}">

@@ -28,7 +28,7 @@ class BaseManager
     }
 
     /**
-     * Get the folder information.
+     * 获取文件夹信息。
      *
      * @param $folder
      * @return array
@@ -37,13 +37,18 @@ class BaseManager
     {
         $folder = $this->cleanFolder($folder);
 
+        //获取面包屑
         $breadcrumbs = $this->breadcrumbs($folder);
+        //获取当前文件夹名称
         $slice = array_slice($breadcrumbs, -1);
         $folderName = current($slice);
+        //当前面包屑
         $breadcrumbs = array_slice($breadcrumbs, 0, -1);
 
+        //获取子目录
         $subfolders = $this->getSubfolderList($folder);
 
+        //获取当前文件夹下的文件信息
         $files = $this->getFileList($folder);
 
         return compact([
@@ -56,7 +61,7 @@ class BaseManager
     }
 
     /**
-     * Delete the file.
+     * 删除文件
      *
      * @param $path
      * @return mixed
@@ -69,7 +74,7 @@ class BaseManager
     }
 
     /**
-     * Delete the folder.
+     * 删除文件夹
      *
      * @param $folder
      * @return string
@@ -78,21 +83,24 @@ class BaseManager
     {
         $this->cleanFolder($folder);
 
+        //合并一个或多个数组
         $filesFolders = array_merge(
             $this->disk->directories($folder),
             $this->disk->files($folder)
         );
 
+        //判断是否为空，如果该目录下存在文件或文件夹，则不允许删除
         if (!empty($filesFolders)) {
             throw new UploadException("The directory must be empty to delete it.");
             // throw new UploadException(transe());
         }
 
+        //删除文件夹
         return $this->disk->deleteDirectory($folder);
     }
 
     /**
-     * Create a new folder.
+     * 创建一个新文件夹。
      *
      * @param $folder
      * @return string
@@ -101,6 +109,7 @@ class BaseManager
     {
         $this->cleanFolder($folder);
 
+        //检查文件夹是否已存在
         if ($this->checkFolder($folder)) {
             throw new UploadException("The Folder exists.");
         }
@@ -109,7 +118,7 @@ class BaseManager
     }
 
     /**
-     * Check if the folder exists.
+     * 检查文件夹是否存在。
      *
      * @param $folder
      * @return mixed
@@ -120,7 +129,7 @@ class BaseManager
     }
 
     /**
-     * Determine whether the file exists
+     * 检查文件是否存在
      * @param  string $path
      * @return boolean
      */
@@ -130,7 +139,7 @@ class BaseManager
     }
 
     /**
-     * save the file
+     * 保存文件
      * @param  $path
      * @param  $content
      * @return string
@@ -138,8 +147,13 @@ class BaseManager
     public function saveFile($path, $content)
     {
         $this->cleanFolder($path);
-        
+
         return $this->disk->put($path, $content);
+    }
+
+    public function renameFile($oldName, $newName)
+    {
+        return $this->disk->move($oldName, $newName);
     }
 
     /**
@@ -154,7 +168,7 @@ class BaseManager
     }
 
     /**
-     * Get the breadcrumbs by the folder.
+     * 通过文件夹获取面包屑。
      *
      * @param $folder
      * @return array
@@ -178,7 +192,7 @@ class BaseManager
     }
 
     /**
-     * Get all the subfolders by folder.
+     * 通过文件夹获取所有子文件夹。
      *
      * @param  string $folder
      * @return array
@@ -186,6 +200,7 @@ class BaseManager
     public function getSubfolderList($folder)
     {
         $subfolders = [];
+        //返回指定目录下的目录数组
         foreach (array_unique($this->disk->directories($folder)) as $subfolder) {
             $subfolders["/$subfolder"] = basename($subfolder);
         }
@@ -194,7 +209,7 @@ class BaseManager
     }
 
     /**
-     * Get all the files by the folder.
+     * 获取文件夹中的所有文件。
      *
      * @param  string $folder
      * @return array
@@ -203,6 +218,7 @@ class BaseManager
     {
         $files = [];
 
+        //返回指定目录下的所有文件数组
         $filesContent = $this->disk->files($folder);
 
         foreach ($filesContent as $file) {
@@ -213,7 +229,7 @@ class BaseManager
     }
 
     /**
-     * Get the file detail by the path.
+     * 通过路径获取文件详细信息。
      *
      * @param $path
      * @return array
@@ -233,18 +249,19 @@ class BaseManager
     }
 
     /**
-     * Get the file's webpath by the path.
+     * 通过路径获取文件的webpath。
      *
      * @param $path
      * @return \Illuminate\Contracts\Routing\UrlGenerator|string
      */
     public function fileWebPath($path)
     {
+        //根据当前请求的协议（HTTP 或 HTTPS）生成资源文件的 URL
         return asset("storage/" . ltrim($path, '/'));
     }
 
     /**
-     * Get the file's mime type by the path.
+     * 通过路径获取文件的MIME类型。
      *
      * @param $path
      * @return mixed|null|string
@@ -257,7 +274,7 @@ class BaseManager
     }
 
     /**
-     * Get the file's size by the path.
+     * 通过路径获取文件的大小。
      *
      * @param $path
      * @return mixed
@@ -269,7 +286,7 @@ class BaseManager
     }
 
     /**
-     * Get the file's last modified time by the path.
+     * 通过路径获取文件的最后修改时间。
      *
      * @param $path
      * @return string

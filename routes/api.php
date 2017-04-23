@@ -29,6 +29,11 @@ Route::group([
     Route::post('/user/{id}/status', ['middleware' => ['permission:update-user-status'], 'uses' => 'UserController@status']);
     Route::post('/user/avatar', 'UserController@avatar');
     Route::post('/user/crop/avatar', 'UserController@cropAvatar');
+    Route::get('/user/upload', 'UserController@uploadList');
+    Route::post('/user/upload', 'UserController@uploadFile');
+    Route::post('/user/file/delete', 'UserController@deleteFile');
+    Route::post('/user/folder', 'UserController@createFolder');
+    Route::post('/user/file/rename', 'UserController@renameFile');
 
     Route::get('/menu', 'MenuController@me');
     Route::get('/menus', 'MenuController@index');

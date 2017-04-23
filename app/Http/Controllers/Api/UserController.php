@@ -14,6 +14,8 @@ use App\Services\FileManager\UploadManager;
 
 class UserController extends ApiController
 {
+    const userFolder = 'filing';
+
     protected $user;
 
     protected $manager;
@@ -196,6 +198,11 @@ class UserController extends ApiController
         return response()->json($currentImage);
     }
 
+    /**
+     * 更改密码
+     * @param  Request $request
+     * @return null
+     */
     public function changePassword(Request $request)
     {
 
@@ -209,6 +216,94 @@ class UserController extends ApiController
           return response()->json(['old_password' => [trans('message.Inconsistent')]], 422);
         }
         $this->user->changePassword(Auth::user(), $request->password);
+    }
+
+    /**
+     * 获取上传的文件列表
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function uploadList(Request $request)
+    {
+        //用户个人文件夹前缀
+        $prefix = self::userFolder.'/'.Auth::id().'/root/';
+        //当前访问文件夹的目录
+        $path = $prefix.$request->folder;
+        //获取当前文件夹下的所有数据
+        $data = $this->manager->folderInfo($path);
+
+        return $this->respondWithArray([ 'data' => $data ]);
+    }
+
+    /**
+     * Upload the file.
+     *
+     * @param  Request $request
+     * @return array
+     */
+    public function uploadFile(Request $request)
+    {
+        //获取文件
+        $file = $_FILES['file'];
+
+        //获取文件名
+        $fileName = $request->get('name');
+
+        //如果用户提供了文件名称，则在其提供的名称的基础上添加上文件类型。
+        $fileName = $fileName ? $fileName.'.'.explode('/', $file['type'])[1] : $file['name'];
+
+        // $prefix = self::userFolder.'/'.Auth::id().'/root/';
+
+        //文件将要保持的路径
+        $path = str_finish($request->get('folder'), '/').$fileName;
+
+        $content = \File::get($file['tmp_name']);
+
+        //  判断文件是否已存在
+        if ($this->manager->checkFile($path)) {
+            return $this->errorWrongArgs('This File exists.');
+        }
+
+        //保存文件
+        $this->manager->saveFile($path, $content);
+
+        return $this->respondWithArray($this->manager->fileDetail($path));
+    }
+
+    /**
+     * 删除文件
+     * @param  Request $request
+     * @return array
+     */
+    public function deleteFile(Request $request)
+    {
+        $path = $request->get('path');
+
+        $data = $this->manager->deleteFile($path);
+
+        return $this->respondWithArray([ 'data' => $data ]);
+    }
+
+    /**
+     * 创建文件夹
+     * @param  Request $request
+     * @return array
+     */
+    public function createFolder(Request $request)
+    {
+        $folder = $request->get('folder');
+
+        $data = $this->manager->createFolder($folder);
+
+        return $this->respondWithArray(['data' => $data]);
+    }
+
+    public function renameFile(Request $request)
+    {
+        $oldFileName = $request->get('oldfilename');
+        $newFileName = $request->get('newfilename');
+        $data = $this->manager->renameFile($oldFileName, $newFileName);
+        return $this->respondWithArray(['data' => $data]);
     }
 
     // /**

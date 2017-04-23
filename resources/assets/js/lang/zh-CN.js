@@ -264,8 +264,15 @@ export default {
         update_profile: '更新资料成功!',
         update_password: '密码重置成功!',
         create_type: '新增类型成功!',
-        update_type: '修改类型成功！',
-        type_sert: '类型已重新排序!'
+        update_type: '修改类型成功!',
+        type_sert: '类型已重新排序!',
+        folder_required: '文件夹名称不能为空!',
+        create_file: '上传文件成功!',
+        delete_file: '删除文件成功!',
+        create_folder: '成功创建了一个新的文件夹!',
+        delete_folder: '删除文件夹成功!',
+        folder_reserved: '该文件夹名称已播系统预留!',
+        folder_no_subdirectory: '不能在创建文件夹的同时创建子文件夹!'
     }
   }
 };

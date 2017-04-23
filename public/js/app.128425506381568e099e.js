@@ -25522,6 +25522,44 @@ exports.default = {
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
+
+/* styles */
+__webpack_require__(495)
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(211),
+  /* template */
+  __webpack_require__(456),
+  /* scopeId */
+  "data-v-901a1698",
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/vagrant/Code/SourceCode/lnc/resources/assets/js/components/Modal.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Modal.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-901a1698", Component.options)
+  } else {
+    hotAPI.reload("data-v-901a1698", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
@@ -25716,44 +25754,6 @@ exports.fireClick = fireClick;
 exports.stopEventPropagation = stopEventPropagation;
 
 /***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(495)
-
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(211),
-  /* template */
-  __webpack_require__(456),
-  /* scopeId */
-  "data-v-901a1698",
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/vagrant/Code/SourceCode/lnc/resources/assets/js/components/Modal.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Modal.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-901a1698", Component.options)
-  } else {
-    hotAPI.reload("data-v-901a1698", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25827,7 +25827,7 @@ Object.defineProperty(exports, '__esModule', {
 
 var _hexToRgb = __webpack_require__(20);
 
-var _removeClass$getTopMargin$fadeIn$show$addClass = __webpack_require__(15);
+var _removeClass$getTopMargin$fadeIn$show$addClass = __webpack_require__(16);
 
 var _defaultParams = __webpack_require__(159);
 
@@ -43079,7 +43079,7 @@ function mergeFn (a, b) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Cropper__ = __webpack_require__(382);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Cropper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Cropper__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Modal__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Modal__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Modal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_Modal__);
 //
 //
@@ -43554,7 +43554,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CustomAction_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CustomAction_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__TablePagination_vue__ = __webpack_require__(161);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__TablePagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__TablePagination_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Modal__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Modal__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Modal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_Modal__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuex__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vuex__);
@@ -43890,7 +43890,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config_api__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Modal__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Modal__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Modal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_Modal__);
 //
 //
@@ -46116,7 +46116,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                         //成功提交后跳转到申请管理页面
                         _this3.$router.push('/applicat-manage');
                     }, function (error) {
-                        console.log(error.response);
                         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__config_helper_js__["a" /* stack_error */])(error.response.data);
                     });
                 } else {
@@ -46131,7 +46130,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             axios.post('/api/file/delete', { path: path.substring(path.indexOf("/") + 1) }).then(function (response) {
                 vm.form.fileList = fileList;
             }, function (error) {
-                console.log(error);
+                toastr.error(error.response.status + ' : Resource ' + error.response.statusText);
             });
         },
         handlePreview: function handlePreview(file) {
@@ -46966,7 +46965,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Modal__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Modal__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Modal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Modal__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuex__);
@@ -47308,7 +47307,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Modal_vue__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Modal_vue__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Modal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Modal_vue__);
 //
 //
@@ -47499,6 +47498,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         confirm: function confirm() {
             var _this = this;
 
+            //判断
             if (!this.folder) {
                 toastr.error('The folder name must be required!');
                 return;
@@ -47521,14 +47521,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         change: function change(event) {
             this.files = event.target.files.length ? event.target.files : '';
         },
+
+        // 上传文件
         uploadFile: function uploadFile() {
             var _this2 = this;
 
+            //判断文件是否为空
             if (!this.files) {
                 toastr.error('The file must be required');
                 return;
             }
 
+            //获取表单数据
             var formData = new FormData();
 
             formData.append('file', this.files[0]);
@@ -47549,6 +47553,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
         },
+
+        //删除目录
         deleteFolder: function deleteFolder(name) {
             var _this3 = this;
 
@@ -47561,6 +47567,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 toastr.error(error.response.status + ' : Resource ' + error.response.statusText);
             });
         },
+
+        //删除文件
         deleteFile: function deleteFile(file, index) {
             var _this4 = this;
 
@@ -48377,12 +48385,365 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Modal_vue__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Modal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Modal_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = {};
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    components: {
+        Modal: __WEBPACK_IMPORTED_MODULE_0__components_Modal_vue___default.a
+    },
+    data: function data() {
+        return {
+            showFile: false,
+            showFolder: false,
+            showRemoveFileName: false,
+            files: null,
+            file_name: '',
+            folder: '',
+            upload: {},
+            showType: '',
+            oldValue: '',
+            types: {
+                'all': '所有',
+                'image': '图片',
+                'video': '视频',
+                'audio': '音频',
+                'excel': '文档'
+            }
+        };
+    },
+    mounted: function mounted() {
+        this.getFileInfo(this.$route.query.folder);
+    },
+
+    // 自定义指令
+    directives: {
+        focus: {
+            update: function update(el) {
+                el.focus();
+            }
+        }
+    },
+    methods: {
+        // 上传文件
+        uploadFile: function uploadFile() {
+            var _this = this;
+
+            //判断文件是否为空
+            if (!this.files) {
+                toastr.error('The file must be required');
+                return;
+            }
+
+            //获取表单数据
+            var formData = new FormData();
+
+            formData.append('file', this.files[0]);
+            formData.append('name', this.file_name);
+            formData.append('folder', this.upload.folder);
+
+            axios.post('/api/user/upload', formData).then(function (response) {
+                toastr.success(_this.$t('el.notification.create_file'));
+
+                _this.upload.files.push(response.data);
+                _this.file_name = '';
+                _this.showFile = false;
+            }, function (error) {
+                if (error.response.data.error) {
+                    toastr.error(error.response.data.error.message);
+                } else {
+                    toastr.error(error.response.status + ' : Resource ' + error.response.statusText);
+                }
+            });
+        },
+        change: function change(event) {
+            this.files = event.target.files.length ? event.target.files : '';
+        },
+        getFileInfo: function getFileInfo(path) {
+            var _this2 = this;
+
+            //获取当前目录下的文件信息
+            var url = '/api/user/upload';
+
+            if (path) {
+                url = url + '?folder=' + path;
+            } else {
+                path = '/';
+            }
+
+            axios.get(url).then(function (response) {
+                console.log(response);
+                _this2.upload = response.data.data;
+                if (_this2.upload.subfolders instanceof Array) {
+                    _this2.upload.subfolders = {};
+                }
+                _this2.$router.push(_this2.$route.path + '?folder=' + path);
+            });
+        },
+        newFolder: function newFolder() {
+            var _this3 = this;
+
+            //判断文件夹名称是否为空
+            if (!this.folder) {
+                toastr.error(this.$t('el.notification.folder_required'));
+                return;
+            }
+            //root为每个用户的根目录，子目录不可使用该名称
+            if (this.folder == 'root') {
+                toastr.error(this.$t('el.notification.folder_reserved'));
+                return;
+            }
+
+            //不能在创建文件夹的同时创建子文件夹
+            if (this.folder.indexOf('/') > -1 || this.folder.indexOf('\\') > -1) {
+                toastr.error(this.$t('el.notification.folder_no_subdirectory'));
+                return;
+            }
+
+            //创建新文件夹的路径
+            this.path = this.upload.folder + '/' + this.folder;
+
+            axios.post('/api/user/folder', { folder: this.path }).then(function (response) {
+                toastr.success(_this3.$t('el.notification.create_folder'));
+
+                _this3.showFolder = false;
+                _this3.$set(_this3.upload.subfolders, _this3.path, _this3.folder);
+                _this3.folder = '';
+            }, function (error) {
+                toastr.error(error.response.status + ' : ' + error.response.statusText);
+            });
+        },
+
+        //获取父级目录名称
+        ParentDirectory: function ParentDirectory(data) {
+            var arr = [];
+            for (var i in data) {
+                arr.push(data[i]);
+            }
+            if (arr[arr.length - 1] == 'root') {
+                return '/';
+            }
+            return arr[arr.length - 1];
+        },
+
+        //修改显示类型
+        updateShowType: function updateShowType(type) {
+            if (type == 'all') {
+                this.showType = '';
+                return;
+            }
+            this.showType = type;
+        },
+
+        //是否当前想要显示的类型
+        isShow: function isShow(type) {
+            if (!this.showType) {
+                return true;
+            } else if (type && type.indexOf(this.showType) > -1) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+
+        //删除目录
+        deleteFolder: function deleteFolder(name) {
+            var _this4 = this;
+
+            axios.post('/api/folder/delete', { del_folder: name, folder: this.upload.folder }).then(function (response) {
+                toastr.success(_this4.$t('el.notification.delete_folder'));
+
+                //从subfolders数组中删除
+                _this4.$delete(_this4.upload.subfolders, _this4.upload.folder + '/' + name);
+            }, function (error) {
+                toastr.error(error.response.status + ' : Resource ' + error.response.statusText);
+            });
+        },
+
+        //删除文件
+        deleteFile: function deleteFile(file, index) {
+            var _this5 = this;
+
+            axios.post('/api/user/file/delete', { path: file.fullPath }).then(function (response) {
+                toastr.success(_this5.$t('el.notification.delete_file'));
+
+                _this5.upload.files.splice(index, 1);
+            }, function (error) {
+                toastr.error(error.status + ' : Resource ' + error.statusText);
+            });
+        },
+
+        //双击触发文件重命名控件
+        renameFileName: function renameFileName(el) {
+            var inputElement = el.target.parentNode.children[1];
+            inputElement.style.display = 'inline-block';
+            this.oldValue = inputElement.value;
+            console.log(this.oldValue);
+            inputElement.focus();
+            el.currentTarget.style.display = 'none';
+        },
+
+        //文件重命名控件失去焦点调用函数
+        renameFileNameBlur: function renameFileNameBlur(el, file) {
+            var pElement = el.target.parentNode.children[0];
+            pElement.style.display = 'inline-block';
+            el.currentTarget.style.display = 'none';
+            if (file.name != this.oldValue) {
+                this.rename(file);
+            }
+        },
+
+        //撤销更改
+        revoked: function revoked(file) {
+            file.name = this.oldValue;
+        },
+
+        //文件重命名
+        rename: function rename(file) {
+            var formData = new FormData();
+            var newfilename = this.upload.folder + '/' + file.name;
+            formData.append('oldfilename', file.fullPath);
+            formData.append('newfilename', newfilename);
+            axios.post('api/user/file/rename', formData).then(function (response) {
+                toastr.success('You rename a new file name success!');
+            }, function (error) {
+                toastr.error(error.response.status + ' : ' + error.response.statusText);
+            });
+        }
+    }
+};
 
 /***/ }),
 /* 246 */
@@ -49079,7 +49440,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     update_password: 'Password reset successful !',
     create_type: 'Added type successful !',
     update_type: 'Update Type successful',
-    type_sert: 'The type has been reordered !'
+    type_sert: 'The type has been reordered !',
+    folder_required: 'The folder name must be required!',
+    create_file: 'You upload a file success!',
+    delete_file: 'You delete a file success!',
+    create_folder: 'You create a new folder success!',
+    delete_folder: 'You delete a folder success!',
+    folder_reserved: 'The folder name has been broadcast system reserved!',
+    folder_no_subdirectory: 'You can not create subfolders while creating a folder!'
   }), _el)
 };
 
@@ -49372,8 +49740,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     update_profile: '更新资料成功!',
     update_password: '密码重置成功!',
     create_type: '新增类型成功!',
-    update_type: '修改类型成功！',
-    type_sert: '类型已重新排序!'
+    update_type: '修改类型成功!',
+    type_sert: '类型已重新排序!',
+    folder_required: '文件夹名称不能为空!',
+    create_file: '上传文件成功!',
+    delete_file: '删除文件成功!',
+    create_folder: '成功创建了一个新的文件夹!',
+    delete_folder: '删除文件夹成功!',
+    folder_reserved: '该文件夹名称已播系统预留!',
+    folder_no_subdirectory: '不能在创建文件夹的同时创建子文件夹!'
   }), _el)
 };
 
@@ -68634,7 +69009,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\na[data-v-b10e02fe]:hover, a[data-v-b10e02fe]:focus {\n    text-decoration: none;\n}\na[data-v-b10e02fe]:focus {\n    outline: none;\n}\na[data-v-b10e02fe]:focus {\n    outline: thin dotted;\n    outline: 5px auto -webkit-focus-ring-color;\n    outline-offset: -2px;\n}\na[data-v-b10e02fe]:active, a[data-v-b10e02fe]:hover {\n    outline: 0;\n}\na[data-v-b10e02fe] {\n    cursor: pointer;\n}\na[data-v-b10e02fe] {\n    color: #337ab7;\n    text-decoration: none;\n}\nol[data-v-b10e02fe], ul[data-v-b10e02fe] {\n    margin-top: 0;\n    margin-bottom: 10px;\n}\n.file-manager[data-v-b10e02fe] {\n    list-style: none outside none;\n    margin: 0;\n    padding: 0;\n}\nh3[data-v-b10e02fe], h4[data-v-b10e02fe], h5[data-v-b10e02fe] {\n    margin-top: 5px;\n    font-weight: 600;\n}\nh5[data-v-b10e02fe] {\n    font-size: 12px;\n}\n.row[data-v-b10e02fe] {\n    margin-left: -15px !important;\n    margin-right: -15px !important;\n}\n.file-control.active[data-v-b10e02fe] {\n    text-decoration: underline;\n}\n.file-control[data-v-b10e02fe] {\n    color: inherit;\n    font-size: 11px;\n    margin-right: 10px;\n}\n.file-manager .hr-line-dashed[data-v-b10e02fe] {\n    margin: 15px 0;\n}\n.hr-line-dashed[data-v-b10e02fe] {\n    border-top: 1px dashed #e7eaec;\n    color: #ffffff;\n    background-color: #ffffff;\n    height: 1px;\n    margin: 20px 0;\n}\n.float-e-margins .btn[data-v-b10e02fe] {\n    margin-bottom: 5px;\n}\n.folder-list li[data-v-b10e02fe] {\n    height: 30px;\n    line-height: 30px;\n    border-bottom: 1px solid #e7eaec;\n    display: block;\n}\n.folder-list li a[data-v-b10e02fe] {\n    color: #666666;\n    padding: 5px 0;\n}\n.folder-list li i[data-v-b10e02fe] {\n    margin-right: 8px;\n    color: #3d4d5d;\n}\n.folder-list li .delete-folder[data-v-b10e02fe] {\n    cursor: pointer;\n    float: right;\n}\n.file-box .file img[data-v-b10e02fe]{\n    height: 100px;\n    width: 250px;\n}\n.file-manager h5.tag-title[data-v-b10e02fe] {\n    margin-top: 20px;\n}\nul.notes li[data-v-b10e02fe], ul.tag-list li[data-v-b10e02fe] {\n    list-style: none;\n}\n.tag-list li[data-v-b10e02fe] {\n    float: left;\n}\n.tag-list li a[data-v-b10e02fe] {\n    font-size: 10px;\n    background-color: #f0f3f4;\n    padding: 5px 12px;\n    color: inherit;\n    border-radius: 2px;\n    border: 1px solid #e7eaec;\n    margin-right: 5px;\n    margin-top: 5px;\n    display: block;\n}\n.file-box[data-v-b10e02fe] {\n  float: left;\n  width: 220px;\n}\n.file[data-v-b10e02fe] {\n    border: 1px solid #e7eaec;\n    padding: 0;\n    background-color: #ffffff;\n    position: relative;\n    margin-bottom: 20px;\n    margin-right: 20px;\n}\n/*文件方框右下角*/\n.corner[data-v-b10e02fe] {\n    position: absolute;\n    display: inline-block;\n    width: 0;\n    height: 0;\n    line-height: 0;\n    border: 0.6em solid transparent;\n    border-right: 0.6em solid #f1f1f1;\n    border-bottom: 0.6em solid #f1f1f1;\n    right: 0em;\n    bottom: 0em;\n}\n.file .icon[data-v-b10e02fe] {\n    text-align: center;\n}\n.file .icon[data-v-b10e02fe], .file .image[data-v-b10e02fe] {\n    height: 100px;\n    overflow: hidden;\n}\n.file .file-name[data-v-b10e02fe] {\n    padding: 0px 10px 10px 10px;\n    background-color: #f8f8f8;\n    border-top: 1px solid #e7eaec;\n    overflow: hidden;\n    white-space: nowrap;\n    text-overflow: ellipsis;\n}\n.file .file-name p[data-v-b10e02fe] {\n    overflow: hidden;\n    white-space: nowrap;\n    text-overflow: ellipsis;\n    width: 150px;\n    display: inline-block;\n    padding: -15px;\n    margin: -12px 0;\n}\n.file .icon i[data-v-b10e02fe] {\n    font-size: 70px;\n    color: #dadada;\n}\n.file .file-name .delete-file[data-v-b10e02fe] {\n    cursor: pointer;\n    color: #a6aaad;\n}\n.file .file-name .update-file[data-v-b10e02fe] {\n    cursor: pointer;\n    color: #a6aaad;\n}\n.file .file-name .i-btn[data-v-b10e02fe] {\n    display: inline-block;\n    float: right;\n}\ninput[type=\"file\"][data-v-b10e02fe] {\n    display: block;\n}\n", ""]);
 
 // exports
 
@@ -117917,7 +118292,7 @@ var _colorLuminance = __webpack_require__(20);
 
 var _getModal = __webpack_require__(19);
 
-var _hasClass$isDescendant = __webpack_require__(15);
+var _hasClass$isDescendant = __webpack_require__(16);
 
 /*
  * User clicked on "Confirm"/"OK" or "Cancel"
@@ -118054,7 +118429,7 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _stopEventPropagation$fireClick = __webpack_require__(15);
+var _stopEventPropagation$fireClick = __webpack_require__(16);
 
 var _setFocusStyle = __webpack_require__(19);
 
@@ -118191,7 +118566,7 @@ var _isIE8 = __webpack_require__(20);
 
 var _getModal$getInput$setFocusStyle = __webpack_require__(19);
 
-var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide = __webpack_require__(15);
+var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide = __webpack_require__(16);
 
 var alertTypes = ['error', 'warning', 'info', 'success', 'input', 'prompt'];
 
@@ -118427,7 +118802,7 @@ Object.defineProperty(exports, '__esModule', {
  * jQuery-like functions for manipulating the DOM
  */
 
-var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation = __webpack_require__(15);
+var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation = __webpack_require__(16);
 
 /*
  * Handy utilities
@@ -121276,7 +121651,7 @@ var Component = __webpack_require__(1)(
   /* template */
   __webpack_require__(461),
   /* scopeId */
-  null,
+  "data-v-b10e02fe",
   /* cssModules */
   null
 )
@@ -125987,8 +126362,363 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c("div")
-},staticRenderFns: []}
+  return _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-sm-3"
+  }, [_c('div', {
+    staticClass: "ibox float-e-margins"
+  }, [_c('div', {
+    staticClass: "ibox-content"
+  }, [_c('div', {
+    staticClass: "file-manager"
+  }, [_c('el-progress', {
+    attrs: {
+      "text-inside": true,
+      "stroke-width": 18,
+      "percentage": 70
+    }
+  }), _vm._v(" "), _c('h5', [_vm._v("显示：")]), _vm._v(" "), _vm._l((_vm.types), function(type, index) {
+    return _c('a', {
+      staticClass: "file-control",
+      attrs: {
+        "href": "javascript:;"
+      },
+      on: {
+        "click": function($event) {
+          _vm.updateShowType(index)
+        }
+      }
+    }, [_vm._v(_vm._s(type))])
+  }), _vm._v(" "), _c('div', {
+    staticClass: "hr-line-dashed"
+  }), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-primary btn-block",
+    on: {
+      "click": function($event) {
+        _vm.showFile = true
+      }
+    }
+  }, [_vm._v("上传文件")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-primary btn-block",
+    on: {
+      "click": function($event) {
+        _vm.showFolder = true
+      }
+    }
+  }, [_vm._v("创建文件夹")]), _vm._v(" "), _c('div', {
+    staticClass: "hr-line-dashed"
+  }), _vm._v(" "), _c('h5', [_vm._v("文件夹")]), _vm._v(" "), _c('ul', {
+    staticClass: "folder-list",
+    staticStyle: {
+      "padding": "0"
+    }
+  }, [_c('li', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.upload.breadcrumbs && _vm.upload.folderName != 'root'),
+      expression: "upload.breadcrumbs && upload.folderName != 'root'"
+    }]
+  }, [_c('a', {
+    attrs: {
+      "href": "javascript:;"
+    },
+    on: {
+      "click": function($event) {
+        _vm.getFileInfo(_vm.ParentDirectory(_vm.upload.breadcrumbs))
+      }
+    }
+  }, [_c('i', {
+    staticClass: "ion-folder"
+  }), _vm._v(" ../")])]), _vm._v(" "), _vm._l((_vm.upload.subfolders), function(name, index) {
+    return _c('li', [_c('a', {
+      attrs: {
+        "href": "javascript:;"
+      },
+      on: {
+        "click": function($event) {
+          _vm.getFileInfo(name)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "ion-folder"
+    }), _vm._v(" " + _vm._s(name))]), _vm._v(" "), _c('i', {
+      staticClass: "delete-folder ion-trash-a",
+      on: {
+        "click": function($event) {
+          _vm.deleteFolder(name)
+        }
+      }
+    })])
+  })], 2), _vm._v(" "), _c('h5', {
+    staticClass: "tag-title"
+  }, [_vm._v("标签")]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "clearfix"
+  })], 2)])])]), _vm._v(" "), _c('modal', {
+    attrs: {
+      "show": _vm.showFolder,
+      "show-footer": ""
+    },
+    on: {
+      "confirm": _vm.newFolder,
+      "cancel": function($event) {
+        _vm.showFolder = false
+      }
+    }
+  }, [_c('div', {
+    slot: "title"
+  }, [_vm._v(_vm._s(_vm.$t('el.form.create_folder')))]), _vm._v(" "), _c('form', {
+    staticClass: "form-horizontal",
+    attrs: {
+      "role": "form"
+    }
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "control-label col-sm-3",
+    attrs: {
+      "for": "folder"
+    }
+  }, [_vm._v(_vm._s(_vm.$t('el.form.folder_name')))]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-8"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.folder),
+      expression: "folder"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "id": "folder",
+      "placeholder": _vm.$t('el.form.folder_name')
+    },
+    domProps: {
+      "value": _vm._s(_vm.folder)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.folder = $event.target.value
+      }
+    }
+  })])])])]), _vm._v(" "), _c('modal', {
+    attrs: {
+      "show": _vm.showFile,
+      "show-footer": ""
+    },
+    on: {
+      "confirm": _vm.uploadFile,
+      "cancel": function($event) {
+        _vm.showFile = false
+      }
+    }
+  }, [_c('div', {
+    slot: "title"
+  }, [_vm._v(_vm._s(_vm.$t('el.form.upload_file')))]), _vm._v(" "), _c('form', {
+    staticClass: "form-horizontal",
+    attrs: {
+      "role": "form",
+      "enctype": "multipart/form-data"
+    }
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "control-label col-sm-3",
+    attrs: {
+      "for": "file"
+    }
+  }, [_vm._v(_vm._s(_vm.$t('el.form.file')))]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-8"
+  }, [_c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "file",
+      "id": "file",
+      "name": "file"
+    },
+    on: {
+      "change": _vm.change
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "control-label col-sm-3",
+    attrs: {
+      "for": "file_name"
+    }
+  }, [_vm._v(_vm._s(_vm.$t('el.form.file_name')))]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-8"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.file_name),
+      expression: "file_name"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "id": "file_name",
+      "name": "file_name",
+      "placeholder": _vm.$t('el.form.file_name')
+    },
+    domProps: {
+      "value": _vm._s(_vm.file_name)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.file_name = $event.target.value
+      }
+    }
+  })])])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-9 animated fadeInRight",
+    staticStyle: {
+      "margin-top": "-15px"
+    }
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-sm-12"
+  }, _vm._l((_vm.upload.files), function(file, index) {
+    return (_vm.isShow(file.mimeType)) ? _c('div', {
+      staticClass: "file-box"
+    }, [_c('div', {
+      staticClass: "file"
+    }, [_c('a', {
+      attrs: {
+        "href": file.webPath,
+        "target": "_blank"
+      }
+    }, [_c('span', {
+      staticClass: "corner"
+    }), _vm._v(" "), _c('div', {
+      staticClass: "icon"
+    }, [(file.mimeType) ? [(file.mimeType.indexOf('image') > -1) ? _c('div', {
+      staticClass: "image"
+    }, [_c('img', {
+      staticClass: "img-responsive",
+      attrs: {
+        "alt": "image",
+        "src": file.webPath
+      }
+    })]) : _vm._e(), _vm._v(" "), (file.mimeType.indexOf('video') > -1) ? _c('i', {
+      staticClass: "img-responsive ion-ios-film-outline"
+    }) : (file.mimeType.indexOf('audio') > -1) ? _c('i', {
+      staticClass: "img-responsive ion-music-note"
+    }) : (file.mimeType.indexOf('excel') > -1) ? _c('i', {
+      staticClass: "img-responsive ion-stats-bars"
+    }) : _c('i', {
+      staticClass: "img-responsive ion-document"
+    })] : [_c('i', {
+      staticClass: "img-responsive ion-document"
+    })]], 2)]), _vm._v(" "), _c('div', {
+      staticClass: "file-name"
+    }, [_c('p', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (!_vm.showRemoveFileName),
+        expression: "!showRemoveFileName"
+      }],
+      on: {
+        "dblclick": function($event) {
+          _vm.renameFileName($event)
+        }
+      }
+    }, [_vm._v(_vm._s(file.name))]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (false),
+        expression: "false"
+      }, {
+        name: "focus",
+        rawName: "v-focus"
+      }, {
+        name: "model",
+        rawName: "v-model",
+        value: (file.name),
+        expression: "file.name"
+      }],
+      staticClass: "form-control",
+      staticStyle: {
+        "height": "20px"
+      },
+      attrs: {
+        "type": "text",
+        "name": ""
+      },
+      domProps: {
+        "value": _vm._s(file.name)
+      },
+      on: {
+        "blur": function($event) {
+          _vm.renameFileNameBlur($event, file)
+        },
+        "keyup": function($event) {
+          if (_vm._k($event.keyCode, "esc", 27)) { return; }
+          _vm.revoked(file)
+        },
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          file.name = $event.target.value
+        }
+      }
+    }), _vm._v(" "), _c('br'), _vm._v(" "), _c('small', [_vm._v("添加时间：" + _vm._s(file.modified.split(' ')[0]))]), _vm._v(" "), _c('div', {
+      staticClass: "i-btn"
+    }, [_c('i', {
+      staticClass: "delete-file ion-trash-a",
+      on: {
+        "click": function($event) {
+          _vm.deleteFile(file, index)
+        }
+      }
+    })])])])]) : _vm._e()
+  }))])])], 1)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('ul', {
+    staticClass: "tag-list",
+    staticStyle: {
+      "padding": "0"
+    }
+  }, [_c('li', [_c('a', {
+    attrs: {
+      "href": "file_manager.html"
+    }
+  }, [_vm._v("爱人")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "file_manager.html"
+    }
+  }, [_vm._v("工作")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "file_manager.html"
+    }
+  }, [_vm._v("家庭")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "file_manager.html"
+    }
+  }, [_vm._v("孩子")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "file_manager.html"
+    }
+  }, [_vm._v("假期")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "file_manager.html"
+    }
+  }, [_vm._v("音乐")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "file_manager.html"
+    }
+  }, [_vm._v("照片")])]), _vm._v(" "), _c('li', [_c('a', {
+    attrs: {
+      "href": "file_manager.html"
+    }
+  }, [_vm._v("电影")])])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -129624,13 +130354,13 @@ var content = __webpack_require__(342);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("5487052b", content, false);
+var update = __webpack_require__(3)("13851814", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b10e02fe!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Folder.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b10e02fe!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Folder.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b10e02fe&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Folder.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b10e02fe&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Folder.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });

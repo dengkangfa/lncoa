@@ -39,10 +39,13 @@ class UploadController extends ApiController
      */
     public function uploadFile(Request $request)
     {
+        //获取文件
         $file = $_FILES['file'];
 
+        //获取文件名
         $fileName = $request->get('name');
 
+        //如果用户提供了文件名称，则在其提供的名称的基础上添加上文件类型。
         $fileName = $fileName ? $fileName.'.'.explode('/', $file['type'])[1] : $file['name'];
 
         $path = str_finish($request->get('folder'), '/').$fileName;
