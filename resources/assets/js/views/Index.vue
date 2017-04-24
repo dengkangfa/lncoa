@@ -154,10 +154,15 @@
           axios.get('/api/statistics')
               .then(response => {
                   this.statistics = response.data
+                  //站点公告
                   $("#notice").html(response.data.notice);
+                  //图表横坐标
                   this.data.labels = response.data.accessCountLogs.labels;
-                  this.data.datasets[0].data = response.data.accessCountLogs.date;
+                  //访问量
+                  this.data.datasets[0].data = response.data.accessCountLogs.access;
+                  //申请量
                   this.data.datasets[1].data = response.data.accessCountLogs.apply;
+                  //显示图表
                   this.chart_show = true;
                   if(!response.data.notice) this.is_notice = false;
               }, error => {
@@ -168,6 +173,7 @@
       // },
       methods: {
         formatMsgTime (timespan) {
+          //格式化时间戳
           var d = new Date(parseInt(timespan) * 1000);
 
           var date = (d.getFullYear()) + "-" + (d.getMonth() + 1) + "-" + (d.getDate()) + "-" + (d.getHours()) + ":" + (d.getMinutes()) + ":" + (d.getSeconds());

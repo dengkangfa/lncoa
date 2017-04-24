@@ -14,7 +14,7 @@
                           <div class="form-group email has-feedback"
                             :class="{'has-error' : state == 'error'}">
                               <div class="col-md-12 ">
-                                  <input type="email" class="form-control" id="email" placeholder="Email" v-model="email" required autofocus>
+                                  <input type="text" id="username" class="form-control" placeholder="name/email" v-model="username" required autofocus>
                                   <i class="ion-android-person"></i>
                                   <span v-show="state == 'error'" class="help-block">
                                       <strong >{{ message }}</strong>
@@ -57,7 +57,7 @@
       name : 'login',
       data(){
           return {
-              email : null,
+              username : null,
               password : null,
               emailError: null,
               PasswordError: null,
@@ -75,11 +75,11 @@
               var vm = this;
               let data = {};
               //如果存在refresh_token则重新刷新令牌，反之重新获取令牌
-              let refresh_token = localStorage.getItem(vm.email + '_refresh_token');
+              let refresh_token = localStorage.getItem(vm.username + '_refresh_token');
               if(refresh_token) {
                   data = {
                         'grant_type': 'refresh_token',
-                        'email' : vm.email,
+                        'username' : vm.username,
                         'password' : vm.password,
                         'client_id': server.client.client_id,
                         'client_secret': server.client.client_secret,
@@ -88,7 +88,7 @@
               }else{
                   data = {
                       'grant_type': 'password',
-                      'email' : vm.email,
+                      'username' : vm.username,
                       'password' : vm.password,
                       'client_id': server.client.client_id,
                       'client_secret': server.client.client_secret,
@@ -98,7 +98,7 @@
                   vm.message = '';
                   vm.state = 'success';
                   //将用于刷新的令牌存储进localstorage
-                  localStorage.setItem(vm.email + '_refresh_token', response.data.refresh_token)
+                  localStorage.setItem(vm.username + '_refresh_token', response.data.refresh_token)
                   // localStorage.refresh_token = response.data.refresh_token;
                   //将用于验证身份的令牌存储进vuex
                   vm.SET_ACCESS_TOKEN(response.data.access_token);
@@ -163,7 +163,7 @@
     border-color:#7c7c7c;
 }
 
-#login-wrapper #email, #login-wrapper #password {
+#login-wrapper #username, #login-wrapper #password {
     padding-left: 32px;
 }
 

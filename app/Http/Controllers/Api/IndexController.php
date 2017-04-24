@@ -74,6 +74,7 @@ class IndexController extends ApiController
      */
     public function getLoginLog()
     {
+        //获取近10条的访问数据
         $loginLogs = Redis::lrange('user:loginlogs', 0, 10);
         $loginLogsArr = [];
         foreach($loginLogs as $key=>$loginLog) {
@@ -81,6 +82,7 @@ class IndexController extends ApiController
               break;
            }
            $loginLog = unserialize($loginLog);
+           //将ip转成对应的地址(最好在前端转化)
            $loginLog['iplookup'] = getIpLookup($loginLog['ip']);
            $loginLogsArr[] = $loginLog;
         }
@@ -95,12 +97,20 @@ class IndexController extends ApiController
     {
         $AccessLog = [];
         for($i=6; $i >= 0; $i--){
+            //获取最近一个星期每天对应的日期
             $date = Carbon::now("Asia/Shanghai")->subDays($i)->toDateString();
+            //访问量的键
             $AccessDateKey = 'lncoa:accesscount:' . $date;
+            //申请量的键
             $ApplyKey = 'lncoa:applycount:' . $date;
+            //用日期作为图标的横坐标
             $AccessLog['labels'][] = $date;
-            $AccessLog['date'][] = Redis::command('GET', [$AccessDateKey]);
-            $AccessLog['apply'][] = Redis::command('GET', [$ApplyKey]);
+            //获取访问量
+            $access = Redis::command('GET', [$AccessDateKey]);
+            $AccessLog['access'][] = $access ? $access : 0;
+            //获取申请量
+            $apply = Redis::command('GET', [$ApplyKey]);
+            $AccessLog['apply'][] = $apply ? $apply : 0;
         }
         return $AccessLog;
     }

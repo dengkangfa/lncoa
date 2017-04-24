@@ -44774,10 +44774,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         axios.get('/api/statistics').then(function (response) {
             _this.statistics = response.data;
+            //站点公告
             $("#notice").html(response.data.notice);
+            //图表横坐标
             _this.data.labels = response.data.accessCountLogs.labels;
-            _this.data.datasets[0].data = response.data.accessCountLogs.date;
+            //访问量
+            _this.data.datasets[0].data = response.data.accessCountLogs.access;
+            //申请量
             _this.data.datasets[1].data = response.data.accessCountLogs.apply;
+            //显示图表
             _this.chart_show = true;
             if (!response.data.notice) _this.is_notice = false;
         }, function (error) {
@@ -44789,6 +44794,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     // },
     methods: {
         formatMsgTime: function formatMsgTime(timespan) {
+            //格式化时间戳
             var d = new Date(parseInt(timespan) * 1000);
 
             var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
@@ -44924,7 +44930,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     name: 'login',
     data: function data() {
         return {
-            email: null,
+            username: null,
             password: null,
             emailError: null,
             PasswordError: null,
@@ -44938,11 +44944,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             var vm = this;
             var data = {};
             //如果存在refresh_token则重新刷新令牌，反之重新获取令牌
-            var refresh_token = localStorage.getItem(vm.email + '_refresh_token');
+            var refresh_token = localStorage.getItem(vm.username + '_refresh_token');
             if (refresh_token) {
                 data = {
                     'grant_type': 'refresh_token',
-                    'email': vm.email,
+                    'username': vm.username,
                     'password': vm.password,
                     'client_id': __WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].client.client_id,
                     'client_secret': __WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].client.client_secret,
@@ -44951,7 +44957,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             } else {
                 data = {
                     'grant_type': 'password',
-                    'email': vm.email,
+                    'username': vm.username,
                     'password': vm.password,
                     'client_id': __WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].client.client_id,
                     'client_secret': __WEBPACK_IMPORTED_MODULE_0__config_api__["a" /* default */].client.client_secret
@@ -44961,7 +44967,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 vm.message = '';
                 vm.state = 'success';
                 //将用于刷新的令牌存储进localstorage
-                localStorage.setItem(vm.email + '_refresh_token', response.data.refresh_token);
+                localStorage.setItem(vm.username + '_refresh_token', response.data.refresh_token);
                 // localStorage.refresh_token = response.data.refresh_token;
                 //将用于验证身份的令牌存储进vuex
                 vm.SET_ACCESS_TOKEN(response.data.access_token);
@@ -68827,7 +68833,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n#login-container{\n  width:100%;\n  height:100%;\n  position:absolute;\n  -webkit-transition:all .3s ease-in-out;\n  -moz-transition:all .3s ease-in-out;\n  // -o-transition:all .3s ease-in-out;\n  transition:all .3s ease-in-out\n}\n#login-wrapper{\n    margin:100px auto;\n    float:none;\n}\n#login-wrapper .form-control{\n  color:#717171;\n  outline:0;\n  height:18px;\n  padding:6px 11px;\n  line-height:18px;\n  font-size:13px;\n  background-color:#fafafa;\n  min-height:36px;\n  -webkit-filter:none!important;\n          filter:none!important;\n  -webkit-box-shadow:none!important;\n  -moz-box-shadow:none!important;\n  border-radius:3px;\n  -webkit-transition:all .2s linear;\n  transition:all .2s linear;\n}\n#login-wrapper .form-control:focus{\n    border-color:#7c7c7c;\n}\n#login-wrapper #email, #login-wrapper #password {\n    padding-left: 32px;\n}\n#login-wrapper .form-group i {\n    position: absolute;\n    left: 27px;\n    top: 5px;\n}\n.email .help-block{\n    margin-bottom: -10px;\n}\n@media (max-width: 768px){\n#login-wrapper {\n      width: 90%;\n      margin-top: 50px;\n}\n}\n\n", ""]);
+exports.push([module.i, "\n#login-container{\n  width:100%;\n  height:100%;\n  position:absolute;\n  -webkit-transition:all .3s ease-in-out;\n  -moz-transition:all .3s ease-in-out;\n  // -o-transition:all .3s ease-in-out;\n  transition:all .3s ease-in-out\n}\n#login-wrapper{\n    margin:100px auto;\n    float:none;\n}\n#login-wrapper .form-control{\n  color:#717171;\n  outline:0;\n  height:18px;\n  padding:6px 11px;\n  line-height:18px;\n  font-size:13px;\n  background-color:#fafafa;\n  min-height:36px;\n  -webkit-filter:none!important;\n          filter:none!important;\n  -webkit-box-shadow:none!important;\n  -moz-box-shadow:none!important;\n  border-radius:3px;\n  -webkit-transition:all .2s linear;\n  transition:all .2s linear;\n}\n#login-wrapper .form-control:focus{\n    border-color:#7c7c7c;\n}\n#login-wrapper #username, #login-wrapper #password {\n    padding-left: 32px;\n}\n#login-wrapper .form-group i {\n    position: absolute;\n    left: 27px;\n    top: 5px;\n}\n.email .help-block{\n    margin-bottom: -10px;\n}\n@media (max-width: 768px){\n#login-wrapper {\n      width: 90%;\n      margin-top: 50px;\n}\n}\n\n", ""]);
 
 // exports
 
@@ -124319,24 +124325,24 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.email),
-      expression: "email"
+      value: (_vm.username),
+      expression: "username"
     }],
     staticClass: "form-control",
     attrs: {
-      "type": "email",
-      "id": "email",
-      "placeholder": "Email",
+      "type": "text",
+      "id": "username",
+      "placeholder": "name/email",
       "required": "",
       "autofocus": ""
     },
     domProps: {
-      "value": _vm._s(_vm.email)
+      "value": _vm._s(_vm.username)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.email = $event.target.value
+        _vm.username = $event.target.value
       }
     }
   }), _vm._v(" "), _c('i', {

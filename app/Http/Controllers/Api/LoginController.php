@@ -13,11 +13,14 @@ class LoginController extends ApiController
     public function login(Request $request)
     {
         //获取用户名和密码
-        $credentials = $this->credentials($request);
-        \Log::info($credentials);
+        // $credentials = $this->credentials($request);
+        // \Log::info($credentials);
+
+        $field = filter_var($request->input('username'), FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        $request->merge([$field => $request->input('username')]);
 
         //验证用户名和密码的正确性
-        if ($this->guard('api')->attempt($credentials, $request->has('remember'))) {
+        if ($this->guard('api')->attempt($request->only($field, 'password'))) {
             return $this->sendLoginResponse($request);
         }
 
@@ -53,7 +56,7 @@ class LoginController extends ApiController
                 'grant_type' => $data['grant_type'],
                 'client_id' => $data['client_id'],
                 'client_secret' => $data['client_secret'],
-                'username' => $data['email'],
+                'username' => $data['username'],
                 'password' => $data['password'],
                 'refresh_token' => $data['refresh_token'],
                 'scope' => ''
@@ -63,7 +66,7 @@ class LoginController extends ApiController
                 'grant_type' => $data['grant_type'],
                 'client_id' => $data['client_id'],
                 'client_secret' => $data['client_secret'],
-                'username' => $data['email'],
+                'username' => $data['username'],
                 'password' => $data['password'],
                 'scope' => ''
             ]);
@@ -75,6 +78,7 @@ class LoginController extends ApiController
         );
 
         $response = \Route::dispatch($proxy);
+        \Log::info($response);
         $token = json_decode($response->getContent());
         $token->user = $request->user();
         $token->status = 'success';
@@ -82,13 +86,13 @@ class LoginController extends ApiController
         return response()->json($token);
     }
 
-    /**
-     * Get the login username to be used by the controller.
-     *
-     * @return string
-     */
-    public function username()
-    {
-        return 'email';
-    }
+    // /**
+    //  * Get the login username to be used by the controller.
+    //  *
+    //  * @return string
+    //  */
+    // public function username()
+    // {
+    //     return 'email';
+    // }
 }
