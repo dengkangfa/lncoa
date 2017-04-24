@@ -37,7 +37,6 @@
                     <el-col :span="5" style="min-width:90px">
                       <el-input-number
                        v-model.number="form.number"
-                       @change="handleChange"
                        :min="1"
                        :max="3000"
                       >
@@ -112,11 +111,10 @@
                       action="/api/applicat/file"
                       accept="application/msword,application/msexcel,application/pdf"
                       :headers="headers"
-                      :on-preview="handlePreview"
                       :on-remove="handleRemove"
                       :on-success="handleSuccess"
                       :before-upload="handleUpload"
-                      :file-list="form.fileList">
+                      :file-list="fileList">
                       <el-button size="small" type="primary">点击上传</el-button>
                       <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
                       <div slot="tip" class="el-upload__tip">
@@ -184,6 +182,7 @@
            goods: '',
            fileList: [],
          },
+         fileList: [],
          rules: {
             principal: [
               { required: true, message: '请输入负责人名称', trigger: 'blur' },
@@ -251,6 +250,7 @@
          this.$refs[formName].validate((valid) => {
             if(valid) {
               //格式化时间
+              this.form.fileList = this.fileList;
               this.form.startTime = this.formatDataTime(this.form.startTime);
               this.form.endTime = this.formatDataTime(this.form.endTime);
               axios.post(server.api.applicat, this.form).then( response => {
@@ -267,32 +267,29 @@
        },
         handleRemove(file, fileList) {
           //删除文件
-          let path = file.response.relative_url,vm = this;
-          axios.post('/api/file/delete', { path: path.substring(path.indexOf("/")+1)})
-          .then( response => {
-              vm.form.fileList = fileList;
-          }, error => {
-              toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
-          })
-        },
-        handlePreview(file) {
-          // console.log(file);
+          if(file) {
+              let path = file.response.relative_url,vm = this;
+              axios.post('/api/file/delete', { path: path.substring(path.indexOf("/")+1)})
+              .then( response => {
+                  vm.fileList = fileList;
+              }, error => {
+                  toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+              })
+          }
         },
         handleSuccess(response, file, fileList) {
           //上传文件
           if(response.success){
+              this.fileList = fileList;
               // this.form.fileList.push(file);
           }else{
-            stack_error(response.errors);
-            fileList.splice(-1,1);
+              stack_error(response.errors);
+              fileList.splice(-1,1);
           }
-        },
-        handleChange(val) {
-          // console.log(val);
         },
         handleUpload(file) {
           //上传之前的回调函数
-          let fileList = this.form.fileList;
+          let fileList = this.fileList;
           let flag = true;
           for (let i = 0; i < fileList.length; i++) {
               if(this.fileEqual(fileList[i].raw,file)){
@@ -317,6 +314,7 @@
          }
        },
        formatDataTime (date) {
+         //时间格式化
          if(date.getFullYear){
             var y = date.getFullYear();
             var m = date.getMonth() + 1;
