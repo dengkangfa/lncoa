@@ -44425,7 +44425,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         this.lang = window.Language;
     },
 
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["mapState"])(['user']))
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["mapState"])(['user']), {
+        // statused: function() {
+        //     if(this.$store.state.isPhone){
+        //         return this.status = this.$store.state.sidebar.opened
+        //     }
+        //     return this.status = !this.$store.state.sidebar.opened
+        // },
+        statused: function statused() {
+            return this.status = this.$store.state.sidebar.opened;
+        }
+    })
 };
 
 /***/ }),
@@ -46145,7 +46155,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         handleSuccess: function handleSuccess(response, file, fileList) {
             //上传文件
             if (response.success) {
-                this.form.fileList.push(file);
+                // this.form.fileList.push(file);
             } else {
                 __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__config_helper_js__["a" /* stack_error */])(response.errors);
                 fileList.splice(-1, 1);
@@ -48393,6 +48403,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Modal_vue__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Modal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Modal_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config_env_js__ = __webpack_require__(517);
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -48525,6 +48545,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
+
+var size_suffix = ['B', 'kB', 'MB', 'GB', 'TB', 'PB'];
 
 /* harmony default export */ __webpack_exports__["default"] = {
     components: {
@@ -48539,8 +48561,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             file_name: '',
             folder: '',
             upload: {},
-            showType: '',
+            showType: 'all',
             oldValue: '',
+            proportion: '0',
+            proportion_text: '',
             types: {
                 'all': '所有',
                 'image': '图片',
@@ -48552,6 +48576,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         this.getFileInfo(this.$route.query.folder);
+        this.getFileSystemSize();
     },
 
     // 自定义指令
@@ -48563,9 +48588,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
+        getFileSystemSize: function getFileSystemSize() {
+            var _this = this;
+
+            var size = __WEBPACK_IMPORTED_MODULE_1__config_env_js__["a" /* default */].user.filesystem;
+            var number_size = parseInt(size);
+            var current_suffix = size.replace(number_size, '');
+            var i = this.sizeIndex(current_suffix);
+            var file_system_digital_size = number_size * Math.pow(1024, i);
+            console.log(file_system_digital_size);
+            axios.get('/api/user/filesystemsize').then(function (response) {
+                _this.proportion = response.data.digital / file_system_digital_size * 100;
+                _this.proportion_text = response.data.human + '/' + size;
+                console.log(response);
+            }, function (error) {
+                toastr.error(error.response.status + ' : Resource ' + error.response.statusText);
+            });
+        },
+
         // 上传文件
         uploadFile: function uploadFile() {
-            var _this = this;
+            var _this2 = this;
 
             //判断文件是否为空
             if (!this.files) {
@@ -48581,11 +48624,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             formData.append('folder', this.upload.folder);
 
             axios.post('/api/user/upload', formData).then(function (response) {
-                toastr.success(_this.$t('el.notification.create_file'));
+                toastr.success(_this2.$t('el.notification.create_file'));
 
-                _this.upload.files.push(response.data);
-                _this.file_name = '';
-                _this.showFile = false;
+                _this2.upload.files.push(response.data);
+                _this2.file_name = '';
+                _this2.showFile = false;
             }, function (error) {
                 if (error.response.data.error) {
                     toastr.error(error.response.data.error.message);
@@ -48595,10 +48638,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         change: function change(event) {
+            console.log(event);
             this.files = event.target.files.length ? event.target.files : '';
         },
         getFileInfo: function getFileInfo(path) {
-            var _this2 = this;
+            var _this3 = this;
 
             //获取当前目录下的文件信息
             var url = '/api/user/upload';
@@ -48611,15 +48655,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.get(url).then(function (response) {
                 console.log(response);
-                _this2.upload = response.data.data;
-                if (_this2.upload.subfolders instanceof Array) {
-                    _this2.upload.subfolders = {};
+                _this3.upload = response.data.data;
+                if (_this3.upload.subfolders instanceof Array) {
+                    _this3.upload.subfolders = {};
                 }
-                _this2.$router.push(_this2.$route.path + '?folder=' + path);
+                _this3.$router.push(_this3.$route.path + '?folder=' + path);
             });
         },
         newFolder: function newFolder() {
-            var _this3 = this;
+            var _this4 = this;
 
             //判断文件夹名称是否为空
             if (!this.folder) {
@@ -48642,11 +48686,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.path = this.upload.folder + '/' + this.folder;
 
             axios.post('/api/user/folder', { folder: this.path }).then(function (response) {
-                toastr.success(_this3.$t('el.notification.create_folder'));
+                toastr.success(_this4.$t('el.notification.create_folder'));
 
-                _this3.showFolder = false;
-                _this3.$set(_this3.upload.subfolders, _this3.path, _this3.folder);
-                _this3.folder = '';
+                _this4.showFolder = false;
+                _this4.$set(_this4.upload.subfolders, _this4.path, _this4.folder);
+                _this4.folder = '';
             }, function (error) {
                 toastr.error(error.response.status + ' : ' + error.response.statusText);
             });
@@ -48666,16 +48710,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         //修改显示类型
         updateShowType: function updateShowType(type) {
-            if (type == 'all') {
-                this.showType = '';
-                return;
-            }
             this.showType = type;
         },
 
         //是否当前想要显示的类型
         isShow: function isShow(type) {
-            if (!this.showType) {
+            if (this.showType == 'all') {
                 return true;
             } else if (type && type.indexOf(this.showType) > -1) {
                 return true;
@@ -48686,13 +48726,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         //删除目录
         deleteFolder: function deleteFolder(name) {
-            var _this4 = this;
+            var _this5 = this;
 
             axios.post('/api/folder/delete', { del_folder: name, folder: this.upload.folder }).then(function (response) {
-                toastr.success(_this4.$t('el.notification.delete_folder'));
+                toastr.success(_this5.$t('el.notification.delete_folder'));
 
                 //从subfolders数组中删除
-                _this4.$delete(_this4.upload.subfolders, _this4.upload.folder + '/' + name);
+                _this5.$delete(_this5.upload.subfolders, _this5.upload.folder + '/' + name);
             }, function (error) {
                 toastr.error(error.response.status + ' : Resource ' + error.response.statusText);
             });
@@ -48700,12 +48740,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         //删除文件
         deleteFile: function deleteFile(file, index) {
-            var _this5 = this;
+            var _this6 = this;
 
             axios.post('/api/user/file/delete', { path: file.fullPath }).then(function (response) {
-                toastr.success(_this5.$t('el.notification.delete_file'));
+                toastr.success(_this6.$t('el.notification.delete_file'));
 
-                _this5.upload.files.splice(index, 1);
+                _this6.upload.files.splice(index, 1);
             }, function (error) {
                 toastr.error(error.status + ' : Resource ' + error.statusText);
             });
@@ -48729,6 +48769,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (file.name != this.oldValue) {
                 this.rename(file);
             }
+            this.oldValue = '';
         },
 
         //撤销更改
@@ -48743,10 +48784,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             formData.append('oldfilename', file.fullPath);
             formData.append('newfilename', newfilename);
             axios.post('api/user/file/rename', formData).then(function (response) {
+                file.fullPath = newfilename;
                 toastr.success('You rename a new file name success!');
             }, function (error) {
                 toastr.error(error.response.status + ' : ' + error.response.statusText);
             });
+        },
+
+        //获取当前存储大小对应的后缀下标
+        sizeIndex: function sizeIndex(current_suffix) {
+            for (var i = 0; i < size_suffix.length; i++) {
+                if (size_suffix[i] == current_suffix) {
+                    return i;
+                }
+            }
         }
     }
 };
@@ -68805,7 +68856,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.box-body button[data-v-4f4f7128], .box-body button[data-v-4f4f7128]:hover {\n    padding: 0;\n    border-radius: 50%;\n    width: 2.5em;\n    height: 2.5em;\n    outline: none;\n}\n.preview-size[data-v-4f4f7128] {\n    max-width: 500px;\n}\ninput[type=\"file\"][data-v-4f4f7128] {\n    display: block;\n}\n", ""]);
+exports.push([module.i, "\n.box-body button[data-v-4f4f7128], .box-body button[data-v-4f4f7128]:hover {\n    padding: 0;\n    border-radius: 50%;\n    width: 2.5em;\n    height: 2.5em;\n    outline: none;\n}\n/*图片显示大小*/\n.preview-size[data-v-4f4f7128] {\n    max-width: 500px;\n}\n@media (max-width: 768px){\n.preview-size[data-v-4f4f7128] {\n      max-width: 250px;\n}\n}\ninput[type=\"file\"][data-v-4f4f7128] {\n    display: block;\n}\n", ""]);
 
 // exports
 
@@ -69007,20 +69058,7 @@ exports.push([module.i, "\na[data-v-a0b92f8c]{\n   text-decoration:none;\n   -we
 
 
 /***/ }),
-/* 342 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\na[data-v-b10e02fe]:hover, a[data-v-b10e02fe]:focus {\n    text-decoration: none;\n}\na[data-v-b10e02fe]:focus {\n    outline: none;\n}\na[data-v-b10e02fe]:focus {\n    outline: thin dotted;\n    outline: 5px auto -webkit-focus-ring-color;\n    outline-offset: -2px;\n}\na[data-v-b10e02fe]:active, a[data-v-b10e02fe]:hover {\n    outline: 0;\n}\na[data-v-b10e02fe] {\n    cursor: pointer;\n}\na[data-v-b10e02fe] {\n    color: #337ab7;\n    text-decoration: none;\n}\nol[data-v-b10e02fe], ul[data-v-b10e02fe] {\n    margin-top: 0;\n    margin-bottom: 10px;\n}\n.file-manager[data-v-b10e02fe] {\n    list-style: none outside none;\n    margin: 0;\n    padding: 0;\n}\nh3[data-v-b10e02fe], h4[data-v-b10e02fe], h5[data-v-b10e02fe] {\n    margin-top: 5px;\n    font-weight: 600;\n}\nh5[data-v-b10e02fe] {\n    font-size: 12px;\n}\n.row[data-v-b10e02fe] {\n    margin-left: -15px !important;\n    margin-right: -15px !important;\n}\n.file-control.active[data-v-b10e02fe] {\n    text-decoration: underline;\n}\n.file-control[data-v-b10e02fe] {\n    color: inherit;\n    font-size: 11px;\n    margin-right: 10px;\n}\n.file-manager .hr-line-dashed[data-v-b10e02fe] {\n    margin: 15px 0;\n}\n.hr-line-dashed[data-v-b10e02fe] {\n    border-top: 1px dashed #e7eaec;\n    color: #ffffff;\n    background-color: #ffffff;\n    height: 1px;\n    margin: 20px 0;\n}\n.float-e-margins .btn[data-v-b10e02fe] {\n    margin-bottom: 5px;\n}\n.folder-list li[data-v-b10e02fe] {\n    height: 30px;\n    line-height: 30px;\n    border-bottom: 1px solid #e7eaec;\n    display: block;\n}\n.folder-list li a[data-v-b10e02fe] {\n    color: #666666;\n    padding: 5px 0;\n}\n.folder-list li i[data-v-b10e02fe] {\n    margin-right: 8px;\n    color: #3d4d5d;\n}\n.folder-list li .delete-folder[data-v-b10e02fe] {\n    cursor: pointer;\n    float: right;\n}\n.file-box .file img[data-v-b10e02fe]{\n    height: 100px;\n    width: 250px;\n}\n.file-manager h5.tag-title[data-v-b10e02fe] {\n    margin-top: 20px;\n}\nul.notes li[data-v-b10e02fe], ul.tag-list li[data-v-b10e02fe] {\n    list-style: none;\n}\n.tag-list li[data-v-b10e02fe] {\n    float: left;\n}\n.tag-list li a[data-v-b10e02fe] {\n    font-size: 10px;\n    background-color: #f0f3f4;\n    padding: 5px 12px;\n    color: inherit;\n    border-radius: 2px;\n    border: 1px solid #e7eaec;\n    margin-right: 5px;\n    margin-top: 5px;\n    display: block;\n}\n.file-box[data-v-b10e02fe] {\n  float: left;\n  width: 220px;\n}\n.file[data-v-b10e02fe] {\n    border: 1px solid #e7eaec;\n    padding: 0;\n    background-color: #ffffff;\n    position: relative;\n    margin-bottom: 20px;\n    margin-right: 20px;\n}\n/*文件方框右下角*/\n.corner[data-v-b10e02fe] {\n    position: absolute;\n    display: inline-block;\n    width: 0;\n    height: 0;\n    line-height: 0;\n    border: 0.6em solid transparent;\n    border-right: 0.6em solid #f1f1f1;\n    border-bottom: 0.6em solid #f1f1f1;\n    right: 0em;\n    bottom: 0em;\n}\n.file .icon[data-v-b10e02fe] {\n    text-align: center;\n}\n.file .icon[data-v-b10e02fe], .file .image[data-v-b10e02fe] {\n    height: 100px;\n    overflow: hidden;\n}\n.file .file-name[data-v-b10e02fe] {\n    padding: 0px 10px 10px 10px;\n    background-color: #f8f8f8;\n    border-top: 1px solid #e7eaec;\n    overflow: hidden;\n    white-space: nowrap;\n    text-overflow: ellipsis;\n}\n.file .file-name p[data-v-b10e02fe] {\n    overflow: hidden;\n    white-space: nowrap;\n    text-overflow: ellipsis;\n    width: 150px;\n    display: inline-block;\n    padding: -15px;\n    margin: -12px 0;\n}\n.file .icon i[data-v-b10e02fe] {\n    font-size: 70px;\n    color: #dadada;\n}\n.file .file-name .delete-file[data-v-b10e02fe] {\n    cursor: pointer;\n    color: #a6aaad;\n}\n.file .file-name .update-file[data-v-b10e02fe] {\n    cursor: pointer;\n    color: #a6aaad;\n}\n.file .file-name .i-btn[data-v-b10e02fe] {\n    display: inline-block;\n    float: right;\n}\ninput[type=\"file\"][data-v-b10e02fe] {\n    display: block;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 342 */,
 /* 343 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -121649,7 +121687,7 @@ module.exports = Component.exports
 
 
 /* styles */
-__webpack_require__(500)
+__webpack_require__(519)
 
 var Component = __webpack_require__(1)(
   /* script */
@@ -124454,7 +124492,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "ion-navicon-round"
   })])]), _vm._v(" "), _c('div', {
     staticClass: "user-nav"
-  }, [_c('ul', [_c('li', {
+  }, [(!_vm.statused) ? _c('ul', [_c('li', {
     staticClass: "dropdown messages"
   }, [(_vm.notifications.length > 0) ? _c('span', {
     staticClass: "badge badge-danager animated bounceIn",
@@ -124546,7 +124584,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "ion-power"
-  }), _vm._v(" Logout")])])])])])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" Logout")])])])])]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "navbar-collapse collapse",
     attrs: {
       "id": "repbar"
@@ -126378,15 +126416,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "ibox-content"
   }, [_c('div', {
     staticClass: "file-manager"
-  }, [_c('el-progress', {
-    attrs: {
-      "text-inside": true,
-      "stroke-width": 18,
-      "percentage": 70
-    }
-  }), _vm._v(" "), _c('h5', [_vm._v("显示：")]), _vm._v(" "), _vm._l((_vm.types), function(type, index) {
+  }, [_c('div', {
+    staticClass: "my-progress"
+  }, [_c('div', {
+    staticClass: "my-progress-bar"
+  }, [_c('div', {
+    staticClass: "my-progress-bar__outer"
+  }, [_c('div', {
+    staticClass: "my-progress-bar__inner",
+    style: ({
+      width: _vm.proportion + '%'
+    })
+  }, [_c('div', {
+    staticClass: "my-progress-bar__innerText"
+  }, [_vm._v(_vm._s(_vm.proportion_text))])])])])]), _vm._v(" "), _c('h5', [_vm._v("显示：")]), _vm._v(" "), _vm._l((_vm.types), function(type, index) {
     return _c('a', {
       staticClass: "file-control",
+      class: {
+        active: index == _vm.showType
+      },
       attrs: {
         "href": "javascript:;"
       },
@@ -130350,32 +130398,7 @@ if(false) {
 }
 
 /***/ }),
-/* 500 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(342);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("13851814", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b10e02fe&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Folder.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b10e02fe&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Folder.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
+/* 500 */,
 /* 501 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -130502,6 +130525,67 @@ module.exports = function() {
 __webpack_require__(163);
 module.exports = __webpack_require__(164);
 
+
+/***/ }),
+/* 507 */,
+/* 508 */,
+/* 509 */,
+/* 510 */,
+/* 511 */,
+/* 512 */,
+/* 513 */,
+/* 514 */,
+/* 515 */,
+/* 516 */,
+/* 517 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var user = {
+    filesystem: '2GB'
+};
+
+/* harmony default export */ __webpack_exports__["a"] = { user: user };
+
+/***/ }),
+/* 518 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n@charset \"UTF-8\";\na[data-v-b10e02fe]:hover, a[data-v-b10e02fe]:focus {\n  text-decoration: none;\n}\na[data-v-b10e02fe]:focus {\n  outline: none;\n}\na[data-v-b10e02fe]:focus {\n  outline: thin dotted;\n  outline: 5px auto -webkit-focus-ring-color;\n  outline-offset: -2px;\n}\na[data-v-b10e02fe]:active, a[data-v-b10e02fe]:hover {\n  outline: 0;\n}\na[data-v-b10e02fe] {\n  cursor: pointer;\n}\na[data-v-b10e02fe] {\n  color: #337ab7;\n  text-decoration: none;\n}\nol[data-v-b10e02fe], ul[data-v-b10e02fe] {\n  margin-top: 0;\n  margin-bottom: 10px;\n}\nh3[data-v-b10e02fe], h4[data-v-b10e02fe], h5[data-v-b10e02fe] {\n  margin-top: 5px;\n  font-weight: 600;\n}\nh5[data-v-b10e02fe] {\n  font-size: 12px;\n}\n.file-manager[data-v-b10e02fe] {\n  list-style: none outside none;\n  margin: 0;\n  padding: 0;\n}\n.file-manager .my-progress[data-v-b10e02fe] {\n    position: relative;\n    line-height: 1;\n}\n.file-manager .my-progress-bar[data-v-b10e02fe] {\n    padding-right: 0;\n    margin-right: 0;\n    vertical-align: middle;\n    width: 100%;\n    margin-right: -55px;\n    box-sizing: border-box;\n}\n.file-manager .my-progress-bar__outer[data-v-b10e02fe] {\n    height: 18px;\n    border-radius: 100px;\n    background-color: #e4e8f1;\n    overflow: hidden;\n    position: relative;\n    vertical-align: middle;\n}\n.file-manager .my-progress-bar__inner[data-v-b10e02fe] {\n    position: absolute;\n    left: 0;\n    top: 0;\n    height: 100%;\n    background-color: #20a0ff;\n    text-align: right;\n    border-radius: 100px;\n    line-height: 1;\n}\n.file-manager .my-progress-bar__innerText[data-v-b10e02fe] {\n    display: inline-block;\n    vertical-align: middle;\n    color: #fff;\n    font-size: 12px;\n    margin: 0 5px;\n}\n.row[data-v-b10e02fe] {\n  margin-left: -15px !important;\n  margin-right: -15px !important;\n}\n.file-control.active[data-v-b10e02fe] {\n  text-decoration: underline;\n}\n.file-control[data-v-b10e02fe] {\n  color: inherit;\n  font-size: 11px;\n  margin-right: 10px;\n}\n.file-manager .hr-line-dashed[data-v-b10e02fe] {\n  margin: 15px 0;\n}\n.hr-line-dashed[data-v-b10e02fe] {\n  border-top: 1px dashed #e7eaec;\n  color: #ffffff;\n  background-color: #ffffff;\n  height: 1px;\n  margin: 20px 0;\n}\n.float-e-margins .btn[data-v-b10e02fe] {\n  margin-bottom: 5px;\n}\n.folder-list li[data-v-b10e02fe] {\n  height: 30px;\n  line-height: 30px;\n  border-bottom: 1px solid #e7eaec;\n  display: block;\n}\n.folder-list li a[data-v-b10e02fe] {\n  color: #666666;\n  padding: 5px 0;\n}\n.folder-list li i[data-v-b10e02fe] {\n  margin-right: 8px;\n  color: #3d4d5d;\n}\n.folder-list li .delete-folder[data-v-b10e02fe] {\n  cursor: pointer;\n  float: right;\n}\n.file-box .file img[data-v-b10e02fe] {\n  height: 100px;\n  width: 250px;\n}\n.file-manager h5.tag-title[data-v-b10e02fe] {\n  margin-top: 20px;\n}\nul.notes li[data-v-b10e02fe], ul.tag-list li[data-v-b10e02fe] {\n  list-style: none;\n}\n.tag-list li[data-v-b10e02fe] {\n  float: left;\n}\n.tag-list li a[data-v-b10e02fe] {\n  font-size: 10px;\n  background-color: #f0f3f4;\n  padding: 5px 12px;\n  color: inherit;\n  border-radius: 2px;\n  border: 1px solid #e7eaec;\n  margin-right: 5px;\n  margin-top: 5px;\n  display: block;\n}\n.file-box[data-v-b10e02fe] {\n  float: left;\n  width: 220px;\n}\n.file[data-v-b10e02fe] {\n  border: 1px solid #e7eaec;\n  padding: 0;\n  background-color: #ffffff;\n  position: relative;\n  margin-bottom: 20px;\n  margin-right: 20px;\n}\n\n/*文件方框右下角*/\n.corner[data-v-b10e02fe] {\n  position: absolute;\n  display: inline-block;\n  width: 0;\n  height: 0;\n  line-height: 0;\n  border: 0.6em solid transparent;\n  border-right: 0.6em solid #f1f1f1;\n  border-bottom: 0.6em solid #f1f1f1;\n  right: 0em;\n  bottom: 0em;\n}\n.file .icon[data-v-b10e02fe] {\n  text-align: center;\n}\n.file .icon[data-v-b10e02fe], .file .image[data-v-b10e02fe] {\n  height: 100px;\n  overflow: hidden;\n}\n.file .file-name[data-v-b10e02fe] {\n  padding: 0px 10px 10px 10px;\n  background-color: #f8f8f8;\n  border-top: 1px solid #e7eaec;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}\n.file .file-name p[data-v-b10e02fe] {\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  width: 150px;\n  display: inline-block;\n  padding: -15px;\n  margin: -12px 0;\n}\n.file .icon i[data-v-b10e02fe] {\n  font-size: 70px;\n  color: #dadada;\n}\n.file .file-name .delete-file[data-v-b10e02fe] {\n  cursor: pointer;\n  color: #a6aaad;\n}\n.file .file-name .update-file[data-v-b10e02fe] {\n  cursor: pointer;\n  color: #a6aaad;\n}\n.file .file-name .i-btn[data-v-b10e02fe] {\n  display: inline-block;\n  float: right;\n}\ninput[type=\"file\"][data-v-b10e02fe] {\n  display: block;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 519 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(518);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("18e588a2", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b10e02fe&scoped=true!../../../../../node_modules/sass-loader/index.js!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Folder.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b10e02fe&scoped=true!../../../../../node_modules/sass-loader/index.js!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Folder.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
 
 /***/ })
 /******/ ]);

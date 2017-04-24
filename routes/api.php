@@ -30,6 +30,7 @@ Route::group([
     Route::post('/user/avatar', 'UserController@avatar');
     Route::post('/user/crop/avatar', 'UserController@cropAvatar');
     Route::get('/user/upload', 'UserController@uploadList');
+    Route::get('/user/filesystemsize', 'UserController@userFileStyleSize');
     Route::post('/user/upload', 'UserController@uploadFile');
     Route::post('/user/file/delete', 'UserController@deleteFile');
     Route::post('/user/folder', 'UserController@createFolder');

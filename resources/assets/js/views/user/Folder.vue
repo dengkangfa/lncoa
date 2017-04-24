@@ -4,9 +4,18 @@
                <div class="ibox float-e-margins">
                    <div class="ibox-content">
                        <div class="file-manager">
-                           <el-progress :text-inside="true" :stroke-width="18" :percentage="70"></el-progress>
+                         <!-- 存储空间使用情况 -->
+                           <div class="my-progress">
+                              <div class="my-progress-bar">
+                                  <div class="my-progress-bar__outer">
+                                      <div class="my-progress-bar__inner" :style="{width : proportion + '%'}">
+                                          <div class="my-progress-bar__innerText">{{ proportion_text }}</div>
+                                      </div>
+                                  </div>
+                              </div>
+                           </div>
                            <h5>显示：</h5>
-                           <a href="javascript:;" class="file-control" @click="updateShowType(index)" v-for="(type, index) in types">{{ type }}</a>
+                           <a href="javascript:;" class="file-control" :class="{active:index == showType}" @click="updateShowType(index)" v-for="(type, index) in types">{{ type }}</a>
                            <div class="hr-line-dashed"></div>
                            <button class="btn btn-primary btn-block" @click="showFile = true">上传文件</button>
                            <button class="btn btn-primary btn-block" @click="showFolder = true">创建文件夹</button>
@@ -130,6 +139,8 @@
 
 <script>
   import Modal from '../../components/Modal.vue'
+  import env from '../../config/.env.js'
+  const size_suffix = ['B', 'kB', 'MB', 'GB', 'TB', 'PB'];
 
   export default {
       components: {
@@ -144,8 +155,10 @@
               file_name: '',
               folder: '',
               upload: {},
-              showType: '',
+              showType: 'all',
               oldValue: '',
+              proportion: '0',
+              proportion_text: '',
               types: {
                   'all': '所有',
                   'image': '图片',
@@ -157,6 +170,7 @@
       },
       mounted() {
           this.getFileInfo(this.$route.query.folder)
+          this.getFileSystemSize();
       },
       // 自定义指令
       directives: {
@@ -167,6 +181,21 @@
         }
       },
       methods: {
+          getFileSystemSize() {
+              let size = env.user.filesystem;
+              let number_size = parseInt(size);
+              let current_suffix = size.replace(number_size,'');
+              let i = this.sizeIndex(current_suffix);
+              let file_system_digital_size = number_size * Math.pow(1024, i);
+              console.log(file_system_digital_size);
+              axios.get('/api/user/filesystemsize').then( response => {
+                  this.proportion = response.data.digital / file_system_digital_size * 100;
+                  this.proportion_text = response.data.human + '/' + size
+                  console.log(response);
+              }, error => {
+                  toastr.error(error.response.status + ' : Resource ' + error.response.statusText);
+              });
+          },
           // 上传文件
           uploadFile() {
               //判断文件是否为空
@@ -198,6 +227,7 @@
                   })
           },
           change(event) {
+            console.log(event);
             this.files = event.target.files.length ? event.target.files : '';
           },
           getFileInfo(path) {
@@ -265,15 +295,11 @@
           },
           //修改显示类型
           updateShowType(type) {
-              if(type == 'all'){
-                this.showType = '';
-                return
-              }
               this.showType = type;
           },
           //是否当前想要显示的类型
           isShow(type) {
-            if(!this.showType){
+            if(this.showType == 'all'){
                return true;
             }else if(type && type.indexOf(this.showType) > -1){
                 return true;
@@ -321,6 +347,7 @@
               if(file.name != this.oldValue) {
                   this.rename(file);
               }
+              this.oldValue = '';
           },
           //撤销更改
           revoked(file) {
@@ -333,16 +360,25 @@
               formData.append('oldfilename', file.fullPath);
               formData.append('newfilename', newfilename);
               axios.post('api/user/file/rename', formData).then( response => {
+                  file.fullPath = newfilename;
                   toastr.success('You rename a new file name success!')
               }, error => {
                   toastr.error(error.response.status + ' : ' + error.response.statusText)
               })
+          },
+          //获取当前存储大小对应的后缀下标
+          sizeIndex(current_suffix) {
+              for (var i = 0; i < size_suffix.length; i++) {
+                    if(size_suffix[i] == current_suffix){
+                        return i;
+                    }
+              }
           }
       }
   }
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
   a:hover, a:focus {
       text-decoration: none;
   }
@@ -368,11 +404,6 @@
       margin-top: 0;
       margin-bottom: 10px;
   }
-  .file-manager {
-      list-style: none outside none;
-      margin: 0;
-      padding: 0;
-  }
   h3, h4, h5 {
       margin-top: 5px;
       font-weight: 600;
@@ -380,6 +411,49 @@
   h5 {
       font-size: 12px;
   }
+  .file-manager {
+      list-style: none outside none;
+      margin: 0;
+      padding: 0;
+      .my-progress {
+          position: relative;
+          line-height: 1;
+      }
+      .my-progress-bar {
+          padding-right: 0;
+          margin-right: 0;
+          vertical-align: middle;
+          width: 100%;
+          margin-right: -55px;
+          box-sizing: border-box;
+      }
+      .my-progress-bar__outer {
+          height: 18px;
+          border-radius: 100px;
+          background-color: #e4e8f1;
+          overflow: hidden;
+          position: relative;
+          vertical-align: middle;
+      }
+      .my-progress-bar__inner {
+          position: absolute;
+          left: 0;
+          top: 0;
+          height: 100%;
+          background-color: #20a0ff;
+          text-align: right;
+          border-radius: 100px;
+          line-height: 1;
+      }
+      .my-progress-bar__innerText {
+          display: inline-block;
+          vertical-align: middle;
+          color: #fff;
+          font-size: 12px;
+          margin: 0 5px;
+      }
+  }
+
   .row {
       margin-left: -15px !important;
       margin-right: -15px !important;

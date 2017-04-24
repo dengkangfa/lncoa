@@ -74,7 +74,6 @@ class UserRepository
         })
         ->orderBy($sortColumn, $sort)
         ->paginate($number);
-        \Log::info($users);
         return $users;
     }
 

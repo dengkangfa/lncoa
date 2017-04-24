@@ -33,12 +33,6 @@ class MenuRepository
         return $menu;
     }
 
-    public function getVisibleTreeByRole($role)
-    {
-        $items = $role->menus()->get(['id','title','icon','parent_id','uri']);
-        $menu = $this->generateTree($items);
-        return $menu;
-    }
 
 
     /**
@@ -64,31 +58,31 @@ class MenuRepository
         return $menus;
     }
 
-    /**
-     * 多级菜单数据查询及展示
-     *
-     * @return array
-     */
-    public function  getAllList()
-    {
-        $lists = $this->model::all();
-        $list = array();
-        if(!empty($lists)){
-            foreach($lists as $v) {
-                $list[$v['parent_id']][] = $v;
-            }
-        }
-        return $link;
-    }
-
-
-    /**
-     * Get all the records
-     *
-     * @return array User
-     */
-    public function all()
-    {
-        return $this->model->get();
-    }
+    // /**
+    //  * 多级菜单数据查询及展示
+    //  *
+    //  * @return array
+    //  */
+    // public function  getAllList()
+    // {
+    //     $lists = $this->model::all();
+    //     $list = array();
+    //     if(!empty($lists)){
+    //         foreach($lists as $v) {
+    //             $list[$v['parent_id']][] = $v;
+    //         }
+    //     }
+    //     return $link;
+    // }
+    //
+    //
+    // /**
+    //  * Get all the records
+    //  *
+    //  * @return array User
+    //  */
+    // public function all()
+    // {
+    //     return $this->model->get();
+    // }
 }

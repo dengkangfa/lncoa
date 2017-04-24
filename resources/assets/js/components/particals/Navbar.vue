@@ -8,7 +8,7 @@
             </div>
             <div class="user-nav">
               <!-- v-if="!statused" -->
-                <ul>
+                <ul v-if="!statused">
 
                   <li class="dropdown messages">
                       <span v-if="notifications.length > 0" class="badge badge-danager animated bounceIn" id="new-messages">{{ notifications.length }}</span>
@@ -152,6 +152,9 @@
           //     }
           //     return this.status = !this.$store.state.sidebar.opened
           // },
+           statused: function() {
+            return this.status = this.$store.state.sidebar.opened
+          },
         }
     }
 </script>

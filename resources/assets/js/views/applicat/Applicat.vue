@@ -281,7 +281,7 @@
         handleSuccess(response, file, fileList) {
           //上传文件
           if(response.success){
-              this.form.fileList.push(file);
+              // this.form.fileList.push(file);
           }else{
             stack_error(response.errors);
             fileList.splice(-1,1);

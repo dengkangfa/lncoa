@@ -286,6 +286,27 @@ class BaseManager
     }
 
     /**
+     * 获取目录的大小
+     * @param  [type] $path [description]
+     * @return [type]       [description]
+     */
+    public function dirSize($path)
+    {
+        //返回指定目录下的所有文件数组
+        $data = [];
+        $result = 0;
+        //获取目录以及子目录下所有的文件
+        $filesContent = $this->disk->allFiles($path);
+        foreach($filesContent as $file){
+            //计算所有文件的大小
+            $result += $this->disk->size($file);
+        }
+        $data['digital'] = $result;
+        $data['human'] = human_filesize($result);
+        return $data;
+    }
+
+    /**
      * 通过路径获取文件的最后修改时间。
      *
      * @param $path

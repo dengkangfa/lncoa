@@ -309,8 +309,14 @@
         height: 2.5em;
         outline: none;
     }
+    /*图片显示大小*/
     .preview-size {
         max-width: 500px;
+    }
+    @media (max-width: 768px){
+      .preview-size {
+          max-width: 250px;
+      }
     }
     input[type="file"] {
         display: block;

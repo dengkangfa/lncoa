@@ -60,7 +60,6 @@ class UserController extends ApiController
         $request->has('status') ? $option[] = ['status',$request->status] : '';
         //某段时间创建的用户
         $create_at = $request->has('created_at') ? explode('#', $request->created_at) : '';
-        \Log::info($create_at);
         if($request->has('pageSize')){
           return $this->respondWithPaginator($this->user->page($option, $create_at, $request->pageSize), new UserTransformer);
         }
@@ -298,12 +297,27 @@ class UserController extends ApiController
         return $this->respondWithArray(['data' => $data]);
     }
 
+    /**
+     * 文件重命名
+     * @param  Request $request
+     * @return boolean
+     */
     public function renameFile(Request $request)
     {
         $oldFileName = $request->get('oldfilename');
         $newFileName = $request->get('newfilename');
         $data = $this->manager->renameFile($oldFileName, $newFileName);
         return $this->respondWithArray(['data' => $data]);
+    }
+
+    /**
+     * 获取用户文件系统的大小
+     * @return string
+     */
+    public function userFileStyleSize()
+    {
+        $path = self::userFolder.'/'.Auth::id().'/root/';
+        return $this->manager->dirSize($path);
     }
 
     // /**
