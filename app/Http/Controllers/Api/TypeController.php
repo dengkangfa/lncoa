@@ -31,7 +31,12 @@ class TypeController extends ApiController
         foreach($roles as $role) {
             foreach( $role->types as $type) {
                 // $types[$type->pivot->priority] = $type;
-                $types[$type->name] = [$type->pivot->priority => $type->roles];
+                //根据中间表排序
+                $roles = $type->roles;
+                $roles = array_values(array_sort($roles, function ($value) {
+                    return $value['pivot']->priority;
+                }));
+                $types[$type->name] = [$type->pivot->priority => $roles];
             }
         }
         return $types;

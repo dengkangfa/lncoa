@@ -193,6 +193,7 @@ export default [
             {
                 path: '/files',
                 component: require('./views/user/Folder.vue'),
+                beforeEnter: checkUrl,
                 meta: { requiresAuth: true }
             }
         ],

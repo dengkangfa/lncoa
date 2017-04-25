@@ -48561,8 +48561,10 @@ var size_suffix = ['B', 'kB', 'MB', 'GB', 'TB', 'PB'];
             upload: {},
             showType: 'all',
             oldValue: '',
+            digital: 0,
             proportion: '0',
             proportion_text: '',
+            file_system_digital_size: 0,
             types: {
                 'all': '所有',
                 'image': '图片',
@@ -48589,16 +48591,11 @@ var size_suffix = ['B', 'kB', 'MB', 'GB', 'TB', 'PB'];
         getFileSystemSize: function getFileSystemSize() {
             var _this = this;
 
-            var size = __WEBPACK_IMPORTED_MODULE_1__config_env_js__["a" /* default */].user.filesystem;
-            var number_size = parseInt(size);
-            var current_suffix = size.replace(number_size, '');
-            var i = this.sizeIndex(current_suffix);
-            var file_system_digital_size = number_size * Math.pow(1024, i);
-            console.log(file_system_digital_size);
+            this.file_system_digital_size = this.humanTurnDigital(__WEBPACK_IMPORTED_MODULE_1__config_env_js__["a" /* default */].user.filesystem);
             axios.get('/api/user/filesystemsize').then(function (response) {
-                _this.proportion = response.data.digital / file_system_digital_size * 100;
-                _this.proportion_text = response.data.human + '/' + size;
-                console.log(response);
+                _this.digital = response.data.digital;
+                _this.proportion = response.data.digital / _this.file_system_digital_size * 100;
+                _this.proportion_text = response.data.human + '/' + __WEBPACK_IMPORTED_MODULE_1__config_env_js__["a" /* default */].user.filesystem;
             }, function (error) {
                 toastr.error(error.response.status + ' : Resource ' + error.response.statusText);
             });
@@ -48622,9 +48619,13 @@ var size_suffix = ['B', 'kB', 'MB', 'GB', 'TB', 'PB'];
             formData.append('folder', this.upload.folder);
 
             axios.post('/api/user/upload', formData).then(function (response) {
+                console.log(response);
                 toastr.success(_this2.$t('el.notification.create_file'));
 
                 _this2.upload.files.push(response.data);
+                _this2.digital += _this2.humanTurnDigital(response.data.size);
+                _this2.proportion = _this2.digital / _this2.file_system_digital_size * 100;
+                _this2.proportion_text = _this2.digitalTurnHuman(_this2.digital) + '/' + __WEBPACK_IMPORTED_MODULE_1__config_env_js__["a" /* default */].user.filesystem;
                 _this2.file_name = '';
                 _this2.showFile = false;
             }, function (error) {
@@ -48744,6 +48745,9 @@ var size_suffix = ['B', 'kB', 'MB', 'GB', 'TB', 'PB'];
                 toastr.success(_this6.$t('el.notification.delete_file'));
 
                 _this6.upload.files.splice(index, 1);
+                _this6.digital -= _this6.humanTurnDigital(file.size);
+                _this6.proportion = _this6.digital / _this6.file_system_digital_size * 100;
+                _this6.proportion_text = _this6.digitalTurnHuman(_this6.digital) + '/' + __WEBPACK_IMPORTED_MODULE_1__config_env_js__["a" /* default */].user.filesystem;
             }, function (error) {
                 toastr.error(error.status + ' : Resource ' + error.statusText);
             });
@@ -48754,7 +48758,6 @@ var size_suffix = ['B', 'kB', 'MB', 'GB', 'TB', 'PB'];
             var inputElement = el.target.parentNode.children[1];
             inputElement.style.display = 'inline-block';
             this.oldValue = inputElement.value;
-            console.log(this.oldValue);
             inputElement.focus();
             el.currentTarget.style.display = 'none';
         },
@@ -48796,6 +48799,25 @@ var size_suffix = ['B', 'kB', 'MB', 'GB', 'TB', 'PB'];
                     return i;
                 }
             }
+        },
+
+        //human转digital
+        humanTurnDigital: function humanTurnDigital(size) {
+            //转成浮动型(目的是要当前存储大小的单位)
+            var number_size = parseFloat(size);
+            //数值存在浮动型以及整型，获取其单位后缀
+            var current_suffix = size.indexOf('.') > -1 ? size.substring(size.indexOf('.') + 3) : size.replace(number_size, '');
+            //后缀对应的下标
+            var i = this.sizeIndex(current_suffix);
+            return number_size * Math.pow(1024, i);
+        },
+
+        //digital转human
+        digitalTurnHuman: function digitalTurnHuman(size) {
+            //保留整数部分
+            var intSize = parseInt(size);
+            var floor = Math.floor((String(intSize).length - 1) / 3);
+            return (intSize / Math.pow(1024, floor)).toFixed(2) + size_suffix[floor];
         }
     }
 };
@@ -49986,6 +50008,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }, {
         path: '/files',
         component: __webpack_require__(420),
+        beforeEnter: checkUrl,
         meta: { requiresAuth: true }
     }]
 }, {
@@ -123842,12 +123865,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "name": "second",
       "id": "type"
     }
-  }, _vm._l((_vm.types), function(types, index) {
+  }, _vm._l((_vm.types), function(type, index) {
     return _c('div', {
       staticClass: "row"
     }, [_c('div', {
       staticClass: "col-md-offset-4 col-md-4"
-    }, [_c('h3', [_vm._v(_vm._s(index))]), _vm._v(" "), _vm._l((types), function(roles, priority) {
+    }, [_c('h3', [_vm._v(_vm._s(index))]), _vm._v(" "), _vm._l((type), function(roles, priority) {
       return [_c('el-steps', {
         attrs: {
           "space": 200

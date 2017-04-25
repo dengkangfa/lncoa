@@ -18,12 +18,12 @@
       </form>
    </el-tab-pane>
    <el-tab-pane label="我的类型" name="second" id="type">
-      <div class="row" v-for="(types, index) in types">
+      <div class="row" v-for="(type, index) in types">
         <div class="col-md-offset-4 col-md-4">
           <!-- 类型名称 -->
           <h3>{{ index }}</h3>
           <!-- 管理该类型的角色组 -->
-          <template v-for="(roles, priority) in types">
+          <template v-for="(roles, priority) in type">
               <el-steps :space="200">
                 <el-step v-for="(role, index) in roles" :class="{'bg' : index == priority}" :title="role.display_name"></el-step>
               </el-steps>

@@ -31,11 +31,29 @@ class PermissionsTableSeeder extends Seeder
         $deleteUser->description  = '删除用户的权限'; // optional
         $deleteUser->save();
 
+        $updateUserStatus = new Permission();
+        $updateUserStatus->name       = 'update-user-status';
+        $updateUserStatus->display_name = '激活用户'; // optional
+        $updateUserStatus->description  = '激活用户的权限'; // optional
+        $updateUserStatus->save();
+
         $createRole = new Permission();
         $createRole->name       = 'create-role';
         $createRole->display_name = '创建角色'; // optional
         $createRole->description  = '创建角色的权限'; // optional
         $createRole->save();
+
+        $updateRole = new Permission();
+        $updateRole->name       = 'create-role';
+        $updateRole->display_name = '修改角色'; // optional
+        $updateRole->description  = '修改角色的权限'; // optional
+        $updateRole->save();
+
+        $deleteRole = new Permission();
+        $deleteRole->name       = 'delete-role';
+        $deleteRole->display_name = '删除角色'; // optional
+        $deleteRole->description  = '删除角色的权限'; // optional
+        $deleteRole->save();
 
         $createPermission = new Permission();
         $createPermission->name       = 'create-permission';
@@ -56,7 +74,7 @@ class PermissionsTableSeeder extends Seeder
         $deletePermission->save();
 
         $selectPermission = new Permission();
-        $selectPermission->name       = 'select-permission';
+        $selectPermission->name       = 'index-permission';
         $selectPermission->display_name = '查看权限'; // optional
         $selectPermission->description  = '查看权限的权利'; // optional
         $selectPermission->save();

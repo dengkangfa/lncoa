@@ -157,8 +157,10 @@
               upload: {},
               showType: 'all',
               oldValue: '',
+              digital: 0,
               proportion: '0',
               proportion_text: '',
+              file_system_digital_size: 0,
               types: {
                   'all': '所有',
                   'image': '图片',
@@ -182,16 +184,11 @@
       },
       methods: {
           getFileSystemSize() {
-              let size = env.user.filesystem;
-              let number_size = parseInt(size);
-              let current_suffix = size.replace(number_size,'');
-              let i = this.sizeIndex(current_suffix);
-              let file_system_digital_size = number_size * Math.pow(1024, i);
-              console.log(file_system_digital_size);
+              this.file_system_digital_size = this.humanTurnDigital(env.user.filesystem);
               axios.get('/api/user/filesystemsize').then( response => {
-                  this.proportion = response.data.digital / file_system_digital_size * 100;
-                  this.proportion_text = response.data.human + '/' + size
-                  console.log(response);
+                  this.digital = response.data.digital;
+                  this.proportion = response.data.digital / this.file_system_digital_size * 100;
+                  this.proportion_text = response.data.human + '/' + env.user.filesystem
               }, error => {
                   toastr.error(error.response.status + ' : Resource ' + error.response.statusText);
               });
@@ -213,9 +210,13 @@
 
               axios.post('/api/user/upload', formData)
                   .then((response) => {
+                    console.log(response);
                       toastr.success(this.$t('el.notification.create_file'));
 
                       this.upload.files.push(response.data)
+                      this.digital += this.humanTurnDigital(response.data.size);
+                      this.proportion = this.digital / this.file_system_digital_size * 100;
+                      this.proportion_text = this.digitalTurnHuman(this.digital) + '/' + env.user.filesystem;
                       this.file_name = ''
                       this.showFile = false
                   }, (error) => {
@@ -326,6 +327,9 @@
                       toastr.success(this.$t('el.notification.delete_file'))
 
                       this.upload.files.splice(index, 1)
+                      this.digital -= this.humanTurnDigital(file.size);
+                      this.proportion = this.digital / this.file_system_digital_size * 100;
+                      this.proportion_text = this.digitalTurnHuman(this.digital) + '/' + env.user.filesystem;
                   }, error => {
                       toastr.error(error.status + ' : Resource ' + error.statusText)
                   })
@@ -335,7 +339,6 @@
               let inputElement = el.target.parentNode.children[1];
               inputElement.style.display = 'inline-block';
               this.oldValue = inputElement.value;
-              console.log(this.oldValue);
               inputElement.focus();
               el.currentTarget.style.display = 'none';
           },
@@ -373,6 +376,23 @@
                         return i;
                     }
               }
+          },
+          //human转digital
+          humanTurnDigital(size) {
+              //转成浮动型(目的是要当前存储大小的单位)
+              let number_size = parseFloat(size);
+              //数值存在浮动型以及整型，获取其单位后缀
+              let current_suffix = size.indexOf('.') > -1 ? size.substring(size.indexOf('.')+3) : size.replace(number_size,'');
+              //后缀对应的下标
+              let i = this.sizeIndex(current_suffix);
+              return number_size * Math.pow(1024, i);
+          },
+          //digital转human
+          digitalTurnHuman(size) {
+              //保留整数部分
+              let intSize = parseInt(size);
+              let floor = Math.floor((String(intSize).length-1)/3);
+              return (intSize/Math.pow(1024, floor)).toFixed(2) + size_suffix[floor];
           }
       }
   }

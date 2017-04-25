@@ -140,6 +140,17 @@ class MenusTableSeeder extends Seeder
         ];
         $applicat_manage = Menu::create($applicat_manage);
 
+        //个人文件夹
+        $personal_file = [
+            'title' => 'personal_file',
+            'describe' => '个人文件夹',
+            'icon' => 'ion-folder',
+            'uri' => '/files',
+            'created_at' => $date_time,
+            'updated_at' => $date_time,
+        ];
+        $personal_file = Menu::create($personal_file);
+
         //通告
         $notice = [
             'title' => 'notice',
@@ -175,6 +186,7 @@ class MenusTableSeeder extends Seeder
             $applicat->id,
             $applicat_audit->id,
             $applicat_manage->id,
+            $personal_file->id,
             $notice->id,
             $system->id,
         ]);
