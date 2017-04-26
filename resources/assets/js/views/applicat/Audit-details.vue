@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="row">
     <div class="col-md-12 ">
-    <div class="col-md-4">
+    <div class="col-md-4  col-sm-12 col-xs-12">
       <div class="ibox">
         <div class="ibox-content">
             <div class="row m-b-sm m-t-sm">
@@ -60,104 +60,116 @@
                           </div>
 
                           <div class="row m-t-sm">
-                              <div class="col-sm-12">
-                                  <div class="panel blank-panel">
-                                      <div class="panel-heading">
-                                          <div class="panel-options">
-                                              <ul class="nav nav-tabs">
-                                                  <li class="active"><a href="project_detail.html#tab-1" data-toggle="tab">详情</a>
-                                                  </li>
-                                                  <li class=""><a href="project_detail.html#tab-2" data-toggle="tab">审核</a>
-                                                  </li>
-                                              </ul>
-                                          </div>
-                                      </div>
-
-                                      <div class="panel-body">
-
-                                          <div class="tab-content">
-                                              <div class="tab-pane active" id="tab-1">
-                                                <!-- <div class="row"> -->
-                                                        <dl class="dl-horizontal" v-if="applicat">
-                                                          <dt>状态：</dt>
-                                                          <dd><span class="label label-primary">{{applicat.status}}</span></dd>
-                                                            <dt>申请人：</dt>
-                                                            <dd>{{applicat.user}}</dd>
-                                                            <dt>申请机构：</dt>
-                                                            <dd>{{applicat.mechanism}}</dd>
-                                                            <dt>负责人：</dt>
-                                                            <dd>{{applicat.principal}}</dd>
-                                                            <dt>负责人联系方式：</dt>
-                                                            <dd>{{applicat.mobile}}</dd>
-                                                            <dt>申请类型：</dt>
-                                                            <dd>{{applicat.type}}</dd>
-                                                            <dt>参与人数：</dt>
-                                                            <dd>{{applicat.number}}</dd>
-                                                            <dt>借用时段：</dt>
-                                                            <dd>{{applicat.startTime}} - {{applicat.endTime}}</dd>
-                                                            <br/>
-                                                            <dt>联合机构：</dt>
-                                                            <dd>
-                                                              {{applicat.agency}}
-                                                            </dd>
-                                                            <br/>
-                                                            <dt>申请缘由：</dt>
-                                                            <dd>
-                                                              {{applicat.reason}}
-                                                            </dd>
-                                                            <br/>
-                                                            <dt>物资申请：</dt>
-                                                            <dd>{{applicat.goods}}</dd>
-                                                            <br/>
-                                                            <dt>活动策划：</dt>
-                                                            <dd v-if="applicat.files">
-                                                              <li  v-for="file in JSON.parse(applicat.files)">
-                                                                <a :href="file.url" :title="file.original_name" target="_blank" class="filename">
-                                                                  <i class="ion-document"></i>
-                                                                  {{file.original_name}}
-                                                                </a>
-                                                              </li>
-                                                            </dd>
-                                                            <!-- <dd v-else>
-                                                                <h3 class="none text-center" v-if="items.length == 0">{{ $t('el.page.nothing') }}</h3>
-                                                            </dd> -->
-                                                        </dl>
-                                                <!-- </div> -->
-                                              </div>
-                                              <div class="tab-pane" id="tab-2">
-                                                <div class="feed-activity-list">
-                                                    <template v-if="applicat.opinions">
-                                                      <div class="feed-element" v-for="opinion in applicat.opinions.data">
-                                                          <a href="#" class="pull-left">
-                                                            <img class="img-circle" :src="opinion.user.avatar" alt="">
-                                                          </a>
-                                                          <div class="media-body">
-                                                              <small class="pull-right">{{ opinion.create_at }}</small>
-                                                              <strong>{{opinion.user.name }}</strong>
-                                                              <div class="well">
-                                                                {{ opinion.opinion }}
-                                                              </div>
-                                                          </div>
-                                                      </div>
-                                                    </template>
-                                                    <div class="feed-element" v-if="is_opinion">
-                                                        <div class="media-body ">
-                                                          <el-input type="textarea" v-model="form.opinion" placeholder="您的意见" class="opinion"></el-input>
-                                                          <div class="">
-                                                              <el-radio-group v-model="form.radio">
-                                                                 <el-radio-button label="通过"></el-radio-button>
-                                                                 <el-radio-button label="不通过"></el-radio-button>
-                                                               </el-radio-group>
-                                                                 <button type="submit" @click="submit" class="btn btn-info btn-sm" :class="{disabled: !(form.radio&&form.opinion)}"  style="float: right">发表</button>
-                                                         </div>
-                                                        </div>
-                                                    </div>
+                            <el-tabs type="card" value="detail" class="tabs"  @tab-click="forwardClick">
+                                <el-tab-pane label="详情" name="detail">
+                                  <dl class="dl-horizontal" v-if="applicat">
+                                    <dt>状态：</dt>
+                                    <dd><span class="label label-primary">{{applicat.status}}</span></dd>
+                                      <dt>申请人：</dt>
+                                      <dd>{{applicat.user}}</dd>
+                                      <dt>申请机构：</dt>
+                                      <dd>{{applicat.mechanism}}</dd>
+                                      <dt>负责人：</dt>
+                                      <dd>{{applicat.principal}}</dd>
+                                      <dt>负责人联系方式：</dt>
+                                      <dd>{{applicat.mobile}}</dd>
+                                      <dt>申请类型：</dt>
+                                      <dd>{{applicat.type}}</dd>
+                                      <dt>参与人数：</dt>
+                                      <dd>{{applicat.number}}</dd>
+                                      <dt>借用时段：</dt>
+                                      <dd>{{applicat.startTime}} - {{applicat.endTime}}</dd>
+                                      <br/>
+                                      <dt>联合机构：</dt>
+                                      <dd>
+                                        {{applicat.agency}}
+                                      </dd>
+                                      <br/>
+                                      <dt>申请缘由：</dt>
+                                      <dd>
+                                        {{applicat.reason}}
+                                      </dd>
+                                      <br/>
+                                      <dt>物资申请：</dt>
+                                      <dd>{{applicat.goods}}</dd>
+                                      <br/>
+                                      <dt>活动策划：</dt>
+                                      <dd v-if="applicat.files">
+                                        <li  v-for="file in JSON.parse(applicat.files)">
+                                          <a :href="file.url" v-show="file" :title="file.original_name" target="_blank" class="filename">
+                                            <i class="ion-document"></i>
+                                            {{file.original_name}}
+                                          </a>
+                                        </li>
+                                      </dd>
+                                  </dl>
+                                </el-tab-pane>
+                                <el-tab-pane label="审核" name="second">
+                                  <div class="feed-activity-list">
+                                      <template v-if="applicat.opinions">
+                                        <div class="feed-element" v-for="opinion in applicat.opinions.data">
+                                            <a href="#" class="pull-left">
+                                              <img class="img-circle" :src="opinion.user.avatar" alt="">
+                                            </a>
+                                            <div class="media-body">
+                                                <small class="pull-right">{{ opinion.create_at }}</small>
+                                                <strong>{{opinion.user.name }}</strong>
+                                                <div class="well">
+                                                  {{ opinion.opinion }}
                                                 </div>
-                                              </div>
+                                            </div>
+                                        </div>
+                                      </template>
+                                      <div class="feed-element" v-if="is_opinion">
+                                          <div class="media-body ">
+                                            <form  @submit.prevent="submit">
+                                              <el-input type="textarea" v-model="form.opinion" placeholder="您的意见" class="opinion"></el-input>
+                                              <el-upload
+                                                ref="upload"
+                                                class="upload-demo"
+                                                action="/api/applicat/file"
+                                                accept="application/msword,application/msexcel,application/pdf"
+                                                :headers="headers"
+                                                :on-remove="handleRemove"
+                                                :on-success="handleSuccess"
+                                                :before-upload="handleUpload"
+                                                :file-list="fileList">
+                                                <el-button size="small" type="primary">点击上传</el-button>
+                                                <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
+                                                <div slot="tip" class="el-upload__tip">
+                                                  <span style="line-height: 15px">如果有文件要反馈给申请者,请点击上传!</span>
+                                                </div>
+                                              </el-upload>
+                                              <div class="">
+                                                  <el-radio-group v-model="form.radio">
+                                                     <el-radio-button label="通过"></el-radio-button>
+                                                     <el-radio-button label="不通过"></el-radio-button>
+                                                   </el-radio-group>
+                                                     <button type="submit" class="btn btn-info btn-sm" :class="{disabled: !(form.radio&&form.opinion)}"  style="float: right">发表</button>
+                                             </div>
+                                           </form>
                                           </div>
                                       </div>
                                   </div>
-                              </div>
+                                </el-tab-pane>
+                                <el-tab-pane label="转发" name="forward" class="forward">
+                                    <el-form label-position="top" :model="forward_form" label-width="80px">
+                                        <el-form-item label="接收者">
+                                          <el-select v-model="forward_form.role_id" placeholder="请选择接收用户组" @change="roleChange">
+                                            <el-option v-for="role in roles" :label="role.display_name" :value="role.id">
+                                            </el-option>
+                                          </el-select>
+                                          -
+                                          <el-select v-model="forward_form.user_id" :filterable="true" :clearable="true" placeholder="请选择具体用户">
+                                            <el-option v-for="user in users" :label="user.name" :value="user.id">
+                                            </el-option>
+                                          </el-select>
+                                        </el-form-item>
+                                        <el-input type="textarea" v-model="forward_form.opinion" placeholder="您的意见" class="opinion"></el-input>
+                                         <button type="primary" class="btn btn-info btn-sm" @click="submitForm('ruleForm2')" style="float:right">提交</button>
+                                    </el-form>
+                                </el-tab-pane>
+                              </el-tabs>
                           </div>
                       </div>
                   </div>
@@ -170,6 +182,7 @@
 
 <script>
   import { mapState, mapMutations } from 'vuex'
+  import server from '../../config/api.js'
   export default {
       data() {
           return {
@@ -180,15 +193,27 @@
               id: '',
               form: {
                   radio: '',
-                  opinion: ''
+                  opinion: '',
+              },
+              forward_form: {
+                  opinion: '',
+                  role_id: '',
+                  user_id: '',
               },
               total: 0,
               totalPage: 0,
               currentPage: 0,
               pageSize: 10,
+              headers: {},
+              fileList: [],
+              roles: null,
+              users: null,
           }
       },
       created() {
+          this.headers = {
+              'Authorization': 'Bearer ' + this.$store.state.access_token
+          }
           this.currentPage = this.$route.query.page;
           this.pageSize = parseInt(this.$route.query.pageSize);
           this.loadData();
@@ -298,6 +323,62 @@
              this.currentPage = val;
              this.loadData();
          },
+         handleRemove(file, fileList) {
+           //删除文件
+           if(file) {
+               let path = file.response.relative_url,vm = this;
+               axios.post('/api/file/delete', { path: path.substring(path.indexOf("/")+1)})
+               .then( response => {
+                   vm.fileList = fileList;
+               }, error => {
+                   toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+               })
+           }
+         },
+         handleSuccess(response, file, fileList) {
+           //上传文件
+           if(response.success){
+               this.fileList = fileList;
+               // this.form.fileList.push(file);
+           }else{
+               stack_error(response.errors);
+               fileList.splice(-1,1);
+           }
+         },
+         handleUpload(file) {
+           //上传之前的回调函数
+           let fileList = this.fileList;
+           let flag = true;
+           for (let i = 0; i < fileList.length; i++) {
+               if(this.fileEqual(fileList[i].raw,file)){
+                 flag = false;
+                 break;
+               }
+           }
+           return flag;
+         },
+         fileEqual(f1, f2) {
+             //判断用户是否重复上传相同的文件
+             if(f1.lastModified === f2.lastModified &&
+                f1.name === f2.name &&
+                f1.size === f2.size &&
+                f1.type === f2.type){
+                 return true
+             }
+         },
+         forwardClick(el) {
+           if(el.name == 'forward' && !this.roles){
+             axios.get(server.api.roles).then( response => {
+                this.roles = response.data.data;
+             })
+           }
+         },
+         roleChange() {
+            this.forward_form.user_id = '';
+            axios.get('/api/role/' + this.forward_form.role_id + '/users').then( response => {
+                this.users = response.data.data;
+            })
+         }
       }
   }
 </script>
@@ -307,7 +388,10 @@
      text-decoration:none;
      text-decoration-line: none;
    }
-  .panel-body .dl-horizontal li {
+   /*.row {
+     margin: 0px !important;
+   }*/
+  .tabs .dl-horizontal li {
       list-style-type: none;
       transition: all .5s cubic-bezier(.55,0,.1,1);
       font-size: 14px;
@@ -318,10 +402,10 @@
       width: 100%;
       position: relative;
   }
-  .panel-body .dl-horizontal li:hover {
+  .tabs .dl-horizontal li:hover {
       background-color: #eef1f6;
   }
-  .panel-body .dl-horizontal .filename {
+  .tabs .dl-horizontal .filename {
       color: #48576a;
       display: block;
       text-overflow: ellipsis;
@@ -329,10 +413,19 @@
       white-space: nowrap;
       padding-left: 5px
   }
-  .tab-pane .opinion {
+  .tabs .media-body .upload-demo {
+      padding-bottom: 15px;
+  }
+  .tabs .forward .el-form-item{
+      margin-bottom: 10px;
+  }
+  .tabs .forward .opinion {
+      margin-bottom: 5px;
+  }
+  .media-body .opinion {
       margin-bottom: 15px;
   }
-  .tab-pane .media-body .el-radio-button__inner {
+  .media-body .media-body .el-radio-button__inner {
       padding: 6px 15px;
   }
   .feed-element img.img-circle {

@@ -82,11 +82,7 @@
                 if (action == 'edit-item') {
                     this.$router.push('/permissions/' + data.id + '/edit')
                 } else if (action == 'delete-item') {
-                    axios.delete('/api/permission/' + data.id, {
-                        headers: {
-                            'Authorization': 'Bearer ' + this.$store.state.access_token
-                        }
-                    }).then((response) => {
+                    axios.delete('/api/permission/' + data.id).then((response) => {
                             toastr.success('You delete the tag success!')
 
                             this.$emit('reload')

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use DB;
+use Auth;
 use App\User;
 use App\Opinion;
 use App\Notifications\PendReview;
@@ -26,6 +27,7 @@ class OpinionRepository
 
     public function store($input)
     {
+        // 获取申请对象
         $applicat = $this->applicat->getById($input['applicat_id']);
         $applicat->stage = $applicat->stage+1;
         if($input['radio'] == '通过') {
@@ -63,11 +65,11 @@ class OpinionRepository
             $status = DB::table('statuses')->where('name', '审核不通过')->first();
             $applicat->status_id = $status->id;
         }
-        $applicat->save();
         //将当前审核人的意见添加进数据库
         unset($input['radio']);
-        $input['user_id'] = auth()->id;
+        $input['user_id'] = Auth::id();
         $this->save($this->model, $input);
+        $applicat->save();
     }
 
     public function reviewEndNotificat($user_id, $applicat)

@@ -32,8 +32,8 @@ class ApplicatRepository
         //遍历角色获取每一个角色对应的申请类型
         $applicats = [];
         foreach($roles as $role) {
+            $roleId[] = $role->id;
             foreach( $role->types as $type) {
-                $roleId[] = $role->id;
                 // 获取该类型对应的申请
                 $typeIds[] = $type->id;
             }
@@ -41,7 +41,7 @@ class ApplicatRepository
         $roleId = implode(',', $roleId);
         //获取到当前用户审核的申请
         $applicats = $this->model
-                    ->whereIn('type_id',$typeIds)
+                    ->whereIn('type_id',array_unique($typeIds))
                     ->where('stage',\DB::raw(
                       "(select priority from role_type r where
                         r.type_id = applicats.type_id

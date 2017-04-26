@@ -46,13 +46,15 @@ class AuditResults extends Notification
      */
     public function toMail($notifiable)
     {
-        // $path = 'avatars/' . $notifiable->id;
-        // $img = \QrCode::format('png')->size(500)->generate("/", $path);
+        // $disk = \Storage::disk(config('filesystems.default', 'public'));
+        // $path = 'public/avatars/' . $notifiable->id . '/';
+        // $img = \QrCode::format('png')->size(500)->generate("/",'\storage\app\public\avatars\1\1.png');
         //
-        // // $path = \Storage::putFile($path, $img);
-        // // \Log::info($path);
-        //
-        // return (new MailMessage)->view('mail.audit.results',['img' => $path,'name' => 'dkf']);
+        // dd($img);
+        // $path = $disk->putFile($path, $img);
+        // return $path;
+
+        return (new MailMessage)->view('mail.audit.results',['name' => 'dkf']);
     }
 
     /**

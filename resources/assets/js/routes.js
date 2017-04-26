@@ -241,7 +241,7 @@ function checkLogin (to, from, next) {
 function checkUrl (to, form, next) {
   //遍历判断当前用户是否可以访问to的路由
   for (var i = 0; i < store.state.menus.length; i++) {
-    if(  store.state.menus[i].uri == to.path) {
+    if(to.path.indexOf(store.state.menus[i].uri) == 0) {
         return next();
     }
   }

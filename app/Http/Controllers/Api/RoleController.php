@@ -6,6 +6,7 @@ use App\Http\Requests\RoleRequest;
 use Illuminate\Http\Request;
 use App\Repositories\RoleRepository;
 use App\Transformers\RoleTransformer;
+use App\Transformers\UserTransformer;
 
 class RoleController extends ApiController
 {
@@ -75,6 +76,13 @@ class RoleController extends ApiController
         $this->role->destroy($id);
 
         return $this->noContent();
+    }
+
+    public function users($id)
+    {
+        $users = $this->role->getByIdToUsers($id);
+
+        return $this->respondWithCollection($users, new UserTransformer);
     }
 
 }

@@ -70,7 +70,12 @@
                           </li>
                           <!--邮件消息选项-->
                           <li>
-                              <a href="#"><i class="ion-email"></i> Inbox <span class="badge badge-danager" id="user-inbox">5</span></a>
+                              <router-link to="/audit">
+                                <i class="ion-email"></i> Inbox
+                                <span class="badge badge-danager" id="user-inbox" v-show="notifications.length">
+                                  {{ notifications.length }}
+                                </span>
+                              </router-link>
                           </li>
                           <!--登退选项-->
                           <li>

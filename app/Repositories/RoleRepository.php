@@ -44,6 +44,11 @@ class RoleRepository
         return $this->model->findOrFail($id);
     }
 
+    public function getByIdToUsers($id)
+    {
+        return $this->getById($id)->users;
+    }
+
 
     public function update($id, $input)
     {

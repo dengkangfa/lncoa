@@ -5928,6 +5928,42 @@ module.exports = exports['default'];
 
 /***/ }),
 /* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_config__ = __webpack_require__(251);
+
+
+var api = {
+    //登录
+    login: __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].host + __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].prefix + '/login',
+    //用户信息
+    user: __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].host + __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].prefix + '/user',
+    //用户的可以访问的菜单树
+    menu: __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].host + __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].prefix + '/menu',
+    // 获取所有的角色信息
+    roles: __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].host + __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].prefix + '/role',
+    //类型
+    type: __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].host + __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].prefix + '/type',
+    //结构
+    mechanism: __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].host + __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].prefix + '/mechanism',
+    //申请
+    applicat: __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].host + __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].prefix + '/applicat'
+
+};
+
+var client = {
+    client_id: '2',
+    client_secret: 'OkABZOuxDMaiaaFJBrESpYnmIMf6eSwyU42fPVdM'
+};
+
+/* harmony default export */ __webpack_exports__["a"] = {
+    api: api,
+    client: client
+};
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6231,42 +6267,6 @@ module.exports = {
   trim: trim
 };
 
-
-/***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_config__ = __webpack_require__(251);
-
-
-var api = {
-    //登录
-    login: __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].host + __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].prefix + '/login',
-    //用户信息
-    user: __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].host + __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].prefix + '/user',
-    //用户的可以访问的菜单树
-    menu: __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].host + __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].prefix + '/menu',
-    // 获取所有的角色信息
-    roles: __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].host + __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].prefix + '/role',
-    //类型
-    type: __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].host + __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].prefix + '/type',
-    //结构
-    mechanism: __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].host + __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].prefix + '/mechanism',
-    //申请
-    applicat: __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].host + __WEBPACK_IMPORTED_MODULE_0__api_config__["a" /* default */].prefix + '/applicat'
-
-};
-
-var client = {
-    client_id: '2',
-    client_secret: 'OkABZOuxDMaiaaFJBrESpYnmIMf6eSwyU42fPVdM'
-};
-
-/* harmony default export */ __webpack_exports__["a"] = {
-    api: api,
-    client: client
-};
 
 /***/ }),
 /* 9 */
@@ -26109,7 +26109,7 @@ module.exports = exports['default'];
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(8);
 var normalizeHeaderName = __webpack_require__(202);
 
 var PROTECTION_PREFIX = /^\)\]\}',?\n/;
@@ -27602,7 +27602,7 @@ module.exports = exports['default'];
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(8);
 var settle = __webpack_require__(194);
 var buildURL = __webpack_require__(197);
 var parseHeaders = __webpack_require__(203);
@@ -40280,7 +40280,7 @@ module.exports = function(module) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_element_ui_lib_theme_default_index_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_element_ui_lib_theme_default_index_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__App_vue__ = __webpack_require__(380);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__App_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__App_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__config_api__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__config_api__ = __webpack_require__(7);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -42187,7 +42187,7 @@ module.exports = __webpack_require__(188);
 "use strict";
 
 
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(8);
 var bind = __webpack_require__(36);
 var Axios = __webpack_require__(190);
 var defaults = __webpack_require__(22);
@@ -42311,7 +42311,7 @@ module.exports = CancelToken;
 
 
 var defaults = __webpack_require__(22);
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(8);
 var InterceptorManager = __webpack_require__(191);
 var dispatchRequest = __webpack_require__(192);
 var isAbsoluteURL = __webpack_require__(200);
@@ -42402,7 +42402,7 @@ module.exports = Axios;
 "use strict";
 
 
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(8);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -42461,7 +42461,7 @@ module.exports = InterceptorManager;
 "use strict";
 
 
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(8);
 var transformData = __webpack_require__(195);
 var isCancel = __webpack_require__(34);
 var defaults = __webpack_require__(22);
@@ -42605,7 +42605,7 @@ module.exports = function settle(resolve, reject, response) {
 "use strict";
 
 
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(8);
 
 /**
  * Transform the data for a request or a response
@@ -42675,7 +42675,7 @@ module.exports = btoa;
 "use strict";
 
 
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(8);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -42769,7 +42769,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(8);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -42850,7 +42850,7 @@ module.exports = function isAbsoluteURL(url) {
 "use strict";
 
 
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(8);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -42925,7 +42925,7 @@ module.exports = (
 "use strict";
 
 
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(8);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -42944,7 +42944,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var utils = __webpack_require__(7);
+var utils = __webpack_require__(8);
 
 /**
  * Parse headers into an object
@@ -43889,7 +43889,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config_api__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config_api__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Modal__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Modal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_Modal__);
 //
@@ -44206,7 +44206,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config_api__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config_api__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuex__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -44389,6 +44389,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -44444,7 +44449,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config_api__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config_api__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuex__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -44876,7 +44881,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config_api__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config_api__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuex__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -45007,7 +45012,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config_api__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config_api__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuex__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -45888,7 +45893,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuex__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config_api__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config_api__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__config_helper_js__ = __webpack_require__(11);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -46211,7 +46216,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuex__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config_api_js__ = __webpack_require__(7);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
 //
@@ -46383,11 +46391,26 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = {
     data: function data() {
-        return {
+        var _ref;
+
+        return _ref = {
             applicats: [],
             applicat: {},
             fileList: {},
@@ -46397,13 +46420,22 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 radio: '',
                 opinion: ''
             },
+            forward_form: {
+                opinion: '',
+                role_id: '',
+                user_id: ''
+            },
             total: 0,
             totalPage: 0,
             currentPage: 0,
-            pageSize: 10
-        };
+            pageSize: 10,
+            headers: {}
+        }, _defineProperty(_ref, 'fileList', []), _defineProperty(_ref, 'roles', null), _defineProperty(_ref, 'users', null), _ref;
     },
     created: function created() {
+        this.headers = {
+            'Authorization': 'Bearer ' + this.$store.state.access_token
+        };
         this.currentPage = this.$route.query.page;
         this.pageSize = parseInt(this.$route.query.pageSize);
         this.loadData();
@@ -46512,6 +46544,63 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             //currentPage 改变时会触发
             this.currentPage = val;
             this.loadData();
+        },
+        handleRemove: function handleRemove(file, fileList) {
+            //删除文件
+            if (file) {
+                var path = file.response.relative_url,
+                    vm = this;
+                axios.post('/api/file/delete', { path: path.substring(path.indexOf("/") + 1) }).then(function (response) {
+                    vm.fileList = fileList;
+                }, function (error) {
+                    toastr.error(error.response.status + ' : Resource ' + error.response.statusText);
+                });
+            }
+        },
+        handleSuccess: function handleSuccess(response, file, fileList) {
+            //上传文件
+            if (response.success) {
+                this.fileList = fileList;
+                // this.form.fileList.push(file);
+            } else {
+                stack_error(response.errors);
+                fileList.splice(-1, 1);
+            }
+        },
+        handleUpload: function handleUpload(file) {
+            //上传之前的回调函数
+            var fileList = this.fileList;
+            var flag = true;
+            for (var i = 0; i < fileList.length; i++) {
+                if (this.fileEqual(fileList[i].raw, file)) {
+                    flag = false;
+                    break;
+                }
+            }
+            return flag;
+        },
+        fileEqual: function fileEqual(f1, f2) {
+            //判断用户是否重复上传相同的文件
+            if (f1.lastModified === f2.lastModified && f1.name === f2.name && f1.size === f2.size && f1.type === f2.type) {
+                return true;
+            }
+        },
+        forwardClick: function forwardClick(el) {
+            var _this4 = this;
+
+            if (el.name == 'forward' && !this.roles) {
+                axios.get(__WEBPACK_IMPORTED_MODULE_1__config_api_js__["a" /* default */].api.roles).then(function (response) {
+                    _this4.roles = response.data.data;
+                });
+            }
+        },
+        roleChange: function roleChange() {
+            var _this5 = this;
+
+            this.forward_form.user_id = '';
+            axios.get('/api/role/' + this.forward_form.role_id + '/users').then(function (response) {
+                _this5.users = response.data.data;
+            });
         }
     })
 };
@@ -46896,11 +46985,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             if (action == 'edit-item') {
                 this.$router.push('/permissions/' + data.id + '/edit');
             } else if (action == 'delete-item') {
-                axios.delete('/api/permission/' + data.id, {
-                    headers: {
-                        'Authorization': 'Bearer ' + this.$store.state.access_token
-                    }
-                }).then(function (response) {
+                axios.delete('/api/permission/' + data.id).then(function (response) {
                     toastr.success('You delete the tag success!');
 
                     _this.$emit('reload');
@@ -47708,7 +47793,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config_api__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config_api__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config_helper_js__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuex__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuex__);
@@ -47879,7 +47964,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config_helper_js__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config_api__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config_api__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuex__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuex__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -48054,7 +48139,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_Nestable__ = __webpack_require__(165);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_Nestable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_Nestable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config_api__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config_api__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuex__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuex__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -48828,7 +48913,7 @@ var size_suffix = ['B', 'kB', 'MB', 'GB', 'TB', 'PB'];
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config_api__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config_api__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuex__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -49123,12 +49208,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 'password': '',
                 'password_confirmation': ''
             },
-            types: []
+            types: [],
+            space: 200
         };
     },
     created: function created() {
         var _this = this;
 
+        this.space = this.$store.state.isPhone ? 75 : 200;
         axios.get('/api/type/me').then(function (response) {
             _this.types = response.data;
             console.log(response);
@@ -49849,7 +49936,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__views_Dashboard_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__views_Dashboard_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_Parent_vue__ = __webpack_require__(398);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_Parent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__views_Parent_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__config_api__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__config_api__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__vuex_store_js__ = __webpack_require__(37);
 
 
@@ -50050,7 +50137,7 @@ function checkLogin(to, from, next) {
 function checkUrl(to, form, next) {
     //遍历判断当前用户是否可以访问to的路由
     for (var i = 0; i < __WEBPACK_IMPORTED_MODULE_3__vuex_store_js__["a" /* default */].state.menus.length; i++) {
-        if (__WEBPACK_IMPORTED_MODULE_3__vuex_store_js__["a" /* default */].state.menus[i].uri == to.path) {
+        if (to.path.indexOf(__WEBPACK_IMPORTED_MODULE_3__vuex_store_js__["a" /* default */].state.menus[i].uri) == 0) {
             return next();
         }
     }
@@ -69084,7 +69171,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\na[data-v-a0b92f8c]{\n   text-decoration:none;\n   -webkit-text-decoration-line: none;\n           text-decoration-line: none;\n}\n.panel-body .dl-horizontal li[data-v-a0b92f8c] {\n    list-style-type: none;\n    -webkit-transition:all .5s cubic-bezier(.55,0,.1,1);\n    transition: all .5s cubic-bezier(.55,0,.1,1);\n    font-size: 14px;\n    color: #48576a;\n    line-height: 1.8;\n    box-sizing: border-box;\n    border-radius: 4px;\n    width: 100%;\n    position: relative;\n}\n.panel-body .dl-horizontal li[data-v-a0b92f8c]:hover {\n    background-color: #eef1f6;\n}\n.panel-body .dl-horizontal .filename[data-v-a0b92f8c] {\n    color: #48576a;\n    display: block;\n    text-overflow: ellipsis;\n    overflow: hidden;\n    white-space: nowrap;\n    padding-left: 5px\n}\n.tab-pane .opinion[data-v-a0b92f8c] {\n    margin-bottom: 15px;\n}\n.tab-pane .media-body .el-radio-button__inner[data-v-a0b92f8c] {\n    padding: 6px 15px;\n}\n.feed-element img.img-circle[data-v-a0b92f8c] {\n    width:38px;\n    height: 38px;\n    border-radius: 50%;\n}\n.feed-element > .pull-left[data-v-a0b92f8c] {\n    margin-right: 10px;\n}\n.current[data-v-a0b92f8c] {\n    background-color: #f5f5f5;\n}\n\n", ""]);
+exports.push([module.i, "\na[data-v-a0b92f8c]{\n   text-decoration:none;\n   -webkit-text-decoration-line: none;\n           text-decoration-line: none;\n}\n /*.row {\n   margin: 0px !important;\n }*/\n.tabs .dl-horizontal li[data-v-a0b92f8c] {\n    list-style-type: none;\n    -webkit-transition:all .5s cubic-bezier(.55,0,.1,1);\n    transition: all .5s cubic-bezier(.55,0,.1,1);\n    font-size: 14px;\n    color: #48576a;\n    line-height: 1.8;\n    box-sizing: border-box;\n    border-radius: 4px;\n    width: 100%;\n    position: relative;\n}\n.tabs .dl-horizontal li[data-v-a0b92f8c]:hover {\n    background-color: #eef1f6;\n}\n.tabs .dl-horizontal .filename[data-v-a0b92f8c] {\n    color: #48576a;\n    display: block;\n    text-overflow: ellipsis;\n    overflow: hidden;\n    white-space: nowrap;\n    padding-left: 5px\n}\n.tabs .media-body .upload-demo[data-v-a0b92f8c] {\n    padding-bottom: 15px;\n}\n.tabs .forward .el-form-item[data-v-a0b92f8c]{\n    margin-bottom: 10px;\n}\n.tabs .forward .opinion[data-v-a0b92f8c] {\n    margin-bottom: 5px;\n}\n.media-body .opinion[data-v-a0b92f8c] {\n    margin-bottom: 15px;\n}\n.media-body .media-body .el-radio-button__inner[data-v-a0b92f8c] {\n    padding: 6px 15px;\n}\n.feed-element img.img-circle[data-v-a0b92f8c] {\n    width:38px;\n    height: 38px;\n    border-radius: 50%;\n}\n.feed-element > .pull-left[data-v-a0b92f8c] {\n    margin-right: 10px;\n}\n.current[data-v-a0b92f8c] {\n    background-color: #f5f5f5;\n}\n\n", ""]);
 
 // exports
 
@@ -123869,11 +123956,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('div', {
       staticClass: "row"
     }, [_c('div', {
-      staticClass: "col-md-offset-4 col-md-4"
+      staticClass: "col-md-offset-4 col-md-4 col-sm-12"
     }, [_c('h3', [_vm._v(_vm._s(index))]), _vm._v(" "), _vm._l((type), function(roles, priority) {
       return [_c('el-steps', {
         attrs: {
-          "space": 200
+          "space": _vm.space
         }
       }, _vm._l((roles), function(role, index) {
         return _c('el-step', {
@@ -124620,7 +124707,24 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "ion-person"
-  }), _vm._v(" Profile\n                        ")])], 1), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('li', [_c('a', {
+  }), _vm._v(" Profile\n                        ")])], 1), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('li', [_c('router-link', {
+    attrs: {
+      "to": "/audit"
+    }
+  }, [_c('i', {
+    staticClass: "ion-email"
+  }), _vm._v(" Inbox\n                            "), _c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.notifications.length),
+      expression: "notifications.length"
+    }],
+    staticClass: "badge badge-danager",
+    attrs: {
+      "id": "user-inbox"
+    }
+  }, [_vm._v("\n                              " + _vm._s(_vm.notifications.length) + "\n                            ")])])], 1), _vm._v(" "), _c('li', [_c('a', {
     attrs: {
       "href": "javascript:;"
     },
@@ -124643,7 +124747,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.toggle
     }
-  }, [_vm._m(3)])])])])])
+  }, [_vm._m(2)])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "btn btn-default dropdown-toggle options",
@@ -124663,19 +124767,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "ion-ios-calendar"
   }), _vm._v(" Calendar")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_c('i', {
-    staticClass: "ion-email"
-  }), _vm._v(" Inbox "), _c('span', {
-    staticClass: "badge badge-danager",
-    attrs: {
-      "id": "user-inbox"
-    }
-  }, [_vm._v("5")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('a', {
     attrs: {
@@ -126223,7 +126314,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "col-md-12 "
   }, [_c('div', {
-    staticClass: "col-md-4"
+    staticClass: "col-md-4  col-sm-12 col-xs-12"
   }, [_c('div', {
     staticClass: "ibox"
   }, [_c('div', {
@@ -126276,25 +126367,32 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "m-b-md"
   }, [_c('h3', [_vm._v(_vm._s(_vm.applicat.mechanism) + " - " + _vm._s(_vm.applicat.type))])])])]), _vm._v(" "), _c('div', {
     staticClass: "row m-t-sm"
-  }, [_c('div', {
-    staticClass: "col-sm-12"
-  }, [_c('div', {
-    staticClass: "panel blank-panel"
-  }, [_vm._m(1), _vm._v(" "), _c('div', {
-    staticClass: "panel-body"
-  }, [_c('div', {
-    staticClass: "tab-content"
-  }, [_c('div', {
-    staticClass: "tab-pane active",
+  }, [_c('el-tabs', {
+    staticClass: "tabs",
     attrs: {
-      "id": "tab-1"
+      "type": "card",
+      "value": "detail"
+    },
+    on: {
+      "tab-click": _vm.forwardClick
+    }
+  }, [_c('el-tab-pane', {
+    attrs: {
+      "label": "详情",
+      "name": "detail"
     }
   }, [(_vm.applicat) ? _c('dl', {
     staticClass: "dl-horizontal"
   }, [_c('dt', [_vm._v("状态：")]), _vm._v(" "), _c('dd', [_c('span', {
     staticClass: "label label-primary"
-  }, [_vm._v(_vm._s(_vm.applicat.status))])]), _vm._v(" "), _c('dt', [_vm._v("申请人：")]), _vm._v(" "), _c('dd', [_vm._v(_vm._s(_vm.applicat.user))]), _vm._v(" "), _c('dt', [_vm._v("申请机构：")]), _vm._v(" "), _c('dd', [_vm._v(_vm._s(_vm.applicat.mechanism))]), _vm._v(" "), _c('dt', [_vm._v("负责人：")]), _vm._v(" "), _c('dd', [_vm._v(_vm._s(_vm.applicat.principal))]), _vm._v(" "), _c('dt', [_vm._v("负责人联系方式：")]), _vm._v(" "), _c('dd', [_vm._v(_vm._s(_vm.applicat.mobile))]), _vm._v(" "), _c('dt', [_vm._v("申请类型：")]), _vm._v(" "), _c('dd', [_vm._v(_vm._s(_vm.applicat.type))]), _vm._v(" "), _c('dt', [_vm._v("参与人数：")]), _vm._v(" "), _c('dd', [_vm._v(_vm._s(_vm.applicat.number))]), _vm._v(" "), _c('dt', [_vm._v("借用时段：")]), _vm._v(" "), _c('dd', [_vm._v(_vm._s(_vm.applicat.startTime) + " - " + _vm._s(_vm.applicat.endTime))]), _vm._v(" "), _c('br'), _vm._v(" "), _c('dt', [_vm._v("联合机构：")]), _vm._v(" "), _c('dd', [_vm._v("\n                                                            " + _vm._s(_vm.applicat.agency) + "\n                                                          ")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('dt', [_vm._v("申请缘由：")]), _vm._v(" "), _c('dd', [_vm._v("\n                                                            " + _vm._s(_vm.applicat.reason) + "\n                                                          ")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('dt', [_vm._v("物资申请：")]), _vm._v(" "), _c('dd', [_vm._v(_vm._s(_vm.applicat.goods))]), _vm._v(" "), _c('br'), _vm._v(" "), _c('dt', [_vm._v("活动策划：")]), _vm._v(" "), (_vm.applicat.files) ? _c('dd', _vm._l((JSON.parse(_vm.applicat.files)), function(file) {
+  }, [_vm._v(_vm._s(_vm.applicat.status))])]), _vm._v(" "), _c('dt', [_vm._v("申请人：")]), _vm._v(" "), _c('dd', [_vm._v(_vm._s(_vm.applicat.user))]), _vm._v(" "), _c('dt', [_vm._v("申请机构：")]), _vm._v(" "), _c('dd', [_vm._v(_vm._s(_vm.applicat.mechanism))]), _vm._v(" "), _c('dt', [_vm._v("负责人：")]), _vm._v(" "), _c('dd', [_vm._v(_vm._s(_vm.applicat.principal))]), _vm._v(" "), _c('dt', [_vm._v("负责人联系方式：")]), _vm._v(" "), _c('dd', [_vm._v(_vm._s(_vm.applicat.mobile))]), _vm._v(" "), _c('dt', [_vm._v("申请类型：")]), _vm._v(" "), _c('dd', [_vm._v(_vm._s(_vm.applicat.type))]), _vm._v(" "), _c('dt', [_vm._v("参与人数：")]), _vm._v(" "), _c('dd', [_vm._v(_vm._s(_vm.applicat.number))]), _vm._v(" "), _c('dt', [_vm._v("借用时段：")]), _vm._v(" "), _c('dd', [_vm._v(_vm._s(_vm.applicat.startTime) + " - " + _vm._s(_vm.applicat.endTime))]), _vm._v(" "), _c('br'), _vm._v(" "), _c('dt', [_vm._v("联合机构：")]), _vm._v(" "), _c('dd', [_vm._v("\n                                      " + _vm._s(_vm.applicat.agency) + "\n                                    ")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('dt', [_vm._v("申请缘由：")]), _vm._v(" "), _c('dd', [_vm._v("\n                                      " + _vm._s(_vm.applicat.reason) + "\n                                    ")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('dt', [_vm._v("物资申请：")]), _vm._v(" "), _c('dd', [_vm._v(_vm._s(_vm.applicat.goods))]), _vm._v(" "), _c('br'), _vm._v(" "), _c('dt', [_vm._v("活动策划：")]), _vm._v(" "), (_vm.applicat.files) ? _c('dd', _vm._l((JSON.parse(_vm.applicat.files)), function(file) {
     return _c('li', [_c('a', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (file),
+        expression: "file"
+      }],
       staticClass: "filename",
       attrs: {
         "href": file.url,
@@ -126303,11 +126401,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('i', {
       staticClass: "ion-document"
-    }), _vm._v("\n                                                                " + _vm._s(file.original_name) + "\n                                                              ")])])
-  })) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('div', {
-    staticClass: "tab-pane",
+    }), _vm._v("\n                                          " + _vm._s(file.original_name) + "\n                                        ")])])
+  })) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('el-tab-pane', {
     attrs: {
-      "id": "tab-2"
+      "label": "审核",
+      "name": "second"
     }
   }, [_c('div', {
     staticClass: "feed-activity-list"
@@ -126331,11 +126429,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "pull-right"
     }, [_vm._v(_vm._s(opinion.create_at))]), _vm._v(" "), _c('strong', [_vm._v(_vm._s(opinion.user.name))]), _vm._v(" "), _c('div', {
       staticClass: "well"
-    }, [_vm._v("\n                                                              " + _vm._s(opinion.opinion) + "\n                                                            ")])])])
+    }, [_vm._v("\n                                                " + _vm._s(opinion.opinion) + "\n                                              ")])])])
   }) : _vm._e(), _vm._v(" "), (_vm.is_opinion) ? _c('div', {
     staticClass: "feed-element"
   }, [_c('div', {
     staticClass: "media-body "
+  }, [_c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.submit($event)
+      }
+    }
   }, [_c('el-input', {
     directives: [{
       name: "model",
@@ -126356,7 +126461,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.form.opinion = $event
       }
     }
-  }), _vm._v(" "), _c('div', {}, [_c('el-radio-group', {
+  }), _vm._v(" "), _c('el-upload', {
+    ref: "upload",
+    staticClass: "upload-demo",
+    attrs: {
+      "action": "/api/applicat/file",
+      "accept": "application/msword,application/msexcel,application/pdf",
+      "headers": _vm.headers,
+      "on-remove": _vm.handleRemove,
+      "on-success": _vm.handleSuccess,
+      "before-upload": _vm.handleUpload,
+      "file-list": _vm.fileList
+    }
+  }, [_c('el-button', {
+    attrs: {
+      "size": "small",
+      "type": "primary"
+    }
+  }, [_vm._v("点击上传")]), _vm._v(" "), _c('div', {
+    staticClass: "el-upload__tip",
+    slot: "tip"
+  }, [_c('span', {
+    staticStyle: {
+      "line-height": "15px"
+    }
+  }, [_vm._v("如果有文件要反馈给申请者,请点击上传!")])])], 1), _vm._v(" "), _c('div', {}, [_c('el-radio-group', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -126389,11 +126518,110 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "type": "submit"
+    }
+  }, [_vm._v("发表")])], 1)], 1)])]) : _vm._e()], 2)]), _vm._v(" "), _c('el-tab-pane', {
+    staticClass: "forward",
+    attrs: {
+      "label": "转发",
+      "name": "forward"
+    }
+  }, [_c('el-form', {
+    attrs: {
+      "label-position": "top",
+      "model": _vm.forward_form,
+      "label-width": "80px"
+    }
+  }, [_c('el-form-item', {
+    attrs: {
+      "label": "接收者"
+    }
+  }, [_c('el-select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.forward_form.role_id),
+      expression: "forward_form.role_id"
+    }],
+    attrs: {
+      "placeholder": "请选择接收用户组"
+    },
+    domProps: {
+      "value": (_vm.forward_form.role_id)
     },
     on: {
-      "click": _vm.submit
+      "change": _vm.roleChange,
+      "input": function($event) {
+        _vm.forward_form.role_id = $event
+      }
     }
-  }, [_vm._v("发表")])], 1)], 1)]) : _vm._e()], 2)])])])])])])])])])]) : _vm._e()] : _vm._e()], 2)])
+  }, _vm._l((_vm.roles), function(role) {
+    return _c('el-option', {
+      attrs: {
+        "label": role.display_name,
+        "value": role.id
+      }
+    })
+  })), _vm._v("\n                                        -\n                                        "), _c('el-select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.forward_form.user_id),
+      expression: "forward_form.user_id"
+    }],
+    attrs: {
+      "filterable": true,
+      "clearable": true,
+      "placeholder": "请选择具体用户"
+    },
+    domProps: {
+      "value": (_vm.forward_form.user_id)
+    },
+    on: {
+      "input": function($event) {
+        _vm.forward_form.user_id = $event
+      }
+    }
+  }, _vm._l((_vm.users), function(user) {
+    return _c('el-option', {
+      attrs: {
+        "label": user.name,
+        "value": user.id
+      }
+    })
+  }))], 1), _vm._v(" "), _c('el-input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.forward_form.opinion),
+      expression: "forward_form.opinion"
+    }],
+    staticClass: "opinion",
+    attrs: {
+      "type": "textarea",
+      "placeholder": "您的意见"
+    },
+    domProps: {
+      "value": (_vm.forward_form.opinion)
+    },
+    on: {
+      "input": function($event) {
+        _vm.forward_form.opinion = $event
+      }
+    }
+  }), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-info btn-sm",
+    staticStyle: {
+      "float": "right"
+    },
+    attrs: {
+      "type": "primary"
+    },
+    on: {
+      "click": function($event) {
+        _vm.submitForm('ruleForm2')
+      }
+    }
+  }, [_vm._v("提交")])], 1)], 1)], 1)], 1)])])])]) : _vm._e()] : _vm._e()], 2)])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "row m-b-sm m-t-sm"
@@ -126415,26 +126643,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "button"
     }
   }, [_vm._v(" 搜索")])])])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "panel-heading"
-  }, [_c('div', {
-    staticClass: "panel-options"
-  }, [_c('ul', {
-    staticClass: "nav nav-tabs"
-  }, [_c('li', {
-    staticClass: "active"
-  }, [_c('a', {
-    attrs: {
-      "href": "project_detail.html#tab-1",
-      "data-toggle": "tab"
-    }
-  }, [_vm._v("详情")])]), _vm._v(" "), _c('li', {}, [_c('a', {
-    attrs: {
-      "href": "project_detail.html#tab-2",
-      "data-toggle": "tab"
-    }
-  }, [_vm._v("审核")])])])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

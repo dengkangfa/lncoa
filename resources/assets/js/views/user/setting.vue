@@ -19,12 +19,12 @@
    </el-tab-pane>
    <el-tab-pane label="我的类型" name="second" id="type">
       <div class="row" v-for="(type, index) in types">
-        <div class="col-md-offset-4 col-md-4">
+        <div class="col-md-offset-4 col-md-4 col-sm-12">
           <!-- 类型名称 -->
           <h3>{{ index }}</h3>
           <!-- 管理该类型的角色组 -->
           <template v-for="(roles, priority) in type">
-              <el-steps :space="200">
+              <el-steps :space="space">
                 <el-step v-for="(role, index) in roles" :class="{'bg' : index == priority}" :title="role.display_name"></el-step>
               </el-steps>
           </template>
@@ -45,9 +45,11 @@ export default {
               'password_confirmation': ''
             },
             types: [],
+            space: 200,
         }
     },
     created() {
+      this.space = this.$store.state.isPhone ? 75 : 200
       axios.get('/api/type/me').then( response => {
           this.types = response.data;
           console.log(response);

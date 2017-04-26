@@ -40,6 +40,7 @@ Route::group([
     Route::get('/menus', 'MenuController@index');
 
     Route::resource('role', 'RoleController', ['except' => ['create', 'show']]);
+    Route::get('role/{id}/users', 'RoleController@users');
 
     Route::get('upload', 'UploadController@index');
     Route::post('upload', 'UploadController@uploadFile');

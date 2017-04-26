@@ -137,13 +137,11 @@ class UserController extends ApiController
      */
     public function destroy($id)
     {
-        $isAdmin = \App\User::find($id)->hasRole('admin');
-        \Log::info($isAdmin);
-        if (Auth::id() == $id || $isAdmin = 1) {
-            // return $this->errorForbidden('You can\'t delete for yourself and other Administrators!');
+        $isAdmin = $this->user->getById($id)->hasRole('admin');
+        //判断删除的是否是自己本身或者超级管理员
+        if (Auth::id() == $id || $isAdmin) {
             return $this->errorForbidden(trans('notification.delete_user_error'));
         }
-
         $this->user->destroy($id);
 
         return $this->noContent();
