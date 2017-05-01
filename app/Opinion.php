@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Opinion extends Model
 {
     protected $fillable = [
-        'opinion', 'applicat_id', 'user_id'
+        'opinion', 'applicat_id', 'user_id', 'files'
     ];
 
     public function applicat()

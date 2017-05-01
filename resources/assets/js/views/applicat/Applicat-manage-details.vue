@@ -6,123 +6,151 @@
                       <div class="row no-margin">
                           <div class="col-sm-12">
                               <div class="m-b-md">
-                                  <a class="btn btn-white btn-xs pull-right" @click="update">{{ is_update ? '取消编辑' : '编辑项目'}}</a>
+                                  <!-- <a class="btn btn-white btn-xs pull-right" @click="update">{{ is_update ? '取消编辑' : '编辑项目'}}</a> -->
                                   <h3>{{applicat.mechanism}} - {{applicat.type}}</h3>
                               </div>
                               <dl class="dl-horizontal">
                                   <dt>状态：</dt>
-                                  <dd><span class="label label-primary">{{applicat.status}}</span>
-                                  </dd>
+                                  <dd><Status :status="applicat.status"></Status></dd>
                               </dl>
                           </div>
                       </div>
-                      <div class="row">
-                          <div class="col-sm-5">
-                              <dl class="dl-horizontal">
+                      <el-tabs value="detail" type="card">
+                        <!-- 申请详情 -->
+                       <el-tab-pane label="申请详情" name="detail">
+                         <div class="row"  :class="{pass:applicat.status == '审核通过'}">
+                             <div class="col-sm-5">
+                                 <dl class="dl-horizontal">
 
-                                  <dt>负责人:</dt>
-                                  <dd v-if="is_update">
-                                      <input type="text" class="form-control no-height" v-model="applicat.principal">
-                                  </dd>
-                                  <dd v-else>
-                                      {{applicat.principal}}
-                                  </dd>
-                                  <dt>申请类型:</dt>
-                                  <dd v-if="is_update">
-                                    {{applicat.type}}
-                                  </dd>
-                                  <dd v-else>
-                                      {{applicat.type}}
-                                  </dd>
-                                  <dt>申请机构:</dt>
-                                  <dd>{{applicat.mechanism}}</dd>
-                                  <dt>联系方式:</dt>
-                                  <dd v-if="is_update">
-                                      <input type="text" class="form-control no-height" v-model="applicat.mobile">
-                                  </dd>
-                                  <dd v-else>
-                                    {{applicat.mobile}}
-                                  </dd>
-                                  <dt>参与人数:</dt>
-                                  <dd>{{applicat.number}}</dd>
-                              </dl>
-                          </div>
-                          <div class="col-sm-7" id="cluster_info">
-                              <dl class="dl-horizontal">
+                                     <dt>负责人:</dt>
+                                     <dd v-if="is_update">
+                                         <input type="text" class="form-control no-height" v-model="applicat.principal">
+                                     </dd>
+                                     <dd v-else>
+                                         {{applicat.principal}}
+                                     </dd>
+                                     <dt>申请类型:</dt>
+                                     <dd v-if="is_update">
+                                       {{applicat.type}}
+                                     </dd>
+                                     <dd v-else>
+                                         {{applicat.type}}
+                                     </dd>
+                                     <dt>申请机构:</dt>
+                                     <dd>{{applicat.mechanism}}</dd>
+                                     <dt>联系方式:</dt>
+                                     <dd v-if="is_update">
+                                         <input type="text" class="form-control no-height" v-model="applicat.mobile">
+                                     </dd>
+                                     <dd v-else>
+                                       {{applicat.mobile}}
+                                     </dd>
+                                     <dt>参与人数:</dt>
+                                     <dd>{{applicat.number}}</dd>
+                                 </dl>
+                             </div>
+                             <div class="col-sm-7" id="cluster_info">
+                                 <dl class="dl-horizontal">
 
-                                  <dt>最后更新：</dt>
-                                  <dd>{{applicat.updated_at}}</dd>
-                                  <dt>创建于：</dt>
-                                  <dd>{{applicat.created_at}}</dd>
-                                  <dt>借用时段：</dt>
-                                  <dd class="project-people">
-                                    {{applicat.startTime}} - {{applicat.endTime}}
-                                  </dd>
-                              </dl>
-                          </div>
-                          <div class="row">
-                            <div class="col-sm-12">
-                              <dl class="dl-horizontal">
-                                <dt>当前进度</dt>
-                                <dd>
-                                  <div class="progress progress-striped active m-b-sm">
-                                    <div style="width: 60%;" class="progress-bar"></div>
-                                  </div>
-                                  <small>当前已完成项目总进度的 <strong>60%</strong></small>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <dd class="col-sm-12 textarea">
-                              <dl class="dl-horizontal">
-                                  <dt>联合机构：</dt>
-                                  <dd v-if="is_update">
-                                      <textarea class="form-control" rows="3">{{applicat.agency}}</textarea>
-                                  </dd>
-                                  <dd v-else>
-                                    {{applicat.agency}}
-                                  </dd>
-                                  <dt>申请缘由：</dt>
-                                  <dd v-if="is_update">
-                                      <textarea class="form-control" rows="3">{{applicat.reason}}</textarea>
-                                  </dd>
-                                  <dd v-else>
-                                    {{applicat.reason}}
-                                  </dd>
-                                  <dt>物资申请：</dt>
-                                  <dd v-if="is_update">
-                                      <textarea class="form-control" rows="3">{{applicat.goods}}</textarea>
-                                  </dd>
-                                  <dd v-else>
-                                    {{applicat.goods}}
-                                  </dd>
-                                  <dt>活动策划：</dt>
-                                  <dd v-if="is_update">
-                                    <el-upload
-                                        ref="upload"
-                                        class="upload-demo"
-                                        action="/api/applicat/file"
-                                        accept="application/msword,application/msexcel,application/pdf"
-                                        :headers="headers"
-                                        :on-preview="handlePreview"
-                                        :on-remove="handleRemove"
-                                        :on-success="handleSuccess"
-                                        :before-upload="handleUpload"
-                                        :file-list="fileList">
-                                        <el-button size="small" type="primary">点击上传</el-button>
-                                    </el-upload>
-                                  </dd>
-                                  <dd v-else>
-                                    <li  v-for="file in fileList">
-                                      <a :href="file.url" :title="file.original_name" target="_blank" class="filename">
-                                        <i class="ion-document"></i>
-                                        {{file.original_name}}
-                                      </a>
-                                    </li>
-                                  </dd>
-                              </dl>
-                          </dd>
-                      </div>
+                                     <dt>最后更新：</dt>
+                                     <dd>{{applicat.updated_at}}</dd>
+                                     <dt>创建于：</dt>
+                                     <dd>{{applicat.created_at}}</dd>
+                                     <dt>借用时段：</dt>
+                                     <dd class="project-people">
+                                       {{applicat.startTime}} - {{applicat.endTime}}
+                                     </dd>
+                                 </dl>
+                             </div>
+                             <!-- <div class="row">
+                               <div class="col-sm-12">
+                                 <dl class="dl-horizontal">
+                                   <dt>当前进度</dt>
+                                   <dd>
+                                     <div class="progress progress-striped active m-b-sm">
+                                       <div style="width: 60%;" class="progress-bar"></div>
+                                     </div>
+                                     <small>当前已完成项目总进度的 <strong>60%</strong></small>
+                                   </dd>
+                                 </dl>
+                               </div>
+                             </div> -->
+                             <dd class="col-sm-12 textarea">
+                                 <dl class="dl-horizontal">
+                                     <dt>联合机构：</dt>
+                                     <dd v-if="is_update">
+                                         <textarea class="form-control" rows="3">{{applicat.agency}}</textarea>
+                                     </dd>
+                                     <dd v-else>
+                                       {{applicat.agency}}
+                                     </dd>
+                                     <dt>申请缘由：</dt>
+                                     <dd v-if="is_update">
+                                         <textarea class="form-control" rows="3">{{applicat.reason}}</textarea>
+                                     </dd>
+                                     <dd v-else>
+                                       {{applicat.reason}}
+                                     </dd>
+                                     <dt>物资申请：</dt>
+                                     <dd v-if="is_update">
+                                         <textarea class="form-control" rows="3">{{applicat.goods}}</textarea>
+                                     </dd>
+                                     <dd v-else>
+                                       {{applicat.goods}}
+                                     </dd>
+                                     <dt>活动策划：</dt>
+                                     <dd v-if="is_update">
+                                       <el-upload
+                                           ref="upload"
+                                           class="upload-demo"
+                                           action="/api/applicat/file"
+                                           accept="application/msword,application/msexcel,application/pdf"
+                                           :headers="headers"
+                                           :on-preview="handlePreview"
+                                           :on-remove="handleRemove"
+                                           :on-success="handleSuccess"
+                                           :before-upload="handleUpload"
+                                           :file-list="fileList">
+                                           <el-button size="small" type="primary">点击上传</el-button>
+                                       </el-upload>
+                                     </dd>
+                                     <dd v-else>
+                                       <li  v-for="file in fileList">
+                                         <a :href="file.url" :title="file.original_name" target="_blank" class="filename">
+                                           <i class="ion-document"></i>
+                                           {{file.original_name}}
+                                         </a>
+                                       </li>
+                                     </dd>
+                                 </dl>
+                             </dd>
+                         </div>
+                       </el-tab-pane>
+                       <!-- 审核员意见 -->
+                       <el-tab-pane v-if="opinions.length" label="意见" name="second">
+                           <div class="feed-element" v-for="opinion in opinions">
+                               <a href="#" class="pull-left">
+                                 <img class="img-circle" :src="opinion.user.avatar" alt="">
+                               </a>
+                               <div class="media-body">
+                                   <small class="pull-right">{{ opinion.create_at }}</small>
+                                   <strong>{{opinion.user.name }}</strong>
+                                   <div class="well">
+                                     {{ opinion.opinion }}
+                                     <li  v-for="file in JSON.parse(opinion.files)" class="pull-right" style="margin-top: 20px;">
+                                       <a :href="file.url" :title="file.original_name" target="_blank" class="filename">
+                                         <i class="ion-document"></i>
+                                         {{file.original_name}}
+                                       </a>
+                                     </li>
+                                   </div>
+                               </div>
+                               <hr>
+                           </div>
+                       </el-tab-pane>
+                      <!-- END审核员意见 -->
+                     </el-tabs>
+
                   </div>
               </div>
           </div>
@@ -130,6 +158,7 @@
 </template>
 
 <script>
+  import Status from '../../components/Status'
   export default {
       data() {
           return {
@@ -137,6 +166,7 @@
               fileList: {},
               is_update: false,
               headers: {},
+              opinions: [],
           }
       },
       created() {
@@ -145,12 +175,16 @@
               'Authorization': 'Bearer ' + this.$store.state.access_token
           }
           //请求当前id对应的详细资源
-          axios.get('/api/applicat/' + this.$route.params.id).then( response => {
+          axios.get('/api/applicat/' + this.$route.params.id + '?include=opinions').then( response => {
               this.applicat = response.data.data;
+              this.opinions = response.data.data.opinions.data;
               this.fileList = JSON.parse(this.applicat.files);
               console.log(response);
               console.log(this.fileList);
           })
+      },
+      components: {
+          Status
       },
       methods: {
           update() {
@@ -246,6 +280,23 @@
     }
     .textarea .dl-horizontal dd {
         margin-bottom: 15px;
+    }
+    .pass {
+        background-image: url(http://lncoa.app/images/pass.png);
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .feed-element img.img-circle {
+        width:38px;
+        height: 38px;
+        border-radius: 50%;
+    }
+    .feed-element hr {
+         margin-top: 0;
+         margin-bottom: 10px;
+    }
+    .feed-element > .pull-left {
+        margin-right: 10px;
     }
 
 </style>

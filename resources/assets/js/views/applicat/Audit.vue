@@ -7,21 +7,24 @@
           <div class="ibox-content">
             <div class="row m-b-sm m-t-sm">
                 <div class="col-md-1 col-xs-1">
-                    <button type="button" @click="loadData" id="loading-example-btn" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> 刷新</button>
+                  <div class="btn-group">
+                      <el-button type="primary" size="small" style="padding:8px 9px" :loading="showLoading" icon="ion-refresh" @click="loadData">
+                        <i class="ion-refresh" v-if="!showLoading"></i> {{ loading_text }}
+                      </el-button>
+                  </div>
+                    <!-- <button type="button" @click="loadData" id="loading-example-btn" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> 刷新</button> -->
                 </div>
                 <div class="col-md-11 col-xs-11">
                     <div class="input-group">
-                        <input type="text" placeholder="请输入项目名称" class="input-sm form-control"> <span class="input-group-btn">
+                        <input type="text" v-model="keyWord" placeholder="请输入项目名称" class="input-sm form-control"> <span class="input-group-btn">
                             <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
                     </div>
                 </div>
             </div>
                 <table class="table table-hover">
                     <tbody>
-                        <tr v-for="applicat in applicats">
-                            <td>
-                              <span class="label label-primary">{{ applicat.status }}</span>
-                            </td>
+                        <tr v-for="applicat in applicatlist">
+                            <td><Status :status="applicat.status"></Status></td>
                             <td class="project-title">
                               <router-link :to="'/audit/details/'+applicat.id">
                                 {{ applicat.mechanism }} - {{ applicat.type }}
@@ -65,6 +68,7 @@
 
 <script>
     import { mapState } from 'vuex'
+    import Status from '../../components/Status'
     export default {
         data() {
           return {
@@ -80,6 +84,9 @@
             totalPage: 0,
             currentPage: 0,
             pageSize: 10,
+            showLoading: false,
+            loading_text: '',
+            keyWord: ''
           }
         },
         created() {
@@ -87,13 +94,29 @@
             this.pageSize = parseInt(this.$route.query.pageSize);
             this.loadData();
         },
+        components: {
+            Status
+        },
         computed: {
             ...mapState([
                 'isPhone'
-            ])
+            ]),
+            applicatlist:function(){
+                let vm = this;
+                return this.applicats.filter(function(item){
+                    if((item.mechanism+'-'+item.type)
+                    .indexOf(vm.keyWord) >= 0 || item.principal
+                    .indexOf(vm.keyWord) >= 0) {
+                        return true;
+                    }
+                    return false;
+                })
+            }
         },
         methods: {
           loadData() {
+              this.showLoading = true;
+              this.loading_text = '加载中...'
               let url = '/api/applicats';
 
               if (this.currentPage) {
@@ -118,7 +141,8 @@
                   this.$router.push('?pageSize=' + this.pageSize)
               }
               axios.get(url).then(response => {
-                    console.log(response);
+                      this.showLoading = false;
+                      this.loading_text = '刷新';
                       // this.pagination = response.data.meta.pagination
                       this.applicats = response.data.data
                       this.totalPage = response.data.meta.pagination.total_pages
@@ -155,18 +179,6 @@
 </script>
 
 <style lang="css" scoped>
-    .label {
-      background-color: #d1dade;
-      color: #5e5e5e;
-      font-size: 10px;
-      font-weight: 600;
-      padding: 3px 8px;
-      text-shadow: none;
-    }
-    .label-primary, .badge-primary {
-        background-color: #23b7e5;
-        color: #FFFFFF;
-    }
     .height {
         height: 50%;
     }

@@ -14,12 +14,17 @@
                       <div class="ibox-content">
                           <div class="row m-b-sm m-t-sm">
                               <div class="col-md-1">
-                                  <button type="button" id="loading-example-btn" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> 刷新</button>
+                                  <!-- <button type="button" id="loading-example-btn" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> 刷新</button> -->
+                                  <div class="btn-group">
+                                      <el-button type="primary" size="small" style="padding:8px 9px" :loading="showLoading" icon="ion-refresh" @click="loadData">
+                                        <i class="ion-refresh" v-if="!showLoading"></i> {{ loading_text }}
+                                      </el-button>
+                                  </div>
                               </div>
                               <div class="col-md-11">
                                   <div class="input-group">
-                                      <input type="text" placeholder="请输入项目名称" class="input-sm form-control"> <span class="input-group-btn">
-                                          <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                                      <input type="text" v-model="keyWord" placeholder="请输入项目名称" class="input-sm form-control"> <span class="input-group-btn">
+                                          <button type="button" @click="search" class="btn btn-sm btn-primary"> 搜索</button> </span>
                                   </div>
                               </div>
                           </div>
@@ -29,19 +34,8 @@
                               <table class="table table-hover">
                                   <tbody>
                                     <template v-if="applicats.length > 0">
-                                      <tr v-for="applicat in applicats">
-                                          <td class="project-status col-md-1">
-                                              <span class="label"
-                                                  :class="[
-                                                      {'label-warning' : applicat.status == '待审核'},
-                                                      {'label-info' : applicat.status == '审核中'},
-                                                      {'label-success' : applicat.status == '审核通过'},
-                                                      {'label-danger' : applicat.status == '审核不通过'}
-                                                      ]
-                                                    "
-                                                >{{applicat.status}}
-                                              </span>
-                                          </td>
+                                      <tr v-for="applicat in applicatlist">
+                                          <td><Status :status="applicat.status"></Status></td>
                                           <td class="project-title col-md-4">
                                               <router-link :to="$route.path + '/details/' + applicat.id">
                                                 {{ applicat.mechanism }} - {{ applicat.type }}
@@ -56,12 +50,15 @@
                                                       <div style="width: 48%;" class="progress-bar"></div>
                                                   </div>
                                           </td> -->
-                                          <td class="project-roles col-md-5">
+                                          <td class="project-roles col-md-5" v-if="applicat.status != '审核通过'">
                                             <el-steps :space="150" :active="applicat.stage" :direction="isPhone ? 'vertical' : 'horizontal'" finish-status="success">
                                               <el-step v-for="(role, index) in applicat.roles.data"
                                                 :description="role.display_name"
                                                 :status="(applicat.status == '审核不通过' && index == applicat.stage-1) ? 'error' : '' "></el-step>
                                             </el-steps>
+                                          </td>
+                                          <td v-else>
+                                              <img src="http://lncoa.app/images/pass.png" width=350 height=48 alt="">
                                           </td>
                                           <td class="project-actions col-md-2">
                                             <router-link :to="$route.path + '/details/' + applicat.id">
@@ -108,6 +105,7 @@
 
 <script>
   import { mapState } from 'vuex'
+  import Status from '../../components/Status'
   export default {
       data() {
           return {
@@ -115,8 +113,12 @@
               roles: [],
               total: 0,
               totalPage: 0,
+              showLoading: false,
+              loading_text: '',
               currentPage: 0,
               pageSize: 10,
+              keyWord: '',
+              query: {}
           }
       },
       created() {
@@ -124,13 +126,25 @@
           this.pageSize = parseInt(this.$route.query.pageSize);
           this.loadData();
       },
+      components: {
+          Status
+      },
       computed: {
           ...mapState([
               'isPhone'
           ]),
+          applicatlist:function(){
+              let vm = this;
+              return this.applicats.filter(function(item){
+                  return (item.mechanism+'-'+item.type).indexOf(vm.keyWord) >= 0
+              })
+          }
       },
       methods: {
+          // 加载数据
           loadData() {
+              this.showLoading = true;
+              this.loading_text = '加载中...'
               var url = '/api/applicat?include=roles';
 
               if (this.currentPage) {
@@ -141,10 +155,24 @@
                       page = '?page='
                   }
                   url = url + page + this.currentPage;
-                  this.$router.push('?page=' + this.currentPage)
+                  this.query.page = this.currentPage+''
+                  this.$router.push({path:'applicat-manage', query:this.query})
+              }
+
+              if (this.keyWord) {
+                  let keyWord = '';
+                  if (url.indexOf('?') != -1) {
+                      keyWord = '&keyWord='
+                  } else {
+                      keyWord = '?keyWord='
+                  }
+                  url = url + keyWord + this.keyWord;
+                  this.query.keyWord = this.keyWord
+                  this.$router.replace({path:'applicat-manage', query:this.query})
               }
 
               if (this.pageSize > 10) {
+                console.log(1);
                   let pageSize = ''
                   if (url.indexOf('?') != -1) {
                       pageSize = '&pageSize='
@@ -152,9 +180,14 @@
                       pageSize = '?pageSize='
                   }
                   url = url + pageSize + this.pageSize;
-                  this.$router.push('?pageSize=' + this.pageSize)
+                  this.query.pageSize = this.pageSize+''
+                  this.$router.push({path:'applicat-manage', query:this.query})
               }
+              console.log(this.query);
+
               axios.get(url).then(response => {
+                      this.showLoading = false;
+                      this.loading_text = '刷新';
                       this.applicats = response.data.data
                       this.totalPage = response.data.meta.pagination.total_pages
                       this.currentPage = response.data.meta.pagination.current_page
@@ -170,6 +203,11 @@
              this.currentPage = val;
              this.loadData();
          },
+         search() {
+            if(this.keyWord){
+                this.loadData();
+            }
+         }
       }
   }
 </script>

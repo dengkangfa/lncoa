@@ -46,15 +46,24 @@ class AuditResults extends Notification
      */
     public function toMail($notifiable)
     {
-        // $disk = \Storage::disk(config('filesystems.default', 'public'));
-        // $path = 'public/avatars/' . $notifiable->id . '/';
-        // $img = \QrCode::format('png')->size(500)->generate("/",'\storage\app\public\avatars\1\1.png');
-        //
-        // dd($img);
-        // $path = $disk->putFile($path, $img);
-        // return $path;
-
-        return (new MailMessage)->view('mail.audit.results',['name' => 'dkf']);
+        $mechanismName = $this->applicat->mechanism->name;
+        $subject = $mechanismName . $this->applicat->type->name.'审核通过 - lncoa';
+        $url = url('/applicat-manage/details/' . $this->applicat->id);
+        $message = '您于'.$this->applicat->created_at.'申请的'
+                    .'<'.$mechanismName.'-'
+                    .$this->applicat->type->name
+                    .'>'.'成功通过了审核!';
+        $actionText = '查看';
+        return (new MailMessage)
+                            ->subject($subject)
+                            ->markdown('mail.audit.results',
+                            ['name' => $notifiable->name,
+                             'url' => $url,
+                             'message' => $message,
+                             'applicat' => $this->applicat,
+                             'opinions' => $this->applicat->opinions,
+                             'actionText' => $actionText
+                           ]);
     }
 
     /**
@@ -65,8 +74,10 @@ class AuditResults extends Notification
      */
     public function toArray($notifiable)
     {
-        return [
-            //
-        ];
+        // $user = $this->applicat->user;
+        // return [
+        //     'type' => 'system',
+        //     ''
+        // ];
     }
 }

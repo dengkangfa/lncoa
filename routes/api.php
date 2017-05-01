@@ -58,6 +58,8 @@ Route::group([
     Route::post('applicat/file', 'ApplicatController@upload');
     Route::resource('applicat', 'ApplicatController');
     Route::get('applicat', 'ApplicatController@me');
+    Route::post('applicat/{id}/forward', 'ApplicatController@forward');
+    Route::get('applicat/{type_id}/dateTakeUp', 'ApplicatController@dateTakeUp');
     Route::get('applicats', 'ApplicatController@index');
 
     Route::resource('opinion', 'OpinionController');

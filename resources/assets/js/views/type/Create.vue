@@ -61,6 +61,26 @@
                     </select> -->
                     <el-button  @click.prevent="removeApprover(approver)">{{ $t('el.form.delete') }}</el-button>
                 </el-form-item>
+                <el-row :gutter="20">
+                  <el-col :span="8">
+                    <el-form-item :label="$t( 'el.form.is_enable' )">
+                      <el-switch
+                        v-model="status"
+                        on-text=""
+                        off-text="">
+                      </el-switch>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                      <el-form-item prop="date_unique" label="唯一时间段">
+                        <el-switch
+                        v-model="type.date_unique"
+                        on-text=""
+                        off-text="">
+                      </el-switch>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
                 <el-form-item>
                   <el-button type="primary" @click="submitForm('type')">{{ $t('el.form.submit') }}</el-button>
                   <el-button @click="addApprover">{{ $t('el.form.add_approver') }}</el-button>
@@ -87,7 +107,10 @@
             parent_id: [],
             name: '',
             describe: '',
+            disabled: '',
+            date_unique: true,
           },
+          status: true,
           props: {
               value: 'id',
               label: 'name'
@@ -108,9 +131,9 @@
       },
       methods: {
          submitForm(formName) {
-           console.log(this.type);
            //提交
            let vm = this;
+           this.type.disabled = !this.status;
            axios.post(server.api.type, this.type).then( response => {
              console.log(response);
                toastr.success(vm.$t('el.notification.create_type'))

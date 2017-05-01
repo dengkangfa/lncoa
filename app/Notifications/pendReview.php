@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class PendReview extends Notification implements ShouldQueue
+class PendReview extends Notification
 {
     use Queueable;
 
@@ -42,15 +42,29 @@ class PendReview extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
+        // $subject = $this->applicat->type->name.'申请待审核 - lncoa';
+        // $message = '您所管理的' . $this->applicat->type->name .'收到了一条来自' . '<' .
+        //       $this->applicat->mechanism->name . '>' . $this->applicat->user->name . '的申请';
+        // $url = '/audit/details/'.$this->applicat->id;
+        // return (new MailMessage)
+        //             ->subject($subject)
+        //             ->greeting('尊敬的' . $notifiable->name)
+        //             ->line($message)
+        //             ->action('查看', url($url));
         $subject = $this->applicat->type->name.'申请待审核 - lncoa';
+        $url = url('/audit/details/'.$this->applicat->id);
         $message = '您所管理的' . $this->applicat->type->name .'收到了一条来自' . '<' .
               $this->applicat->mechanism->name . '>' . $this->applicat->user->name . '的申请';
-        $url = '/audit/details/'.$this->applicat->id;
+        $actionText = '查看';
         return (new MailMessage)
-                    ->subject($subject)
-                    ->greeting('尊敬的' . $notifiable->name)
-                    ->line($message)
-                    ->action('查看', url($url));
+                            ->subject($subject)
+                            ->markdown('mail.audit.results',
+                            ['name' => $notifiable->name,
+                             'url' => $url,
+                             'message' => $message,
+                             'applicat' => $this->applicat,
+                             'actionText' => $actionText
+                           ]);
     }
 
     /**

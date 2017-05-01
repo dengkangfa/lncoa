@@ -33,7 +33,27 @@
                     <el-button @click.prevent="removeApprover(approver)">{{ $t('el.form.delete') }}</el-button>
                   </el-form-item>
                 </template>
-                  <el-form-item
+                <el-row :gutter="20">
+                  <el-col :span="8">
+                    <el-form-item :label="$t( 'el.form.is_enable' )">
+                      <el-switch
+                        v-model="status"
+                        on-text=""
+                        off-text="">
+                      </el-switch>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                      <el-form-item prop="date_unique" label="唯一时间段">
+                        <el-switch
+                        v-model="type.date_unique"
+                        on-text=""
+                        off-text="">
+                      </el-switch>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                  <!-- <el-form-item
                     :label="$t( 'el.form.is_enable' )"
                     prop="disabled"
                   >
@@ -42,7 +62,7 @@
                       on-text=""
                       off-text="">
                     </el-switch>
-                  </el-form-item>
+                  </el-form-item> -->
                   <el-form-item>
                     <el-button type="primary" @click="submitForm('type')">{{ $t('el.form.submit') }}</el-button>
                     <el-button @click="addApprover">{{ $t('el.form.add_approver') }}</el-button>

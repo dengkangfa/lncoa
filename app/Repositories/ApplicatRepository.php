@@ -26,30 +26,19 @@ class ApplicatRepository
     public function page($number = 10, $sort = 'desc', $sortColumn = 'created_at')
     {
         //获取当前登录的用户角色
-        $roles = \Auth::user()->roles()->with('types')->get();
-        $typeIds = [];
+        $roles = \Auth::user()->roles;
         $roleId = [];
         //遍历角色获取每一个角色对应的申请类型
         $applicats = [];
+        //获取拥有的角色id组
         foreach($roles as $role) {
             $roleId[] = $role->id;
-            foreach( $role->types as $type) {
-                // 获取该类型对应的申请
-                $typeIds[] = $type->id;
-            }
         }
-        $roleId = implode(',', $roleId);
-        //获取到当前用户审核的申请
         $applicats = $this->model
-                    ->whereIn('type_id',array_unique($typeIds))
-                    ->where('stage',\DB::raw(
-                      "(select priority from role_type r where
-                        r.type_id = applicats.type_id
-                        and (r.role_id in ($roleId)) limit 1)"
-                      ))
+                    ->whereIn('role_id', $roleId)
                       ->with('user', 'mechanism', 'type', 'status', 'opinions')
                         ->orderBy($sortColumn, $sort)
-                         ->paginate($number);
+                          ->paginate($number);
         return $applicats;
     }
 
@@ -63,7 +52,23 @@ class ApplicatRepository
      */
     public function getByUserId($user_id, $number = 10, $sort = 'desc', $sortColumn = 'created_at')
     {
-        return $this->model->where('user_id',$user_id)->with('user', 'mechanism', 'type', 'status')->orderBy($sortColumn, $sort)->paginate($number);
+        return $this->model->where('user_id',$user_id)
+                  ->with('user', 'mechanism', 'type', 'status')
+                    ->orderBy($sortColumn, $sort)
+                      ->paginate($number);
+    }
+
+    /**
+     * 通过类型查找申请
+     * @param  int  $type_id
+     * @param  Request $request
+     * @return array
+     */
+    public function getByType($type_id)
+    {
+        return $this->model->where('type_id', $type_id)
+                    ->where('status_id', 3)
+                      ->get();
     }
 
     /**
@@ -96,10 +101,23 @@ class ApplicatRepository
         }
 
         $input['files'] = json_encode(array_pluck($input['fileList'],'response'));
-        $input['type_id'] = $input['type_id'][count($input['type_id'])-1];
         $input['user_id'] = \Auth::user()->id;
         $applicat = $this->save($this->model, $input);
         event(new NewApplyEvent());
         return $applicat;
+    }
+
+    /**
+     * 转发
+     * @param  int $id
+     * @param  array $input
+     * @return [type]
+     */
+    public function forward($id, $input)
+    {
+        $applicat = $this->getById($id);
+        $applicat->role_id = $input['role_id'];
+        $applicat->stage = null;
+        return $applicat->save();
     }
 }

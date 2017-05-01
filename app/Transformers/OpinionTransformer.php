@@ -12,6 +12,7 @@ class OpinionTransformer extends TransformerAbstract
         return [
             'opinion' => $opinion->opinion,
             'user' => $opinion->user,
+            'files' => $opinion->files,
             'create_at' => $opinion->created_at->toDateTimeString(),
         ];
     }

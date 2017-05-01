@@ -195,7 +195,7 @@ export default [
                 component: require('./views/user/Folder.vue'),
                 beforeEnter: checkUrl,
                 meta: { requiresAuth: true }
-            }
+            },
         ],
     },
     {
@@ -213,11 +213,6 @@ export default [
     {
         path: '/500',
         component: require('./views/500.vue'),
-        meta: { requiresAuth: false }
-    },
-    {
-        path: '/signup/confirm/:token',
-        component: require('./views/activa.vue'),
         meta: { requiresAuth: false }
     },
     // {

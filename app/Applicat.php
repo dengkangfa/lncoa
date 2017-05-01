@@ -8,7 +8,8 @@ class Applicat extends Model
 {
     protected $fillable = [
         'principal', 'mobile', 'mechanism_id', 'number', 'type_id',
-        'startTime', 'endTime', 'agency', 'reason', 'goods', 'files', 'user_id'
+        'startTime', 'endTime', 'agency', 'reason', 'goods', 'files',
+        'role_id', 'user_id'
     ];
 
     public function user()

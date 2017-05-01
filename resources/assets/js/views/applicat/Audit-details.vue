@@ -17,7 +17,7 @@
                 <template v-if="applicats.length > 0">
                   <tr v-for="applicat in applicats" :class="{'current' : $route.params.id == applicat.id}">
                       <td class="project-status">
-                          <span class="label label-primary">{{applicat.status}}
+                          <Status :status="applicat.status"></Status>
                       </td>
                       <td class="project-title">
                           <router-link :to="'/audit/details/'+applicat.id">
@@ -64,7 +64,7 @@
                                 <el-tab-pane label="详情" name="detail">
                                   <dl class="dl-horizontal" v-if="applicat">
                                     <dt>状态：</dt>
-                                    <dd><span class="label label-primary">{{applicat.status}}</span></dd>
+                                      <dd><Status :status="applicat.status"></Status></dd>
                                       <dt>申请人：</dt>
                                       <dd>{{applicat.user}}</dd>
                                       <dt>申请机构：</dt>
@@ -166,7 +166,9 @@
                                           </el-select>
                                         </el-form-item>
                                         <el-input type="textarea" v-model="forward_form.opinion" placeholder="您的意见" class="opinion"></el-input>
-                                         <button type="primary" class="btn btn-info btn-sm" @click="submitForm('ruleForm2')" style="float:right">提交</button>
+                                         <el-form-item>
+                                           <el-button type="primary" class="btn btn-info btn-sm" @click="forward" style="float:right">提交</elbutton>
+                                         </el-form-item>
                                     </el-form>
                                 </el-tab-pane>
                               </el-tabs>
@@ -182,18 +184,19 @@
 
 <script>
   import { mapState, mapMutations } from 'vuex'
+  import Status from '../../components/Status'
   import server from '../../config/api.js'
   export default {
       data() {
           return {
               applicats: [],
               applicat: {},
-              fileList: {},
               is_opinion: true,
               id: '',
               form: {
                   radio: '',
                   opinion: '',
+                  fileList: [],
               },
               forward_form: {
                   opinion: '',
@@ -221,6 +224,9 @@
       },
       watch: {
           '$route.params': 'currentApplicat'
+      },
+      components: {
+          Status
       },
       computed: {
           ...mapState([
@@ -307,6 +313,7 @@
           // },
           submit() {
               this.form.applicat_id = this.$route.params.id;
+              this.form.fileList = this.fileList;
               axios.post('/api/opinion/', this.form).then( response => {
                   toastr.success('您的审核以及意见已提交');
                   this.$router.push('/audit');
@@ -377,6 +384,12 @@
             this.forward_form.user_id = '';
             axios.get('/api/role/' + this.forward_form.role_id + '/users').then( response => {
                 this.users = response.data.data;
+            })
+         },
+         forward() {
+            axios.post('/api/applicat/' + this.$route.params.id +'/forward',this.forward_form).then( response => {
+                toastr.success('申请已转发!');
+                this.$router.push('/audit');
             })
          }
       }

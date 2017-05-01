@@ -52,18 +52,19 @@
                       :show-all-levels="false"
                       :props=props
                       :clearable="true"
+                      @change="typeChange"
                     ></el-cascader>
                   </el-form-item>
                   <el-form-item label="借用时段" required>
                     <!-- <el-col :span="15">
-                      <el-date-picker
-                       type="datetimerange"
-                       placeholder="开始时间-结束时间"
-                       v-model="form.date"
-                       style="width: 100%;"
-                       format="yyyy-MM-dd"
-                       >
-                       </el-date-picker>
+                      <div class="block">
+                        <span class="demonstration">默认</span>
+                        <el-date-picker
+                          v-model="date"
+                          type="daterange"
+                          placeholder="选择日期范围">
+                        </el-date-picker>
+                      </div>
                     </el-col> -->
                     <el-col :span="11">
                       <el-form-item prop="startTime">
@@ -168,11 +169,18 @@
             }
        };
        return {
+        // pickerOptions: {
+        //      disabledDate: '',
+        //      selectableRange: '18:30:00 - 20:30:00'
+        //  },
+         dateTakeUp: [],
+         date: [],
          form: {
            principal: '',
            mobile: '',
            mechanism_id: '',
            number: 1,
+           date: '',
            startTime: '',
            endTime: '',
            agency: '',
@@ -229,6 +237,17 @@
          this.headers = {
              'Authorization': 'Bearer ' + this.$store.state.access_token
          }
+         this.pickerOptions.disabledDate = (time) => {
+          //  console.log(new Date(this.dateTakeUp[0].startTime).getTime());
+           console.log(this.formatDataTime(time));
+           console.log(this.dateTakeUp);
+           if(this.dateTakeUp.length > 0) {
+             console.log(this.dateTakeUp[0].startTime);
+             console.log(time.toUTCString());
+             return time.toUTCString() > new Date(this.dateTakeUp[0].startTime).toUTCString();
+           }
+           return time.getTime() < Date.now() - 8.64e7;
+         };
          axios.get(server.api.type + "?structure=tree").then( response => {
              this.types = response.data;
          },(error) => {
@@ -306,6 +325,30 @@
                f1.size === f2.size &&
                f1.type === f2.type){
                 return true
+            }
+        },
+        //当级联选择框内容改变时调用
+        typeChange(el) {
+            // let temp = this.types;
+            // for (var i = 0; i < el.length; i++) {
+            //     temp = this.currentType(temp,el[i]);
+            // }
+            // if(temp.date_unique) {
+            //     axios.get('/api/applicat/' + temp.id + '/dateTakeUp').then( response => {
+            //       console.log(response);
+            //       this.dateTakeUp = response.data.data;
+            //         // let startTime = response.data.data.startTime;
+            //         // let entTime = response.data.data.entTime;
+            //         // this.dateTakeUp = startTime + '-' + endTime;
+            //     });
+            // }
+        },
+        //获取用户当前选择的类型
+        currentType(types, id) {
+            for (var i = 0; i < types.length; i++) {
+                if(types[i].id == id ) {
+                    return types[i].children ? types[i].children : types[i];
+                }
             }
         },
         pickerOptions: {
