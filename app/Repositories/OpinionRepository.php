@@ -7,7 +7,7 @@ use Auth;
 use App\User;
 use App\Opinion;
 use App\Notifications\PendReview;
-use App\Notifications\AuditResults;
+use App\Notifications\reviewResults;
 use App\Repositories\ApplicatRepository;
 
 class OpinionRepository
@@ -93,6 +93,6 @@ class OpinionRepository
     public function reviewEndNotificat($user_id, $applicat)
     {
         $user = User::find($user_id);
-        $user->notify(new AuditResults($applicat));
+        $user->notify(new reviewResults($applicat));
     }
 }

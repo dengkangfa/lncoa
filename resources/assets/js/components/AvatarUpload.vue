@@ -51,8 +51,8 @@
       },
       succeed() {
         this.dialogVisible = false
-        // this.$router.push('/');
-        window.location = "/";
+        // this.$router.push('/user/profile');
+        window.location = "/user/profile";
       },
     }
   }

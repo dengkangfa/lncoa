@@ -31980,7 +31980,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       system_manage: 'System Manage',
       type: 'Type Manage',
       applicat: 'Applicat',
-      applicat_audit: 'Applicat Audit',
+      applicat_review: 'Applicat review',
       applicat_manage: 'Applicat Manage',
       log: 'Log'
     }
@@ -32269,7 +32269,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       system_manage: '系统管理',
       type: '类型管理',
       applicat: '申请中心',
-      applicat_audit: '申请审核',
+      applicat_review: '申请审核',
       applicat_manage: '申请管理',
       log: '日志'
     }
@@ -32427,7 +32427,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         component: __webpack_require__(226),
         meta: { requiresAuth: true }
     }, {
-        path: 'applicat-audit',
+        path: 'applicat-review',
         component: __webpack_require__(225),
         meta: { requiresAuth: true }
     }, {
@@ -90564,9 +90564,9 @@ var Component = __webpack_require__(0)(
   /* cssModules */
   null
 )
-Component.options.__file = "/home/vagrant/Code/SourceCode/lnc/resources/assets/js/views/applicat/Applicat-audit.vue"
+Component.options.__file = "/home/vagrant/Code/SourceCode/lnc/resources/assets/js/views/applicat/Applicat-review.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Applicat-audit.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] Applicat-review.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -97992,8 +97992,8 @@ var update = __webpack_require__(2)("f861aff4", content, false);
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-0e155fe8&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Applicat-audit.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-0e155fe8&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Applicat-audit.vue");
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-0e155fe8&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Applicat-review.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-0e155fe8&scoped=true!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Applicat-review.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });

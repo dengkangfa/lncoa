@@ -153,10 +153,9 @@
                             'Authorization': 'Bearer ' + this.$store.state.access_token
                         }
                     }).then(response => {
-                            toastr.success('You delete the user success!')
+                            toastr.success(this.$t('el.notification.delete_user'));
                             this.$emit('reload')
                         }, error => {
-                          console.log(error.response);
                             if ((typeof error.response.data.error !== 'string') && error.response.data.error) {
                                 toastr.error(error.response.data.error.message)
                             } else {

@@ -1,6 +1,6 @@
 <template lang="html">
       <div class="row">
-          <vue-table :title="$t('el.page.role')" :itemActions="itemActions" :fields="fields" api-url="/api/role?include=menus" @table-action="tableActions" show-paginate>
+          <vue-table :title="$t('el.page.role')" :itemActions="itemActions" :fields="fields" api-url="/api/role?include=menus,permissions" @table-action="tableActions" show-paginate>
               <div slot="buttons">
                   <router-link to="/roles/create"
                    class="btn btn-info btn-xs"
@@ -61,6 +61,7 @@
         },
         created() {
             let vm = this;
+            //如果用户拥有相应的权限，则显示相应的功能按钮
             for (var i = 0; i < vm.permissions.length; i++) {
                 if(vm.permissions[i].name == 'create-role') {
                     vm.createRole = true;
@@ -91,11 +92,16 @@
                           'Authorization': 'Bearer ' + this.$store.state.access_token
                       }
                    }).then((response) => {
-                          toastr.success('You delete the tag success!')
+                          toastr.success(this.$t('el.notification.delete_role'));
 
+                          //重新加载数据
                           this.$emit('reload')
                       }, (error) => {
-                          toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+                          if ((typeof error.response.data.error !== 'string') && error.response.data.error) {
+                              toastr.error(error.response.data.error.message)
+                          } else {
+                              toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+                          }
                       })
               }
           }

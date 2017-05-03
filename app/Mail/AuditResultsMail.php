@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AuditResultsMail extends Mailable
+class reviewResultsMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -28,6 +28,6 @@ class AuditResultsMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.audit.results');
+        return $this->markdown('mail.review.results');
     }
 }

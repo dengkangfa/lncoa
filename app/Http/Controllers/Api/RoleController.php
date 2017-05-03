@@ -22,7 +22,7 @@ class RoleController extends ApiController
     public function index(Request $request)
     {
         if($request->has('pageSize')){
-          return $this->respondWithPaginator($this->role->page($request->pageSize), new RoleTransformer);
+            return $this->respondWithPaginator($this->role->page($request->pageSize), new RoleTransformer);
         }
         return $this->respondWithPaginator($this->role->page(), new RoleTransformer);
     }
@@ -73,9 +73,13 @@ class RoleController extends ApiController
      */
     public function destroy($id)
     {
-        $this->role->destroy($id);
+      $role = $this->role->getById($id);
+      if ($role->name == 'admin' && $role->id == 1) {
+          return $this->errorForbidden(trans('notification.delete_role_error'));
+      }
+      $this->role->destroy($id);
 
-        return $this->noContent();
+      return $this->noContent();
     }
 
     public function users($id)

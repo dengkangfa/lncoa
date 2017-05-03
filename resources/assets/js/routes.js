@@ -129,25 +129,25 @@ export default [
                 meta: { requiresAuth: true}
             },
             {
-                path: 'audit',
+                path: 'review',
                 component: Parent,
                 beforeEnter: checkUrl,
                 children: [
                     {
                         path: '/',
-                        component: require('./views/applicat/Audit.vue'),
+                        component: require('./views/applicat/Review.vue'),
                         meta: { requiresAuth: true }
                     },
                     {
                         path: 'details/:id',
-                        component: require('./views/applicat/Audit-details.vue'),
+                        component: require('./views/applicat/Review-details.vue'),
                         meta: { requiresAuth: true}
                     }
                 ]
             },
             // {
-            //   path:'applicat-audit',
-            //   component: require('./views/applicat/Applicat-audit.vue'),
+            //   path:'applicat-review',
+            //   component: require('./views/applicat/Applicat-review.vue'),
             //   meta: { requiresAuth: true}
             // },
             {

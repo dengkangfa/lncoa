@@ -2,7 +2,7 @@
   <div class="row">
       <div class="ibox">
           <div class="ibox-title">
-              <h5>{{ $t('el.page.applicat') }}</h5>
+              <h5>{{ $t('el.page.applicat_review') }}</h5>
           </div>
           <div class="ibox-content">
             <div class="row m-b-sm m-t-sm">
@@ -16,8 +16,8 @@
                 </div>
                 <div class="col-md-11 col-xs-11">
                     <div class="input-group">
-                        <input type="text" v-model="keyWord" placeholder="请输入项目名称" class="input-sm form-control"> <span class="input-group-btn">
-                            <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                        <input type="text" v-model="keyWord" :placeholder="$t('el.form.review_filter_placeholder')" class="input-sm form-control"> <span class="input-group-btn">
+                            <button type="button" class="btn btn-sm btn-primary"> {{ $t('el.page.search') }}</button> </span>
                     </div>
                 </div>
             </div>
@@ -26,11 +26,11 @@
                         <tr v-for="applicat in applicatlist">
                             <td><Status :status="applicat.status"></Status></td>
                             <td class="project-title">
-                              <router-link :to="'/audit/details/'+applicat.id">
+                              <router-link :to="'/review/details/'+applicat.id">
                                 {{ applicat.mechanism }} - {{ applicat.type }}
                               </router-link>
                               <br/>
-                              <small>创建于 {{ applicat.created_at }}</small>
+                              <small> {{$t('el.table.created_at') + ' ' + applicat.created_at }}</small>
                             </td>
                         </tr>
                         </tbody>
@@ -116,7 +116,7 @@
         methods: {
           loadData() {
               this.showLoading = true;
-              this.loading_text = '加载中...'
+              this.loading_text = this.$t('el.form.loading');
               let url = '/api/applicats';
 
               if (this.currentPage) {
@@ -142,7 +142,7 @@
               }
               axios.get(url).then(response => {
                       this.showLoading = false;
-                      this.loading_text = '刷新';
+                      this.loading_text = this.$t('el.form.refresh');
                       // this.pagination = response.data.meta.pagination
                       this.applicats = response.data.data
                       this.totalPage = response.data.meta.pagination.total_pages
@@ -160,9 +160,6 @@
             return row.address;
           },
           rowClick(row, event, column) {
-              console.log(row);
-              console.log(event);
-              console.log(column);
               this.dialogTableVisible = true;
           },
           handleSizeChange(val) {

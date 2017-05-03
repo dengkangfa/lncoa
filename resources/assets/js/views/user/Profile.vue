@@ -41,7 +41,7 @@
                         <textarea class="form-control" rows="3" v-model="user.description"></textarea>
                       </div>
                     </div>
-                    <button type="submit" class="btn profile-ben col-sm-10 col-sm-offset-2">更新资料</button>
+                    <button type="submit" class="btn profile-ben col-sm-10 col-sm-offset-2">{{$t('el.form.update_user_info')}}</button>
                 </form>
             </div>
         </div>
@@ -51,10 +51,12 @@
 <script>
   import server from '../../config/api'
   import { mapState } from 'vuex'
+  import { stack_error } from '../../config/helper.js'
 
   export default {
     data() {
         return {
+            defaultValue: {},
             userinfo: {},
         }
     },
@@ -63,13 +65,20 @@
             'user'
         ]),
     },
+    created() {
+        this.defaultValue = this.user;
+    },
     methods: {
         update: function() {
-          console.log(this.user);
             axios.put('/api/user/' + this.user.id, this.user).then( response => {
-                toastr.success(this.$t( 'el.notification.update_profile' ));
+              toastr.success(this.$t( 'el.notification.update_profile' ));
+            }, error => {
+              if(error.response.status == 403){
+                toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+              }else{
+                stack_error(error.response.data)
+              }
             });
-
         }
     }
 

@@ -96,9 +96,11 @@
                 //在请求服务端修改数据前，重新加载一下用户新的角色id数组
                 this.updateUserRoleValue();
                 axios.put('/api/user/' + this.$route.params.id + '?include=roles', this.user).then(response => {
-                        toastr.success('You updated a new account information!')
+                        toastr.success(this.$t('el.notification.update_user'))
 
                         this.$router.push('/users')
+                }, error => {
+                        toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
                 })
             },
             getUserInfo() {

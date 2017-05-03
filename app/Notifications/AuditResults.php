@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Services\FileManager\UploadManager;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class AuditResults extends Notification
+class reviewResults extends Notification
 {
     use Queueable;
 
@@ -56,7 +56,7 @@ class AuditResults extends Notification
         $actionText = '查看';
         return (new MailMessage)
                             ->subject($subject)
-                            ->markdown('mail.audit.results',
+                            ->markdown('mail.review.results',
                             ['name' => $notifiable->name,
                              'url' => $url,
                              'message' => $message,

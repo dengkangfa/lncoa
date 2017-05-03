@@ -7,8 +7,8 @@
             <div class="row m-b-sm m-t-sm">
                 <div class="col-md-12">
                     <div class="input-group">
-                        <input type="text" placeholder="请输入申请人" class="input-sm form-control"> <span class="input-group-btn">
-                            <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                        <input type="text" :placeholder="$t('el.form.review_filter_placeholder')" class="input-sm form-control"> <span class="input-group-btn">
+                            <button type="button" class="btn btn-sm btn-primary"> {{ $t('el.page.search') }}</button> </span>
                     </div>
                 </div>
             </div>
@@ -20,11 +20,11 @@
                           <Status :status="applicat.status"></Status>
                       </td>
                       <td class="project-title">
-                          <router-link :to="'/audit/details/'+applicat.id">
+                          <router-link :to="'/review/details/'+applicat.id">
                             {{applicat.mechanism}} - {{applicat.type}}
                           </router-link>
                           <br/>
-                          <small>创建于 {{applicat.created_at}}</small>
+                          <small>{{ $t('el.table.created_at') + ' ' + applicat.created_at }}</small>
                       </td>
                   </tr>
                 </template>
@@ -61,39 +61,39 @@
 
                           <div class="row m-t-sm">
                             <el-tabs type="card" value="detail" class="tabs"  @tab-click="forwardClick">
-                                <el-tab-pane label="详情" name="detail">
+                                <el-tab-pane :label="$t('el.page.details')" name="detail">
                                   <dl class="dl-horizontal" v-if="applicat">
-                                    <dt>状态：</dt>
+                                    <dt>{{$t('el.table.status')}}：</dt>
                                       <dd><Status :status="applicat.status"></Status></dd>
-                                      <dt>申请人：</dt>
-                                      <dd>{{applicat.user}}</dd>
-                                      <dt>申请机构：</dt>
+                                      <dt>{{$t('el.table.applicat_user')}}：</dt>
+                                      <dd>{{applicat.user}}:</dd>
+                                      <dt>{{$t('el.form.mechanism')}}：</dt>
                                       <dd>{{applicat.mechanism}}</dd>
-                                      <dt>负责人：</dt>
+                                      <dt>{{$t('el.form.principal')}}：</dt>
                                       <dd>{{applicat.principal}}</dd>
-                                      <dt>负责人联系方式：</dt>
+                                      <dt>{{$t('el.table.mobile')}}：</dt>
                                       <dd>{{applicat.mobile}}</dd>
-                                      <dt>申请类型：</dt>
+                                      <dt>{{$t('el.form.applay_type')}}：</dt>
                                       <dd>{{applicat.type}}</dd>
-                                      <dt>参与人数：</dt>
+                                      <dt>{{$t('el.form.participate_number')}}：</dt>
                                       <dd>{{applicat.number}}</dd>
-                                      <dt>借用时段：</dt>
+                                      <dt>{{$t('el.form.borrow_period')}}：</dt>
                                       <dd>{{applicat.startTime}} - {{applicat.endTime}}</dd>
                                       <br/>
-                                      <dt>联合机构：</dt>
+                                      <dt>{{$t('el.form.applay_unite')}}：</dt>
                                       <dd>
                                         {{applicat.agency}}
                                       </dd>
                                       <br/>
-                                      <dt>申请缘由：</dt>
+                                      <dt>{{$t('el.form.applay_reason')}}：</dt>
                                       <dd>
                                         {{applicat.reason}}
                                       </dd>
                                       <br/>
-                                      <dt>物资申请：</dt>
+                                      <dt>{{$t('el.form.goods')}}：</dt>
                                       <dd>{{applicat.goods}}</dd>
                                       <br/>
-                                      <dt>活动策划：</dt>
+                                      <dt>{{$t('el.form.activity_planning')}}：</dt>
                                       <dd v-if="applicat.files">
                                         <li  v-for="file in JSON.parse(applicat.files)">
                                           <a :href="file.url" v-show="file" :title="file.original_name" target="_blank" class="filename">
@@ -104,7 +104,7 @@
                                       </dd>
                                   </dl>
                                 </el-tab-pane>
-                                <el-tab-pane label="审核" name="second">
+                                <el-tab-pane :label="$t('el.page.review')" name="second">
                                   <div class="feed-activity-list">
                                       <template v-if="applicat.opinions">
                                         <div class="feed-element" v-for="opinion in applicat.opinions.data">
@@ -123,7 +123,7 @@
                                       <div class="feed-element" v-if="is_opinion">
                                           <div class="media-body ">
                                             <form  @submit.prevent="submit">
-                                              <el-input type="textarea" v-model="form.opinion" placeholder="您的意见" class="opinion"></el-input>
+                                              <el-input type="textarea" v-model="form.opinion" :placeholder="$t('el.form.opinion_placeholder')" class="opinion"></el-input>
                                               <el-upload
                                                 ref="upload"
                                                 class="upload-demo"
@@ -134,16 +134,16 @@
                                                 :on-success="handleSuccess"
                                                 :before-upload="handleUpload"
                                                 :file-list="fileList">
-                                                <el-button size="small" type="primary">点击上传</el-button>
+                                                <el-button size="small" type="primary">{{ $t('el.form.upload_btn') }}</el-button>
                                                 <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
                                                 <div slot="tip" class="el-upload__tip">
-                                                  <span style="line-height: 15px">如果有文件要反馈给申请者,请点击上传!</span>
+                                                  <span style="line-height: 15px">{{ $t('el.form.review_tip') }}</span>
                                                 </div>
                                               </el-upload>
                                               <div class="">
                                                   <el-radio-group v-model="form.radio">
-                                                     <el-radio-button label="通过"></el-radio-button>
-                                                     <el-radio-button label="不通过"></el-radio-button>
+                                                     <el-radio-button :label="$t('el.form.pass')"></el-radio-button>
+                                                     <el-radio-button :label="$t('el.form.no_pass')"></el-radio-button>
                                                    </el-radio-group>
                                                      <button type="submit" class="btn btn-info btn-sm" :class="{disabled: !(form.radio&&form.opinion)}"  style="float: right">发表</button>
                                              </div>
@@ -152,24 +152,27 @@
                                       </div>
                                   </div>
                                 </el-tab-pane>
-                                <el-tab-pane label="转发" name="forward" class="forward">
+                                <el-tab-pane :label="$t('el.page.forwarding')" name="forward" class="forward">
                                     <el-form label-position="top" :model="forward_form" label-width="80px">
-                                        <el-form-item label="接收者">
-                                          <el-select v-model="forward_form.role_id" placeholder="请选择接收用户组" @change="roleChange">
+                                        <el-form-item :label="$t('el.form.recipient')">
+                                          <el-select v-model="forward_form.role_id" :placeholder="$t('el.form.recipient_placeholder')">
                                             <el-option v-for="role in roles" :label="role.display_name" :value="role.id">
                                             </el-option>
                                           </el-select>
-                                          -
+                                          <!-- -
                                           <el-select v-model="forward_form.user_id" :filterable="true" :clearable="true" placeholder="请选择具体用户">
                                             <el-option v-for="user in users" :label="user.name" :value="user.id">
                                             </el-option>
-                                          </el-select>
+                                          </el-select> -->
                                         </el-form-item>
-                                        <el-input type="textarea" v-model="forward_form.opinion" placeholder="您的意见" class="opinion"></el-input>
+                                        <el-input type="textarea" v-model="forward_form.opinion" :placeholder="$t('el.form.opinion_placeholder')" class="opinion"></el-input>
                                          <el-form-item>
-                                           <el-button type="primary" class="btn btn-info btn-sm" @click="forward" style="float:right">提交</elbutton>
+                                           <el-button type="primary" class="btn btn-info btn-sm" @click="forward" style="float:right">{{ $t('el.form.submit') }}</elbutton>
                                          </el-form-item>
                                     </el-form>
+                                </el-tab-pane>
+                                <el-tab-pane>
+
                                 </el-tab-pane>
                               </el-tabs>
                           </div>
@@ -316,7 +319,7 @@
               this.form.fileList = this.fileList;
               axios.post('/api/opinion/', this.form).then( response => {
                   toastr.success('您的审核以及意见已提交');
-                  this.$router.push('/audit');
+                  this.$router.push('/review');
               }, error => {
                   toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
               })
@@ -389,7 +392,7 @@
          forward() {
             axios.post('/api/applicat/' + this.$route.params.id +'/forward',this.forward_form).then( response => {
                 toastr.success('申请已转发!');
-                this.$router.push('/audit');
+                this.$router.push('/review');
             })
          }
       }

@@ -18,7 +18,7 @@
                   <template v-if="type.roles">
                   <el-form-item
                     v-for="(approver, index) in type.roles.data"
-                    :label="$t('el.form.approver') + index"
+                    :label="$t('el.form.approver') + (index + 1)"
                     :key="approver.name"
                     :prop="'roles.data.' + index + '.id'"
                   >
@@ -30,7 +30,7 @@
                         :disabled="item.disabled">
                       </el-option>
                     </el-select>
-                    <el-button @click.prevent="removeApprover(approver)">{{ $t('el.form.delete') }}</el-button>
+                    <el-button @click.prevent="removeApprover(approver)" style="padding: 10px;">{{ $t('el.form.delete') }}</el-button>
                   </el-form-item>
                 </template>
                 <el-row :gutter="20">

@@ -40,7 +40,7 @@
                 const formData = new FormData(event.target)
 
                 axios.post('/api/user', formData).then( response => {
-                        toastr.success('You create a new account success!')
+                        toastr.success(this.$t('el.notification.create_user'));
 
                         this.$router.push('/users')
                     }, error => {

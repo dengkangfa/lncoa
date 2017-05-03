@@ -45,20 +45,20 @@ class PendReview extends Notification
         // $subject = $this->applicat->type->name.'申请待审核 - lncoa';
         // $message = '您所管理的' . $this->applicat->type->name .'收到了一条来自' . '<' .
         //       $this->applicat->mechanism->name . '>' . $this->applicat->user->name . '的申请';
-        // $url = '/audit/details/'.$this->applicat->id;
+        // $url = '/review/details/'.$this->applicat->id;
         // return (new MailMessage)
         //             ->subject($subject)
         //             ->greeting('尊敬的' . $notifiable->name)
         //             ->line($message)
         //             ->action('查看', url($url));
         $subject = $this->applicat->type->name.'申请待审核 - lncoa';
-        $url = url('/audit/details/'.$this->applicat->id);
+        $url = url('/review/details/'.$this->applicat->id);
         $message = '您所管理的' . $this->applicat->type->name .'收到了一条来自' . '<' .
               $this->applicat->mechanism->name . '>' . $this->applicat->user->name . '的申请';
         $actionText = '查看';
         return (new MailMessage)
                             ->subject($subject)
-                            ->markdown('mail.audit.results',
+                            ->markdown('mail.review.results',
                             ['name' => $notifiable->name,
                              'url' => $url,
                              'message' => $message,

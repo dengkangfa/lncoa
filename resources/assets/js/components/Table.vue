@@ -55,8 +55,8 @@
                                     <template v-if="field.name == '__permission_menu'">
                                         <td>
                                             <span>
-                                                <el-button type="text" @click="permissionVisible = true" >权限</el-button>
-                                                <el-button type="text" @click="clickTree(item['menus'].data)" >可见菜单</el-button>
+                                                <el-button type="text" @click="clickPermission(item['permissions'].data)" >{{ $t('el.form.permissions_btn') }}</el-button>
+                                                <el-button type="text" @click="clickTree(item['menus'].data)" >{{ $t('el.form.visible_menu_btn') }}</el-button>
                                             </span>
                                         </td>
                                     </template>
@@ -71,7 +71,7 @@
                             </template>
                         </tr>
                         <el-dialog title="提示" v-model="permissionVisible" size="tiny">
-                          <span>权限</span>
+                          <el-tag type="success" v-for="permission in permissions" style="margin: 0 5px 5px 0">{{ permission.display_name }}</el-tag>
                         </el-dialog>
 
                         <!-- <el-dialog title="可见菜单" v-model="treeVisible" size="tiny"> -->
@@ -194,6 +194,7 @@
                 // pagination: null,
                 pageSize: 10,
                 treeVisible: false,
+                permissions: [],
                 permissionVisible: false,
                 defaultProps: {
                    children: 'items',
@@ -219,14 +220,11 @@
                 //获取相应的api地址
                 let url = this.apiUrl;
 
-                console.log(fullpath.slice(fullpath.indexOf("?")));
                 //判断是否存在
                 if(fullpath.indexOf("?") != -1)
                 url += '&' + fullpath.slice(fullpath.indexOf("?") + 1);
-                console.log(url);
 
                 axios.get(url).then(response => {
-                  console.log(response);
                         // this.pagination = response.data.meta.pagination
                         this.items = response.data.data
                         this.totalPage = response.data.meta.pagination.total_pages
@@ -301,6 +299,11 @@
                 }
                 this.menus = tree;
                 this.treeVisible = true;
+            },
+            //权限弹框
+            clickPermission(permissions) {
+                this.permissions = permissions;
+                this.permissionVisible = true;
             },
             handleSizeChange(val) {
                 this.pageSize = val;

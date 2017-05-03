@@ -124,6 +124,11 @@ class UserController extends ApiController
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'mobile' => 'nullable|regex:/^1[34578][0-9]{9}$/',
+            'nickname' => 'nullable|min:2|max:35'
+        ]);
+
         $this->user->update($id, $request->all());
 
         return $this->noContent();

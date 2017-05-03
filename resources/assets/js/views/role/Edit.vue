@@ -55,7 +55,6 @@
 <script>
   import Modal from '../../components/Modal'
   import { mapState } from 'vuex'
-  const cityOptions = ['上海', '北京', '广州', '深圳'];
   export default {
     data() {
         return {
@@ -71,9 +70,8 @@
                label: 'title'
             },
             checkAll: true,
-            //  checkedCities: ['上海', '北京'],
-             cities: cityOptions,
-             isIndeterminate: true
+            cities: [],
+            isIndeterminate: true
         }
     },
     created() {
@@ -126,22 +124,20 @@
             return axios.get('/api/menus');
         },
         getPermission(){
-            return axios.get('/api/permission');
+            return axios.get('/api/permission?pageSize=all');
         },
         edit() {
             this.updateRoleMenuValue();
             this.role.permissions = this.permsId;
-            console.log(this.role);
             axios.put('/api/role/' + this.$route.params.id, this.role).then((response) => {
-              console.log(response);
-                    toastr.success('You updated a new account information!')
+                    toastr.success(this.$t('el.notification.update_role'))
 
+                    //返回角色列表
                     this.$router.push('/roles')
                 })
         },
         setMenusId() {
           //当前用户可见菜单
-          console.log(this.role);
             let menus = this.role['menus'].data,vm = this;
             menus.forEach(function(value, index, array){
                 if(value['uri'] != ''){
@@ -160,7 +156,6 @@
       //   this.isIndeterminate = false;
       // },
       handleCheckedCitiesChange(value) {
-        console.log(value);
         let checkedCount = value.length;
         this.checkAll = checkedCount === this.cities.length;
         this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
@@ -168,14 +163,11 @@
       updateRoleMenuValue() {
           //如果可见菜单未做修改，则将role对象的menus字段设为null
           if(typeof this.$refs.tree == 'undefined'){
-            console.log(this.$refs.tree);
               this.role['menus'] = null;
           }else{
               let temp = [], items = this.$refs.tree.getCheckedNodes();
-              console.log(items);
               for (var i = 0; i < items.length; i++) {
                 temp.push(items[i].id);
-                console.log(temp);
                 if(items[i].parent_id != null) {
                     temp.push(items[i].parent_id);
                 }
@@ -193,6 +185,7 @@
               this.role['menus'] = temp;
           }
       },
+      //为了不影响原值，使用克隆后的值来做修改
       deepCopy(source) {
         //克隆对象
         var result={};
@@ -204,17 +197,15 @@
       openTree() {
           //设置菜单面板打开时调用
           this.oldCheckList = this.menus;
-          console.log(this.oldCheckList);
           this.treeVisible = true;
       },
       cancel() {
           //弹出框取消事件函数，将其拥有的角色数据回调到打开弹出框前。
           this.menus = this.oldCheckList;
-          console.log(this.menus);
           this.treeVisible = false;
       },
+      //提交隐藏树弹出框
       confirm() {
-        console.log(this.tree);
           this.treeVisible = false;
       },
 

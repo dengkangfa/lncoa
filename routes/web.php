@@ -13,7 +13,7 @@
 
 Route::get('text', function () {
   $user = \App\User::find(1);
-  $user->notify(new App\Notifications\AuditResults(\App\Applicat::find(1)));
+  $user->notify(new App\Notifications\reviewResults(\App\Applicat::find(1)));
 });
 // Route::get('/users', 'HomeController@index')->middleware('menu:/users');
 // Route::get('/users', ['middleware' => ['menu:/users'], 'uses' => 'HomeController@index']);

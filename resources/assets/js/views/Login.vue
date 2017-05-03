@@ -33,7 +33,7 @@
                           </div>
                           <div class="form-group">
                               <div class="col-md-12">
-                                  <!-- <a href="../auditingSystem2/Application/Home/View/index/index.html" class="btn btn-primary btn-block">Sign in</a> -->
+                                  <!-- <a href="../reviewingSystem2/Application/Home/View/index/index.html" class="btn btn-primary btn-block">Sign in</a> -->
                                   <button type="submit" class="btn btn-primary btn-block" name="button">Sign in</button>
                                   <hr />
                                   <!-- <a href="pages-sign-up.html" class="btn btn-default btn-block"></a> -->
@@ -83,7 +83,7 @@
                         'password' : vm.password,
                         'client_id': server.client.client_id,
                         'client_secret': server.client.client_secret,
-                        'refresh_token': localStorage.refresh_token
+                        'refresh_token': refresh_token
                     }
               }else{
                   data = {
@@ -114,7 +114,6 @@
                       vm.$router.go('/');
                   })
               }, (response) => {
-                console.log(response.response);
                   vm.message = response.response.data.message;
                   vm.state = response.response.data.status;
               })

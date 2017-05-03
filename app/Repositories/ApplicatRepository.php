@@ -71,6 +71,11 @@ class ApplicatRepository
                       ->get();
     }
 
+    public function getFulfillNumber()
+    {
+        return $this->model->where('status_id',3)->count();
+    }
+
     /**
      * all type
      *

@@ -23,16 +23,39 @@ class IndexController extends ApiController
         $this->applicat = $applicat;
     }
 
-    public function statistics()
+    /**
+     * 统计
+     * @return array
+     */
+    public function statistics(Request $request)
     {
-        $users = $this->user->getNumber();
-        $applicats = $this->applicat->getNumber();
-        $files = $this->getNewFiles('proposal');
-        $loginLogs = $this->getLoginLog();
-        $accessCountLogs = $this->getAccessCount();
-        $notice = $this->getNotice();
+        if($request->has('show')) {
+            $show = $request->get('show');
+            $showArr = explode(',', $show);
+        }else{
+            return $this->noContent();
+        }
+        //如果卡片可视，则获取用户数，申请数， 申请完成数， 进入文档上传数
+        if(in_array('card', $showArr)) {
+          $users = $this->user->getNumber();
+          $applicats = $this->applicat->getNumber();
+          $applicatFulfill = $this->applicat->getFulfillNumber();
+          $files = $this->getNewFiles('proposal');
+        }
+        //如果访问历史可视，则获取访问历史记录
+        if(in_array('accessLog', $showArr)) {
+          $loginLogs = $this->getLoginLog();
+        }
+        //如果折线图可视，则获取折线图数据
+        if(in_array('chart', $showArr)) {
+          $accessCountLogs = $this->getChartData();
+        }
+        //如果站点公告可视，则获取站点公告
+        if(in_array('notice', $showArr)){
+          $notice = $this->getNotice();
+        }
 
-        $data = compact('users', 'applicats', 'files', 'loginLogs', 'accessCountLogs', 'notice');
+        $data = compact('users', 'applicats', 'applicatFulfill', 'files', 'loginLogs', 'accessCountLogs', 'notice');
 
         return $this->respondWithArray($data);
     }
@@ -93,7 +116,7 @@ class IndexController extends ApiController
      * 获取最近一个星期的访问量记录
      * @return [type] [description]
      */
-    public function getAccessCount()
+    public function getChartData()
     {
         $AccessLog = [];
         for($i=6; $i >= 0; $i--){
@@ -121,6 +144,12 @@ class IndexController extends ApiController
      */
     public function getNotice()
     {
-        return Redis::get('notice');
+        $enabledKey = 'lncoa:notice:enabled';
+        if(!Redis::get($enabledKey)){
+            return '';
+        }
+        $contentKey = 'lncoa:notice:content';
+
+        return Redis::get($contentKey);
     }
 }

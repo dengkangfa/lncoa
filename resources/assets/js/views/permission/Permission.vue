@@ -83,7 +83,7 @@
                     this.$router.push('/permissions/' + data.id + '/edit')
                 } else if (action == 'delete-item') {
                     axios.delete('/api/permission/' + data.id).then((response) => {
-                            toastr.success('You delete the tag success!')
+                            toastr.success(this.$t('el.notification.delete_permission'))
 
                             this.$emit('reload')
                         }, (error) => {

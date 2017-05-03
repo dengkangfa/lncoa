@@ -4,10 +4,10 @@
 
                   <div class="ibox">
                       <div class="ibox-title">
-                          <h5>所有申请</h5>
+                          <h5>{{ $t('el.page.all_applications') }}</h5>
                           <div class="ibox-tools">
                               <router-link to="/applicat" class="btn btn-primary btn-xs">
-                                创建新申请
+                                {{ $t('el.form.create_applicat') }}
                               </router-link>
                           </div>
                       </div>
@@ -23,8 +23,8 @@
                               </div>
                               <div class="col-md-11">
                                   <div class="input-group">
-                                      <input type="text" v-model="keyWord" placeholder="请输入项目名称" class="input-sm form-control"> <span class="input-group-btn">
-                                          <button type="button" @click="search" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                                      <input type="text" v-model="keyWord" :placeholder="$t('el.form.review_filter_placeholder')" class="input-sm form-control"> <span class="input-group-btn">
+                                          <button type="button" @click="search" class="btn btn-sm btn-primary"> {{ $t('el.page.search') }}</button> </span>
                                   </div>
                               </div>
                           </div>
@@ -41,7 +41,7 @@
                                                 {{ applicat.mechanism }} - {{ applicat.type }}
                                               </router-link>
                                               <br/>
-                                              <small>创建于 {{ applicat.created_at }}</small>
+                                              <small>{{ $t('el.table.created_at') + ' ' + applicat.created_at }}</small>
                                           </td>
                                           <!-- <td class="project-completion">
                                             {{applicat.stage+1 / applicat.roles.data.length}}
@@ -62,9 +62,9 @@
                                           </td>
                                           <td class="project-actions col-md-2">
                                             <router-link :to="$route.path + '/details/' + applicat.id">
-                                                <i class="btn btn-white btn-sm ion-folder"> 查看</i>
+                                                <i class="btn btn-white btn-sm ion-folder"> {{ $t('el.form.look') }}</i>
                                             </router-link>
-                                          <a href="projects.html#" class="btn btn-white btn-sm"><i class="ion-edit"></i> 编辑 </a>
+                                          <!-- <a href="projects.html#" class="btn btn-white btn-sm"><i class="ion-edit"></i> 编辑 </a> -->
                                           </td>
                                       </tr>
                                       </template>
@@ -136,7 +136,12 @@
           applicatlist:function(){
               let vm = this;
               return this.applicats.filter(function(item){
-                  return (item.mechanism+'-'+item.type).indexOf(vm.keyWord) >= 0
+                  if((item.mechanism+'-'+item.type)
+                  .indexOf(vm.keyWord) >= 0 || item.principal
+                  .indexOf(vm.keyWord) >= 0) {
+                      return true;
+                  }
+                  return false;
               })
           }
       },
@@ -144,7 +149,7 @@
           // 加载数据
           loadData() {
               this.showLoading = true;
-              this.loading_text = '加载中...'
+              this.loading_text = this.$t('el.form.loading');
               var url = '/api/applicat?include=roles';
 
               if (this.currentPage) {
@@ -187,7 +192,7 @@
 
               axios.get(url).then(response => {
                       this.showLoading = false;
-                      this.loading_text = '刷新';
+                      this.loading_text = this.$t('el.form.refresh');
                       this.applicats = response.data.data
                       this.totalPage = response.data.meta.pagination.total_pages
                       this.currentPage = response.data.meta.pagination.current_page

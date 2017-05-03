@@ -40,7 +40,7 @@ export default {
                     'Authorization': 'Bearer ' + this.$store.state.access_token
                 }
             }).then((response) => {
-                    toastr.success('You created a new tag success!')
+                    toastr.success(this.$t('el.notification.create_permission'))
 
                     this.$router.push('/permissions')
                 }, (error) => {

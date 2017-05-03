@@ -41,7 +41,7 @@ export default {
           }
       }).then((response) => {
               this.permission = response.data.data
-          })
+      })
   },
   methods: {
       edit() {
@@ -50,7 +50,7 @@ export default {
                   'Authorization': 'Bearer ' + this.$store.state.access_token
               }
           }).then((response) => {
-                  toastr.success('You updated a new account information!')
+                  toastr.success(this.$t('el.notification.update_permission'))
 
                   this.$router.push('/permissions')
               })

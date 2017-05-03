@@ -13,18 +13,18 @@
                  :label-position="isPhone ? 'top' : 'right'"
                  class="col-md-8 col-md-offset-2"
                  label-width="90px">
-                  <el-form-item label="负责人" prop="principal">
+                  <el-form-item :label="$t('el.form.principal')" prop="principal">
                     <el-col :span="8" style="min-width:90px">
                       <el-input v-model="form.principal" ></el-input>
                     <el-col>
                   </el-form-item>
-                  <el-form-item label="联系方式" prop="mobile">
+                  <el-form-item :label="$t('el.form.mobile')" prop="mobile">
                     <el-col :span="8" style="min-width:90px">
                         <el-input v-model.number="form.mobile" ></el-input>
                     <el-col>
                   </el-form-item>
-                  <el-form-item label="申请机构" prop="mechanism" required>
-                    <el-select v-model="form.mechanism_id" allow-create filterable placeholder="请选择">
+                  <el-form-item :label="$t('el.form.mechanism')" prop="mechanism" required>
+                    <el-select v-model="form.mechanism_id" allow-create filterable :placeholder="$t('el.select.placeholder')">
                       <el-option
                         v-for="item in options"
                         :label="item.name"
@@ -33,7 +33,7 @@
                       </el-option>
                     </el-select>
                   </el-form-item>
-                  <el-form-item label="参与人数">
+                  <el-form-item :label="$t('el.form.participate_number')">
                     <el-col :span="5" style="min-width:90px">
                       <el-input-number
                        v-model.number="form.number"
@@ -43,10 +43,10 @@
                       </el-input-number>
                     </el-col>
                   </el-form-item>
-                  <el-form-item label="申请类型" prop="type_id">
+                  <el-form-item :label="$t('el.form.applay_type')" prop="type_id">
                     <el-cascader
                       v-model="form.type_id"
-                      placeholder="选择申请类型"
+                      :placeholder="$t('el.form.type_placeholder')"
                       :options="types"
                       filterable
                       :show-all-levels="false"
@@ -55,7 +55,7 @@
                       @change="typeChange"
                     ></el-cascader>
                   </el-form-item>
-                  <el-form-item label="借用时段" required>
+                  <el-form-item :label="$t('el.form.borrow_period')" required>
                     <!-- <el-col :span="15">
                       <div class="block">
                         <span class="demonstration">默认</span>
@@ -70,7 +70,7 @@
                       <el-form-item prop="startTime">
                         <el-date-picker
                            type="datetime"
-                           placeholder="开始时间"
+                           :placeholder="$t('el.form.start_time')"
                            :picker-options="pickerOptions"
                            v-model="form.startTime"
                            style="width: 100%;">
@@ -82,30 +82,30 @@
                       <el-form-item prop="endTime">
                         <el-date-picker
                           type="datetime"
-                          placeholder="结束时间"
+                          :placeholder="$t('el.form.end_time')"
                           v-model="form.endTime"
                           style="width: 100%;">
                          </el-date-picker>
                        </el-form-item>
                     </el-col>
                   </el-form-item>
-                  <el-form-item label="联合机构">
-                    <el-switch on-text="有" off-text="无" v-model="form.unite"></el-switch>
+                  <el-form-item :label="$t('el.form.applay_unite')">
+                    <el-switch :on-text="$t('el.form.have')" :off-text="$t('el.form.not')" v-model="form.unite"></el-switch>
                   </el-form-item>
-                  <el-form-item label="机构名称" v-if="form.unite" prop="agrncy">
+                  <el-form-item :label="$t('el.form.agency')" v-if="form.unite" prop="agrncy">
                     <el-input type="textarea" autosize v-model="form.agency" ></el-input>
                   </el-form-item>
 
-                  <el-form-item label="申请缘由" prop="reason">
+                  <el-form-item :label="$t('el.form.applay_reason')" prop="reason">
                     <el-input type="textarea" v-model="form.reason"></el-input>
                   </el-form-item>
-                  <el-form-item label="物资申请" prop="goods">
+                  <el-form-item :label="$t('el.form.goods')" prop="goods">
                     <el-input type="textarea"
                     v-model="form.goods"
-                    placeholder="如果需要申请物资，请描述相关物资名称以及申请的数量"
+                    :placeholder="$t('el.form.goods_placeholder')"
                     ></el-input>
                   </el-form-item>
-                  <el-form-item label="活动策划">
+                  <el-form-item :label="$t('el.form.activity_planning')">
                     <el-upload
                       ref="upload"
                       class="upload-demo"
@@ -116,15 +116,15 @@
                       :on-success="handleSuccess"
                       :before-upload="handleUpload"
                       :file-list="fileList">
-                      <el-button size="small" type="primary">点击上传</el-button>
+                      <el-button size="small" type="primary">{{ $t('el.form.upload_btn') }}</el-button>
                       <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
                       <div slot="tip" class="el-upload__tip">
-                        <span style="line-height: 15px">上传活动策划,会提高申请的通过率哦!</span>
+                        <span style="line-height: 15px">{{ $t('el.form.upload_tip') }}</span>
                       </div>
                     </el-upload>
                   </el-form-item>
                   <el-form-item>
-                    <el-button type="primary" @click="onSubmit('ruleForm')">立即申请</el-button>
+                    <el-button type="primary" @click="onSubmit('ruleForm')">{{ $t('el.form.applay_btn') }}</el-button>
                   </el-form-item>
                 </el-form>
               </div>
@@ -238,14 +238,14 @@
              'Authorization': 'Bearer ' + this.$store.state.access_token
          }
          this.pickerOptions.disabledDate = (time) => {
-          //  console.log(new Date(this.dateTakeUp[0].startTime).getTime());
-           console.log(this.formatDataTime(time));
-           console.log(this.dateTakeUp);
-           if(this.dateTakeUp.length > 0) {
-             console.log(this.dateTakeUp[0].startTime);
-             console.log(time.toUTCString());
-             return time.toUTCString() > new Date(this.dateTakeUp[0].startTime).toUTCString();
-           }
+          // //  console.log(new Date(this.dateTakeUp[0].startTime).getTime());
+          //  console.log(this.formatDataTime(time));
+          //  console.log(this.dateTakeUp);
+          //  if(this.dateTakeUp.length > 0) {
+          //    console.log(this.dateTakeUp[0].startTime);
+          //    console.log(time.toUTCString());
+          //    return time.toUTCString() > new Date(this.dateTakeUp[0].startTime).toUTCString();
+          //  }
            return time.getTime() < Date.now() - 8.64e7;
          };
          axios.get(server.api.type + "?structure=tree").then( response => {
@@ -268,12 +268,13 @@
        onSubmit(formName) {
          this.$refs[formName].validate((valid) => {
             if(valid) {
-              //格式化时间
+              //将文件列表赋值给表单对象
               this.form.fileList = this.fileList;
+              //格式化时间
               this.form.startTime = this.formatDataTime(this.form.startTime);
               this.form.endTime = this.formatDataTime(this.form.endTime);
               axios.post(server.api.applicat, this.form).then( response => {
-                 toastr.success('申请已提交,结果将发到您邮箱,请注意查看!');
+                 toastr.success(this.$t('el.notification.create_applicat'));
                  //成功提交后跳转到申请管理页面
                  this.$router.push('/applicat-manage');
               }, error => {

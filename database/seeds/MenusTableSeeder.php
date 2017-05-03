@@ -119,15 +119,15 @@ class MenusTableSeeder extends Seeder
         $applicat = Menu::create($applicat);
 
         //申请审核
-        $applicat_audit = [
-            'title' => 'applicat_audit',
+        $applicat_review = [
+            'title' => 'applicat_review',
             'describe' => '申请审核',
             'icon' => 'ion-ios-barcode',
-            'uri' => '/audit',
+            'uri' => '/review',
             'created_at' => $date_time,
             'updated_at' => $date_time,
         ];
-        $applicat_audit = Menu::create($applicat_audit);
+        $applicat_review = Menu::create($applicat_review);
 
         //申请管理
         $applicat_manage = [
@@ -184,7 +184,7 @@ class MenusTableSeeder extends Seeder
             $type->id,
             $file->id,
             $applicat->id,
-            $applicat_audit->id,
+            $applicat_review->id,
             $applicat_manage->id,
             $personal_file->id,
             $notice->id,

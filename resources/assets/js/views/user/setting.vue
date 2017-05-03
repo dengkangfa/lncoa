@@ -1,23 +1,23 @@
 <template lang="html">
-  <el-tabs>
-   <el-tab-pane label="重置密码" name="first">
+  <el-tabs value="reset_password">
+   <el-tab-pane :label="$t('el.page.reset_password')" name="reset_password">
       <form class="col-sm-4 col-sm-offset-4">
           <div class="form-group">
-              <label for="old_password" class="label-control">旧密码</label>
+              <label for="old_password" class="label-control">{{$t('el.form.old_password')}}</label>
               <input type="password" class="form-control" name="old_password" v-model="user.old_password">
           </div>
           <div class="form-group">
-              <label for="password" class="label-control">新密码</label>
+              <label for="password" class="label-control">{{$t('el.form.new_password')}}</label>
               <input type="password" class="form-control" name="password" v-model="user.password">
           </div>
           <div class="form-group">
-              <label for="password_confirmation" class="label-control">确定新密码</label>
+              <label for="password_confirmation" class="label-control">{{$t('el.form.new_password_confirmation')}}</label>
               <input type="password" class="form-control" name="password_confirmation" v-model="user.password_confirmation">
           </div>
-          <button type="button" class="btn btn-info" name="button" @click="updatePwd">修改</button>
+          <button type="button" class="btn btn-info" name="button" @click="updatePwd">{{$t('el.form.edit')}}</button>
       </form>
    </el-tab-pane>
-   <el-tab-pane label="我的类型" name="second" id="type">
+   <el-tab-pane :label="$t('el.page.my_type')" name="my_type" id="type">
       <div class="row" v-for="(type, index) in types">
         <div class="col-md-offset-4 col-md-4 col-sm-12">
           <!-- 类型名称 -->

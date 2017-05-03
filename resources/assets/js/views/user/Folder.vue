@@ -14,13 +14,13 @@
                                   </div>
                               </div>
                            </div>
-                           <h5>显示：</h5>
+                           <h5>{{ $t('el.page.display') }}：</h5>
                            <a href="javascript:;" class="file-control" :class="{active:index == showType}" @click="updateShowType(index)" v-for="(type, index) in types">{{ type }}</a>
                            <div class="hr-line-dashed"></div>
-                           <button class="btn btn-primary btn-block" @click="showFile = true">上传文件</button>
-                           <button class="btn btn-primary btn-block" @click="showFolder = true">创建文件夹</button>
+                           <button class="btn btn-primary btn-block" @click="showFile = true">{{ $t('el.form.upload_file') }}</button>
+                           <button class="btn btn-primary btn-block" @click="showFolder = true">{{ $t('el.form.create_folder') }}</button>
                            <div class="hr-line-dashed"></div>
-                           <h5>文件夹</h5>
+                           <h5>{{ $t('el.page.folder') }}</h5>
                            <ul class="folder-list" style="padding: 0">
                               <li v-show="upload.breadcrumbs && upload.folderName != 'root'">
                                  <a href="javascript:;" @click="getFileInfo(ParentDirectory(upload.breadcrumbs))">
@@ -32,7 +32,7 @@
                                  <i class="delete-folder ion-trash-a" @click="deleteFolder(name)"></i>
                               </li>
                            </ul>
-                           <h5 class="tag-title">标签</h5>
+                           <!-- <h5 class="tag-title">标签</h5>
                            <ul class="tag-list" style="padding: 0">
                                <li><a href="file_manager.html">爱人</a>
                                </li>
@@ -50,7 +50,7 @@
                                </li>
                                <li><a href="file_manager.html">电影</a>
                                </li>
-                           </ul>
+                           </ul> -->
                            <div class="clearfix"></div>
                        </div>
                    </div>
@@ -116,6 +116,7 @@
                                        class="form-control"
                                        style="height:20px"
                                        @blur="renameFileNameBlur($event, file)"
+                                       @keyup.enter="blur($event)"
                                        @keyup.esc="revoked(file)"
                                        v-show="false"
                                        v-focus
@@ -123,7 +124,7 @@
                                        name=""
                                        v-model="file.name">
                                        <br/>
-                                       <small>添加时间：{{file.modified.split(' ')[0]}}</small>
+                                       <small>{{$t('el.page.add_at') + ':' + file.modified.split(' ')[0]}}</small>
                                        <div class="i-btn">
                                          <i class="delete-file ion-trash-a" @click="deleteFile(file, index)"></i>
                                        </div>
@@ -162,11 +163,11 @@
               proportion_text: '',
               file_system_digital_size: 0,
               types: {
-                  'all': '所有',
-                  'image': '图片',
-                  'video': '视频',
-                  'audio': '音频',
-                  'excel': '文档',
+                  'all': this.$t('el.page.display_all'),
+                  'image': this.$t('el.page.display_img'),
+                  'video': this.$t('el.page.display_video'),
+                  'audio': this.$t('el.page.display_audio'),
+                  'excel': this.$t('el.page.display_document'),
               }
           }
       },
@@ -210,7 +211,6 @@
 
               axios.post('/api/user/upload', formData)
                   .then((response) => {
-                    console.log(response);
                       toastr.success(this.$t('el.notification.create_file'));
 
                       this.upload.files.push(response.data)
@@ -228,7 +228,6 @@
                   })
           },
           change(event) {
-            console.log(event);
             this.files = event.target.files.length ? event.target.files : '';
           },
           getFileInfo(path) {
@@ -243,7 +242,6 @@
 
               axios.get(url)
                   .then((response) => {
-                    console.log(response);
                       this.upload = response.data.data
                       if (this.upload.subfolders instanceof Array) {
                           this.upload.subfolders = {}
@@ -342,6 +340,11 @@
               inputElement.focus();
               el.currentTarget.style.display = 'none';
           },
+          blur(el) {
+            let pElement = el.target.parentNode.children[0];
+            pElement.style.display = 'inline-block';
+            el.currentTarget.style.display = 'none';
+          },
           //文件重命名控件失去焦点调用函数
           renameFileNameBlur(el, file) {
               let pElement = el.target.parentNode.children[0];
@@ -364,7 +367,7 @@
               formData.append('newfilename', newfilename);
               axios.post('api/user/file/rename', formData).then( response => {
                   file.fullPath = newfilename;
-                  toastr.success('You rename a new file name success!')
+                  toastr.success(this.$t('el.notification.file_rename'))
               }, error => {
                   toastr.error(error.response.status + ' : ' + error.response.statusText)
               })

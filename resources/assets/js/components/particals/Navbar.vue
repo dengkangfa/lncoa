@@ -21,7 +21,7 @@
                                   <strong>{{ notifications.length }}</strong> new messages</h1>
                           </li>
                           <li v-for="(notification, index) in notifications" v-if="index < 5">
-                              <router-link :to="'/audit/details/' + notification.data.applicat_id">
+                              <router-link :to="'/review/details/' + notification.data.applicat_id">
                                   <div class="profile-photo">
                                       <img :src="notification.data.avatar" width=50 heigth=50 alt="" class="img-circle">
                                   </div>
@@ -34,7 +34,7 @@
                           </li>
 
                             <li>
-                                <router-link to="/audit">
+                                <router-link to="/review">
                                   Check all messages <i class="ion-chevron-right"></i>
                                 </router-link>
                           </li>
@@ -61,7 +61,7 @@
                           <!--头像选项-->
                           <li>
                             <router-link to='/user/profile'>
-                              <i class="ion-person"></i> Profile
+                              <i class="ion-person"></i> {{$t('el.page.profile')}}
                             </router-link>
                           </li>
                           <!--日历选项-->
@@ -70,8 +70,8 @@
                           </li>
                           <!--邮件消息选项-->
                           <li>
-                              <router-link to="/audit">
-                                <i class="ion-email"></i> Inbox
+                              <router-link to="/review">
+                                <i class="ion-email"></i> {{$t('el.page.inbox')}}
                                 <span class="badge badge-danager" id="user-inbox" v-show="notifications.length">
                                   {{ notifications.length }}
                                 </span>
@@ -79,7 +79,7 @@
                           </li>
                           <!--登退选项-->
                           <li>
-                              <a href="javascript:;" @click="logout"><i class="ion-power"></i> Logout</a>
+                              <a href="javascript:;" @click="logout"><i class="ion-power"></i> {{$t('el.page.logout')}}</a>
                           </li>
                       </ul>
                   </li>

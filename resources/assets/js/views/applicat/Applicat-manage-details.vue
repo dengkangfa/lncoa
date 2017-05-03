@@ -10,53 +10,53 @@
                                   <h3>{{applicat.mechanism}} - {{applicat.type}}</h3>
                               </div>
                               <dl class="dl-horizontal">
-                                  <dt>状态：</dt>
+                                  <dt>{{$t('el.table.status')}}：</dt>
                                   <dd><Status :status="applicat.status"></Status></dd>
                               </dl>
                           </div>
                       </div>
                       <el-tabs value="detail" type="card">
                         <!-- 申请详情 -->
-                       <el-tab-pane label="申请详情" name="detail">
+                       <el-tab-pane :label="$t('el.page.details')" name="detail">
                          <div class="row"  :class="{pass:applicat.status == '审核通过'}">
                              <div class="col-sm-5">
                                  <dl class="dl-horizontal">
 
-                                     <dt>负责人:</dt>
+                                     <dt>{{$t('el.form.principal')}}:</dt>
                                      <dd v-if="is_update">
                                          <input type="text" class="form-control no-height" v-model="applicat.principal">
                                      </dd>
                                      <dd v-else>
                                          {{applicat.principal}}
                                      </dd>
-                                     <dt>申请类型:</dt>
+                                     <dt>{{$t('el.form.applay_type')}}:</dt>
                                      <dd v-if="is_update">
                                        {{applicat.type}}
                                      </dd>
                                      <dd v-else>
                                          {{applicat.type}}
                                      </dd>
-                                     <dt>申请机构:</dt>
+                                     <dt>{{$t('el.form.mechanism')}}:</dt>
                                      <dd>{{applicat.mechanism}}</dd>
-                                     <dt>联系方式:</dt>
+                                     <dt>{{$t('el.table.mobile')}}:</dt>
                                      <dd v-if="is_update">
                                          <input type="text" class="form-control no-height" v-model="applicat.mobile">
                                      </dd>
                                      <dd v-else>
                                        {{applicat.mobile}}
                                      </dd>
-                                     <dt>参与人数:</dt>
+                                     <dt>{{$t('el.form.participate_number')}}:</dt>
                                      <dd>{{applicat.number}}</dd>
                                  </dl>
                              </div>
                              <div class="col-sm-7" id="cluster_info">
                                  <dl class="dl-horizontal">
 
-                                     <dt>最后更新：</dt>
+                                     <dt>{{$t('el.table.latest_update')}}：</dt>
                                      <dd>{{applicat.updated_at}}</dd>
-                                     <dt>创建于：</dt>
+                                     <dt>{{$t('el.table.created_at')}}：</dt>
                                      <dd>{{applicat.created_at}}</dd>
-                                     <dt>借用时段：</dt>
+                                     <dt>{{$t('el.form.borrow_period')}}：</dt>
                                      <dd class="project-people">
                                        {{applicat.startTime}} - {{applicat.endTime}}
                                      </dd>
@@ -77,28 +77,28 @@
                              </div> -->
                              <dd class="col-sm-12 textarea">
                                  <dl class="dl-horizontal">
-                                     <dt>联合机构：</dt>
+                                     <dt>{{$t('el.form.applay_unite')}}：</dt>
                                      <dd v-if="is_update">
                                          <textarea class="form-control" rows="3">{{applicat.agency}}</textarea>
                                      </dd>
                                      <dd v-else>
                                        {{applicat.agency}}
                                      </dd>
-                                     <dt>申请缘由：</dt>
+                                     <dt>{{$t('el.form.applay_reason')}}：</dt>
                                      <dd v-if="is_update">
                                          <textarea class="form-control" rows="3">{{applicat.reason}}</textarea>
                                      </dd>
                                      <dd v-else>
                                        {{applicat.reason}}
                                      </dd>
-                                     <dt>物资申请：</dt>
+                                     <dt>{{$t('el.form.goods')}}：</dt>
                                      <dd v-if="is_update">
                                          <textarea class="form-control" rows="3">{{applicat.goods}}</textarea>
                                      </dd>
                                      <dd v-else>
                                        {{applicat.goods}}
                                      </dd>
-                                     <dt>活动策划：</dt>
+                                     <dt>{{$t('el.form.activity_planning')}}：</dt>
                                      <dd v-if="is_update">
                                        <el-upload
                                            ref="upload"
@@ -111,7 +111,7 @@
                                            :on-success="handleSuccess"
                                            :before-upload="handleUpload"
                                            :file-list="fileList">
-                                           <el-button size="small" type="primary">点击上传</el-button>
+                                           <el-button size="small" type="primary">{{$t('el.form.upload_btn')}}</el-button>
                                        </el-upload>
                                      </dd>
                                      <dd v-else>
@@ -127,7 +127,7 @@
                          </div>
                        </el-tab-pane>
                        <!-- 审核员意见 -->
-                       <el-tab-pane v-if="opinions.length" label="意见" name="second">
+                       <el-tab-pane v-if="opinions.length" :label="$t('el.page.opinion')" name="second">
                            <div class="feed-element" v-for="opinion in opinions">
                                <a href="#" class="pull-left">
                                  <img class="img-circle" :src="opinion.user.avatar" alt="">
@@ -179,8 +179,6 @@
               this.applicat = response.data.data;
               this.opinions = response.data.data.opinions.data;
               this.fileList = JSON.parse(this.applicat.files);
-              console.log(response);
-              console.log(this.fileList);
           })
       },
       components: {
@@ -197,7 +195,11 @@
             .then( response => {
                 vm.fileList = fileList;
             }, error => {
-                console.log(error);
+                if ((typeof error.response.data.error !== 'string') && error.response.data.error) {
+                    toastr.error(error.response.data.error.message)
+                } else {
+                    toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+                }
             })
           },
           handlePreview(file) {

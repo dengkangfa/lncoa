@@ -68,6 +68,7 @@ Route::group([
 
     Route::get('notice', 'NoticeController@index');
     Route::post('notice', 'NoticeController@store');
+    Route::put('notice/enabled', 'NoticeController@enabled');
 
     Route::get('notificat', 'NotificatController@index');
     Route::delete('notificat/{id}', 'NotificatController@destroy');

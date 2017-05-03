@@ -40,17 +40,20 @@
             postData(rowData) {
                 axios.post('/api/user/' + rowData.id + '/status', {status: !rowData.status})
                     .then(response => {
-                      console.log(response);
                           if (!response.data) {
                               this.rowData.status = !this.rowData.status
                               if (this.rowData.status) {
-                                  toastr.success('You changed a record of the status success!')
+                                  toastr.success(this.$t('el.notification.user_status_activat'));
                               } else {
-                                  toastr.warning('You changed a record of the status, Please check again!')
+                                  toastr.warning(this.$t('el.notification.user_status_abandon'));
                               }
                           }
                     }, error => {
-                        toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+                        if ((typeof error.response.data.error !== 'string') && error.response.data.error) {
+                            toastr.error(error.response.data.error.message)
+                        } else {
+                            toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+                        }
                     })
             }
         }

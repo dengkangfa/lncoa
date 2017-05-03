@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="dashboard">
-    <div class="row">
+    <div class="row" v-show="card_show">
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="dashboard-tile detail tile-red">
                 <div class="content">
@@ -34,45 +34,45 @@
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="dashboard-tile detail tile-purple">
                 <div class="content">
-                    <h1 class="text-left timer" data-to="105" data-speed="2500">212</h1>
-                    <p>New Sales</p>
+                    <h1 class="text-left timer" data-to="105" data-speed="2500">{{ statistics.applicatFulfill }}</h1>
+                    <p>{{ $t('el.page.fulfill_applicat') }}</p>
                 </div>
-                <div class="icon"><i class="fa fa-bar-chart-o"></i>
+                <div class="icon"><i class="ion-clipboard"></i>
                 </div>
             </div>
         </div>
     </div>
     <div class="row" style="margin-top:15px">
-        <div class="col-md-8 col-xs-12">
+        <div class="col-md-8 col-xs-12" v-show="chart_show">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                  <h3 class="panel-title">最近一星期的近况</h3>
+                  <h3 class="panel-title">{{ $t('el.page.line_chart') }}</h3>
                     <div class="actions pull-right">
-                        <i :class="chart_show ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" @click='chart_show = !chart_show'></i>
+                        <i :class="chart_hide ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" @click='chart_hide = !chart_hide'></i>
                         <!-- <i class="el-icon-arrow-up"></i> -->
                     </div>
                 </div>
-                <div class="panel-body animated fadeInDown" style="mix-height:160px"  v-show="chart_show">
+                <div class="panel-body animated fadeInDown" style="mix-height:160px"  v-show="!chart_hide">
                   <chart :width="600" :height="300" :data="data" type="line"></chart>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 col-xs-12">
+        <div class="col-md-4 col-xs-12" v-show="access_log_show">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">最近访问记录</h3>
+                    <h3 class="panel-title">{{ $t('el.page.access_log') }}</h3>
                     <div class="actions pull-right">
-                        <i :class="access_log_show ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" @click='access_log_show = !access_log_show'></i>
+                        <i :class="access_log_hide ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" @click='access_log_hide = !access_log_hide'></i>
                         <!-- <i class="el-icon-arrow-up"></i> -->
                     </div>
                 </div>
-                <div class="panel-body  animated fadeInDown table-responsive no-padding" v-show="access_log_show">
+                <div class="panel-body  animated fadeInDown table-responsive no-padding" v-show="!access_log_hide">
                     <table class="table table-hover">
                         <tbody>
                             <tr>
-                                <th>user</th>
-                                <th>Position</th>
-                                <th>Created at</th>
+                                <th>{{ $t('el.table.user') }}</th>
+                                <th>{{ $t('el.table.position') }}</th>
+                                <th>{{ $t('el.table.created_at') }}</th>
                             </tr>
                             <tr v-for="loginLog in statistics.loginLogs">
                                 <td><el-tag type="primary">{{ loginLog.user_name }}</el-tag></td>
@@ -94,16 +94,16 @@
         </div>
     </div>
     <div class="row">
-      <div class="col-md-8"  v-if="is_notice" style="max-height:80px">
+      <div class="col-md-8"  v-show="notice_show" style="max-height:80px">
           <div class="panel panel-default">
               <div class="panel-heading">
-                  <h3 class="panel-title">站点通告</h3>
+                  <h3 class="panel-title">{{ $t('el.page.site_announcements') }}</h3>
                   <div class="actions pull-right">
-                      <i :class="notice_show ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" @click='notice_show = !notice_show'></i>
+                      <i :class="notice_hide ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" @click='notice_hide = !notice_hide'></i>
                       <!-- <i class="el-icon-arrow-up"></i> -->
                   </div>
               </div>
-              <div id="notice" class="box-body animated fadeInDown" v-show="notice_show" style="mix-height:160px">
+              <div id="notice" class="box-body animated fadeInDown" v-show="!notice_hide" style="mix-height:160px">
 
               </div>
           </div>
@@ -113,31 +113,38 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   import Chart from '../components/Chartjs.vue'
   export default {
      data () {
           return {
-              is_notice: true,
-              access_log_show: true,
-              notice_show: true,
+              notice_show: false,
+              notice_hide: true,
+              access_log_show: false,
+              access_log_hide: true,
+              card_show: false,
               chart_show: false,
+              chart_hide: true,
               statistics: {
                   users: 0,
                   applicats: 0,
-                  files: 0
+                  files: 0,
+                  applicatFulfill: 0
               },
               data: {
                   labels : ["January","February","March","April","May","June","July"],
                   datasets : [
                           		{
-                                label: "login history",
+                                // label: "login history",
+                                label: this.$t('el.page.login_history'),
                           			fill: false,
                                 borderColor: "rgba(75,192,192,1)",
                           			pointStrokeColor : "#fff",
                           			data : [65,59,90,81,56,55,40]
                           		},
                           		{
-                                label: "applicat number",
+                                // label: "applicat number",
+                                label: this.$t('el.page.applicat_number'),
                                 fill: false,
                                 borderColor: "rgba(255,192,70,1)",
                           			pointStrokeColor : "#fff",
@@ -147,62 +154,108 @@
               }
           }
       },
+      computed: {
+        ...mapState([
+            'permissions'
+        ])
+      },
       components: {
             Chart
       },
       created() {
-          axios.get('/api/statistics')
+          let vm = this;
+          let show = '';
+          for (let i = 0; i < vm.permissions.length; i++) {
+              //卡牌可见性
+              if(vm.permissions[i].name == 'show-card') {
+                  vm.card_show = true;
+                  show += ',card';
+                  continue;
+              }
+              //折线图可见性
+              if(vm.permissions[i].name == 'show-chart') {
+                  vm.chart_show = true;
+                  show += ',chart';
+                  continue;
+              }
+              //站点通告可见性
+              if(vm.permissions[i].name == 'show-notice') {
+                  vm.notice_show = true;
+                  show += ',notice';
+                  continue;
+              }
+              //访问历史记录
+              if(vm.permissions[i].name == 'show-access-log') {
+                  vm.access_log_show = true;
+                  vm.access_log_hide = false;
+                  show += ',accessLog';
+                  continue;
+              }
+          }
+          show = show.substr(1);
+          axios.get('/api/statistics?show=' + show)
               .then(response => {
                   this.statistics = response.data
                   //站点公告
                   $("#notice").html(response.data.notice);
-                  //图表横坐标
-                  this.data.labels = response.data.accessCountLogs.labels;
-                  //访问量
-                  this.data.datasets[0].data = response.data.accessCountLogs.access;
-                  //申请量
-                  this.data.datasets[1].data = response.data.accessCountLogs.apply;
-                  //显示图表
-                  this.chart_show = true;
-                  if(!response.data.notice) this.is_notice = false;
+                  if(vm.chart_show){
+                    //图表横坐标
+                    this.data.labels = response.data.accessCountLogs.labels;
+                    //访问量
+                    this.data.datasets[0].data = response.data.accessCountLogs.access;
+                    //申请量
+                    this.data.datasets[1].data = response.data.accessCountLogs.apply;
+                    //显示图表
+                    this.chart_hide = false;
+                  }
+                  if(vm.notice_show) {
+                    if(response.data.notice){
+                      this.notice_hide = false;
+                    }else{
+                      vm.notice_show = false;
+                    }
+                  }
               }, error => {
                   toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
               })
       },
-      // created() {
-      // },
       methods: {
         formatMsgTime (timespan) {
           //格式化时间戳
-          var d = new Date(parseInt(timespan) * 1000);
+          let d = new Date(parseInt(timespan) * 1000);
 
-          var date = (d.getFullYear()) + "-" + (d.getMonth() + 1) + "-" + (d.getDate()) + "-" + (d.getHours()) + ":" + (d.getMinutes()) + ":" + (d.getSeconds());
+          let date = (d.getFullYear()) + "-" + (d.getMonth() + 1) + "-" + (d.getDate()) + "-" + (d.getHours()) + ":" + (d.getMinutes()) + ":" + (d.getSeconds());
           //当前时间
-          var now = new Date();
+          let now = new Date();
 
-          var startTime = date;
+          let startTime = date;
           startTime = startTime.replace(/\-/g, "/");
-          var sTime = new Date(startTime);
-          var totalTime = now.getTime() - sTime.getTime();
+          let sTime = new Date(startTime);
+          let totalTime = now.getTime() - sTime.getTime();
 
-          var days = parseInt(totalTime / parseInt(1000 * 60 * 60 * 24));
+          let days = parseInt(totalTime / parseInt(1000 * 60 * 60 * 24));
           totalTime = totalTime % parseInt(1000 * 60 * 60 * 24);
-          var hours = parseInt(totalTime / parseInt(1000 * 60 * 60));
+          let hours = parseInt(totalTime / parseInt(1000 * 60 * 60));
           totalTime = totalTime % parseInt(1000 * 60 * 60);
-          var minutes = parseInt(totalTime / parseInt(1000 * 60));
+          let minutes = parseInt(totalTime / parseInt(1000 * 60));
           totalTime = totalTime % parseInt(1000 * 60);
-          var seconds = parseInt(totalTime / parseInt(1000));
-          var time = "";
+          let seconds = parseInt(totalTime / parseInt(1000));
+          let time = "";
+          let day_str= ' ' + this.$t('el.table.day') + ' ';
+          let hour_str= ' ' + this.$t('el.table.hour') + ' ';
+          let minute_str= ' ' + this.$t('el.table.minute') + ' ';
+          let second_str= ' ' + this.$t('el.table.second') + ' ';
+          let before_str= ' ' + this.$t('el.table.before') + ' ';
           if (days >= 1) {
-              time = days + "天" + hours + "时" + minutes + "分" + seconds + "秒";
+              time = days + day_str + hours + hour_str + minutes + minute_str + seconds + second_str;
           } else if (hours >= 1) {
-              time = hours + "时" + minutes + "分" + seconds + "秒";
+              time = hours + hour_str + minutes + minute_str + seconds + second_str;
           } else if (minutes >= 1) {
-              time = minutes + "分" + seconds + "秒";
+              time = minutes + minute_str + seconds + second_str;
           } else {
-              time = seconds + "秒";
+              time = seconds + second_str;
           }
-          return time + "前";
+          return time + before_str;
         }
           // getIpLookup(ip) {
           //     axios.get('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=' + ip).then( response => {

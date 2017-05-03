@@ -32,7 +32,7 @@
                 <!-- 审核人组 -->
                 <el-form-item
                   v-for="(approver, index) in type.approvers"
-                  :label="$t('el.form.approver') + index"
+                  :label="$t('el.form.approver') + (index + 1)"
                   :key="approver.key"
                   :prop="'approvers.' + index + '.id'"
                   class="form-inline"
@@ -59,7 +59,7 @@
                           {{ item.display_name }}
                         </option>
                     </select> -->
-                    <el-button  @click.prevent="removeApprover(approver)">{{ $t('el.form.delete') }}</el-button>
+                    <el-button  @click.prevent="removeApprover(approver)"  style="padding: 10px;">{{ $t('el.form.delete') }}</el-button>
                 </el-form-item>
                 <el-row :gutter="20">
                   <el-col :span="8">
