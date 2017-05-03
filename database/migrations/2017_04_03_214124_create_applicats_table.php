@@ -35,7 +35,7 @@ class CreateApplicatsTable extends Migration
                 ->onUpdaye('cascade')->onDelete('cascade');
             $table->foreign('type_id')->references('id')->on('types')
                 ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('status_id')->references('id')->on('status')
+            $table->foreign('status_id')->references('id')->on('statuses')
                 ->onUpdate('cascade')->onDelete('cascade');
         });
     }

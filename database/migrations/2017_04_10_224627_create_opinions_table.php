@@ -18,6 +18,7 @@ class CreateOpinionsTable extends Migration
             $table->text('opinion');
             $table->integer('applicat_id')->unsigned()->comment('申请表id');
             $table->integer('user_id')->unsigned()->comment('提交用户id');
+            $table->text('files')->nullable();
             $table->timestamps();
         });
     }
