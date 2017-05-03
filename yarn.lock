@@ -4213,6 +4213,10 @@ vary@~1.1.0:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/vary/download/vary-1.1.0.tgz#e1e5affbbd16ae768dd2674394b9ad3022653140"
 
+vee-validate@^2.0.0-rc.3:
+  version "2.0.0-rc.3"
+  resolved "http://registry.npm.taobao.org/vee-validate/download/vee-validate-2.0.0-rc.3.tgz#2ae889c203d0fcaca787a16070027ef36e5b1f6d"
+
 vendors@^1.0.0:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/vendors/download/vendors-1.0.1.tgz#37ad73c8ee417fb3d580e785312307d274847f22"

@@ -13,6 +13,8 @@ import VueRouter from 'vue-router';
 import store from './vuex/store.js';
 //国际化
 import VueI18n from 'vue-i18n';
+//表单验证
+import VeeValidate from 'vee-validate';
 
 import routes from './routes.js';
 import locales from './lang';
@@ -24,6 +26,7 @@ import server from './config/api'
 
 Vue.use(VueI18n);
 Vue.use(VueRouter);
+Vue.use(VeeValidate);
 Vue.use(ElementUI);
 Vue.config.lang =localStorage.Language ? window.Language = localStorage.Language : window.Language;
 Object.keys(locales).forEach(function (lang){
