@@ -44,7 +44,7 @@ class PermissionsTableSeeder extends Seeder
         $createRole->save();
 
         $updateRole = new Permission();
-        $updateRole->name       = 'create-role';
+        $updateRole->name       = 'update-role';
         $updateRole->display_name = '修改角色'; // optional
         $updateRole->description  = '修改角色的权限'; // optional
         $updateRole->save();
