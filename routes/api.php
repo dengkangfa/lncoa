@@ -61,6 +61,9 @@ Route::group([
     Route::post('applicat/{id}/forward', 'ApplicatController@forward');
     Route::get('applicat/{type_id}/dateTakeUp', 'ApplicatController@dateTakeUp');
     Route::get('applicats', 'ApplicatController@index');
+    Route::delete('applicat/{id}', 'ApplicatController@destroy');
+    Route::delete('applicat/{id}/softdelete', 'ApplicatController@SoftDeletes');
+    Route::put('applicat/{id}/cancel', 'ApplicatController@cancel');
 
     Route::resource('opinion', 'OpinionController');
 
@@ -85,3 +88,5 @@ Route::group([
     Route::get('mechanism', 'MechanismController@index');
     Route::get('signup/confirm/{token}', 'UserController@confirmEmail')->name('confirm_email');
 });
+Route::post('password/email','Auth\ForgotPasswordController@sendResetLinkEmail');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');

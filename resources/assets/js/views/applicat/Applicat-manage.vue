@@ -34,7 +34,7 @@
                               <table class="table table-hover">
                                   <tbody>
                                     <template v-if="applicats.length > 0">
-                                      <tr v-for="applicat in applicatlist">
+                                      <tr v-for="(applicat, index) in applicatlist">
                                           <td><Status :status="applicat.status"></Status></td>
                                           <td class="project-title col-md-4">
                                               <router-link :to="$route.path + '/details/' + applicat.id">
@@ -61,9 +61,45 @@
                                               <img src="http://lncoa.app/images/pass.png" width=350 height=48 alt="">
                                           </td>
                                           <td class="project-actions col-md-2">
-                                            <router-link :to="$route.path + '/details/' + applicat.id">
-                                                <i class="btn btn-white btn-sm ion-folder"> {{ $t('el.form.look') }}</i>
+                                            <router-link :to="$route.path + '/details/' + applicat.id" style="margin-right: 10px;">
+                                                <el-button  type="text" size="small">{{ $t('el.form.look') }}</el-button>
+                                                <!-- <i class="btn btn-white btn-sm ion-folder"> {{ $t('el.form.look') }}</i> -->
                                             </router-link>
+                                            <el-popover
+                                               v-if="applicat.status != '已取消' && applicat.status != '审核通过'"
+                                               placement="top"
+                                               trigger="click"
+                                               width="160">
+                                               <p>确定放弃这条申请吗？</p>
+                                               <div style="text-align: right; margin: 0">
+                                                 <el-button type="primary" size="mini" @click="cancelApplicat(applicat)">{{$t('el.messagebox.confirm')}}</el-button>
+                                               </div>
+                                               <el-button slot="reference" type="text" size="small" style="float:right">{{$t('el.form.cancel')}}</el-button>
+                                            </el-popover>
+
+                                            <el-popover
+                                               v-else
+                                               placement="top"
+                                               trigger="click"
+                                               width="160">
+                                               <p>确定删除这条申请吗？</p>
+                                               <div style="text-align: right; margin: 0">
+                                                 <el-button type="primary" size="mini" @click="removeApplicat(applicat, index)">{{$t('el.messagebox.confirm')}}</el-button>
+                                               </div>
+                                               <el-button slot="reference" type="text" size="small" style="float:right">{{$t('el.form.delete')}}</el-button>
+                                            </el-popover>
+<!--
+                                            <el-popover
+                                              ref="popover2"
+                                              placement="bottom"
+                                              title="标题"
+                                              width="200"
+                                              trigger="hover"
+                                              content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
+                                            </el-popover>
+
+                                            <el-button v-popover:popover2>click 激活</el-button> -->
+
                                           <!-- <a href="projects.html#" class="btn btn-white btn-sm"><i class="ion-edit"></i> 编辑 </a> -->
                                           </td>
                                       </tr>
@@ -118,7 +154,8 @@
               currentPage: 0,
               pageSize: 10,
               keyWord: '',
-              query: {}
+              query: {},
+              popoverVisible: false,
           }
       },
       created() {
@@ -209,9 +246,27 @@
              this.loadData();
          },
          search() {
+            //搜索
             if(this.keyWord){
                 this.loadData();
             }
+         },
+         //权限申请
+         cancelApplicat(applicat) {
+            axios.put('/api/applicat/'+ applicat.id + '/cancel',{'status':'已取消'}).then( response => {
+                toastr.success(this.$t('el.notification.applicat_cancel'));
+                //更改该申请状态
+                applicat.status = '已取消';
+            })
+         },
+         //删除申请
+         removeApplicat(applicat, index) {
+            axios.delete('/api/applicat/'+ applicat.id +'/softdelete').then( response => {
+                this.applicats.splice(index,1);
+                toastr.success(this.$t('el.notification.applicat_remove'));
+            }, error => {
+                toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+            })
          }
       }
   }

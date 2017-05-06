@@ -6,7 +6,7 @@
                     <img class="img-responsive img-circle" :src="user.avatar ? user.avatar : 'http://lncoa.app/images/default.png'">
                 </div>
                 <div class="nickname">
-                    <p>{{ user.name }}</p>
+                    <p>{{ user.nickname ? user.nickname : user.name }}</p>
                     <span v-for="role in user.roles">
                       <el-tag type="success" v-for="data in role">{{ data.display_name }}</el-tag>
                     </span>

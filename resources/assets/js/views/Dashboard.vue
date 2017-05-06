@@ -58,6 +58,8 @@
     #wrapper {
         padding-left: 0;
         transition: all 0.5s ease;
+        background: #f1f2f7;
+        min-height: 1000px;
         #wrapper.toggled {
             padding-left: 250px;
         }
@@ -84,9 +86,9 @@
         position: absolute;
 
         .container-fluid {
-            .row {
-                margin: 15px;
-            }
+            // .row {
+            //     margin: 15px;
+            // }
         }
     }
 
@@ -141,8 +143,8 @@
     }
 
     .profile {
-        margin: 15px auto;
-        text-align: center;
+        // margin: 15px auto;
+        // text-align: center;
         // img {
         //     height: 125px;
         //     border: 3px solid lightgrey;

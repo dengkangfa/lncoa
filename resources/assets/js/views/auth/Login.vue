@@ -5,16 +5,16 @@
               <div class="panel panel-primary animated flipInY">
                   <div class="panel-heading">
                       <h3 class="panel-title">
-                          Sign In
+                          {{$t('el.form.sign_in')}}
                       </h3>
                   </div>
                   <div class="panel-body">
-                      <p>Login to access your account.</p>
+                      <p>{{$t('el.form.login_placeholder')}}</p>
                       <form class="form-horizontal" @submit.prevent="onLogin" method="post" role="form">
                           <div class="form-group email has-feedback"
                             :class="{'has-error' : state == 'error'}">
                               <div class="col-md-12 ">
-                                  <input type="text" id="username" class="form-control" placeholder="name/email" v-model="username" required autofocus>
+                                  <input type="text" id="username" class="form-control" :placeholder="$t('el.form.username_placeholder')" v-model="username" required autofocus>
                                   <i class="ion-android-person"></i>
                                   <span v-show="state == 'error'" class="help-block">
                                       <strong >{{ message }}</strong>
@@ -23,21 +23,24 @@
                           </div>
                           <div class="form-group">
                               <div class="col-md-12">
-                                  <input type="password" class="form-control" id="password" placeholder="Password" v-model="password" required>
+                                  <input type="password" class="form-control" id="password" :placeholder="$t('el.form.password')" v-model="password" required>
                                   <i class="ion-locked"></i>
                                   <span v-show="PasswordError" class="help-block">
                                       <strong v-for="errorItem in PasswordError">{{errorItem}}</strong>
                                   </span>
-                                  <a href="javascript:void(0)" class="help-block">Forgot Your Password?</a>
+                                  <router-link to='/password_reset'>
+                                      {{$t('el.form.forgot_your_password')}}
+                                  </router-link>
+                                  <!-- <a href="javascript:void(0)" class="help-block"></a> -->
                               </div>
                           </div>
                           <div class="form-group">
                               <div class="col-md-12">
                                   <!-- <a href="../reviewingSystem2/Application/Home/View/index/index.html" class="btn btn-primary btn-block">Sign in</a> -->
-                                  <button type="submit" class="btn btn-primary btn-block" name="button">Sign in</button>
+                                  <button type="submit" class="btn btn-primary btn-block" name="button">{{$t('el.form.sign_in')}}</button>
                                   <hr />
                                   <!-- <a href="pages-sign-up.html" class="btn btn-default btn-block"></a> -->
-                                  <router-link to="/register" class="btn btn-default btn-block" exact>Not a member? Sign Up</router-link>
+                                  <router-link to="/register" class="btn btn-default btn-block" exact>{{$t('el.form.not_a_member')}}</router-link>
                               </div>
                           </div>
                       </form>
@@ -50,7 +53,7 @@
 </template>
 
 <script>
-  import server from '../config/api'
+  import server from '../../config/api'
   import { mapMutations } from 'vuex'
 
   export default {
@@ -104,6 +107,7 @@
                   vm.SET_ACCESS_TOKEN(response.data.access_token);
                   localStorage.access_token = vm.$store.state.access_token;
                   vm.LOGIN();
+                  axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access_token;
                   axios.get(server.api.user + '?include=roles', {
                       headers: {
                           'Authorization': 'Bearer ' + vm.$store.state.access_token
@@ -111,7 +115,9 @@
                   }).then( response => {
                       vm.SET_USER(response.data.data);
                       // this.$router.go(-1);
-                      vm.$router.go('/');
+                      vm.$router.push('/');
+                  }, error => {
+                      console.log(error.response);
                   })
               }, (response) => {
                   vm.message = response.response.data.message;
@@ -179,7 +185,7 @@
 @media (max-width: 768px){
   #login-wrapper {
       width: 90%;
-      margin-top: 50px;
+      margin-top: 80px;
   }
 }
 

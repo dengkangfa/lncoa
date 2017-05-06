@@ -96,6 +96,18 @@ export default {
       'email': '邮箱',
       'password': '密码',
       'confirm_password': '确认密码',
+      'sign_up': '注册',
+      'already_a_member': '已经有账号?',
+      'not_a_member': '没有帐户? 注册',
+      'forgot_your_password': '忘 记 密 码?',
+      'name_placeholder': '输入您的名字',
+      'email_placeholder': '输入您的Email',
+      'confirm_password_placeholder': '重新输入密码',
+      'send_reset_password_email': '发送密码重置邮件',
+      'send_reset_password_email_ok': '重置邮件发送成功',
+      'sign_in': '登录',
+      'login_placeholder': '登录访问您的帐户.',
+      'username_placeholder': '用户名/Email',
       'category': '分类',
       'select_option': '选择选项',
       'title': '标题',
@@ -130,6 +142,7 @@ export default {
       'edit_user': '修改用户',
       'back': '返回',
       'nickname': '昵称',
+      'user_descript': '个人简叙',
       'webtype': '网站地址',
       'create_article': '创建文章',
       'edit_article': '修改文章',
@@ -360,7 +373,11 @@ export default {
         folder_no_subdirectory: '不能在创建文件夹的同时创建子文件夹!',
         file_rename: '文件重命名成功!',
         update_notice: '站点通告已更新!',
-        create_applicat: '申请已提交,请耐心等待审核!'
+        create_applicat: '申请已提交,请耐心等待审核!',
+        submit_data_error: '你输入的数据有误,请完善后在提交!',
+        review_success: '您的审核以及意见已提交!',
+        applicat_cancel: '申请已取消!',
+        applicat_remove: '申请已删除!'
     }
   }
 };

@@ -3,9 +3,19 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Applicat extends Model
 {
+    use SoftDeletes;
+
+    /**
+     * 需要被转换成日期的属性。
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
+
     protected $fillable = [
         'principal', 'mobile', 'mechanism_id', 'number', 'type_id',
         'startTime', 'endTime', 'agency', 'reason', 'goods', 'files',

@@ -78,7 +78,6 @@ class LoginController extends ApiController
         );
 
         $response = \Route::dispatch($proxy);
-        \Log::info($response);
         $token = json_decode($response->getContent());
         $token->user = $request->user();
         $token->status = 'success';

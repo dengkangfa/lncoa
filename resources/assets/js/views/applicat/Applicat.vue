@@ -71,7 +71,7 @@
                         <el-date-picker
                            type="datetime"
                            :placeholder="$t('el.form.start_time')"
-                           :picker-options="pickerOptions"
+                           :picker-options="startPickerOptions"
                            v-model="form.startTime"
                            style="width: 100%;">
                          </el-date-picker>
@@ -83,6 +83,7 @@
                         <el-date-picker
                           type="datetime"
                           :placeholder="$t('el.form.end_time')"
+                          :picker-options="endPickerOptions"
                           v-model="form.endTime"
                           style="width: 100%;">
                          </el-date-picker>
@@ -169,10 +170,8 @@
             }
        };
        return {
-        // pickerOptions: {
-        //      disabledDate: '',
-        //      selectableRange: '18:30:00 - 20:30:00'
-        //  },
+         startPickerOptions: {},
+         endPickerOptions: {},
          dateTakeUp: [],
          date: [],
          form: {
@@ -237,16 +236,11 @@
          this.headers = {
              'Authorization': 'Bearer ' + this.$store.state.access_token
          }
-         this.pickerOptions.disabledDate = (time) => {
-          // //  console.log(new Date(this.dateTakeUp[0].startTime).getTime());
-          //  console.log(this.formatDataTime(time));
-          //  console.log(this.dateTakeUp);
-          //  if(this.dateTakeUp.length > 0) {
-          //    console.log(this.dateTakeUp[0].startTime);
-          //    console.log(time.toUTCString());
-          //    return time.toUTCString() > new Date(this.dateTakeUp[0].startTime).toUTCString();
-          //  }
+         this.startPickerOptions.disabledDate = (time) => {
            return time.getTime() < Date.now() - 8.64e7;
+         };
+         this.endPickerOptions.disabledDate = (time) => {
+           return time.getTime() < Date.now() - 8.64e7 || time.getTime() < this.form.startTime;
          };
          axios.get(server.api.type + "?structure=tree").then( response => {
              this.types = response.data;

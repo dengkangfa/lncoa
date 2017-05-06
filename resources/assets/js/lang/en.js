@@ -96,6 +96,18 @@ export default {
       'email': 'Email',
       'password': 'Password',
       'confirm_password': 'Confirm Password',
+      'sign_up': 'Sign Up',
+      'already_a_member': 'Already a member?',
+      'not_a_member': 'Not a member? Sign Up',
+      'forgot_your_password': 'Forgot Your Password?',
+      'name_placeholder': 'Enter your name',
+      'email_placeholder': 'Enter your email',
+      'confirm_password_placeholder': 'Enter your email',
+      'send_reset_password_email': 'Send a password to reset the message',
+      'send_reset_password_email_ok': 'Reset message sent successfully',
+      'sign_in': 'Sign In',
+      'login_placeholder': 'Login to access your account.',
+      'username_placeholder': 'Username/Email',
       'category': 'Category',
       'select_option': 'Select Option',
       'title': 'Title',
@@ -130,6 +142,7 @@ export default {
       'edit_user': 'Edit User',
       'back': 'Back',
       'nickname': 'Nick Name',
+      'user_descript': 'Personal Briefing',
       'website': 'Website',
       'create_article': 'Create Article',
       'edit_article': 'Edit Article',
@@ -366,7 +379,11 @@ export default {
         folder_no_subdirectory: 'You can not create subfolders while creating a folder!',
         file_rename: 'You rename a new file name success!',
         update_notice: 'Site notifications have been updated!',
-        create_applicat: 'The application has been submitted, please be patient for review!'
+        create_applicat: 'The application has been submitted, please be patient for review!',
+        submit_data_error: 'You enter the data is wrong, please improve after the submission!',
+        review_success: 'Your review and comments have been submitted!',
+        applicat_cancel: 'The application has been canceled!',
+        applicat_remove: 'The application has been deleted!'
     }
   }
 };

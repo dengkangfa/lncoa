@@ -14,7 +14,8 @@ import store from './vuex/store.js';
 //国际化
 import VueI18n from 'vue-i18n';
 //表单验证
-// import VeeValidate from 'vee-validate';
+import zh_CN from 'vee-validate/dist/locale/zh_CN';
+import VeeValidate, { Validator } from 'vee-validate';
 
 import routes from './routes.js';
 import locales from './lang';
@@ -26,12 +27,33 @@ import server from './config/api'
 
 Vue.use(VueI18n);
 Vue.use(VueRouter);
-// Vue.use(VeeValidate);
+// Add locale helper.
+Validator.addLocale(zh_CN);
+const validate_config = {
+  errorBagName: 'errors', // change if property conflicts.
+  fieldsBagName: 'validataFields',
+  delay: 0,
+  locale: 'zh_CN',
+  dictionary: null,
+  strict: true,
+  enableAutoClasses: false,
+  classNames: {
+    touched: 'touched', // the control has been blurred
+    untouched: 'untouched', // the control hasn't been blurred
+    valid: 'valid', // model is valid
+    invalid: 'invalid', // model is invalid
+    pristine: 'pristine', // control has not been interacted with
+    dirty: 'dirty' // control has been interacted with
+  }
+};
+Vue.use(VeeValidate, validate_config);
 Vue.use(ElementUI);
 Vue.config.lang =localStorage.Language ? window.Language = localStorage.Language : window.Language;
 Object.keys(locales).forEach(function (lang){
     Vue.locale(lang,locales[lang])
 })
+// Vue.validator.setLocale(window.Language);
+// Validator.setLocale(window.Language);
 
 //消息提示框对象
 window.toastr = require('toastr/build/toastr.min.js');

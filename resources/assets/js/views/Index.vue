@@ -103,7 +103,7 @@
                       <!-- <i class="el-icon-arrow-up"></i> -->
                   </div>
               </div>
-              <div id="notice" class="box-body animated fadeInDown" v-show="!notice_hide" style="mix-height:160px">
+              <div id="notice" class="panel-body animated fadeInDown" v-show="!notice_hide" style="mix-height:160px">
 
               </div>
           </div>

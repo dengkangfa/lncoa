@@ -97,6 +97,7 @@ class UserController extends ApiController
         $data = array_merge($request->all(), [
             // 'confirm_code' => str_random(64),
             'avatar' => $identicon->getImageDataUri($request->name,80),
+            'status' => true
         ]);
 
         $this->user->store($data);
@@ -126,7 +127,7 @@ class UserController extends ApiController
     {
         $this->validate($request, [
             'mobile' => 'nullable|regex:/^1[34578][0-9]{9}$/',
-            'nickname' => 'nullable|min:2|max:35'
+            'nickname' => 'nullable|min:2|max:16'
         ]);
 
         $this->user->update($id, $request->all());

@@ -54,7 +54,7 @@
                   <li class="dropdown settings">
                       <!--文本标签下拉框-->
                       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        {{ user.name }}
+                        {{ user.nickname ? user.nickname : user.name }}
                       </a>
                       <!--用户快捷选项-->
                       <ul class="dropdown-menu animated fadeInDown">

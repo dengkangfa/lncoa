@@ -6,10 +6,19 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Mail\RegisterShipped;
 use App\Notifications\VerifyMail;
-use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
+use App\Repositories\UserRepository;
 
-class RegisterController extends Controller
+class RegisterController extends ApiController
 {
+    protected $user;
+
+    public function __construct(UserRepository $user)
+    {
+        parent::__construct();
+
+        $this->user = $user;
+    }
     /**
      * check Email name the unique
      * @param  Request $request [description]
@@ -46,17 +55,20 @@ class RegisterController extends Controller
     {
           $this->validator($request->all())->validate();
 
-          $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password,
+          $identicon = new \Identicon\Identicon();
+          $data = array_merge($request->all(), [
+              'avatar' => $identicon->getImageDataUri($request->name,80),
+              'status' => true
           ]);
+
+          $user = $this->user->store($data);
+
           $role = \App\Role::where('name','=','owner')->first();
           $user->attachRole($role);
 
           $this->sendEmailConfirmationTo($user);
 
-          // $this->login($user);
+          return $this->login($request);
     }
 
     /**
@@ -71,6 +83,7 @@ class RegisterController extends Controller
             'name' => 'required|min:2|max:16|unique:users|regex:/^[\x{4E00}-\x{9FA5A}-Za-z0-9]+$/u',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required',
         ]);
     }
 
@@ -85,14 +98,27 @@ class RegisterController extends Controller
       \Mail::to($user)->send(new RegisterShipped($user));
     }
 
-    protected function login($user)
+    protected function login($request)
     {
-        route('login',[
-          'grant_type' => 'password',
-          'client_id' => '2',
-          'client_secret' => 'OkABZOuxDMaiaaFJBrESpYnmIMf6eSwyU42fPVdM',
-          'name' => $user->email,
-          'password' => $user->password,
+        $data = $request->all();
+        $request->request->add([
+            'grant_type' => 'password',
+            'client_id' => '2',
+            'client_secret' => 'OkABZOuxDMaiaaFJBrESpYnmIMf6eSwyU42fPVdM',
+            'username' => $data['name'],
+            'password' => $data['password'],
+            'scope' => ''
         ]);
+
+        $proxy = Request::create(
+            'oauth/token',
+            'POST'
+        );
+
+        $response = \Route::dispatch($proxy);
+        $token = json_decode($response->getContent());
+        $token->status = 'success';
+
+        return response()->json($token);
     }
 }

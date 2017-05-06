@@ -21,11 +21,11 @@
                   :clearable="true"
                 ></el-cascader>
                 </el-form-item>
-                <!-- 场地名称 -->
-                <el-form-item :label="$t( 'el.form.type_name' )" prop="name">
-                  <el-input v-model="type.name" :placeholder="$t('el.form.type_name')"></el-input>
+                <!-- 类型名称 -->
+                <el-form-item :label="$t( 'el.form.type_name' )" prop="typename">
+                  <el-input name="typename" v-model="type.typename" :placeholder="$t('el.form.type_name')"></el-input>
                 </el-form-item>
-                <!-- 场地描述 -->
+                <!-- 类型描述 -->
                 <el-form-item :label="$t( 'el.form.description' )" prop="describe">
                     <el-input type="textarea" autosize :placeholder="$t('el.form.description')" v-model="type.describe"></el-input>
                 </el-form-item>
@@ -105,7 +105,7 @@
               id: ''
             }],
             parent_id: [],
-            name: '',
+            typename: '',
             describe: '',
             disabled: '',
             date_unique: true,

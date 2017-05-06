@@ -1,5 +1,6 @@
 import Dashboard from './views/Dashboard.vue'
 import Parent from './views/Parent.vue'
+import BeforeParent from './views/BeforeParent.vue'
 import server from './config/api'
 import store from './vuex/store.js';
 
@@ -199,16 +200,34 @@ export default [
         ],
     },
     {
-        path: '/login',
-        beforeEnter: checkLogin,
-        component: require('./views/Login.vue'),
-        meta: { requiresAuth: false }
-    },
-    {
-        path: '/register',
-        beforeEnter: checkLogin,
-        component: require('./views/Register.vue'),
-        meta: { requiresAuth: false }
+        path: '/',
+        component: BeforeParent,
+        children: [
+            {
+                path: '/login',
+                beforeEnter: checkLogin,
+                component: require('./views/auth/Login.vue'),
+                meta: { requiresAuth: false }
+            },
+            {
+                path: '/register',
+                beforeEnter: checkLogin,
+                component: require('./views/auth/Register.vue'),
+                meta: { requiresAuth: false }
+            },
+            {
+                path: '/password_reset',
+                beforeEnter: checkLogin,
+                component: require('./views/auth/Password.vue'),
+                meta: { requiresAuth: false }
+            },
+            {
+                path: 'password/reset/:token',
+                beforeEnter: checkLogin,
+                component: require('./views/auth/Reset.vue'),
+                meta: { requiresAuth: false }
+            }
+        ]
     },
     {
         path: '/500',

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Auth;
+use App\Status;
 use Illuminate\Http\Request;
 use App\Notifications\pendReview;
 use App\Http\Requests\ApplicatRequest;
@@ -135,6 +136,31 @@ class ApplicatController extends ApiController
         return $this->respondWithCollection($applicats, new DateTakeUpTransformer);
     }
 
+    /**
+     * 软删除
+     * @param int $id
+     */
+    public function softDeletes($id)
+    {
+        $this->applicat->destroy($id);
 
+        return $this->noContent();
+    }
+
+    /**
+     * 权限申请
+     * @param  int  $id
+     * @param  Request $request
+     * @return json
+     */
+    public function cancel($id,Request $request)
+    {
+        $stautsName = $request->get('status');
+        $status = Status::where('name',$stautsName)->first();
+
+        $this->applicat->updateColumn($id,['status_id' => $status->id]);
+
+        return $this->noContent();
+    }
 
 }

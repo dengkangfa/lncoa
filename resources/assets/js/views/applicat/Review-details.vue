@@ -145,7 +145,7 @@
                                                      <el-radio-button :label="$t('el.form.pass')"></el-radio-button>
                                                      <el-radio-button :label="$t('el.form.no_pass')"></el-radio-button>
                                                    </el-radio-group>
-                                                     <button type="submit" class="btn btn-info btn-sm" :class="{disabled: !(form.radio&&form.opinion)}"  style="float: right">发表</button>
+                                                     <button type="submit" class="btn btn-info btn-sm" :disabled="!(form.radio&&form.opinion)"  style="float: right">发表</button>
                                              </div>
                                            </form>
                                           </div>
@@ -268,7 +268,6 @@
                   this.$router.push('?pageSize=' + this.pageSize)
               }
               axios.get(url).then(response => {
-                console.log(response);
                       this.applicats = response.data.data
                       this.totalPage = response.data.meta.pagination.total_pages
                       this.currentPage = response.data.meta.pagination.current_page
@@ -278,7 +277,6 @@
           loadCurrentData() {
             //请求当前id对应的详细资源
             axios.get('/api/applicat/' + this.$route.params.id + '?include=opinions').then( response => {
-              console.log(response);
                 this.applicat = response.data.data;
                 this.DELETE_NOTIFICAT(this.applicat.id);
                 this.isOpinion();
@@ -314,20 +312,23 @@
           // getApplicatByTypeId() {
           //     axios.get('/api/applicat?type=')
           // },
+          // 提交审核
           submit() {
               this.form.applicat_id = this.$route.params.id;
               this.form.fileList = this.fileList;
               axios.post('/api/opinion/', this.form).then( response => {
-                  toastr.success('您的审核以及意见已提交');
+                  toastr.success($t('el.notification.review_success'));
                   this.$router.push('/review');
               }, error => {
                   toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
               })
           },
+          //条数更改事件回调
           handleSizeChange(val) {
               this.pageSize = val;
               this.loadData();
          },
+         //当前页码更改事件回调
          handleCurrentChange(val) {
              //currentPage 改变时会触发
              this.currentPage = val;

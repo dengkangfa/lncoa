@@ -115,6 +115,7 @@ return [
     'attributes' => [
         'name'         => '名字',
         'username'     => '用户名',
+        'typename'     => '类型名称',
         'email'        => '邮箱',
         'password'     => '密码',
         'old_password' => '旧密码',

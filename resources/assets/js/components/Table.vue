@@ -1,6 +1,6 @@
 <template>
     <div :class="wrapperClass" class="ibox">
-        <div class="ibox-title">
+        <div class="ibox-title row">
             <small class="pull-right" style="margin-top: 7px;">
                 <slot name="buttons"></slot>
             </small>
@@ -222,7 +222,11 @@
 
                 //判断是否存在
                 if(fullpath.indexOf("?") != -1)
-                url += '&' + fullpath.slice(fullpath.indexOf("?") + 1);
+                  if(url.indexOf('?') >= 0){
+                      url += '&' + fullpath.slice(fullpath.indexOf("?") + 1);
+                  }else{
+                      url += '?' + fullpath.slice(fullpath.indexOf("?") + 1);
+                  }
 
                 axios.get(url).then(response => {
                         // this.pagination = response.data.meta.pagination
