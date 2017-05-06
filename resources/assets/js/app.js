@@ -20,7 +20,38 @@ import VeeValidate, { Validator } from 'vee-validate';
 import routes from './routes.js';
 import locales from './lang';
 
-import ElementUI from 'element-ui'
+// 按需要导入element-ui
+import {
+    Tag,
+    Col,
+    Menu,
+    Button,
+    ButtonGroup,
+    Dialog,
+    RadioButton,
+    RadioGroup,
+    DatePicker,
+    MenuItem,
+    Submenu,
+    Tooltip,
+    Pagination
+} from 'element-ui'
+
+Vue.use(Tag)
+Vue.use(Col)
+Vue.use(Menu)
+Vue.use(Button)
+Vue.use(ButtonGroup)
+Vue.use(Dialog)
+Vue.use(RadioButton)
+Vue.use(RadioGroup)
+Vue.use(DatePicker)
+Vue.use(MenuItem)
+Vue.use(Submenu)
+Vue.use(Tooltip)
+Vue.use(Pagination)
+
+
 import 'element-ui/lib/theme-default/index.css'
 import App from './App.vue';
 import server from './config/api'
@@ -47,7 +78,6 @@ const validate_config = {
   }
 };
 Vue.use(VeeValidate, validate_config);
-Vue.use(ElementUI);
 Vue.config.lang =localStorage.Language ? window.Language = localStorage.Language : window.Language;
 Object.keys(locales).forEach(function (lang){
     Vue.locale(lang,locales[lang])

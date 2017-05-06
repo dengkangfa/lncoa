@@ -17,6 +17,7 @@ class CreateTypesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('describe')->nullable();
+            $table->tinyIntrger('date_unique')->default(false);
             $table->tinyInteger('disabled')->default(false);
             $table->string('sorts')->max('15')->nullable();
             $table->tinyInteger('parent_id')->nullable()->comment('父场地ID');

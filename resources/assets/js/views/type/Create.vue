@@ -22,8 +22,8 @@
                 ></el-cascader>
                 </el-form-item>
                 <!-- 类型名称 -->
-                <el-form-item :label="$t( 'el.form.type_name' )" prop="typename">
-                  <el-input name="typename" v-model="type.typename" :placeholder="$t('el.form.type_name')"></el-input>
+                <el-form-item :label="$t( 'el.form.type_name' )" prop="name">
+                  <el-input name="name" v-model="type.name" :placeholder="$t('el.form.type_name')"></el-input>
                 </el-form-item>
                 <!-- 类型描述 -->
                 <el-form-item :label="$t( 'el.form.description' )" prop="describe">
@@ -105,7 +105,7 @@
               id: ''
             }],
             parent_id: [],
-            typename: '',
+            name: '',
             describe: '',
             disabled: '',
             date_unique: true,
@@ -135,12 +135,15 @@
            let vm = this;
            this.type.disabled = !this.status;
            axios.post(server.api.type, this.type).then( response => {
-             console.log(response);
                toastr.success(vm.$t('el.notification.create_type'))
                vm.SET_TYPES(response.data)
                vm.$router.push('/system-types')
            }, error => {
-                stack_error(error.response.data);
+               if(error.response.status == 422){
+                 stack_error(error.response.data)
+               }else{
+                 toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+               }
            })
          },
          resetForm(formName) {
@@ -162,7 +165,6 @@
          },
          change(val) {
            var approversId = [];
-           console.log(this.type.approvers);
             this.type.approvers.forEach(function(value){
                 if(value.id != ''){
                   approversId.push(value.id);
@@ -177,7 +179,6 @@
                 }
                 value.disabled = false;
             })
-            console.log(this.roles);
          },
          ...mapMutations([
              'SET_TYPES'

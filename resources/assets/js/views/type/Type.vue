@@ -11,26 +11,34 @@
           </div>
           <div class="ibox-content">
             <div class="header">
+              <!-- 展开/收缩 -->
                 <div class="btn-group">
                     <a class="btn btn-primary btn-sm" @click="toogle">
                       <i :class="listToggle ? 'ion-minus-circled' : 'ion-plus-circled'">
                       </i> {{ listToggle ? $t('el.form.collapse') : $t('el.form.expand') }}
                     </a>
                 </div>
+              <!-- 展开/收缩END -->
+              <!-- 保存 -->
                 <div class="btn-group">
                     <a class="btn btn-info btn-sm" @click="save"><i class="ion-document-text"></i> {{ $t('el.form.save') }}</a>
                 </div>
+                <!-- 保存END -->
+                <!-- 刷新 -->
                 <div class="btn-group">
                     <el-button type="primary" size="small" style="padding:8px 9px" :loading="showLoading" icon="ion-refresh" @click="refresh">
                       <i class="ion-refresh" v-if="!showLoading"></i> {{ $t('el.form.refresh') }}
                     </el-button>
                 </div>
+                <!-- 刷新END -->
             </div>
+            <!-- 类型列表 -->
             <div class="dd" >
               <ol class="dd-list" v-if="show" >
                 <type-item v-for="type in types" :type="type"></type-item>
               </ol>
             </div>
+            <!-- 类型列表END -->
           </div>
       </div>
   </div>
@@ -105,8 +113,9 @@
               })
           },
           save() {
+              //排序保存
               axios.put(server.api.type + '/sorts', $('.dd').nestable('serialize')).then( response => {
-                  toastr.success('The type has been reordered !')
+                  toastr.success(this.$t('el.notification.type_sert'))
 
                   this.SET_TYPES(response.data);
               }, (error) => {

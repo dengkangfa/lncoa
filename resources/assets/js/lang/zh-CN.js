@@ -364,6 +364,7 @@ export default {
         create_type: '新增类型成功!',
         update_type: '修改类型成功!',
         type_sert: '类型已重新排序!',
+        delete_type: '你删除类型成功!',
         folder_required: '文件夹名称不能为空!',
         create_file: '上传文件成功!',
         delete_file: '删除文件成功!',

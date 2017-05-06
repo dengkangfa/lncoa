@@ -139,7 +139,6 @@
                         this.$router.push('/users')
                     }, error => {
                         if(error.response.status == 422){
-                          console.log(error.response);
                           stack_error(error.response.data)
                         }else{
                           toastr.error(error.response.status + ' : Resource ' + error.response.statusText)

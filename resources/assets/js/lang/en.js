@@ -370,6 +370,7 @@ export default {
         create_type: 'Added type successful!',
         update_type: 'Update Type successful',
         type_sert: 'The type has been reordered !',
+        delete_type: 'You delete the type success!',
         folder_required: 'The folder name must be required!',
         create_file: 'You upload a file success!',
         delete_file: 'You delete a file success!',

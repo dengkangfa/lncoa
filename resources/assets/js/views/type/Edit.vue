@@ -114,17 +114,19 @@
            this.rolesId();
            this.type.disabled = !this.status;
            axios.put(server.api.type + "/" + this.$route.params.id, this.type).then( response => {
-             console.log(response);
                toastr.success(vm.$t('el.notification.update_type'))
 
                vm.$router.push('/system-types')
            }, error => {
-                stack_error(error.response.data);
+               if(error.response.status == 422){
+                 stack_error(error.response.data)
+               }else{
+                 toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+               }
            })
          },
          resetForm(formName) {
            this.$refs[formName].resetFields();
-           console.log(this.type);
            this.change();
          },
          removeApprover(item) {
@@ -160,9 +162,7 @@
          parentPath(pid,arr) {
             arr.forEach(function(value){
                 if(value['id'] == pid){
-                  console.log(value['id']);
                     if(value['parent_id']){
-                      console.log(this.type);
                         this.type.push(this.parentPath(value['id']));
                     }
                     this.type.push(value['id']);

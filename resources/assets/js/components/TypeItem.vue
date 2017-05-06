@@ -44,12 +44,11 @@
                   vm.$router.push(this.$route.path + '/' + data.id + '/edit')
               } else if (action == 'delete-item') {
                   axios.delete(server.api.type + '/' + data.id).then((response) => {
-                          toastr.success('You delete the type success!')
+                          toastr.success(this.$t('el.notification.delete_type'))
                           vm.SET_TYPES(response.data)
                           // vm.$parent.loadData();
                           // vm.$dispatch('loadData')
                       }, (response) => {
-                        console.log(response.response);
                           if ((typeof response.data.error !== 'string') && response.data.error) {
                               toastr.error(response.data.error.message)
                           } else {

@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "axios": "^0.15.3",
-    "babel-plugin-component": "^0.9.0",
+    "babel-plugin-component": "^0.9.1",
     "bootstrap-sass": "^3.3.7",
     "cross-env": "^3.2.3",
     "ionicons": "^2.0.1",
