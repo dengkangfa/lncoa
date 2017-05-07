@@ -31,6 +31,7 @@
                       <el-menu-item :index="item.uri" v-for="item in menu.items"><i :class="item.icon"></i>{{ $t("el.sidebar."+item.title) }}</el-menu-item>
                   </el-submenu>
                   <el-menu-item :index="menu.uri" v-else><i :class="menu.icon"></i>{{ $t("el.sidebar."+menu.title) }}</el-menu-item>
+                  <el-menu-item index="logout" @click="logout"><i class="ion-power"></i>登出</el-menu-item>
                 </el-menu>
             </el-col>
         </ul>
@@ -39,7 +40,7 @@
 
 <script>
     import server from '../../config/api'
-    import {mapState} from 'vuex'
+    import { mapState,mapMutations } from 'vuex'
     export default {
         data () {
             return {
@@ -67,6 +68,9 @@
             '$route': 'currentDefaultActive'
         },
         methods: {
+          ...mapMutations([
+              'OUT_LOGIN',
+          ]),
          handleOpen(key, keyPath) {
            console.log(key, keyPath);
          },
@@ -95,7 +99,11 @@
         setting() {
             this.$router.push('/user/setting');
             this.defaultActive = '';
-        }
+        },
+        logout: function(){
+            this.OUT_LOGIN();
+            this.$router.push('/login');
+        },
     }
   }
 </script>

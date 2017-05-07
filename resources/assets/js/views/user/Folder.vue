@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="row">
-           <div class="col-sm-3">
+           <div class="col-md-3 col-xs-12 file-info-padding">
                <div class="ibox float-e-margins">
                    <div class="ibox-content">
                        <div class="file-manager">
@@ -85,10 +85,10 @@
                </form>
            </modal>
            <!-- 文件信息 -->
-           <div class="col-sm-9 animated fadeInRight" style="margin-top: -15px;">
+           <div class="no-padding col-md-9 col-xs-12 animated fadeInRight">
                <div class="row">
-                   <div class="col-sm-12">
-                       <div class="file-box"
+                   <div class="no-padding col-xs-12">
+                       <div class="file-box animated pulse col-xs-12"
                         v-for="(file, index) in upload.files"
                         v-if="isShow(file.mimeType)">
                            <div class="file">
@@ -523,7 +523,7 @@
   }
   .file-box .file img{
       height: 100px;
-      width: 250px;
+      width: 100%;
   }
   .file-manager h5.tag-title {
       margin-top: 20px;
@@ -546,9 +546,15 @@
       display: block;
   }
 
+  .no-padding {
+      padding-left: 0;
+      padding-right: 0;
+  }
   .file-box {
-    float: left;
-    width: 220px;
+      float: left;
+      width: 220px;
+      padding-left: 0;
+      padding-right: 0;
   }
   .file {
       border: 1px solid #e7eaec;
@@ -590,7 +596,7 @@
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      width: 150px;
+      width: 90%;
       display: inline-block;
       padding: -15px;
       margin: -12px 0;
@@ -613,5 +619,30 @@
   }
   input[type="file"] {
       display: block;
+  }
+
+  .file-info-padding {
+      padding-left: 0;
+  }
+
+  @media (max-width: 768px){
+    .file-box .file {
+      border: 1px solid #e7eaec;
+      padding: 0;
+      background-color: #ffffff;
+      position: relative;
+      margin-bottom: 20px;
+      margin-right: 0;
+    }
+    .file-box {
+        float: left;
+        width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .file-info-padding {
+        padding-left: 0;
+        padding-right: 0;
+    }
   }
 </style>

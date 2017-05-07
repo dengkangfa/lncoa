@@ -197,6 +197,10 @@ export default [
                 beforeEnter: checkUrl,
                 meta: { requiresAuth: true }
             },
+            {
+                path: '/logout',
+                meta: { requiresAuth: false }
+            }
         ],
     },
     {
@@ -229,16 +233,6 @@ export default [
             }
         ]
     },
-    {
-        path: '/500',
-        component: require('./views/500.vue'),
-        meta: { requiresAuth: false }
-    },
-    // {
-    //     path: '/404',
-    //     component: require('./views/404.vue'),
-    //     meta: { requiresAuth: false }
-    // },
     {
       path: '*',
       redirect: '/404'

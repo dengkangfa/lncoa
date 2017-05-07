@@ -8,7 +8,7 @@
             </div>
             <div class="user-nav">
               <!-- v-if="!statused" -->
-                <ul v-if="!statused">
+                <ul v-show="showed">
 
                   <li class="dropdown messages">
                       <span v-if="notifications.length > 0" class="badge badge-danager animated bounceIn" id="new-messages">{{ notifications.length }}</span>
@@ -41,50 +41,54 @@
                       </ul>
 
                     </li>
+                    <li style="font-size: 14px; margin-left: 5px">
+                      <!-- 本地化 -->
+                      <span class="nav-lang" v-bind:class="{active: lang!='en'}"
+                       @click="switchLang('zh_cn')">中文</span>/
+                      <span class="nav-lang" v-bind:class="{active: lang=='en'}"
+                       @click="switchLang('en')">En</span>
+                      <!-- 本地化END -->
+                    </li>
 
-                  <!-- 本地化 -->
-                  <span class="nav-lang" v-bind:class="{active: lang!='en'}"
-                   @click="switchLang('zh_cn')">中文</span>/
-                  <span class="nav-lang" v-bind:class="{active: lang=='en'}"
-                   @click="switchLang('en')">En</span>
-                  <!-- 本地化END -->
-
-                <!--头像-->
-                  <li class="user-profile-photo">
-                      <img :src="user.avatar ? user.avatar : 'http://lncoa.app/images/default.png'" alt="" class="img-responsive img-circle"/>
-                  </li>
-                  <li class="dropdown settings">
-                      <!--文本标签下拉框-->
-                      <a class="dropdown-toggle" data-toggle="dropdown" id="toggle-settings" href="#">
-                        {{ user.nickname ? user.nickname : user.name }}
-                      </a>
-                      <!--用户快捷选项-->
-                      <ul class="dropdown-menu alert animated fadeInDown">
-                          <!--头像选项-->
-                          <li>
-                            <router-link to='/user/profile'>
-                              <i class="ion-person"></i> {{$t('el.page.profile')}}
-                            </router-link>
-                          </li>
-                          <!--日历选项-->
-                          <li>
-                              <a href="#"><i class="ion-ios-calendar"></i> Calendar</a>
-                          </li>
-                          <!--邮件消息选项-->
-                          <li>
-                              <router-link to="/review">
-                                <i class="ion-email"></i> {{$t('el.page.inbox')}}
-                                <span class="badge badge-danager" id="user-inbox" v-show="notifications.length">
-                                  {{ notifications.length }}
-                                </span>
+                    <!--头像-->
+                    <li v-show="userInfoShowed" class="user-profile-photo">
+                        <img :src="user.avatar ? user.avatar : 'http://lncoa.app/images/default.png'" alt="" class="img-responsive img-circle"/>
+                    </li>
+                    <!-- 头像END -->
+                    <!--用户名/昵称 -->
+                    <li v-show="userInfoShowed" class="dropdown settings" style="margin-left: 5px">
+                        <!--文本标签下拉框-->
+                        <a class="dropdown-toggle" data-toggle="dropdown" id="toggle-settings" href="#">
+                          {{ user.nickname ? user.nickname : user.name }}
+                        </a>
+                        <!--用户快捷选项-->
+                        <ul class="dropdown-menu alert animated fadeInDown">
+                            <!--头像选项-->
+                            <li>
+                              <router-link to='/user/profile'>
+                                <i class="ion-person"></i> {{$t('el.page.profile')}}
                               </router-link>
-                          </li>
-                          <!--登退选项-->
-                          <li>
-                              <a href="javascript:;" @click="logout"><i class="ion-power"></i> {{$t('el.page.logout')}}</a>
-                          </li>
-                      </ul>
-                  </li>
+                            </li>
+                            <!--日历选项-->
+                            <li>
+                                <a href="#"><i class="ion-ios-calendar"></i> Calendar</a>
+                            </li>
+                            <!--邮件消息选项-->
+                            <li>
+                                <router-link to="/review">
+                                  <i class="ion-email"></i> {{$t('el.page.inbox')}}
+                                  <span class="badge badge-danager" id="user-inbox" v-show="notifications.length">
+                                    {{ notifications.length }}
+                                  </span>
+                                </router-link>
+                            </li>
+                            <!--登退选项-->
+                            <li>
+                                <a href="javascript:;" @click="logout"><i class="ion-power"></i> {{$t('el.page.logout')}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--用户名/昵称END -->
               </ul>
             </div>
 
@@ -153,15 +157,18 @@
           ...mapState([
             'user'
           ]),
-          // statused: function() {
-          //     if(this.$store.state.isPhone){
-          //         return this.status = this.$store.state.sidebar.opened
-          //     }
-          //     return this.status = !this.$store.state.sidebar.opened
-          // },
-           statused: function() {
-            return this.status = this.$store.state.sidebar.opened
-          },
+           showed: function() {
+               if(this.$store.state.isPhone && this.$store.state.sidebar.opened){
+                  return false;
+               }
+               return true;
+            },
+            userInfoShowed: function() {
+                if(!this.$store.state.isPhone && !this.$store.state.sidebar.opened){
+                   return false;
+                }
+                return true;
+            }
         }
     }
 </script>

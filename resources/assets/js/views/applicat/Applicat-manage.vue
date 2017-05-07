@@ -12,8 +12,8 @@
                           </div>
                       </div>
                       <div class="ibox-content">
-                          <div class="row m-b-sm m-t-sm">
-                              <div class="col-md-1">
+                          <div class="row">
+                              <div class="col-md-1 col-xs-3">
                                   <!-- <button type="button" id="loading-example-btn" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> 刷新</button> -->
                                   <div class="btn-group">
                                       <el-button type="primary" size="small" style="padding:8px 9px" :loading="showLoading" icon="ion-refresh" @click="loadData">
@@ -21,7 +21,7 @@
                                       </el-button>
                                   </div>
                               </div>
-                              <div class="col-md-11">
+                              <div class="col-md-11 col-xs-9">
                                   <div class="input-group">
                                       <input type="text" v-model="keyWord" :placeholder="$t('el.form.review_filter_placeholder')" class="input-sm form-control"> <span class="input-group-btn">
                                           <button type="button" @click="search" class="btn btn-sm btn-primary"> {{ $t('el.page.search') }}</button> </span>

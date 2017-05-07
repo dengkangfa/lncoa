@@ -1,10 +1,11 @@
 <template lang="html">
-  <div class="row">
+  <div class="row" id="review-details">
     <div class="col-md-12 ">
-    <div class="col-md-4  col-sm-12 col-xs-12">
+      <!-- 申请列表 -->
+    <div class="col-md-4 col-xs-12 apply-list">
       <div class="ibox">
         <div class="ibox-content">
-            <div class="row m-b-sm m-t-sm">
+            <div class="row" style="margin-bottom: 10px">
                 <div class="col-md-12">
                     <div class="input-group">
                         <input type="text" :placeholder="$t('el.form.review_filter_placeholder')" class="input-sm form-control"> <span class="input-group-btn">
@@ -45,8 +46,9 @@
           </div>
       </div>
     </div>
+    <!-- 申请列表END -->
     <template v-if="applicats.length > 0">
-    <div class="col-md-8 col-sm-12 col-xs-12"  v-if="applicat">
+    <div class="col-md-8 col-xs-12"  v-if="applicat">
               <div class="wrapper wrapper-content animated fadeInUp">
                   <div class="ibox">
                       <div class="ibox-content">
@@ -408,6 +410,19 @@
    /*.row {
      margin: 0px !important;
    }*/
+
+
+   #review-details div[class*="col-"] {
+     position: relative;
+     min-height: 1px;
+     padding-left: 0;
+     padding-right: 0;
+   }
+
+   #review-details .ibox {
+     margin-bottom: 10px;
+   }
+
   .tabs .dl-horizontal li {
       list-style-type: none;
       transition: all .5s cubic-bezier(.55,0,.1,1);
@@ -455,6 +470,12 @@
   }
   .current {
       background-color: #f5f5f5;
+  }
+
+  @media (min-width: 768px){
+      .apply-list {
+          padding-right: 15px !important;
+      }
   }
 
 </style>

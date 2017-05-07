@@ -85,9 +85,9 @@
         width: 100%;
         // position: absolute;
 
-        .container-fluid {
-            margin-top: 15px
-        }
+        // .container-fluid {
+        //     margin-top: 15px
+        // }
     }
 
     #wrapper.toggled #page-content-wrapper {

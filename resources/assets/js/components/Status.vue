@@ -1,5 +1,5 @@
 <template>
-  <span class="label label-primary"
+  <span class="status label label-primary"
     :class="[
         {'label-warning' : status == '待审核'},
         {'label-info' : status == '审核中'},
@@ -21,4 +21,7 @@ export default {
 </script>
 
 <style lang="css">
+  .status {
+      margin-left: 8px
+  }
 </style>
