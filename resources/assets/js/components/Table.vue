@@ -89,7 +89,7 @@
             <h3 class="none text-center" v-if="items.length == 0">{{ $t('el.page.nothing') }}</h3>
             <!-- <table-pagination ref="pagination" v-on:loadPage="loadPage" v-if="showPaginate && items.length > 0"></table-pagination> -->
         </div>
-        <nav class="text-center">
+        <nav class="text-center row col-md-12">
             <div v-if="items.length < 1"></div>
             <template v-else>
                 <el-pagination
@@ -312,13 +312,13 @@
             handleSizeChange(val) {
                 this.pageSize = val;
                 this.$router.push({ path: this.$route.fullPath, query: { pageSize: val }});
-                this.loadData();
+                // this.loadData();
            },
            handleCurrentChange(val) {
                //currentPage 改变时会触发
                this.currentPage =val;
                this.$router.push({ path: this.$route.fullPath, query: { page: val }});
-               this.loadData();
+              //  this.loadData();
            },
            deepCopy(source) {
              var result={};

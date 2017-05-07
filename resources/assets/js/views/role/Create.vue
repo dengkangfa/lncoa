@@ -44,7 +44,7 @@
                       <!-- 错误消息END -->
                   </div>
                   <div class="form-group">
-                      <button type="submit" :disabled="!formDirty" class="btn btn-primary">{{ $t('el.form.create') }}</button>
+                      <button type="submit" :disabled="!formDirty || disabled" class="btn btn-primary">{{ $t('el.form.create') }}</button>
                   </div>
               </form>
           </div>
@@ -57,6 +57,11 @@
     import { mapFields } from 'vee-validate';
 
     export default {
+        data() {
+            return {
+                disabled: false
+            }
+        },
         created() {
             //验证字段名称
             this.$validator.updateDictionary({
@@ -92,17 +97,14 @@
               });
             },
             create(event) {
+                this.disabled = true;
                 var formData = new FormData(event.target)
-
-                axios.post('/api/role', formData , {
-                    headers: {
-                        'Authorization': 'Bearer ' + this.$store.state.access_token
-                    }
-                }).then((response) => {
+                axios.post('/api/role', formData).then((response) => {
                         toastr.success(this.$t('el.notification.create_role'))
 
                         this.$router.push('/roles')
                     }, (error) => {
+                        this.disabled = false;
                         if(error.response.status == 422){
                           stack_error(error.response.data)
                         }else{

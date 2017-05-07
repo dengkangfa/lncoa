@@ -34,7 +34,25 @@ import {
     MenuItem,
     Submenu,
     Tooltip,
-    Pagination
+    Pagination,
+    Form,
+    FormItem,
+    Input,
+    InputNumber,
+    Switch,
+    Select,
+    Option,
+    Cascader,
+    Steps,
+    Step,
+    Icon,
+    Checkbox,
+    Tabs,
+    TabPane,
+    Popover,
+    Upload,
+    Row,
+    Tree
 } from 'element-ui'
 
 Vue.use(Tag)
@@ -50,6 +68,24 @@ Vue.use(MenuItem)
 Vue.use(Submenu)
 Vue.use(Tooltip)
 Vue.use(Pagination)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Input)
+Vue.use(InputNumber)
+Vue.use(Switch)
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(Cascader)
+Vue.use(Steps)
+Vue.use(Step)
+Vue.use(Icon)
+Vue.use(Checkbox)
+Vue.use(Tabs)
+Vue.use(TabPane)
+Vue.use(Popover)
+Vue.use(Upload)
+Vue.use(Row)
+Vue.use(Tree)
 
 
 import 'element-ui/lib/theme-default/index.css'

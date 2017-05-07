@@ -477,10 +477,10 @@
       }
   }
 
-  .row {
-      margin-left: -15px !important;
-      margin-right: -15px !important;
-  }
+  // .row {
+  //     margin-left: -15px !important;
+  //     margin-right: -15px !important;
+  // }
 
   .file-control.active {
       text-decoration: underline;

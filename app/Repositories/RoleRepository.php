@@ -29,7 +29,7 @@ class RoleRepository
     {
         return $this->model
         ->orderBy($sortColumn, $sort)
-        ->with('menus')
+        ->with('menus', 'permissions')
         ->paginate($number);
     }
 

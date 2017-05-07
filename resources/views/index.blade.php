@@ -27,7 +27,7 @@
         window.Language = "{{ config('app.locale') }}"
     </script>
 </head>
-<body class="skin-blue-light sidebar-mini">
+<body>
     <div id="app"></div>
 
     <script src="{{ mix('js/app.js') }}"></script>

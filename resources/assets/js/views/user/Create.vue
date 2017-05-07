@@ -8,7 +8,7 @@
                 <form class="form col-md-4 col-md-offset-4" role="form" @submit.prevent="validateBeforeSubmit">
                     <div class="form-group has-feedback" :class="{'has-error': nameFlags.invalid, 'has-success': nameFlags.valid}">
                         <label for="name">{{ $t('el.form.name') }}</label>
-                        <input name="name"  data-vv-delay="500" type="text" class="form-control" id="name" :placeholder="$t('el.form.name')">
+                        <input name="name" v-validate="{  rules: {required: true, regex: /^[\u4e00-\u9fa5_a-zA-Z0-9-]{2,16}$/, name_unique:true} }"  data-vv-delay="500" type="text" class="form-control" id="name" :placeholder="$t('el.form.name')">
                         <!-- 图标 -->
                         <span v-show="nameFlags.dirty || nameFlags.invalid" class="glyphicon form-control-feedback"
                           :class="{'glyphicon-warning-sign': nameFlags.invalid, 'glyphicon-ok': nameFlags.valid}">
@@ -63,7 +63,7 @@
                         <!-- 错误消息END -->
                     </div>
                     <div class="form-group">
-                        <button type="submit" :disabled="!formDirty" class="btn btn-primary">{{ $t('el.form.create') }}</button>
+                        <button type="submit" :disabled="!formDirty || disabled" class="btn btn-primary">{{ $t('el.form.create') }}</button>
                     </div>
                 </form>
             </div>
@@ -76,23 +76,34 @@
     import { Validator, mapFields, ErrorBag } from 'vee-validate';
 
     export default {
+        data() {
+            return {
+                disabled: false
+            }
+        },
         created() {
-            Validator.extend('email_unique', {
-                getMessage: (field) => `该${field}已被使用.`,
-                validate: (value) => new Promise(resolve => {
-                    axios.get('/api/register/email/check?email=' + value).then(response => {
-                       return resolve({valid: response.data.success});
-                    });
-                })
-            });
-            Validator.extend('name_unique', {
-                getMessage: (field) => `该${field}已被使用.`,
-                validate: (value) => new Promise(resolve => {
-                    axios.get('/api/register/name/check?name=' + value).then(response => {
-                       return resolve({valid: response.data.success});
-                    });
-                })
-            });
+            //先判断是否存在规则
+            if(!this.$validator.rules.email_unique){
+              //email唯一性规则
+              Validator.extend('email_unique', {
+                  getMessage: (field) => `该${field}已被使用.`,
+                  validate: (value) => new Promise(resolve => {
+                      axios.get('/api/register/email/check?email=' + value).then(response => {
+                         return resolve({valid: response.data.success});
+                      });
+                  })
+              });
+            }
+            if(!this.$validator.rules.name_unique){
+              Validator.extend('name_unique', {
+                  getMessage: (field) => `该${field}已被使用.`,
+                  validate: (value) => new Promise(resolve => {
+                      axios.get('/api/register/name/check?name=' + value).then(response => {
+                         return resolve({valid: response.data.success});
+                      });
+                  })
+              });
+            }
             //验证字段名称
             this.$validator.updateDictionary({
                   zh_CN: {
@@ -131,13 +142,14 @@
             create(event) {
                 //表单数据对象
                 const formData = new FormData(event.target)
-                const bag = new ErrorBag();
+                this.disabled = true;
 
                 axios.post('/api/user', formData).then( response => {
                         toastr.success(this.$t('el.notification.create_user'));
 
                         this.$router.push('/users')
                     }, error => {
+                        this.disabled = false;
                         if(error.response.status == 422){
                           stack_error(error.response.data)
                         }else{

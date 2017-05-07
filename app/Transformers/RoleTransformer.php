@@ -34,7 +34,6 @@ class RoleTransformer extends TransformerAbstract
     public function includePermissions(Role $role)
     {
         $perms = $role->permissions;
-        \Log::info($perms);
 
         return $this->collection($perms, new PermissionTransformer);
     }

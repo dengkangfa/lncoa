@@ -96,6 +96,11 @@ class TypeRepository
       }
     }
 
+    public function destroy($id)
+    {
+        $this->model->where('id', $id)->orWhere('parent_id', $id)->delete();
+    }
+
     /**
      * all type
      *

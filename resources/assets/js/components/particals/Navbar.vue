@@ -42,10 +42,12 @@
 
                     </li>
 
+                  <!-- 本地化 -->
                   <span class="nav-lang" v-bind:class="{active: lang!='en'}"
                    @click="switchLang('zh_cn')">中文</span>/
                   <span class="nav-lang" v-bind:class="{active: lang=='en'}"
                    @click="switchLang('en')">En</span>
+                  <!-- 本地化END -->
 
                 <!--头像-->
                   <li class="user-profile-photo">
@@ -53,11 +55,11 @@
                   </li>
                   <li class="dropdown settings">
                       <!--文本标签下拉框-->
-                      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                      <a class="dropdown-toggle" data-toggle="dropdown" id="toggle-settings" href="#">
                         {{ user.nickname ? user.nickname : user.name }}
                       </a>
                       <!--用户快捷选项-->
-                      <ul class="dropdown-menu animated fadeInDown">
+                      <ul class="dropdown-menu alert animated fadeInDown">
                           <!--头像选项-->
                           <li>
                             <router-link to='/user/profile'>

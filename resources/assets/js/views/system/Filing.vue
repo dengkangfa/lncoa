@@ -267,7 +267,6 @@
 
                         this.upload.files.splice(index, 1)
                     }, (response) => {
-                      console.log(response.status);
                         toastr.error(response.status + ' : Resource ' + response.statusText)
                     })
             },

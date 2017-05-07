@@ -72,6 +72,7 @@ class UserRepository
         ->when($created_at, function ($query) use ($created_at) {
             return $query->whereBetween('created_at', $created_at);
         })
+        ->with('roles')
         ->orderBy($sortColumn, $sort)
         ->paginate($number);
         return $users;

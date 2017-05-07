@@ -83,12 +83,10 @@
 
     #page-content-wrapper {
         width: 100%;
-        position: absolute;
+        // position: absolute;
 
         .container-fluid {
-            // .row {
-            //     margin: 15px;
-            // }
+            margin-top: 15px
         }
     }
 
