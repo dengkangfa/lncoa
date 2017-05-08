@@ -28,12 +28,11 @@ class RevokeOldTokens
      */
     public function handle(AccessTokenCreated $event)
     {
-      \Log::info($event->userId);
         //Token为令牌表
         Token::where('id', '!=', $event->tokenId)
             ->where('user_id', $event->userId)
             ->where('client_id', $event->clientId)
-            ->where('expires_at', '<', Carbon::now())
+            // ->where('expires_at', '<', Carbon::now())
             ->orWhere('revoked', true)
             ->delete();
     }

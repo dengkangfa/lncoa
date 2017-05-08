@@ -21,7 +21,7 @@
                                   </span>
                               </div>
                           </div>
-                          <div class="form-group">
+                          <div class="form-group" style="margin-bottom: 0px;">
                               <div class="col-md-12">
                                   <input type="password" class="form-control" id="password" :placeholder="$t('el.form.password')" v-model="password" required>
                                   <i class="ion-locked"></i>
@@ -31,15 +31,18 @@
                                   <router-link to='/password_reset'>
                                       {{$t('el.form.forgot_your_password')}}
                                   </router-link>
-                                  <!-- <a href="javascript:void(0)" class="help-block"></a> -->
                               </div>
+                          </div>
+                          <div class="checkbox" style="padding-bottom: 5px;">
+                            <label>
+                              <input type="checkbox" v-model="remember"> 记住我
+                            </label>
+                            <p class="remember">不是自己的电脑上不要勾选此项</p>
                           </div>
                           <div class="form-group">
                               <div class="col-md-12">
-                                  <!-- <a href="../reviewingSystem2/Application/Home/View/index/index.html" class="btn btn-primary btn-block">Sign in</a> -->
                                   <button type="submit" class="btn btn-primary btn-block" name="button">{{$t('el.form.sign_in')}}</button>
                                   <hr />
-                                  <!-- <a href="pages-sign-up.html" class="btn btn-default btn-block"></a> -->
                                   <router-link to="/register" class="btn btn-default btn-block" exact>{{$t('el.form.not_a_member')}}</router-link>
                               </div>
                           </div>
@@ -65,7 +68,8 @@
               emailError: null,
               PasswordError: null,
               state: '',
-              message: ''
+              message: '',
+              remember: false,
           }
       },
       methods:{
@@ -79,7 +83,9 @@
               let data = {};
               //如果存在refresh_token则重新刷新令牌，反之重新获取令牌
               let refresh_token = localStorage.getItem(vm.username + '_refresh_token');
+              //如果存在refresh_token，则刷新令牌，反之请求令牌
               if(refresh_token) {
+                  //刷新令牌参数
                   data = {
                         'grant_type': 'refresh_token',
                         'username' : vm.username,
@@ -89,6 +95,7 @@
                         'refresh_token': refresh_token
                     }
               }else{
+                  //请求令牌参数
                   data = {
                       'grant_type': 'password',
                       'username' : vm.username,
@@ -97,15 +104,21 @@
                       'client_secret': server.client.client_secret,
                   }
               }
+              //请求登录
               axios.post(server.api.login, data).then( response => {
                   vm.message = '';
                   vm.state = 'success';
-                  //将用于刷新的令牌存储进localstorage
-                  localStorage.setItem(vm.username + '_refresh_token', response.data.refresh_token)
-                  // localStorage.refresh_token = response.data.refresh_token;
+                  //判断是否需要记住该账号，需要则将令牌存储在localStorage中，反之只
+                  //存储在sessionStorage中
+                  if(vm.remember) {
+                    //将用于刷新的令牌存储进localstorage
+                    localStorage.setItem(vm.username + '_refresh_token', response.data.refresh_token)
+                    localStorage.setItem('access_token', response.data.access_token)
+                  }else{
+                    sessionStorage.setItem('access_token', response.data.access_token)
+                  }
                   //将用于验证身份的令牌存储进vuex
                   vm.SET_ACCESS_TOKEN(response.data.access_token);
-                  localStorage.access_token = vm.$store.state.access_token;
                   vm.LOGIN();
                   axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access_token;
                   axios.get(server.api.user + '?include=roles', {
@@ -117,11 +130,15 @@
                       // this.$router.go(-1);
                       vm.$router.push('/');
                   }, error => {
-                      console.log(error.response);
+                      if(error.response.status == 422){
+                        stack_error(error.response.data)
+                      }else{
+                        toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+                      }
                   })
-              }, (response) => {
-                  vm.message = response.response.data.message;
-                  vm.state = response.response.data.status;
+              }, error => {
+                  vm.message = error.response.data.message;
+                  vm.state = error.response.data.status;
               })
           }
       }
@@ -176,6 +193,11 @@
     position: absolute;
     left: 27px;
     top: 5px;
+}
+
+#login-wrapper .remember {
+  float: right;
+  opacity: .6;
 }
 
 .email .help-block{

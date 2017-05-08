@@ -2,10 +2,10 @@
   <div class="row">
       <div class="ibox">
           <div class="ibox-title">
-              <h5>{{ $t('el.page.applicat') }}</h5>
+              <h5><blockquote>{{ $t('el.page.applicat') }}</blockquote></h5>
           </div>
           <div class="ibox-content">
-              <div class="row">
+              <div class="row" style="margin-top: 15px">
                 <el-form
                  :model="form"
                  :rules="rules"
@@ -13,26 +13,33 @@
                  :label-position="isPhone ? 'top' : 'right'"
                  class="col-md-8 col-md-offset-2"
                  label-width="90px">
-                  <el-form-item :label="$t('el.form.principal')" prop="principal">
-                    <el-col :span="8" style="min-width:90px">
+                 <!-- 负责人 -->
+                  <el-form-item :label="$t('el.form.principal')" style="color: red" prop="principal">
+                    <el-col  :xs="24" :sm="8" :md="8" style="min-width:90px">
                       <el-input v-model="form.principal" ></el-input>
-                    <el-col>
+                    </el-col>
                   </el-form-item>
+                  <!-- 负责人END -->
+                  <!-- 联系方式 -->
                   <el-form-item :label="$t('el.form.mobile')" prop="mobile">
-                    <el-col :span="8" style="min-width:90px">
+                    <el-col :xs="24" :sm="8" :md="8" style="min-width:90px">
                         <el-input v-model.number="form.mobile" ></el-input>
                     <el-col>
                   </el-form-item>
+                  <!-- 联系方式END -->
+                  <!-- 申请机构 -->
                   <el-form-item :label="$t('el.form.mechanism')" prop="mechanism" required>
-                    <el-select v-model="form.mechanism_id" allow-create filterable :placeholder="$t('el.select.placeholder')">
-                      <el-option
-                        v-for="item in options"
-                        :label="item.name"
-                        :value="item.id"
-                        >
-                      </el-option>
-                    </el-select>
+                      <el-select v-model="form.mechanism_id" allow-create filterable :placeholder="$t('el.select.placeholder')">
+                        <el-option
+                          v-for="item in options"
+                          :label="item.name"
+                          :value="item.id"
+                          >
+                        </el-option>
+                      </el-select>
                   </el-form-item>
+                  <!-- 申请机构END -->
+                  <!-- 参与人数 -->
                   <el-form-item :label="$t('el.form.participate_number')">
                     <el-col :span="5" style="min-width:90px">
                       <el-input-number
@@ -43,6 +50,8 @@
                       </el-input-number>
                     </el-col>
                   </el-form-item>
+                  <!-- 参与人数END -->
+                  <!-- 申请类型 -->
                   <el-form-item :label="$t('el.form.applay_type')" prop="type_id">
                     <el-cascader
                       v-model="form.type_id"
@@ -55,48 +64,55 @@
                       @change="typeChange"
                     ></el-cascader>
                   </el-form-item>
+                  <!-- 申请类型END -->
+                  <!-- 使用时段 -->
                   <el-form-item :label="$t('el.form.borrow_period')" required>
-                    <!-- <el-col :span="15">
-                      <div class="block">
-                        <span class="demonstration">默认</span>
+                    <template v-if="isPhone">
+                      <el-col :xs="24" :sm="11" :md="11">
+                        <el-form-item prop="startTime">
+                          <el-date-picker
+                             type="datetime"
+                             :placeholder="$t('el.form.start_time')"
+                             :picker-options="startPickerOptions"
+                             v-model="form.startTime"
+                             style="width: 100%;">
+                           </el-date-picker>
+                         </el-form-item>
+                      </el-col>
+                      <el-col class="line" :xs="24" :sm="2" :md="2" style="text-align: center;">-</el-col>
+                      <el-col :xs="24" :sm="11" :md="11">
+                        <el-form-item prop="endTime">
+                          <el-date-picker
+                            type="datetime"
+                            :placeholder="$t('el.form.end_time')"
+                            :picker-options="endPickerOptions"
+                            v-model="form.endTime"
+                            style="width: 100%;">
+                           </el-date-picker>
+                         </el-form-item>
+                      </el-col>
+                    </template>
+                    <el-col :span="15" v-else>
                         <el-date-picker
-                          v-model="date"
-                          type="daterange"
-                          placeholder="选择日期范围">
-                        </el-date-picker>
-                      </div>
-                    </el-col> -->
-                    <el-col :span="11">
-                      <el-form-item prop="startTime">
-                        <el-date-picker
-                           type="datetime"
-                           :placeholder="$t('el.form.start_time')"
-                           :picker-options="startPickerOptions"
-                           v-model="form.startTime"
-                           style="width: 100%;">
-                         </el-date-picker>
-                       </el-form-item>
-                    </el-col>
-                    <el-col class="line" :span="2" style="text-align: center;">-</el-col>
-                    <el-col :span="11">
-                      <el-form-item prop="endTime">
-                        <el-date-picker
-                          type="datetime"
-                          :placeholder="$t('el.form.end_time')"
-                          :picker-options="endPickerOptions"
-                          v-model="form.endTime"
-                          style="width: 100%;">
-                         </el-date-picker>
-                       </el-form-item>
+                        type="datetimerange"
+                        placeholder="开始时间-结束时间"
+                        v-model="date"
+                        style="width: 100%;"
+                        >
+                      </el-date-picker>
                     </el-col>
                   </el-form-item>
+                  <!-- 使用时段END -->
+                  <!-- 是否存在联合机构 -->
                   <el-form-item :label="$t('el.form.applay_unite')">
                     <el-switch :on-text="$t('el.form.have')" :off-text="$t('el.form.not')" v-model="form.unite"></el-switch>
                   </el-form-item>
+                  <!-- 是否存在联合机构END -->
+                  <!-- 联合机构 -->
                   <el-form-item :label="$t('el.form.agency')" v-if="form.unite" prop="agrncy">
                     <el-input type="textarea" autosize v-model="form.agency" ></el-input>
                   </el-form-item>
-
+                  <!-- 联合机构END -->
                   <el-form-item :label="$t('el.form.applay_reason')" prop="reason">
                     <el-input type="textarea" v-model="form.reason"></el-input>
                   </el-form-item>
@@ -179,7 +195,6 @@
            mobile: '',
            mechanism_id: '',
            number: 1,
-           date: '',
            startTime: '',
            endTime: '',
            agency: '',
@@ -233,20 +248,25 @@
        }
      },
      created() {
+         //请求头(用于文件上传的请求头)
          this.headers = {
              'Authorization': 'Bearer ' + this.$store.state.access_token
          }
+         //禁止开始选择日期框选择的日期
          this.startPickerOptions.disabledDate = (time) => {
            return time.getTime() < Date.now() - 8.64e7;
          };
+        //禁止结束选择日期框选择的日期
          this.endPickerOptions.disabledDate = (time) => {
            return time.getTime() < Date.now() - 8.64e7 || time.getTime() < this.form.startTime;
          };
+         //获取所有申请类型，并要求服务端格式化成树结构
          axios.get(server.api.type + "?structure=tree").then( response => {
              this.types = response.data;
-         },(error) => {
+         },error => {
              toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
          });
+         //获取机构列表
          axios.get(server.api.mechanism).then( response => {
             this.options = response.data;
          }, error => {
@@ -259,20 +279,34 @@
          ]),
      },
      methods: {
+       //提交
        onSubmit(formName) {
-         this.$refs[formName].validate((valid) => {
+         let vm = this;
+         //再次验证所有表单是否符合要求
+         vm.$refs[formName].validate((valid) => {
+            //正确执行
             if(valid) {
               //将文件列表赋值给表单对象
-              this.form.fileList = this.fileList;
+              vm.form.fileList = vm.fileList;
               //格式化时间
-              this.form.startTime = this.formatDataTime(this.form.startTime);
-              this.form.endTime = this.formatDataTime(this.form.endTime);
-              axios.post(server.api.applicat, this.form).then( response => {
-                 toastr.success(this.$t('el.notification.create_applicat'));
+              if(vm.date.length > 0) {
+                  vm.form.startTime = vm.formatDataTime(vm.date[0]);
+                  vm.form.endTime = vm.formatDataTime(vm.date[1]);
+              }else{
+                  vm.form.startTime = vm.formatDataTime(vm.form.startTime);
+                  vm.form.endTime = vm.formatDataTime(vm.form.endTime);
+              }
+              axios.post(server.api.applicat, vm.form).then( response => {
+                 toastr.success(vm.$t('el.notification.create_applicat'));
                  //成功提交后跳转到申请管理页面
-                 this.$router.push('/applicat-manage');
+                 vm.$router.push('/applicat-manage');
               }, error => {
-                 stack_error(error.response.data)
+                  if(error.response.status == 422){
+                    //表单验证有错误执行
+                    stack_error(error.response.data)
+                  }else{
+                    toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+                  }
               })
             } else {
                 return false;

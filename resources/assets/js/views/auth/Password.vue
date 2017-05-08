@@ -27,7 +27,7 @@
 
                         <div class="form-group">
                             <div>
-                              <button type="submit" class="btn btn-primary col-md-12" :disabled="!formDirty" name="button">
+                              <button type="submit" class="btn btn-primary col-md-12" :disabled="!formDirty || disabled" name="button">
                                 {{ok ? $t('el.form.send_reset_password_email_ok') : $t('el.form.send_reset_password_email')}}
                               </button>
                             </div>
@@ -46,6 +46,7 @@
         data() {
             return {
                 ok: false,
+                disabled: false,
                 email: ''
             }
         },
@@ -71,10 +72,18 @@
         },
         methods: {
             submit() {
+                //禁用提交按钮，反之重复提交
+                this.disabled = true;
+                //发送重置密码邮件
                 axios.post('/api/password/email',{'email': this.email}).then( response => {
                     this.ok = true;
                 }, error => {
-                    console.log(error.response);
+                    if(error.response.status == 422){
+                      this.disabled = false;
+                      stack_error(error.response.data)
+                    }else{
+                      toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+                    }
                 })
             }
         },

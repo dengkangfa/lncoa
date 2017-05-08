@@ -240,7 +240,7 @@ export default [
 ]
 
 function checkLogin (to, from, next) {
-    if(localStorage.access_token) {
+    if(localStorage.access_token || sessionStorage.access_token) {
         return next('/');
     }
     return next();

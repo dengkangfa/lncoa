@@ -31,6 +31,7 @@ export default {
 			state.user = null;
 			state.access_token = '';
       localStorage.removeItem('access_token');
+      sessionStorage.removeItem('access_token');
 		},
 		[SET_USER] (state, user) {
 			state.user = user;

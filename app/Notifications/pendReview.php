@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class PendReview extends Notification
+class PendReview extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -58,7 +58,7 @@ class PendReview extends Notification
         $actionText = '查看';
         return (new MailMessage)
                             ->subject($subject)
-                            ->markdown('mail.review.results',
+                            ->markdown('mail.audit.results',
                             ['name' => $notifiable->name,
                              'url' => $url,
                              'message' => $message,

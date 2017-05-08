@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Services\FileManager\UploadManager;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class reviewResults extends Notification
+class reviewResults extends Notification implements ShouldQueue
 {
     use Queueable;
 

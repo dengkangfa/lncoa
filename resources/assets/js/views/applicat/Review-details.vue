@@ -420,6 +420,7 @@
    }
 
    #review-details .ibox {
+     margin-top: 15px;
      margin-bottom: 10px;
    }
 

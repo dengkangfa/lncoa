@@ -200,14 +200,14 @@
         validateBeforeSubmit(event) {
             let vm = this;
             vm.$validator.validateAll().then(() => {
-                vm.create(event);
+                vm.register(event);
             }).catch(() => {
                 toastr.error(vm.$t('el.notification.submit_data_error'))
             });
           },
-          create(event) {
+          //注册
+          register(event) {
             axios.post('/api/register',this.form).then( response => {
-              console.log(response);
                 let vm = this;
                 if(response.data.status == 'success') {
                     localStorage.setItem(vm.form.name + '_refresh_token', response.data.refresh_token);
@@ -215,7 +215,11 @@
                     vm.$router.push('/');
                 }
             }, error => {
-                console.log(error.response);
+                if(error.response.status == 422){
+                  stack_error(error.response.data)
+                }else{
+                  toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+                }
             })
           }
       },

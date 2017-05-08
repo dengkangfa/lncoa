@@ -54,6 +54,7 @@
             axios.get(server.api.menu).then((response) => {
                 vm.menus=response.data;
                 this.defaultMenuId(vm.menus);
+                $("#sidebar-wrapper").scrollTop(10);
             });
             let path = this.$route.path;
             //根据当前路由设置菜单默认选中项
@@ -71,12 +72,6 @@
           ...mapMutations([
               'OUT_LOGIN',
           ]),
-         handleOpen(key, keyPath) {
-           console.log(key, keyPath);
-         },
-         handleClose(key, keyPath) {
-           console.log(key, keyPath);
-         },
          defaultMenuId(menus) {
             //当前应打开的菜单组
             for(var menu in menus){
@@ -231,6 +226,10 @@
 .sidebar-nav > .sidebar-brand a:hover {
     color: #fff;
     background: none;
+}
+
+.sidebar-nav-width {
+    width: 233px
 }
 
 .logout {

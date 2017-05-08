@@ -202,9 +202,6 @@
                 }
             })
           },
-          handlePreview(file) {
-            console.log(file);
-          },
           handleSuccess(response, file, fileList) {
             //上传文件
             if(response.success){
@@ -213,19 +210,13 @@
               stack_error(response.errors);
               fileList.splice(-1,1);
             }
-            console.log(this.form);
-          },
-          handleChange(val) {
-            console.log(val);
           },
           handleUpload(file) {
             //上传之前的回调函数
             let fileList = this.fileList;
-            console.log(this.fileList);
             let flag = true;
             for (let i = 0; i < fileList.length; i++) {
                 fileList = fileList[i].raw ? fileList[i].raw : fileList[i]
-                console.log(fileList);
                 if(this.fileEqual(fileList,file)){
                   flag = false;
                   break;
@@ -234,8 +225,6 @@
             return flag;
           },
           fileEqual(f1, f2) {
-            console.log(f1);
-            console.log(f2);
               //判断用户是否重复上传相同的文件
               if(f1.original_name === f2.original_name &&
                  f1.size === f2.size &&

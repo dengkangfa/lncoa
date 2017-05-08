@@ -12,10 +12,6 @@ class LoginController extends ApiController
 
     public function login(Request $request)
     {
-        //获取用户名和密码
-        // $credentials = $this->credentials($request);
-        // \Log::info($credentials);
-
         $field = filter_var($request->input('username'), FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
         $request->merge([$field => $request->input('username')]);
 

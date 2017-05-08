@@ -3,7 +3,7 @@
         <sidebar></sidebar>
         <div id="page-content-wrapper">
             <navbar></navbar>
-            <div class="container-fluid">
+            <div id="main" class="container-fluid">
                 <router-view></router-view>
             </div>
         </div>
@@ -85,9 +85,9 @@
         width: 100%;
         // position: absolute;
 
-        // .container-fluid {
-        //     margin-top: 15px
-        // }
+        #main.container-fluid {
+            margin-top: 15px
+        }
     }
 
     #wrapper.toggled #page-content-wrapper {

@@ -175,8 +175,12 @@ router.beforeEach ((to, from, next) => {
     // Auth验证
     if (to.matched.some(record => record.meta.requiresAuth)) {
        if (!store.state.isLogin) {
-          if (localStorage.access_token) {
-              store.commit('SET_ACCESS_TOKEN', localStorage.access_token);
+          if (localStorage.access_token || sessionStorage.access_token) {
+              if(localStorage.access_token){
+                store.commit('SET_ACCESS_TOKEN', localStorage.access_token);
+              }else{
+                store.commit('SET_ACCESS_TOKEN', sessionStorage.access_token);
+              }
               store.commit('LOGIN');
               store.commit('JUDGE_PHONE');
               axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.access_token;

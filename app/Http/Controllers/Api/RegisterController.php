@@ -66,7 +66,7 @@ class RegisterController extends ApiController
           $role = \App\Role::where('name','=','owner')->first();
           $user->attachRole($role);
 
-          $this->sendEmailConfirmationTo($user);
+          // $this->sendEmailConfirmationTo($user);
 
           return $this->login($request);
     }

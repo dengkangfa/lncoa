@@ -153,7 +153,6 @@ value<template>
                         queryVal[e.name] = statusId;
                   }else if( e.name == 'created_at'){
                       if(e.value != ''){
-                        console.log(e.value);
                         let startTime = vm.formatDataTime(e.value[0]);
                         let endTime = vm.formatDataTime(e.value[1]);
                         let created_at = startTime + "#" + endTime;
