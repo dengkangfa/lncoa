@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends ApiController
@@ -10,7 +11,7 @@ class LoginController extends ApiController
 
     use AuthenticatesUsers;
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $field = filter_var($request->input('username'), FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
         $request->merge([$field => $request->input('username')]);

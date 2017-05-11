@@ -30,6 +30,8 @@
     "chart.js": "^2.5.0",
     "cropperjs": "^1.0.0-beta.2",
     "element-ui": "^1.2.7",
+    "skycons": "^1.0.0",
+    "v-distpicker": "^0.1.7",
     "vee-validate": "^2.0.0-rc.3"
   }
 }

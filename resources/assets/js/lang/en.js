@@ -283,7 +283,12 @@ export default {
       my_type: 'My Type',
       profile: 'Profile',
       inbox: 'Inbox',
-      logout: 'Logout'
+      logout: 'Logout',
+      weather: 'Weather',
+      night: 'Night',
+      day: 'Today',
+      real_time: 'Real Time',
+      considerable_humidity: 'Considerable Humidity'
     },
     sidebar: {
       dashboard: 'Dashboard',
@@ -384,7 +389,9 @@ export default {
         submit_data_error: 'You enter the data is wrong, please improve after the submission!',
         review_success: 'Your review and comments have been submitted!',
         applicat_cancel: 'The application has been canceled!',
-        applicat_remove: 'The application has been deleted!'
+        applicat_remove: 'The application has been deleted!',
+        weather_api_error: 'Network anomalies, can not get to the weather!',
+        loginlogs_api_error: 'The network is unusable and can not get the most recent access!'
     }
   }
 };

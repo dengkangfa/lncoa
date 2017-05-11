@@ -24,7 +24,6 @@
                           </span>
                           <!-- 错误消息END -->
                         </div>
-
                         <div class="form-group">
                             <div>
                               <button type="submit" class="btn btn-primary col-md-12" :disabled="!formDirty || disabled" name="button">

@@ -51,14 +51,19 @@ class OpinionRepository
                   $applicat->status_id = $status->id;
                   $this->reviewEndNotificat($applicat->user_id, $applicat);
               }else if($applicat->stage < $roles_count){
+                  //找到下一角色组
                   $role = $applicat->type->roles()
                     ->wherePivot('priority',$applicat->stage)
                       ->first();
-                  //下一个审核的角色组
-                  $applicat->role_id = $role->id;
-                  //找出下一审核组成员，并发送邮件提示
-                  $users = $role->users;
-                  if(!$users) $users = User::find(1);
+                  $users = null;
+                  if(is_null($role) || !is_null($role) && is_null($role->users)){
+                      //下一个审核的角色组
+                      $applicat->role_id = $role->id;
+                      //找出下一审核组成员，并发送邮件提示
+                      $users = $role->users;
+                  }else{
+                      $users = User::find(1);
+                  }
                   \Notification::send($users, new PendReview($applicat));
 
                   //如果是刚刚通过，将该申请状态调整为审核中

@@ -42,7 +42,6 @@
             // console.log(this.$parent);
             // console.log(this.$parent.$el);
             // console.log(this.$parent.$el == 'div.row');
-            return;
               let vm = this;
               if (action == 'edit-item') {
                   vm.$router.push(this.$route.path + '/' + data.id + '/edit')
@@ -50,9 +49,7 @@
                   axios.delete(server.api.type + '/' + data.id).then((response) => {
                           toastr.success(this.$t('el.notification.delete_type'))
                           // vm.SET_TYPES(response.data)
-                          console.log(data);
-                          console.log(vm.$store.state.types);
-                          vm.$delete(type.children);
+                          // vm.$delete(type.children);
                           // vm.$parent.loadData();
                           // vm.$dispatch('loadData')
                       }, (response) => {

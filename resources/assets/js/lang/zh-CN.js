@@ -283,7 +283,12 @@ export default {
       my_type: '我的类型',
       profile: '个人资料',
       inbox: '收件箱',
-      logout: '登出'
+      logout: '登出',
+      weather: '天气',
+      night: '夜间',
+      day: '白天',
+      real_time: '实时',
+      considerable_humidity: '相当湿度'
     },
     sidebar: {
       dashboard: '面板',
@@ -378,7 +383,9 @@ export default {
         submit_data_error: '你输入的数据有误,请完善后在提交!',
         review_success: '您的审核以及意见已提交!',
         applicat_cancel: '申请已取消!',
-        applicat_remove: '申请已删除!'
+        applicat_remove: '申请已删除!',
+        weather_api_error: '网络异常，无法获取到天气情况',
+        loginlogs_api_error: '网络异常，无法获取到最近访问情况'
     }
   }
 };

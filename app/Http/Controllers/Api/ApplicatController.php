@@ -70,16 +70,16 @@ class ApplicatController extends ApiController
         $type_id = $types[count($types)-1];
         //找出第一个审核角色组
         $role = \App\Type::find($type_id)->startRole()->first();
-        //将第一个审核角色组的id添加进申请表
-        $request->merge(['role_id' => $role->id, 'type_id' => $type_id]);
-        $applicat = $this->applicat->store($request->all());
-        //找到优先级第一管理该类型申请的管理员用户组
-        if($role){
-           $users = $role->users;
+        if(!is_null($role)){
+            //将第一个审核角色组的id添加进申请表
+            $request->merge(['role_id' => $role->id, 'type_id' => $type_id]);
+            $applicat = $this->applicat->store($request->all());
+            //找到优先级第一管理该类型申请的管理员用户组
+            $users = $role->users;
         }else{
-          return \Response::json([
-              'message' => ["该类型的申请还未开通"]
-          ], 403);
+            $request->merge(['role_id' => 1, 'type_id' => $type_id]);
+            $applicat = $this->applicat->store($request->all());
+            $users = User::find(1);
         }
         //发送通知
         \Notification::send($users, new pendReview($applicat));

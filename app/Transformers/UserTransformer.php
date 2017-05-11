@@ -21,6 +21,8 @@ class UserTransformer extends TransformerAbstract
             'name' => $user->name,
             'mobile' => $user->mobile,
             'email' => $user->email,
+            'province' => $user->province,
+            'city' => $user->city,
             'status' => $user->status,
             'nickname' => $user->nickname,
             'description' => $user->description,

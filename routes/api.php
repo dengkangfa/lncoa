@@ -18,6 +18,8 @@ Route::group([
     'namespace' => 'Api',
 ], function () {
     Route::get('statistics', 'IndexController@statistics');
+    Route::get('weather', 'IndexController@weather');
+    Route::get('loginlogs', 'IndexController@loginlogs');
     // Route::resource('user', 'UserController', ['except' => ['create', 'show']]);
     Route::get('/user', 'UserController@me');
     Route::post('/user', ['middleware' => ['permission:create-user'], 'uses' => 'UserController@store']);

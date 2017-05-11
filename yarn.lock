@@ -358,9 +358,9 @@ babel-plugin-check-es2015-constants@^6.22.0:
   dependencies:
     babel-runtime "^6.22.0"
 
-babel-plugin-component@^0.9.0:
-  version "0.9.0"
-  resolved "http://registry.npm.taobao.org/babel-plugin-component/download/babel-plugin-component-0.9.0.tgz#f653146630b1bf7017faf4e9f890a4b420c1e728"
+babel-plugin-component@^0.9.1:
+  version "0.9.1"
+  resolved "http://registry.npm.taobao.org/babel-plugin-component/download/babel-plugin-component-0.9.1.tgz#17b74ce8025256d52bb24fac0a4d4185ad01813f"
 
 babel-plugin-transform-es2015-arrow-functions@^6.22.0:
   version "6.22.0"
@@ -3795,6 +3795,10 @@ simplemde@^1.11.2:
     codemirror-spell-checker "*"
     marked "*"
 
+skycons@^1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/skycons/download/skycons-1.0.0.tgz#afb160c5901470aae84676fbc38bbd7dd5b69d8f"
+
 slash@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/slash/download/slash-1.0.0.tgz#c41f2f6c39fc16d1cd17ad4b5d896114ae470d55"
@@ -4202,6 +4206,12 @@ uuid@^3.0.0:
   version "3.0.1"
   resolved "http://registry.npm.taobao.org/uuid/download/uuid-3.0.1.tgz#6544bba2dfda8c1cf17e629a3a305e2bb1fee6c1"
 
+v-distpicker@^0.1.7:
+  version "0.1.7"
+  resolved "http://registry.npm.taobao.org/v-distpicker/download/v-distpicker-0.1.7.tgz#4606da12ad1fdbdc91d19d7b5d1d3a4014ad93e3"
+  dependencies:
+    vue "^2.2.2"
+
 validate-npm-package-license@^3.0.1:
   version "3.0.1"
   resolved "http://registry.npm.taobao.org/validate-npm-package-license/download/validate-npm-package-license-3.0.1.tgz#2804babe712ad3379459acfbe24746ab2c303fbc"
@@ -4282,6 +4292,10 @@ vue-template-es2015-compiler@^1.2.2:
 vue@^2.0.1:
   version "2.1.10"
   resolved "http://registry.npm.taobao.org/vue/download/vue-2.1.10.tgz#c9235ca48c7925137be5807832ac4e3ac180427b"
+
+vue@^2.2.2:
+  version "2.3.3"
+  resolved "http://registry.npm.taobao.org/vue/download/vue-2.3.3.tgz#d1eaa8fde5240735a4563e74f2c7fead9cbb064c"
 
 vuex@^2.1.1:
   version "2.1.3"

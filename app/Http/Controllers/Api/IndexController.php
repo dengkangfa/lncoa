@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Auth;
 use Redis;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -11,7 +12,11 @@ use App\Repositories\ApplicatRepository;
 
 class IndexController extends ApiController
 {
+    //天气预报过期时间
+    const weatherExpireSec = 3600;
+
     protected $user;
+
     protected $applicat;
 
     public function __construct(
@@ -42,10 +47,7 @@ class IndexController extends ApiController
           $applicatFulfill = $this->applicat->getFulfillNumber();
           $files = $this->getNewFiles('proposal');
         }
-        //如果访问历史可视，则获取访问历史记录
-        if(in_array('accessLog', $showArr)) {
-          $loginLogs = $this->getLoginLog();
-        }
+
         //如果折线图可视，则获取折线图数据
         if(in_array('chart', $showArr)) {
           $accessCountLogs = $this->getChartData();
@@ -55,9 +57,28 @@ class IndexController extends ApiController
           $notice = $this->getNotice();
         }
 
-        $data = compact('users', 'applicats', 'applicatFulfill', 'files', 'loginLogs', 'accessCountLogs', 'notice');
+        $data = compact('users', 'applicats', 'applicatFulfill', 'files', 'accessCountLogs', 'notice');
 
         return $this->respondWithArray($data);
+    }
+
+    /**
+     * 获取天气预报
+     * @return [type] [description]
+     */
+    public function weather()
+    {
+        return $this->respondWithArray($this->getWeather());
+    }
+
+    /**
+     * 获取最近登录访问记录
+     * @return [type] [description]
+     */
+    public function loginlogs()
+    {
+        //如果访问历史可视，则获取访问历史记录
+        return $this->respondWithArray($this->getLoginLog());
     }
 
     /**
@@ -151,5 +172,36 @@ class IndexController extends ApiController
         $contentKey = 'lncoa:notice:content';
 
         return Redis::get($contentKey);
+    }
+
+    public function getWeather()
+    {
+        //获取用户所在城市<清远市>
+        $location = Auth::user()->city;
+        $city = '';
+        //如果用户所在城市为空，则使用用户访问ip获取所在地址
+        if(empty($location)){
+            $ip = request()->ip();
+            $city = getIpLookup('113.100.63.12')['city'];
+        }else{
+            $city = mb_substr($location, 0, -1, 'utf-8');
+        }
+        $weatherKey = 'lncoa:weather:' . $city;
+        if(Redis::command('EXISTS', [$weatherKey])){
+            return unserialize(Redis::command('GET', [$weatherKey]));
+        }
+        if(!$weather=getWeather($city)){
+            return \Response::json([
+                'status' => "error",
+                'message' => "访问异常"
+            ], 502);
+        }
+        if($todayWeather=getTodayWeather($city)){
+            $weather[0] = $todayWeather;
+        }
+        //将当前城市的天气预报数据存储到redis，过期时间为一小时
+        Redis::command('SET', [$weatherKey, serialize($weather)]);
+        Redis::command('EXPIRE', [$weatherKey, self::weatherExpireSec]);
+        return $weather;
     }
 }

@@ -63,6 +63,12 @@
                            <!-- 错误消息END -->
                         </div>
                     </div>
+                    <div class="form-group" id="distpicker">
+                      <label for="city" class="col-sm-2 control-label">所在城市</label>
+                      <div class="col-sm-10">
+                          <v-distpicker :province="user.province" :city="user.city" @selected="selected" hide-area></v-distpicker>
+                      </div>
+                    </div>
                     <!-- 描述 -->
                     <div class="form-group has-feedback" :class="{'has-error': errors.has('description')}">
                       <label for="description" class="col-sm-2 control-label">{{ $t('el.form.user_descript') }}</label>
@@ -86,16 +92,16 @@
 
 <script>
   import server from '../../config/api'
+  import VDistpicker from 'v-distpicker'
   import { mapState } from 'vuex'
   import { mapFields } from 'vee-validate';
   import { stack_error } from '../../config/helper.js'
 
   export default {
     data() {
-        return {
-            defaultValue: {},
-            userinfo: {},
-        }
+      return {
+        flags: false
+      }
     },
     computed: {
         ...mapState([
@@ -109,11 +115,13 @@
         //表单是否有更改
         formDirty() {
           // are some fields dirty?
-          return Object.keys(this.validataFields).some(key => this.validataFields[key].dirty);
+          return Object.keys(this.validataFields).some(key => this.validataFields[key].dirty) || this.flags;
         }
     },
+    components: {
+       VDistpicker
+    },
     created() {
-        this.defaultValue = this.user;
         this.$validator.updateDictionary({
             zh_CN: {
                 attributes: {
@@ -146,13 +154,18 @@
                   }
                 });
             }
+        },
+        selected(val) {
+            this.user.province = val.province;
+            this.user.city = val.city;
+            this.flags = true;
         }
     }
 
   }
 </script>
 
-<style lang="css" scoped>
+<style lang="css">
   .form-control, .form-control:focus, input {
       border-width: 2px;
       box-shadow: none;
@@ -170,5 +183,9 @@
   }
   textarea {
     resize: none;
+  }
+  #distpicker .address select{
+    color: #95a5a6 !important;
+    border: 2px solid #dce4ec !important;
   }
 </style>
