@@ -12,6 +12,7 @@
         "intervention/image": "^2.3",
         "laravel/framework": "5.4.*",
         "laravel/passport": "^2.0",
+        "laravelchen/laravel-geetest": "^2.0",
         "league/fractal": "^0.14.0",
         "league/html-to-markdown": "^4.4",
         "predis/predis": "^1.1",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "102978925a62aecf9f77a9d4629a15af",
+    "content-hash": "baec6b8647d34b6368b5665bad728382",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -728,6 +728,39 @@
                 "passport"
             ],
             "time": "2017-02-14T13:39:28+00:00"
+        },
+        {
+            "name": "laravelchen/laravel-geetest",
+            "version": "2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LaravelChen/laravel-geetest.git",
+                "reference": "12c414dd067f3ed701a36532e4555cb4c76b09b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/LaravelChen/laravel-geetest/12c414dd067f3ed701a36532e4555cb4c76b09b7.zip",
+                "reference": "12c414dd067f3ed701a36532e4555cb4c76b09b7",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LaravelChen\\Geetest\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "LaravelChen",
+                    "email": "848407695@qq.com"
+                }
+            ],
+            "description": "laravel-geetest",
+            "time": "2017-04-16T07:33:04+00:00"
         },
         {
             "name": "lcobucci/jwt",

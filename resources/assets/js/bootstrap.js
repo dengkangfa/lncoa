@@ -13,6 +13,8 @@ window.swal = require('sweetalert');
 
 require('animate.css');
 
+require('./gt.js')
+
 
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces

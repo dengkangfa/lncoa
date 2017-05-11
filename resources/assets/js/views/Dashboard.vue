@@ -27,9 +27,6 @@
                 return this.$store.state.sidebar.opened;
             }
         },
-        created() {
-            // this.loadUser()
-        },
         methods: {
             loadUser: function() {
                 // console.log(this.$store.state.headers);
@@ -102,8 +99,12 @@
         }
         #wrapper.toggled #page-content-wrapper {
             transition: all 0.5s ease;
-            padding-left: 250px;
-            margin-right: -250px;
+            // padding-left: 250px;
+            // margin-right: -250px;
+        }
+        #wrapper.toggled #sidebar-wrapper {
+            width: 100%;
+            background: rgba(14, 14, 14, 0.32);
         }
     }
 

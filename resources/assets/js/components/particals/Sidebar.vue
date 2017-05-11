@@ -1,6 +1,6 @@
 <template>
-    <div id="sidebar-wrapper">
-        <ul class="sidebar-nav">
+    <div id="sidebar-wrapper" @click="hideWrapper">
+        <ul class="sidebar-nav" @click.stop="">
             <div class="user">
                 <div class="avatar">
                     <img class="img-responsive img-circle" :src="user.avatar ? user.avatar : 'http://lncoa.app/images/default.png'">
@@ -99,26 +99,45 @@
             this.OUT_LOGIN();
             this.$router.push('/login');
         },
+        hideWrapper() {
+            if(this.$store.state.sidebar.opened) {
+                this.$store.state.sidebar.opened = false;
+            }
+        }
     }
   }
 </script>
 
 <style lang="scss" scoped>
   @media (min-width: 768px){
-    /*凹槽宽度*/
-    #sidebar-wrapper::-webkit-scrollbar{
-      width:4px;
-      height:4px;
-    }
-    /*拖动条*/
-    #sidebar-wrapper::-webkit-scrollbar-thumb{
-      background-color:#2f3c4e;
-      border-radius:6px;
-    }
-    /*背景槽*/
-    #sidebar-wrapper::-webkit-scrollbar-track{
-      background-color:#324157;
-      border-radius:6px;
+      /*凹槽宽度*/
+      #sidebar-wrapper::-webkit-scrollbar{
+        width:4px;
+        height:4px;
+      }
+      /*拖动条*/
+      #sidebar-wrapper::-webkit-scrollbar-thumb{
+        background-color:#2f3c4e;
+        border-radius:6px;
+      }
+      /*背景槽*/
+      #sidebar-wrapper::-webkit-scrollbar-track{
+        background-color:#324157;
+        border-radius:6px;
+      }
+  }
+  @media (max-width: 768px){
+    #sidebar-wrapper {
+      z-index: 9999;
+      position: fixed;
+      left: 250px;
+      width: 0;
+      height: 100%;
+      margin-left: -250px;
+      overflow-y: auto;
+      background: #324157;
+      -webkit-transition: all 0.5s ease;
+      transition: all 0.5s ease;
     }
   }
   .sub-menu {
@@ -136,6 +155,8 @@
       margin: 0;
       padding: 0;
       list-style: none;
+      background: #324157;
+      height: 100%;
   }
 
   .sidebar-nav li {

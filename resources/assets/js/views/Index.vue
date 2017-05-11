@@ -77,7 +77,7 @@
                                 <th>{{ $t('el.table.position') }}</th>
                                 <th>{{ $t('el.table.created_at') }}</th>
                             </tr>
-                            <tr v-for="loginLog in statistics.loginLogs">
+                            <tr v-for="loginLog in loginLogs">
                                 <td><el-tag type="primary">{{ loginLog.user_name }}</el-tag></td>
                                 <template v-if="loginLog.iplookup.country">
                                   <td>{{ loginLog.iplookup.country+' '+loginLog.iplookup.province+' '+loginLog.iplookup.city }}</td>
@@ -115,7 +115,7 @@
     <div class="col-md-4" id="weather">
             <div class="panel panel-solid-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Weather</h3>
+                    <h3 class="panel-title">{{$t('el.page.weather')}}</h3>
                     <div class="actions pull-right">
                         <i :class="weather_hide ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" @click="weatherToggle"></i>
                         <i class="ion-close-round"></i>
@@ -123,7 +123,7 @@
                 </div>
                 <div class="panel-body" id="weather-body">
                     <div class="row" style="margin-left: -15px; margin-right: -15px;">
-                        <div class="col-md-6" v-show="weathers.length">
+                        <div class="col-md-6 col-xs-6" v-show="weathers.length">
                             <!-- 当前白天/夜间<存在实时>天气情况 -->
                             <template v-if="isNight">
                                 <h3 class="text-center small-thin uppercase">{{$t('el.page.night')}}</h3>
@@ -140,7 +140,7 @@
                                 </div>
                             </template>
                         </div>
-                        <div class="col-md-6" v-if="weathers.length">
+                        <div class="col-md-6 col-xs-6" v-if="weathers.length">
                             <template v-if="weathers[0].temperature_curr">
                               <h3>{{$t('el.page.real_time')}}</h3>
                               <div class="today-info">
@@ -170,31 +170,39 @@
                 </div>
                 <div class="panel-footer">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-xs-3">
                             <h6 class="text-center small-thin uppercase" v-if="weathers.length">{{weathers[1].week}}</h6>
                             <div class="text-center">
-                                <canvas id="today1" width="32" height="32"></canvas>
+                                <div>
+                                  <canvas id="today1" width="32" height="32"></canvas>
+                                </div>
                                 <span id="today-temperature1" v-if="weathers.length">{{weathers[1].temperature}}</span>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-xs-3">
                             <h6 class="text-center small-thin uppercase" v-if="weathers.length">{{weathers[2].week}}</h6>
                             <div class="text-center">
-                                <canvas id="today2" width="32" height="32"></canvas>
+                                <div>
+                                  <canvas id="today2" width="32" height="32"></canvas>
+                                </div>
                                 <span id="today-temperature1" v-if="weathers.length">{{weathers[2].temperature}}</span>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-xs-3">
                             <h6 class="text-center small-thin uppercase" v-if="weathers.length">{{weathers[3].week}}</h6>
                             <div class="text-center">
-                                <canvas id="today3" width="32" height="32"></canvas>
+                                <div class="">
+                                  <canvas id="today3" width="32" height="32"></canvas>
+                                </div>
                                 <span id="today-temperature1" v-if="weathers.length">{{weathers[3].temperature}}</span>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-xs-3">
                             <h6 class="text-center small-thin uppercase" v-if="weathers.length">{{weathers[4].week}}</h6>
                             <div class="text-center">
-                                <canvas id="today4" width="32" height="32"></canvas>
+                                <div class="">
+                                  <canvas id="today4" width="32" height="32"></canvas>
+                                </div>
                                 <span id="today-temperature1" v-if="weathers.length">{{weathers[4].temperature}}</span>
                             </div>
                         </div>
@@ -306,7 +314,7 @@
               if(vm.permissions[i].name == 'show-access-log') {
                   vm.access_log_show = true;
                   vm.access_log_hide = false;
-                  this.getAccessLog();
+                  vm.getAccessLog();
                   continue;
               }
           }

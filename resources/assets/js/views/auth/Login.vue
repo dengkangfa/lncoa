@@ -12,22 +12,32 @@
                       <p>{{$t('el.form.login_placeholder')}}</p>
                       <form class="form-horizontal" @submit.prevent="onLogin" method="post" role="form">
                           <div class="form-group email has-feedback"
-                            :class="{'has-error' : state == 'error'}">
+                            :class="{'has-error' : state == 'error' || usernameFlags.invalid}">
                               <div class="col-md-12 ">
-                                  <input type="text" id="username" class="form-control" :placeholder="$t('el.form.username_placeholder')" v-model="username" required autofocus>
+                                  <input name="username" type="text" id="username" v-validate="{  rules: {required: true, regex: /^[\u4e00-\u9fa5_a-zA-Z0-9-]{2,16}|[a-z]([a-z0-9]*[-_]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[\.][a-z]{2,3}([\.][a-z]{2})?$/i} }" class="form-control" :placeholder="$t('el.form.username_placeholder')" v-model="username" required autofocus>
                                   <i class="ion-android-person"></i>
                                   <span v-show="state == 'error'" class="help-block">
                                       <strong >{{ message }}</strong>
                                   </span>
+                                  <!-- 错误消息 -->
+                                  <span v-show="errors.has('username')" class="help-block">
+                                    <strong>{{ errors.first('username') }}</strong>
+                                  </span>
+                                  <!-- 错误消息END -->
                               </div>
                           </div>
-                          <div class="form-group" style="margin-bottom: 0px;">
+                          <div class="form-group has-feedback" :class="{'has-error': passwordFlags.invalid}" style="margin-bottom: 0px;">
                               <div class="col-md-12">
-                                  <input type="password" class="form-control" id="password" :placeholder="$t('el.form.password')" v-model="password" required>
+                                  <input name="password" type="password" class="form-control" id="password" v-validate="'required|min:5|max:16'" :placeholder="$t('el.form.password')" v-model="password" required>
                                   <i class="ion-locked"></i>
                                   <span v-show="PasswordError" class="help-block">
                                       <strong v-for="errorItem in PasswordError">{{errorItem}}</strong>
                                   </span>
+                                  <!-- 错误消息 -->
+                                  <span v-show="errors.has('password')" class="help-block">
+                                    <strong>{{ errors.first('password') }}</strong>
+                                  </span>
+                                  <!-- 错误消息END -->
                                   <router-link to='/password_reset'>
                                       {{$t('el.form.forgot_your_password')}}
                                   </router-link>
@@ -39,9 +49,10 @@
                             </label>
                             <p class="remember">不是自己的电脑上不要勾选此项</p>
                           </div>
+                          <Geetest @validate="validate"></Geetest>
                           <div class="form-group">
                               <div class="col-md-12">
-                                  <button type="submit" class="btn btn-primary btn-block" name="button">{{$t('el.form.sign_in')}}</button>
+                                  <button type="submit" :disabled="!formDirty || validateGeetest" class="btn btn-primary btn-block" name="button">{{$t('el.form.sign_in')}}</button>
                                   <hr />
                                   <router-link to="/register" class="btn btn-default btn-block" exact>{{$t('el.form.not_a_member')}}</router-link>
                               </div>
@@ -56,8 +67,10 @@
 </template>
 
 <script>
+  import Geetest from '../../components/Geetest'
   import server from '../../config/api'
   import { mapMutations } from 'vuex'
+  import { mapFields } from 'vee-validate';
 
   export default {
       name : 'login',
@@ -70,7 +83,25 @@
               state: '',
               message: '',
               remember: false,
+              geetest: {}
           }
+      },
+      components: {
+          Geetest
+      },
+      computed: {
+        ...mapFields({
+            usernameFlags: 'username',
+            passwordFlags: 'password',
+        }),
+        //表单是否有更改
+        formDirty() {
+            // are some fields dirty?
+            return Object.keys(this.validataFields).some(key => this.validataFields[key].dirty);
+        },
+        validateGeetest() {
+            return $.isEmptyObject(this.geetest);
+        }
       },
       methods:{
           ...mapMutations([
@@ -78,9 +109,16 @@
               'LOGIN',
               'SET_USER'
           ]),
+          validate(val) {
+            console.log(val);
+              this.geetest = val;
+          },
           onLogin:function(){
               var vm = this;
               let data = {};
+              if(!this.geetest){
+                  return;
+              }
               //如果存在refresh_token则重新刷新令牌，反之重新获取令牌
               let refresh_token = localStorage.getItem(vm.username + '_refresh_token');
               //如果存在refresh_token，则刷新令牌，反之请求令牌

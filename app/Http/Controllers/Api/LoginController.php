@@ -13,6 +13,12 @@ class LoginController extends ApiController
 
     public function login(LoginRequest $request)
     {
+        $result = $this->validate($request, [
+          'geetest_challenge' => 'geetest',
+        ], [
+          'geetest' => \Config::get('geetest.server_fail_alert')
+        ]);
+
         $field = filter_var($request->input('username'), FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
         $request->merge([$field => $request->input('username')]);
 
