@@ -114,7 +114,12 @@
                     localStorage.access_token = data.access_token;
                     this.$router.push('/');
                 },error => {
-                    stack_error(error.response.data.error.message);
+                    if(error.response.status == 422){
+                      //表单验证有错误执行
+                      stack_error(error.response.data.error.message)
+                    }else{
+                      toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+                    }
                     this.$router.push('/password_reset');
                 })
             }

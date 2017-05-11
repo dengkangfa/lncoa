@@ -145,12 +145,17 @@
         update: function() {
             if(!this.errors.any()) {
                 axios.put('/api/user/' + this.user.id, this.user).then( response => {
+                  for(let key in this.validataFields) {
+                      this.validataFields[key].dirty = false;
+                  }
+                  this.flags = false;
                   toastr.success(this.$t( 'el.notification.update_profile' ));
                 }, error => {
-                  if(error.response.status == 403){
-                    toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+                  if(error.response.status == 422){
+                    //表单验证有错误执行
+                    stack_error(error.response.data.error.message)
                   }else{
-                    stack_error(error.response.data)
+                    toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
                   }
                 });
             }
