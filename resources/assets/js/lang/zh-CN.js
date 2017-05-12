@@ -288,7 +288,7 @@ export default {
       night: '夜间',
       day: '白天',
       real_time: '实时',
-      considerable_humidity: '相当湿度'
+      considerable_humidity: '相对湿度'
     },
     sidebar: {
       dashboard: '面板',

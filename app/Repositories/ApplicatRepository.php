@@ -36,7 +36,7 @@ class ApplicatRepository
         }
         $applicats = $this->model
                     ->whereIn('role_id', $roleId)
-                      ->with('user', 'mechanism', 'type', 'status', 'opinions')
+                      ->with('user', 'mechanism', 'type', 'opinions')
                         ->orderBy($sortColumn, $sort)
                           ->paginate($number);
         return $applicats;
@@ -53,7 +53,7 @@ class ApplicatRepository
     public function getByUserId($user_id, $number = 10, $sort = 'desc', $sortColumn = 'created_at')
     {
         return $this->model->where('user_id',$user_id)
-                  ->with('user', 'mechanism', 'type', 'status')
+                  ->with('user', 'mechanism', 'type')
                     ->orderBy($sortColumn, $sort)
                       ->paginate($number);
     }
@@ -67,13 +67,13 @@ class ApplicatRepository
     public function getByType($type_id)
     {
         return $this->model->where('type_id', $type_id)
-                    ->where('status_id', 3)
+                    ->where('status','审核通过')
                       ->get();
     }
 
     public function getFulfillNumber()
     {
-        return $this->model->where('status_id',3)->count();
+        return $this->model->where('status','审核通过')->count();
     }
 
     /**

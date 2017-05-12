@@ -14,6 +14,7 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id')
                     ->comment('用户id');
             $table->string('name')->unique()
@@ -23,9 +24,8 @@ class CreateUsersTable extends Migration
             $table->text('avatar')->nullable()
                     ->comment('头像');
             $table->string('email')->unique();
-            $table->tinyInteger('status')->default(false)
-                    ->comment('激活状态');
             $table->string('password');
+            $table->tinyInteger('status')->default(0);
             $table->string('description')->nullable()
                     ->comment('用户描述');
             $table->enum('email_notify_enabled', ['yes', 'no'])->default('yes')
