@@ -19,8 +19,8 @@ let api = {
 }
 
 let client = {
-    client_id: '2',
-    client_secret: 'OkABZOuxDMaiaaFJBrESpYnmIMf6eSwyU42fPVdM'
+    client_id: '1',
+    client_secret: 'nZAeqSGsKOTvTbVH2tQsZLyU05ruFHQTAHMX7YhI'
 }
 
 export default {

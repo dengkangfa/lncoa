@@ -19,7 +19,7 @@ class Applicat extends Model
     protected $fillable = [
         'principal', 'mobile', 'mechanism_id', 'number', 'type_id',
         'startTime', 'endTime', 'agency', 'reason', 'goods', 'files',
-        'role_id', 'user_id'
+        'role_id', 'user_id', 'status'
     ];
 
     public function user()
@@ -35,11 +35,6 @@ class Applicat extends Model
     public function mechanism()
     {
         return $this->belongsTo('App\Mechanism');
-    }
-
-    public function status()
-    {
-        return $this->belongsTo('App\Status');
     }
 
     public function opinions()

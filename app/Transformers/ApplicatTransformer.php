@@ -29,7 +29,7 @@ class ApplicatTransformer extends TransformerAbstract
             'goods' => $applicat->goods,
             'files' => $applicat->files,
             'stage' => $applicat->stage,
-            'status' => $applicat->status->name,
+            'status' => $applicat->status,
             'created_at' => $applicat->created_at->toDateTimeString(),
             'updated_at' => $applicat->updated_at->toDateTimeString(),
         ];

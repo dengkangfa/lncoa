@@ -87,7 +87,7 @@ class ApplicatController extends ApiController
     }
 
     /**
-   * Upload the avatar.
+   * 上传活动策划
    *
    * @param Request $request
    * @return mixed
