@@ -45,6 +45,11 @@ class ResetPasswordController extends ApiController
      */
     public function reset(Request $request)
     {
+        $result = $this->validate($request, [
+          'geetest_challenge' => 'required',
+        ], [
+          'required' => \Config::get('geetest.server_fail_alert')
+        ]);
         $this->validate($request, $this->rules(), $this->validationErrorMessages());
 
         // Here we will attempt to reset the user's password. If it is successful we

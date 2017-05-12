@@ -14,9 +14,9 @@ class LoginController extends ApiController
     public function login(LoginRequest $request)
     {
         $result = $this->validate($request, [
-          'geetest_challenge' => 'geetest',
+          'geetest_challenge' => 'required',
         ], [
-          'geetest' => \Config::get('geetest.server_fail_alert')
+          'required' => '请正确完成验证码操作'
         ]);
 
         $field = filter_var($request->input('username'), FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
@@ -83,6 +83,7 @@ class LoginController extends ApiController
         $response = \Route::dispatch($proxy);
         $token = json_decode($response->getContent());
         $token->user = $request->user();
+        $token->user->roles = $request->user()->roles;
         $token->status = 'success';
 
         return response()->json($token);

@@ -17,6 +17,11 @@ import {
 
 export default {
     [TOGGLE] (state) {
+      if(state.isPhone && state.sidebar.opened) {
+          $(document.body).css('overflow-y','')
+      }else{
+          $(document.body).css('overflow-y','hidden')
+      }
       return state.sidebar.opened = !state.sidebar.opened
     },
     [SET_ACCESS_TOKEN] (state, access_token) {

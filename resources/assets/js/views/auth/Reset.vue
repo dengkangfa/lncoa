@@ -9,7 +9,7 @@
                       </h3>
                   </div>
                   <div class="panel-body">
-                    <form @submit.prevent="submit">
+                    <form @submit.prevent="validateBeforeSubmit">
                         <div class="form-group has-feedback" :class="{'has-error': emailFlags.invalid, 'has-success': emailFlags.valid}">
                             <label for="email">Email</label>
                             <input name="email" v-model="form.email" v-validate="'required|email'" type="email" class="form-control" required autofocus>
@@ -55,7 +55,8 @@
                             </span>
                             <!-- 错误消息END -->
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block" :disabled= "!formDirty">{{$t('el.form.reset')}}</button>
+                        <Geetest @validate="validate"></Geetest>
+                        <button type="submit" class="btn btn-primary btn-block" :disabled= "!formDirty || validateGeetest">{{$t('el.form.reset')}}</button>
                     </form>
                   </div>
               </div>
@@ -65,6 +66,7 @@
 </template>
 
 <script>
+    import Geetest from '../../components/Geetest'
     import { mapFields } from 'vee-validate';
     import { stack_error } from '../../config/helper.js'
 
@@ -77,6 +79,7 @@
                     password: '',
                     password_confirmation: ''
                 },
+                geetest: {},
                 regex: 0,
             }
         },
@@ -103,12 +106,35 @@
           formDirty() {
             // are some fields dirty?
             return Object.keys(this.validataFields).some(key => this.validataFields[key].dirty);
+          },
+          validateGeetest() {
+              return $.isEmptyObject(this.geetest);
           }
         },
+        components: {
+            Geetest
+        },
         methods: {
+            validate(val) {
+                this.geetest = val;
+            },
+            //提交之前验证所有表单信息
+            validateBeforeSubmit() {
+                let vm = this;
+                vm.$validator.validateAll().then(() => {
+                    //验证是否正确完成验证码操作
+                    if(!vm.validateGeetest) {
+                        vm.submit();
+                    }else {
+                        toastr.warning(this.$t('el.notification.code_warning'));
+                    }
+                }).catch(() => {
+                  toastr.error(vm.$t('el.notification.submit_data_error'))
+                });
+            },
             submit() {
+                Object.assign(this.form,this.geetest);
                 axios.post('/api/password/reset',this.form).then(response => {
-                  console.log(response);
                     let data = response.data[0];
                     localStorage.setItem(this.form.email + '_refresh_token', data.refresh_token);
                     localStorage.access_token = data.access_token;
@@ -116,11 +142,22 @@
                 },error => {
                     if(error.response.status == 422){
                       //表单验证有错误执行
+                      if(error.response.data.error){
+                        stack_error(error.response.data.error.message)
+                      }else{
+                        let message = [];
+                        for(let key in error.response.data) {
+                            for(let messagekey in error.response.data[key]) {
+                                message.push(error.response.data[key]);
+                            }
+                        }
+                      }
+                    }else if(error.response.status == 403){
                       stack_error(error.response.data.error.message)
+                      this.$router.push('/password_reset');
                     }else{
                       toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
                     }
-                    this.$router.push('/password_reset');
                 })
             }
         }

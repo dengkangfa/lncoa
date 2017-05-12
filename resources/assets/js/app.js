@@ -52,7 +52,9 @@ import {
     Popover,
     Upload,
     Row,
-    Tree
+    Tree,
+    Slider,
+    Loading
 } from 'element-ui'
 
 Vue.use(Tag)
@@ -86,6 +88,8 @@ Vue.use(Popover)
 Vue.use(Upload)
 Vue.use(Row)
 Vue.use(Tree)
+Vue.use(Slider)
+Vue.use(Loading)
 
 
 import 'element-ui/lib/theme-default/index.css'
@@ -118,6 +122,7 @@ Vue.config.lang =localStorage.Language ? window.Language = localStorage.Language
 Object.keys(locales).forEach(function (lang){
     Vue.locale(lang,locales[lang])
 })
+Vue.prototype.$loading = Loading.service
 // Vue.validator.setLocale(window.Language);
 // Validator.setLocale(window.Language);
 
@@ -184,15 +189,6 @@ router.beforeEach ((to, from, next) => {
               store.commit('LOGIN');
               store.commit('JUDGE_PHONE');
               axios.defaults.headers.common['Authorization'] = 'Bearer ' + store.state.access_token;
-              // Vue.nextTick(() => {
-              // axios.get(server.api.user + '?include=roles,menus,permissions&login').then((response) => {
-              //   console.log(response);
-              //     store.commit('SET_MENUS', response.data.data.menus.data);
-              //     store.commit('SET_USER', response.data.data);
-              //     store.commit('SET_PERMISSIONS', response.data.data.permissions.data);
-              // },(response) => {
-              //     return next('/login');
-              // });
 
               //拥有后面的路由权限判断需要用到用户的菜单信息，所有将默认的异步获取
               //数据改成同步

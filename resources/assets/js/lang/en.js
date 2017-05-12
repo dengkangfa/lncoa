@@ -391,7 +391,8 @@ export default {
         applicat_cancel: 'The application has been canceled!',
         applicat_remove: 'The application has been deleted!',
         weather_api_error: 'Network anomalies, can not get to the weather!',
-        loginlogs_api_error: 'The network is unusable and can not get the most recent access!'
+        loginlogs_api_error: 'The network is unusable and can not get the most recent access!',
+        code_warning: 'Please complete the verification code correctly!'
     }
   }
 };

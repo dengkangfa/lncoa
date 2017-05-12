@@ -97,7 +97,8 @@
                                 </span>
                                 <!-- 错误消息END -->
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block" :disabled= "!formDirty">{{$t('el.form.sign_up')}}</button>
+                            <Geetest @validate="validate"></Geetest>
+                            <button type="submit" class="btn btn-primary btn-block" :disabled= "!formDirty || validateGeetest">{{$t('el.form.sign_up')}}</button>
                         </form>
                     </div>
                 </div>
@@ -107,6 +108,7 @@
 </template>
 
 <script>
+    import Geetest from '../../components/Geetest'
     import { Validator, mapFields } from 'vee-validate';
 
     const strongRegex = new RegExp("^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$", "g");
@@ -122,6 +124,7 @@
                   password: '',
                   password_confirmation: ''
               },
+              geetest: {},
               regex: 0,
           }
       },
@@ -194,13 +197,27 @@
             // are some fields dirty?
             return Object.keys(this.validataFields).some(key => this.validataFields[key].dirty);
           },
+          validateGeetest() {
+              return $.isEmptyObject(this.geetest);
+          }
+      },
+      components: {
+          Geetest
       },
       methods: {
+        validate(val) {
+            this.geetest = val;
+        },
         //提交之前验证所有表单信息
         validateBeforeSubmit(event) {
             let vm = this;
             vm.$validator.validateAll().then(() => {
-                vm.register(event);
+                //验证是否正确完成验证码操作
+                if(!vm.validateGeetest) {
+                    vm.register(event);
+                }else {
+                    toastr.warning(this.$t('el.notification.code_warning'));
+                }
             }).catch(() => {
                 toastr.error(vm.$t('el.notification.submit_data_error'))
             });
@@ -225,3 +242,16 @@
       },
     }
 </script>
+
+<style lang="css">
+
+  .el-slider__runway.disabled .el-slider__bar.slider-general-regex {
+      background-color: red !important;
+  }
+  .el-slider__runway.disabled .el-slider__bar.slider-medium-regex {
+      background-color: #ffeb3b !important;
+  }
+  .el-slider__runway.disabled .el-slider__bar.slider-strong-regex {
+      background-color: #3bff80 !important;
+  }
+</style>

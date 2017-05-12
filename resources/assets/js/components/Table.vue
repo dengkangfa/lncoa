@@ -6,7 +6,7 @@
             </small>
             <h5>{{ title }}</h5>
         </div>
-        <div class="ibox-content table-responsive no-padding">
+        <div class="ibox-content table-responsive no-padding" v-loading=loading>
             <table :class="tableClass">
                 <thead>
                     <tr>
@@ -200,6 +200,7 @@
                    children: 'items',
                    label: 'title'
                 },
+                loading: false,
                 menus: [],
            }
         },
@@ -215,6 +216,7 @@
         },
         methods: {
             loadData() {
+                this.loading = true;
                 //获取当前全路由路径
                 let fullpath = this.$route.fullPath
                 //获取相应的api地址
@@ -229,6 +231,7 @@
                   }
 
                 axios.get(url).then(response => {
+                        this.loading = false;
                         // this.pagination = response.data.meta.pagination
                         this.items = response.data.data
                         this.totalPage = response.data.meta.pagination.total_pages

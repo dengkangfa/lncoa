@@ -25,7 +25,7 @@
             </div>
             <el-col>
                 <el-menu :router="true" theme="dark"
-                  :unique-opened="true" :default-active="defaultActive" :default-openeds="defaultMenu">
+                  :unique-opened="true" :default-active="defaultActive" :default-openeds="defaultMenu" @select="select">
                   <el-submenu :index="menu.id+''" v-for="menu in menus" :key="menu.id" v-if="menu.items.length != 0" class="menu-height">
                     <template slot="title"><i :class="menu.icon"></i>{{ $t("el.sidebar."+menu.title) }}</template>
                       <el-menu-item :index="item.uri" v-for="item in menu.items"><i :class="item.icon"></i>{{ $t("el.sidebar."+item.title) }}</el-menu-item>
@@ -54,7 +54,6 @@
             axios.get(server.api.menu).then((response) => {
                 vm.menus=response.data;
                 this.defaultMenuId(vm.menus);
-                $("#sidebar-wrapper").scrollTop(10);
             });
             let path = this.$route.path;
             //根据当前路由设置菜单默认选中项
@@ -71,6 +70,7 @@
         methods: {
           ...mapMutations([
               'OUT_LOGIN',
+              'TOGGLE'
           ]),
          defaultMenuId(menus) {
             //当前应打开的菜单组
@@ -90,19 +90,22 @@
         userHome() {
             this.$router.push('/user/profile');
             this.defaultActive = '';
+            this.hideWrapper();
         },
         setting() {
             this.$router.push('/user/setting');
             this.defaultActive = '';
+            this.hideWrapper();
         },
         logout: function(){
             this.OUT_LOGIN();
             this.$router.push('/login');
         },
         hideWrapper() {
-            if(this.$store.state.sidebar.opened) {
-                this.$store.state.sidebar.opened = false;
-            }
+            this.TOGGLE();
+        },
+        select() {
+            this.hideWrapper();
         }
     }
   }
@@ -128,7 +131,7 @@
   }
   @media (max-width: 768px){
     #sidebar-wrapper {
-      z-index: 9999;
+      z-index: 10001;
       position: fixed;
       left: 250px;
       width: 0;

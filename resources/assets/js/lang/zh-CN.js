@@ -385,7 +385,8 @@ export default {
         applicat_cancel: '申请已取消!',
         applicat_remove: '申请已删除!',
         weather_api_error: '网络异常，无法获取到天气情况',
-        loginlogs_api_error: '网络异常，无法获取到最近访问情况'
+        loginlogs_api_error: '网络异常，无法获取到最近访问情况',
+        code_warning: '请正确完成验证码操作'
     }
   }
 };

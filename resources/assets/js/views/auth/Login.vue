@@ -10,7 +10,7 @@
                   </div>
                   <div class="panel-body">
                       <p>{{$t('el.form.login_placeholder')}}</p>
-                      <form class="form-horizontal" @submit.prevent="onLogin" method="post" role="form">
+                      <form class="form-horizontal" @submit.prevent="validateBeforeSubmit" method="post" role="form">
                           <div class="form-group email has-feedback"
                             :class="{'has-error' : state == 'error' || usernameFlags.invalid}">
                               <div class="col-md-12 ">
@@ -43,16 +43,22 @@
                                   </router-link>
                               </div>
                           </div>
-                          <div class="checkbox" style="padding-bottom: 5px;">
+                          <div class="checkbox row" style="padding-bottom: 5px;">
                             <label>
                               <input type="checkbox" v-model="remember"> 记住我
                             </label>
-                            <p class="remember">不是自己的电脑上不要勾选此项</p>
+                            <p class="remember" v-show="remember">不是自己的电脑上不要勾选此项</p>
                           </div>
-                          <Geetest @validate="validate"></Geetest>
+                            <Geetest @validate="validate"></Geetest>
                           <div class="form-group">
                               <div class="col-md-12">
-                                  <button type="submit" :disabled="!formDirty || validateGeetest" class="btn btn-primary btn-block" name="button">{{$t('el.form.sign_in')}}</button>
+                                  <button type="submit"
+                                   v-loading.fullscreen.lock="fullscreenLoading"
+                                   :disabled="!formDirty || validateGeetest"
+                                   class="btn btn-primary btn-block"
+                                   name="button">
+                                     {{$t('el.form.sign_in')}}
+                                   </button>
                                   <hr />
                                   <router-link to="/register" class="btn btn-default btn-block" exact>{{$t('el.form.not_a_member')}}</router-link>
                               </div>
@@ -83,7 +89,8 @@
               state: '',
               message: '',
               remember: false,
-              geetest: {}
+              geetest: {},
+              fullscreenLoading: false
           }
       },
       components: {
@@ -110,11 +117,25 @@
               'SET_USER'
           ]),
           validate(val) {
-            console.log(val);
               this.geetest = val;
           },
-          onLogin:function(){
+          //提交之前验证所有表单信息
+          validateBeforeSubmit(event) {
+              let vm = this;
+              vm.$validator.validateAll().then(() => {
+                  //验证是否正确完成验证码操作
+                  if(!vm.validateGeetest) {
+                      vm.onLogin(event);
+                  }else {
+                      toastr.warning(this.$t('el.notification.code_warning'));
+                  }
+              }).catch(() => {
+                toastr.error(vm.$t('el.notification.submit_data_error'))
+              });
+          },
+          onLogin(){
               var vm = this;
+              vm.$loading()
               let data = {};
               if(!this.geetest){
                   return;
@@ -142,6 +163,7 @@
                       'client_secret': server.client.client_secret,
                   }
               }
+              Object.assign(data,this.geetest);
               //请求登录
               axios.post(server.api.login, data).then( response => {
                   vm.message = '';
@@ -157,26 +179,20 @@
                   }
                   //将用于验证身份的令牌存储进vuex
                   vm.SET_ACCESS_TOKEN(response.data.access_token);
-                  vm.LOGIN();
+                  // vm.LOGIN();
                   axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access_token;
-                  axios.get(server.api.user + '?include=roles', {
-                      headers: {
-                          'Authorization': 'Bearer ' + vm.$store.state.access_token
-                      }
-                  }).then( response => {
-                      vm.SET_USER(response.data.data);
-                      // this.$router.go(-1);
-                      vm.$router.push('/');
-                  }, error => {
-                      if(error.response.status == 422){
-                        stack_error(error.response.data)
-                      }else{
-                        toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
-                      }
-                  })
+                  vm.SET_USER(response.data);
+                  // vm.$router.go(-1);
+                  vm.$loading().close();
+                  vm.$router.push('/');
               }, error => {
-                  vm.message = error.response.data.message;
-                  vm.state = error.response.data.status;
+                  vm.$loading().close();
+                  if(error.response.status == 403){
+                    vm.message = error.response.data.message;
+                    vm.state = error.response.data.status;
+                  }else{
+                    toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+                  }
               })
           }
       }
@@ -236,10 +252,23 @@
 #login-wrapper .remember {
   float: right;
   opacity: .6;
+  margin-bottom: 0;
 }
 
-.email .help-block{
-    margin-bottom: -10px;
+#login-wrapper .help-block {
+    margin-bottom: 0;
+}
+
+#login-wrapper .form-horizontal .checkbox {
+    padding-top: 0;
+}
+
+#geetest-captcha .geetest_holder.geetest_wind {
+    min-width: 220px;
+}
+
+#login-wrapper .form-group.has-feedback.has-error {
+    margin-bottom: 0;
 }
 
 @media (max-width: 768px){

@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-bottom: 5px;">
+  <div style="margin-bottom: 5px; min-width: 220px">
     <div id="geetest-captcha"></div>
     <p id="wait">正在加载验证码...</p>
   </div>
@@ -8,26 +8,21 @@
 <script>
   export default {
       created() {
-           this.geetest('laravelchen/geetest');
+           this.geetest('/geetest');
       },
       methods: {
           geetest(url) {
-                let vm = this;
-                var handlerEmbed = function(captchaObj) {
-                // $("#geetest-captcha").closest('form').submit(function(e) {
-                //     vm.$emit('validate',captchaObj.getValidate())
-                // });
-                captchaObj.appendTo("#geetest-captcha");
+            let vm = this;
+            var handlerEmbed = function(captchaObj) {
+                if(!$('#geetest-captcha').html()){
+                  captchaObj.appendTo("#geetest-captcha");
+                }
                 captchaObj.onReady(function() {
                   $("#wait")[0].className = "hide";
                 });
                 captchaObj.onSuccess(() => {
                     vm.$emit('validate',captchaObj.getValidate())
                 })
-                // if ('popup' == 'popup') {
-                //     captchaObj.bindForm($('#geetest-captcha').closest('form').find(':submit'));
-                //     captchaObj.appendTo("#geetest-captcha");
-                // }
             };
             $.ajax({
                 url: url + "?t=" + (new Date()).getTime(),
@@ -41,7 +36,7 @@
                         offline: !data.success,
                         new_captcha: true,
                         width: '100%',
-                        lang: 'zh-cn'
+                        lang: window.Language
                     }, handlerEmbed);
                 }
             });

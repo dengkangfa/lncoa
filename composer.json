@@ -9,6 +9,7 @@
         "dflydev/apache-mime-types": "^1.0",
         "erusev/parsedown": "^1.6",
         "fzaninotto/faker": "~1.4",
+        "germey/geetest": "^2.0",
         "intervention/image": "^2.3",
         "laravel/framework": "5.4.*",
         "laravel/passport": "^2.0",

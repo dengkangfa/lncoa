@@ -77,7 +77,7 @@
                                 <th>{{ $t('el.table.position') }}</th>
                                 <th>{{ $t('el.table.created_at') }}</th>
                             </tr>
-                            <tr v-for="loginLog in loginLogs">
+                            <tr v-for="loginLog in loginlogs">
                                 <td><el-tag type="primary">{{ loginLog.user_name }}</el-tag></td>
                                 <template v-if="loginLog.iplookup.country">
                                   <td>{{ loginLog.iplookup.country+' '+loginLog.iplookup.province+' '+loginLog.iplookup.city }}</td>
@@ -126,36 +126,62 @@
                         <div class="col-md-6 col-xs-6" v-show="weathers.length">
                             <!-- 当前白天/夜间<存在实时>天气情况 -->
                             <template v-if="isNight">
+                                <!-- 夜间 -->
                                 <h3 class="text-center small-thin uppercase">{{$t('el.page.night')}}</h3>
                                 <div class="text-center">
+                                    <!-- 天气动画图标 -->
                                     <canvas id="today-night" width="110" height="110"></canvas>
+                                    <!-- 天气动画图标END -->
+                                    <!-- 夜间的温度范围 -->
                                     <h4 id="night-temperature" v-if="weathers.length">{{weathers[0].temperature}}</h4>
+                                    <!-- 夜间的温度范围END -->
+                                    <!-- 当前城市 -->
+                                    <h5 class="current-city" v-if="weathers.length">{{weathers[0].citynm}}</h5>
+                                    <!-- 当前城市END -->
                                 </div>
+                                <!-- 夜间 -->
                             </template>
                             <template v-else>
+                                <!-- 白天 -->
                                 <h3 class="text-center small-thin uppercase">{{$t('el.page.day')}}</h3>
                                 <div class="text-center">
+                                    <!-- 天气动画图标 -->
                                     <canvas id="today" class="clear-day" width="110" height="110"></canvas>
+                                    <!-- 天气动画图标END -->
+                                    <!-- 白天的温度范围 -->
                                     <h4 id="today-temperature" v-if="weathers.length">{{weathers[0].temperature}}</h4>
+                                    <!-- 白天的温度范围END -->
+                                    <!-- 当前城市 -->
+                                    <h5 class="current-city" v-if="weathers.length">{{weathers[0].citynm}}</h5>
+                                    <!-- 当前城市 -->
                                 </div>
+                                <!-- 白天END -->
                             </template>
                         </div>
                         <div class="col-md-6 col-xs-6" v-if="weathers.length">
                             <template v-if="weathers[0].temperature_curr">
                               <h3>{{$t('el.page.real_time')}}</h3>
                               <div class="today-info">
+                                <!-- 当前温度 -->
                                 <div>
                                   <span>{{weathers[0].temperature_curr}}</span>
                                 </div>
+                                <!-- 当前温度 -->
+                                <!-- 当前天气文字描述 -->
                                 <div>
                                   <span>{{weathers[0].weather_curr}}</span>
                                 </div>
+                                <!-- 当前天气文字描述END -->
+                                <!-- 风力 -->
                                 <div>
                                   {{weathers[0].wind + weathers[0].winp}}
                                 </div>
+                                <!-- 风力END -->
+                                <!-- 湿度 -->
                                 <div>
                                   {{$t('el.page.considerable_humidity')}} {{weathers[0].humidity}}
                                 </div>
+                                <!-- 湿度END -->
                               </div>
                             </template>
                             <template v-else>
@@ -168,6 +194,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- 未来四天天气状况 -->
                 <div class="panel-footer">
                     <div class="row">
                         <div class="col-md-3 col-xs-3">
@@ -214,6 +241,7 @@
                             </div>
                         </div> -->
                     </div>
+                    <!-- 未来四天天气状况END -->
                 </div>
             </div>
         </div>
@@ -643,6 +671,13 @@
       }
       .today-info {
           font-size: 18px;
+      }
+      .panel-body {
+        padding-bottom: 0px;
+      }
+      .current-city {
+        margin-bottom: 0;
+        font-size: 18px;
       }
   }
 

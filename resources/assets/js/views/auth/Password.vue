@@ -9,7 +9,7 @@
                       </h3>
                   </div>
                   <div class="panel-body">
-                    <form @submit.prevent="submit">
+                    <form @submit.prevent="validateBeforeSubmit">
                         <div class="form-group has-feedback" :class="{'has-error': errors.has('email')}">
                           <label class="control-label">{{$t('el.form.email')}}</label>
                           <input name="email" v-model="email" v-validate="'required|email|exist'" type="email"  class="form-control" :placeholder="$t('el.form.email_placeholder')">
@@ -24,9 +24,10 @@
                           </span>
                           <!-- 错误消息END -->
                         </div>
+                        <Geetest @validate="validate"></Geetest>
                         <div class="form-group">
                             <div>
-                              <button type="submit" class="btn btn-primary col-md-12" :disabled="!formDirty || disabled" name="button">
+                              <button type="submit" class="btn btn-primary col-md-12" :class="{'success': ok}" :disabled="!formDirty || disabled || validateGeetest" name="button">
                                 {{ok ? $t('el.form.send_reset_password_email_ok') : $t('el.form.send_reset_password_email')}}
                               </button>
                             </div>
@@ -40,16 +41,19 @@
 </template>
 
 <script>
+    import Geetest from '../../components/Geetest'
     import { Validator, mapFields } from 'vee-validate';
     export default {
         data() {
             return {
                 ok: false,
                 disabled: false,
-                email: ''
+                email: '',
+                geetest: {}
             }
         },
         created() {
+            //在validator中添加验证email存在与否的规则
             if(!this.$validator.rules.exist){
                 Validator.extend('exist', {
                     getMessage: (field) => `该${field}不存在.`,
@@ -69,7 +73,27 @@
                   }
             });
         },
+        components: {
+            Geetest
+        },
         methods: {
+            validate(val) {
+                this.geetest = val;
+            },
+            //提交之前验证所有表单信息
+            validateBeforeSubmit() {
+                let vm = this;
+                vm.$validator.validateAll().then(() => {
+                    //验证是否正确完成验证码操作
+                    if(!vm.validateGeetest) {
+                        vm.submit();
+                    }else {
+                        toastr.warning(this.$t('el.notification.code_warning'));
+                    }
+                }).catch(() => {
+                  toastr.error(vm.$t('el.notification.submit_data_error'))
+                });
+            },
             submit() {
                 //禁用提交按钮，反之重复提交
                 this.disabled = true;
@@ -96,10 +120,16 @@
           formDirty() {
             // are some fields dirty?
             return Object.keys(this.validataFields).some(key => this.validataFields[key].dirty);
+          },
+          validateGeetest() {
+              return $.isEmptyObject(this.geetest);
           }
         },
     }
 </script>
 
 <style lang="css">
+  .success {
+      background-color: #004eff;
+  }
 </style>
