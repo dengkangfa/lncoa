@@ -5,18 +5,21 @@
     <div class="col-md-4 col-xs-12 apply-list">
       <div class="ibox">
         <div class="ibox-content">
+          <!-- 搜索控件 -->
             <div class="row" style="margin-bottom: 10px">
                 <div class="col-md-12">
                     <div class="input-group">
-                        <input type="text" :placeholder="$t('el.form.review_filter_placeholder')" class="input-sm form-control"> <span class="input-group-btn">
+                        <input type="text" v-model="keyWord" :placeholder="$t('el.form.review_filter_placeholder')" class="input-sm form-control"> <span class="input-group-btn">
                             <button type="button" class="btn btn-sm btn-primary"> {{ $t('el.page.search') }}</button> </span>
                     </div>
                 </div>
             </div>
+            <!-- 搜索控件END -->
+            <!-- 申请列表 -->
             <table class="table table-hover">
                 <tbody>
-                <template v-if="applicats.length > 0">
-                  <tr v-for="applicat in applicats" :class="{'current' : $route.params.id == applicat.id}">
+                <template v-if="applicatlist.length > 0">
+                  <tr v-for="applicat in applicatlist" :class="{'current' : $route.params.id == applicat.id}">
                       <td class="project-status">
                           <Status :status="applicat.status"></Status>
                       </td>
@@ -32,6 +35,7 @@
                   <h3 class="none text-center" v-if="applicats.length == 0">{{ $t('el.page.nothing') }}</h3>
                   </tbody>
               </table>
+              <!-- 申请列表END -->
               <nav class="text-center">
                 <div v-if="applicats.length < 1"></div>
                 <el-pagination
@@ -154,6 +158,7 @@
                                       </div>
                                   </div>
                                 </el-tab-pane>
+                                <!-- 转发面板 -->
                                 <el-tab-pane :label="$t('el.page.forwarding')" name="forward" class="forward">
                                     <el-form label-position="top" :model="forward_form" label-width="80px">
                                         <el-form-item :label="$t('el.form.recipient')">
@@ -173,8 +178,15 @@
                                          </el-form-item>
                                     </el-form>
                                 </el-tab-pane>
-                                <el-tab-pane>
+                                <!-- 转发面板END -->
+                                <el-tab-pane label="审批">
+                                    <div class="">
 
+                                    </div>
+                                    <div>
+                                      时段: {{applicat.startTime}} - {{applicat.endTime}}
+                                    </div>
+                                    <button type="button" class="btn btn-info" name="button" @click="approval(applicat)">批准</button>
                                 </el-tab-pane>
                               </el-tabs>
                           </div>
@@ -216,6 +228,7 @@
               fileList: [],
               roles: null,
               users: null,
+              keyWord: '',
           }
       },
       created() {
@@ -231,13 +244,25 @@
           '$route.params': 'currentApplicat'
       },
       components: {
-          Status
+          Status,
       },
       computed: {
           ...mapState([
               'isPhone',
               'user'
-          ])
+          ]),
+          //过滤后的申请列表
+          applicatlist:function(){
+              let vm = this;
+              return this.applicats.filter(function(item){
+                  if((item.mechanism+'-'+item.type)
+                  .indexOf(vm.keyWord) >= 0 || item.principal
+                  .indexOf(vm.keyWord) >= 0) {
+                      return true;
+                  }
+                  return false;
+              })
+          }
       },
       methods: {
           ...mapMutations([
@@ -397,6 +422,20 @@
                 toastr.success('申请已转发!');
                 this.$router.push('/review');
             })
+         },
+         approval(applicat) {
+             if(applicat.status == '审核通过') {
+               axios.put('/api/applicat/' + this.$route.params.id +'/approval').then( response => {
+                   applicat.status = '进行中';
+                   for (var i = 0; i < this.applicats.length; i++) {
+                       if(this.applicats[i].id == applicat.id){
+                          this.applicats[i].status = '进行中';
+                          continue;
+                       }
+                   }
+                   toastr.success('审批成功!');
+               })
+             }
          }
       }
   }

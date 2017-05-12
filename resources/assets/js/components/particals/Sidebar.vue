@@ -102,7 +102,9 @@
             this.$router.push('/login');
         },
         hideWrapper() {
-            this.TOGGLE();
+            if(this.$store.state.isPhone) {
+              this.TOGGLE();
+            }
         },
         select() {
             this.hideWrapper();

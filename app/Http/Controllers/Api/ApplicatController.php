@@ -163,4 +163,14 @@ class ApplicatController extends ApiController
         return $this->noContent();
     }
 
+    public function approval($id)
+    {
+        $this->applicat->find($id);
+        $status = Status::where('name','进行中')->first();
+
+        $this->applicat->updateColumn($id,['status_id' => $status->id]);
+
+        return $this->noContent();
+    }
+
 }

@@ -42,13 +42,13 @@
                               </div>
                               <div class="row">
                                 <el-row :gutter="10">
-                                  <el-col :xs="8" :sm="6" :md="4" :lg="3">
-                                    <el-steps :space="100" :active="applicat.stage" finish-status="success">
+                                  <!-- <el-col :xs="8" :sm="6" :md="4" :lg="3"> -->
+                                    <el-steps center align-center :space="110" :active="applicat.stage" finish-status="success">
                                       <el-step v-for="(role, index) in applicat.roles.data"
                                         :description="role.display_name"
                                         :status="(applicat.status == '审核不通过' && index == applicat.stage-1) ? 'error' : '' "></el-step>
                                     </el-steps>
-                                  </el-col>
+                                  <!-- </el-col> -->
                                 </el-row>
                               </div>
                               <div class="row">
