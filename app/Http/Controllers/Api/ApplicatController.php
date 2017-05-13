@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use Auth;
-use App\Status;
 use Illuminate\Http\Request;
 use App\Notifications\pendReview;
 use App\Http\Requests\ApplicatRequest;
 use App\Repositories\ApplicatRepository;
 use App\Repositories\OpinionRepository;
+use App\Repositories\AppraisalRepository;
 use App\Transformers\ApplicatTransformer;
+use App\Transformers\AppraisalTransformer;
 use App\Transformers\DateTakeUpTransformer;
 use App\Services\FileManager\UploadManager;
 
@@ -156,21 +157,37 @@ class ApplicatController extends ApiController
     public function cancel($id,Request $request)
     {
         $stautsName = $request->get('status');
-        $status = Status::where('name',$stautsName)->first();
 
-        $this->applicat->updateColumn($id,['status_id' => $status->id]);
+        $this->applicat->updateColumn($id,['status' => $stautsName]);
 
         return $this->noContent();
     }
 
+    /**
+     * 审批
+     * @param  int $id
+     * @return json
+     */
     public function approval($id)
     {
-        $this->applicat->find($id);
-        $status = Status::where('name','进行中')->first();
-
-        $this->applicat->updateColumn($id,['status_id' => $status->id]);
+        $this->applicat->updateColumn($id,['status' => '进行中']);
 
         return $this->noContent();
+    }
+
+    public function appraisal($id, Request $request,AppraisalRepository $appraisal)
+    {
+        $data = array_merge(
+          $request->all(),[
+          'user_id' => \Auth::id(),
+          'applicat_id' => $id
+        ]);
+        //新增评论
+        $model = $appraisal->store($data);
+        //添加成功则修改申请状态
+        $this->applicat->updateColumn($id,['status' => '已结束']);
+
+        return $this->respondWithItem($model,new AppraisalTransformer);
     }
 
 }

@@ -54,7 +54,8 @@ import {
     Row,
     Tree,
     Slider,
-    Loading
+    Loading,
+    Rate
 } from 'element-ui'
 
 Vue.use(Tag)
@@ -90,6 +91,7 @@ Vue.use(Row)
 Vue.use(Tree)
 Vue.use(Slider)
 Vue.use(Loading)
+Vue.use(Rate)
 
 
 import 'element-ui/lib/theme-default/index.css'

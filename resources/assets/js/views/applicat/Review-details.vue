@@ -28,7 +28,7 @@
                             {{applicat.mechanism}} - {{applicat.type}}
                           </router-link>
                           <br/>
-                          <small>{{ $t('el.table.created_at') + ' ' + applicat.created_at }}</small>
+                          <small>{{ $t('el.table.created_at') + " " }}<timeInterval :date="applicat.created_at"></timeInterval></small>
                       </td>
                   </tr>
                 </template>
@@ -110,8 +110,10 @@
                                       </dd>
                                   </dl>
                                 </el-tab-pane>
+                                <!-- 审核面板 -->
                                 <el-tab-pane :label="$t('el.page.review')" name="second">
                                   <div class="feed-activity-list">
+                                    <!-- 审核意见 -->
                                       <template v-if="applicat.opinions">
                                         <div class="feed-element" v-for="opinion in applicat.opinions.data">
                                             <a href="#" class="pull-left">
@@ -126,7 +128,9 @@
                                             </div>
                                         </div>
                                       </template>
-                                      <div class="feed-element" v-if="is_opinion">
+                                      <!-- 审核意见END -->
+                                      <!-- 审核控件 -->
+                                      <div class="feed-element">
                                           <div class="media-body ">
                                             <form  @submit.prevent="submit">
                                               <el-input type="textarea" v-model="form.opinion" :placeholder="$t('el.form.opinion_placeholder')" class="opinion"></el-input>
@@ -156,8 +160,10 @@
                                            </form>
                                           </div>
                                       </div>
+                                      <!-- 审核控件END -->
                                   </div>
                                 </el-tab-pane>
+                                <!-- 审核面板END -->
                                 <!-- 转发面板 -->
                                 <el-tab-pane :label="$t('el.page.forwarding')" name="forward" class="forward">
                                     <el-form label-position="top" :model="forward_form" label-width="80px">
@@ -179,7 +185,7 @@
                                     </el-form>
                                 </el-tab-pane>
                                 <!-- 转发面板END -->
-                                <el-tab-pane label="审批">
+                                <el-tab-pane label="审批" v-if="applicat.status == '审核通过' || applicat.status == '进行中'">
                                     <div class="">
 
                                     </div>
@@ -187,6 +193,17 @@
                                       时段: {{applicat.startTime}} - {{applicat.endTime}}
                                     </div>
                                     <button type="button" class="btn btn-info" name="button" @click="approval(applicat)">批准</button>
+                                </el-tab-pane>
+                                <el-tab-pane label="评价">
+                                  <div class="block">
+                                    <el-input type="textarea" v-model="appraisal_form.appraisal" placeholder="反馈"></el-input>
+                                    <el-rate
+                                      v-model="appraisal_form.score"
+                                      show-text
+                                      :colors="['#99A9BF', '#F7BA2A', '#FF9900']">
+                                    </el-rate>
+                                    <button type="button" class="btn btn-info pull-right" :disabled="!appraisalCanSubmit" name="button" @click="appraisal">提交</button>
+                                  </div>
                                 </el-tab-pane>
                               </el-tabs>
                           </div>
@@ -202,13 +219,14 @@
 <script>
   import { mapState, mapMutations } from 'vuex'
   import Status from '../../components/Status'
+  import TimeInterval from '../../components/TimeInterval'
   import server from '../../config/api.js'
   export default {
       data() {
           return {
               applicats: [],
               applicat: {},
-              is_opinion: true,
+              // is_opinion: true,
               id: '',
               form: {
                   radio: '',
@@ -220,6 +238,10 @@
                   role_id: '',
                   user_id: '',
               },
+              appraisal_form: {
+                  appraisal: null,
+                  score: null,
+              },
               total: 0,
               totalPage: 0,
               currentPage: 0,
@@ -229,11 +251,13 @@
               roles: null,
               users: null,
               keyWord: '',
+              rate: null
           }
       },
       created() {
           this.headers = {
-              'Authorization': 'Bearer ' + this.$store.state.access_token
+              'Authorization': 'Bearer ' + this.$store.state.access_token,
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
           this.currentPage = this.$route.query.page;
           this.pageSize = parseInt(this.$route.query.pageSize);
@@ -245,6 +269,7 @@
       },
       components: {
           Status,
+          TimeInterval
       },
       computed: {
           ...mapState([
@@ -262,6 +287,9 @@
                   }
                   return false;
               })
+          },
+          appraisalCanSubmit() {
+              return this.appraisal_form.appraisal != null || this.appraisal_form.score != null;
           }
       },
       methods: {
@@ -306,7 +334,7 @@
             axios.get('/api/applicat/' + this.$route.params.id + '?include=opinions').then( response => {
                 this.applicat = response.data.data;
                 this.DELETE_NOTIFICAT(this.applicat.id);
-                this.isOpinion();
+                // this.isOpinion();
             })
           },
           currentApplicat() {
@@ -315,36 +343,30 @@
                   if(this.applicats[i].id == this.$route.params.id) {
                       this.applicat = this.applicats[i];
                       this.DELETE_NOTIFICAT(this.applicats[i].id);
-                      this.isOpinion();
+                      // this.isOpinion();
                       break;
                   }
               }
               this.form.opinion = '';
               this.form.radio = '';
           },
-          isOpinion() {
-              //判断是否可发表意见
-              let opinions = this.applicat.opinions.data;
-              for (var i = 0; i < opinions.length; i++) {
-                  if(opinions[i].user.id == this.user.id) {
-                      this.is_opinion = false;
-                      return;
-                  }
-              }
-              this.is_opinion = true;
-          },
-          // getApplicat() {
-          //     axios.get('/api/applicat/ ' + this.$route.params.id);
-          // },
-          // getApplicatByTypeId() {
-          //     axios.get('/api/applicat?type=')
+          // isOpinion() {
+          //     //判断是否可发表意见
+          //     let opinions = this.applicat.opinions.data;
+          //     for (var i = 0; i < opinions.length; i++) {
+          //         if(opinions[i].user.id == this.user.id) {
+          //             this.is_opinion = false;
+          //             return;
+          //         }
+          //     }
+          //     this.is_opinion = true;
           // },
           // 提交审核
           submit() {
               this.form.applicat_id = this.$route.params.id;
               this.form.fileList = this.fileList;
               axios.post('/api/opinion/', this.form).then( response => {
-                  toastr.success($t('el.notification.review_success'));
+                  toastr.success(this.$t('el.notification.review_success'));
                   this.$router.push('/review');
               }, error => {
                   toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
@@ -436,6 +458,11 @@
                    toastr.success('审批成功!');
                })
              }
+         },
+         appraisal() {
+            axios.post('/api/applicat/' + this.$route.params.id + '/appraisal',this.appraisal_form).then( response => {
+                console.log(response);
+            })
          }
       }
   }

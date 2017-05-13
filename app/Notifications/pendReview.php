@@ -58,7 +58,7 @@ class PendReview extends Notification implements ShouldQueue
         $actionText = '查看';
         return (new MailMessage)
                             ->subject($subject)
-                            ->markdown('mail.audit.results',
+                            ->markdown('mail.review.results',
                             ['name' => $notifiable->name,
                              'url' => $url,
                              'message' => $message,

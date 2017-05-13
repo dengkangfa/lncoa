@@ -30,7 +30,12 @@
                                 {{ applicat.mechanism }} - {{ applicat.type }}
                               </router-link>
                               <br/>
-                              <small> {{$t('el.table.created_at') + ' ' + applicat.created_at }}</small>
+                              <small>
+                                <div class="">
+                                  {{$t('el.table.created_at') + ' '}}
+                                  <timeInterval :date="applicat.created_at"></timeInterval>
+                                </div>
+                              </small>
                             </td>
                         </tr>
                         </tbody>
@@ -69,6 +74,7 @@
 <script>
     import { mapState } from 'vuex'
     import Status from '../../components/Status'
+    import TimeInterval from '../../components/TimeInterval'
     export default {
         data() {
           return {
@@ -95,7 +101,8 @@
             this.loadData();
         },
         components: {
-            Status
+            Status,
+            TimeInterval
         },
         computed: {
             ...mapState([

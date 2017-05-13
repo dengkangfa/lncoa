@@ -346,11 +346,10 @@ export default {
       permission_menu: '权限-可见菜单',
       mobile: '联系方式',
       applicat_user: '申请人',
-      before: '前',
-      day: '天',
-      hour: '时',
-      minute: '分',
-      second: '秒'
+      day: '天前',
+      hour: '小时前',
+      minute: '分钟前',
+      second: '秒前'
     },
     notification: {
         update_profile: '更新资料成功!',

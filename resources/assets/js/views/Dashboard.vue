@@ -17,6 +17,7 @@
     import FooterBar from '../components/particals/FooterBar.vue';
 
     export default {
+        name: 'dashboard',
         components: {
             Sidebar,
             Navbar,

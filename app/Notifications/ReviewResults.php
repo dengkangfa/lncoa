@@ -47,17 +47,12 @@ class ReviewResults extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $mechanismName = $this->applicat->mechanism->name;
-        $subject = $mechanismName . $this->applicat->type->name.'审核通过 - lncoa';
         $url = url('/applicat-manage/details/' . $this->applicat->id);
-        if($this->applicat->status == '审核通过') {
-            $status = '成功通过了审核!';
-        }else{
-            $status = '审核失败';
-        }
+        $subject = $mechanismName . $this->applicat->type->name.'审核通过 - lncoa';
         $message = '您于'.$this->applicat->created_at.'申请的'
                     .'<'.$mechanismName.'-'
                     .$this->applicat->type->name
-                    .'>'.$status;
+                    .'>'.$this->applicat->status;
         $actionText = '查看';
         return (new MailMessage)
                             ->subject($subject)

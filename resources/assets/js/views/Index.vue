@@ -83,9 +83,12 @@
                                   <td>{{ loginLog.iplookup.country+' '+loginLog.iplookup.province+' '+loginLog.iplookup.city }}</td>
                                 </template>
                                 <template v-else>
-                                  <td></td>
+                                  <td>{{ loginLog.ip }}</td>
                                 </template>
-                                <td>{{ formatMsgTime(loginLog.create_at) }}</td>
+                                <td>
+                                  <timeInterval :date="loginLog.create_at"></timeInterval>
+                                </td>
+                                <!-- <td>{{ formatMsgTime(loginLog.create_at) }}</td> -->
                             </tr>
                         </tbody>
                     </table>
@@ -254,6 +257,7 @@
   import Skycons from 'skycons'
   import { mapState } from 'vuex'
   import Chart from '../components/Chartjs.vue'
+  import TimeInterval from '../components/TimeInterval.vue'
   export default {
      data () {
           return {
@@ -314,7 +318,8 @@
         }
       },
       components: {
-            Chart
+            Chart,
+            TimeInterval
       },
       created() {
           let vm = this;
@@ -464,7 +469,7 @@
             }
         },
         formatMsgTime (timespan) {
-          //格式化时间戳
+          //php时间戳转换成js时间戳
           let d = new Date(parseInt(timespan) * 1000);
 
           let date = (d.getFullYear()) + "-" + (d.getMonth() + 1) + "-" + (d.getDate()) + "-" + (d.getHours()) + ":" + (d.getMinutes()) + ":" + (d.getSeconds());
@@ -484,21 +489,20 @@
           totalTime = totalTime % parseInt(1000 * 60);
           let seconds = parseInt(totalTime / parseInt(1000));
           let time = "";
-          let day_str= ' ' + this.$t('el.table.day') + ' ';
-          let hour_str= ' ' + this.$t('el.table.hour') + ' ';
-          let minute_str= ' ' + this.$t('el.table.minute') + ' ';
-          let second_str= ' ' + this.$t('el.table.second') + ' ';
-          let before_str= ' ' + this.$t('el.table.before') + ' ';
+          let day_str= this.$t('el.table.day');
+          let hour_str= this.$t('el.table.hour');
+          let minute_str= this.$t('el.table.minute');
+          let second_str= this.$t('el.table.second');
           if (days >= 1) {
-              time = days + day_str + hours + hour_str + minutes + minute_str + seconds + second_str;
+              time = days + day_str;
           } else if (hours >= 1) {
-              time = hours + hour_str + minutes + minute_str + seconds + second_str;
+              time = hours + hour_str;
           } else if (minutes >= 1) {
-              time = minutes + minute_str + seconds + second_str;
+              time = minutes + minute_str;
           } else {
               time = seconds + second_str;
           }
-          return time + before_str;
+          return time;
         }
           // getIpLookup(ip) {
           //     axios.get('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=' + ip).then( response => {

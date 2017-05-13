@@ -131,6 +131,7 @@
                       :headers="headers"
                       :on-remove="handleRemove"
                       :on-success="handleSuccess"
+                      :on-error="handleError"
                       :before-upload="handleUpload"
                       :file-list="fileList">
                       <el-button size="small" type="primary">{{ $t('el.form.upload_btn') }}</el-button>
@@ -250,7 +251,8 @@
      created() {
          //请求头(用于文件上传的请求头)
          this.headers = {
-             'Authorization': 'Bearer ' + this.$store.state.access_token
+             'Authorization': 'Bearer ' + this.$store.state.access_token,
+             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
          }
          //禁止开始选择日期框选择的日期
          this.startPickerOptions.disabledDate = (time) => {
@@ -400,6 +402,9 @@
           }
           return date;
       },
+      handleError(err){
+          console.log(err);
+      }
      }
   }
 </script>

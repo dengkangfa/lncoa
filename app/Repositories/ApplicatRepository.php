@@ -36,6 +36,7 @@ class ApplicatRepository
         }
         $applicats = $this->model
                     ->whereIn('role_id', $roleId)
+                     ->whereNotIn('status',['已取消','已结束','审核不通过'])
                       ->with('user', 'mechanism', 'type', 'opinions')
                         ->orderBy($sortColumn, $sort)
                           ->paginate($number);

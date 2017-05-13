@@ -352,11 +352,10 @@ export default {
       permission_menu: 'Permission and menu',
       mobile: 'Mobile',
       applicat_user: 'applicant user',
-      before: 'before',
-      day: 'day',
-      hour: 'hour',
-      minute: 'minute',
-      second: 'second'
+      day: ' day ago',
+      hour: ' hour ago',
+      minute: ' minute ago',
+      second: ' second ago'
     },
     notification: {
         update_profile: 'Update data is successful!',

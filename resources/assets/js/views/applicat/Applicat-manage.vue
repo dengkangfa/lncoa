@@ -10,9 +10,9 @@
             </div>
         </div>
         <div class="ibox-content">
+            <!-- 搜索控件 -->
             <div class="row">
                 <div class="col-md-1 col-sm-1 col-xs-3">
-                    <!-- <button type="button" id="loading-example-btn" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> 刷新</button> -->
                     <div class="btn-group">
                         <el-button type="primary" size="small" style="padding:8px 9px" :loading="showLoading" icon="ion-refresh" @click="loadData">
                           <i class="ion-refresh" v-if="!showLoading"></i> {{ loading_text }}
@@ -26,12 +26,14 @@
                     </div>
                 </div>
             </div>
+            <!-- 搜索控件END -->
             <hr style="margin-bottom: 0; margin-top: 10px">
             <div class="project-list">
 
                 <table id="apply-manage" class="table table-hover">
                     <tbody>
                       <template v-if="applicats.length > 0">
+                        <!-- 手机ui -->
                         <template v-if="isPhone">
                           <tr class="row" style="border-bottom: 1px solid #aac0da;" v-for="(applicat, index) in applicatlist">
                               <div class="row title">
@@ -56,8 +58,9 @@
                                     <el-button  type="text" size="small">{{ $t('el.form.look') }}</el-button>
                                     <!-- <i class="btn btn-white btn-sm ion-folder"> {{ $t('el.form.look') }}</i> -->
                                 </router-link>
+                                <!-- 放弃申请 -->
                                 <el-popover
-                                   v-if="applicat.status != '已取消' && applicat.status != '审核通过'"
+                                   v-if="applicat.status == '待审核' || applicat.status == '审核中'"
                                    placement="top"
                                    trigger="click"
                                    width="160">
@@ -67,7 +70,9 @@
                                    </div>
                                    <el-button slot="reference" type="text" size="small" style="float:right">{{$t('el.form.cancel')}}</el-button>
                                 </el-popover>
+                                <!-- 放弃申请END -->
 
+                                <!-- 删除申请 -->
                                 <el-popover
                                    v-else
                                    placement="top"
@@ -79,9 +84,11 @@
                                    </div>
                                    <el-button slot="reference" type="text" size="small" style="float:right">{{$t('el.form.delete')}}</el-button>
                                 </el-popover>
+                                <!-- 删除申请 -->
                               </div>
                           </tr>
                         </template>
+                        <!-- 手机uiEND -->
                         <template v-else>
                             <tr v-for="(applicat, index) in applicatlist">
                                 <td><Status :status="applicat.status"></Status></td>
@@ -106,6 +113,13 @@
                                       :status="(applicat.status == '审核不通过' && index == applicat.stage-1) ? 'error' : '' "></el-step>
                                   </el-steps>
                                 </td>
+                                <!-- <td v-else-if>
+                                  <el-rate
+                                    v-model="2"
+                                    disabled
+                                    >
+                                  </el-rate>
+                                </td> -->
                                 <td v-else>
                                     <img src="http://lncoa.app/images/pass.png" width=350 height=48 alt="">
                                 </td>
@@ -115,7 +129,7 @@
                                       <!-- <i class="btn btn-white btn-sm ion-folder"> {{ $t('el.form.look') }}</i> -->
                                   </router-link>
                                   <el-popover
-                                     v-if="applicat.status != '已取消' && applicat.status != '审核通过'"
+                                     v-if="applicat.status == '待审核' || applicat.status == '审核中'"
                                      placement="top"
                                      trigger="click"
                                      width="160">
