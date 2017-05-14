@@ -33,7 +33,7 @@ class OpinionRepository
             $applicat->status = '审核通过';
         }else{
           $applicat->stage = $applicat->stage+1;
-          if($input['radio'] == '通过') {
+          if($input['radio'] == '通过' || $input['radio'] == 'Pass') {
               //获取需要经过角色组的审核数
               $roles_count = $applicat->type()
                                         ->withCount('roles')
@@ -75,9 +75,10 @@ class OpinionRepository
         $input['user_id'] = Auth::id();
         $input['files'] = json_encode(array_pluck($input['fileList'],'response'));
         $this->save($this->model, $input);
-        $applicat->save();
+        $result = $applicat->save();
         //邮件提醒
         $this->reviewEndNotificat($applicat->user_id, $applicat);
+        return $result;
     }
 
     /**

@@ -171,12 +171,14 @@
           },
           handleSizeChange(val) {
               this.pageSize = val;
-              this.loadData();
+              // this.loadData();
+              this.$router.push({ path: this.$route.fullPath, query: { pageSize: val }});
          },
          handleCurrentChange(val) {
              //currentPage 改变时会触发
              this.currentPage = val;
-             this.loadData();
+            //  this.loadData();
+             this.$router.push({ path: this.$route.fullPath, query: { page: val }});
          },
         }
     }

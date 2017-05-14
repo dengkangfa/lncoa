@@ -28,7 +28,10 @@
     </script>
 </head>
 <body>
-    <div id="app"></div>
+    <div id="app">
+        请耐心等待加载
+          <!-- <img src="images/timg.gif" alt=""> -->
+    </div>
 
     <script src="{{ mix('js/app.js') }}"></script>
 </body>

@@ -44,13 +44,24 @@
                               </div>
                               <div class="row">
                                 <el-row :gutter="10">
-                                  <!-- <el-col :xs="8" :sm="6" :md="4" :lg="3"> -->
-                                    <el-steps center align-center :space="110" :active="applicat.stage" finish-status="success">
+                                    <el-steps center align-center :space="110" :active="applicat.stage" finish-status="success"  v-if="applicat.status != '审核通过' && applicat.status != '已结束'">
                                       <el-step v-for="(role, index) in applicat.roles.data"
                                         :description="role.display_name"
                                         :status="(applicat.status == '审核不通过' && index == applicat.stage-1) ? 'error' : '' "></el-step>
                                     </el-steps>
-                                  <!-- </el-col> -->
+                                    <template v-else>
+                                        <td v-if="applicat.status == '已结束'">
+                                          <el-rate
+                                            v-model="score"
+                                            disabled-void-color="#b0b1b3"
+                                            disabled
+                                            >
+                                          </el-rate>
+                                        </td>
+                                        <td v-else>
+                                          <img src="http://lncoa.app/images/pass.png" width=350 height=48 alt="">
+                                        </td>
+                                    </template>
                                 </el-row>
                               </div>
                               <div class="row">
@@ -99,30 +110,26 @@
                                     <br/>
                                     <small>{{ $t('el.table.created_at') + ' ' + applicat.created_at }}</small>
                                 </td>
-                                <!-- <td class="project-completion">
-                                  {{applicat.stage+1 / applicat.roles.data.length}}
-                                        <small>当前进度： {{(applicat.stage+1 / applicat.roles.data.length)*100  }}%</small>
-                                        <div class="progress progress-mini">
-                                            <div style="width: 48%;" class="progress-bar"></div>
-                                        </div>
-                                </td> -->
-                                <td class="project-roles col-md-5" v-if="applicat.status != '审核通过'">
+                                <td class="project-roles col-md-5" v-if="applicat.status != '审核通过' && applicat.status != '已结束'">
                                   <el-steps :space="150" :active="applicat.stage" :direction="isPhone ? 'vertical' : 'horizontal'" finish-status="success">
                                     <el-step v-for="(role, index) in applicat.roles.data"
                                       :description="role.display_name"
                                       :status="(applicat.status == '审核不通过' && index == applicat.stage-1) ? 'error' : '' "></el-step>
                                   </el-steps>
                                 </td>
-                                <!-- <td v-else-if>
-                                  <el-rate
-                                    v-model="2"
-                                    disabled
-                                    >
-                                  </el-rate>
-                                </td> -->
-                                <td v-else>
-                                    <img src="http://lncoa.app/images/pass.png" width=350 height=48 alt="">
-                                </td>
+                                <template v-else>
+                                    <td v-if="applicat.status == '已结束'">
+                                      <el-rate
+                                        v-model="applicat.appraisal.data.score"
+                                        disabled-void-color="#b0b1b3"
+                                        disabled
+                                        >
+                                      </el-rate>
+                                    </td>
+                                    <td v-else>
+                                      <img src="http://lncoa.app/images/pass.png" width=350 height=48 alt="">
+                                    </td>
+                                </template>
                                 <td class="project-actions col-md-2">
                                   <router-link :to="$route.path + '/details/' + applicat.id" style="margin-right: 10px;">
                                       <el-button  type="text" size="small">{{ $t('el.form.look') }}</el-button>
@@ -207,6 +214,7 @@
               keyWord: '',
               query: {},
               popoverVisible: false,
+              score: 3
           }
       },
       created() {
@@ -238,7 +246,7 @@
           loadData() {
               this.showLoading = true;
               this.loading_text = this.$t('el.form.loading');
-              var url = '/api/applicat?include=roles';
+              var url = '/api/applicat?include=roles,appraisal';
 
               if (this.currentPage) {
                   let page = ''
@@ -287,12 +295,14 @@
           },
           handleSizeChange(val) {
               this.pageSize = val;
-              this.loadData();
+              // this.loadData();
+              this.$router.push({ path: this.$route.fullPath, query: { pageSize: val }});
          },
          handleCurrentChange(val) {
              //currentPage 改变时会触发
              this.currentPage = val;
-             this.loadData();
+            //  this.loadData();
+             this.$router.push({ path: this.$route.fullPath, query: { page: val }});
          },
          search() {
             //搜索
@@ -336,7 +346,7 @@
       border-top: none;
       border-bottom: 1px solid #e7eaec;
       padding: 15px 10px;
-      /*vertical-align: middle;*/
+      vertical-align: middle;
   }
 
   .project-title a {

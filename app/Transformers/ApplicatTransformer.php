@@ -9,7 +9,8 @@ class ApplicatTransformer extends TransformerAbstract
 {
     protected $availableIncludes = [
         'roles',
-        'opinions'
+        'opinions',
+        'appraisal'
     ];
 
     public function transform(Applicat $applicat)
@@ -51,6 +52,16 @@ class ApplicatTransformer extends TransformerAbstract
         $opinions = $applicat->opinions;
 
         return $this->collection($opinions, new OpinionTransformer);
+    }
+
+    public function includeAppraisal(Applicat $applicat)
+    {
+        $appraisal = $applicat->appraisal;
+        if(empty($appraisal)){
+          return null;
+        }
+
+        return $this->item($appraisal, new AppraisalTransformer);
     }
 
 }

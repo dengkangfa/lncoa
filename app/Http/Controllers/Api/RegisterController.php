@@ -103,8 +103,8 @@ class RegisterController extends ApiController
         $data = $request->all();
         $request->request->add([
             'grant_type' => 'password',
-            'client_id' => '2',
-            'client_secret' => 'OkABZOuxDMaiaaFJBrESpYnmIMf6eSwyU42fPVdM',
+            'client_id' => '1',
+            'client_secret' => 'nu7fyK26YDz6w9d6uE4jRifTSxthB4RVmRHlYMD3',
             'username' => $data['name'],
             'password' => $data['password'],
             'scope' => ''

@@ -82,12 +82,6 @@ export default {
       preview: 'Preview',
       continue: 'Continue'
     },
-    table: {
-      emptyText: 'No Data',
-      confirmFilter: 'Confirm',
-      resetFilter: 'Reset',
-      clearFilter: 'All'
-    },
     tree: {
       emptyText: 'No Data'
     },
@@ -195,8 +189,9 @@ export default {
       'applay_type': 'Applay Type',
       'type_placeholder': 'Choose the type of application',
       'borrow_period': 'Borrow period',
-      'start_time': 'Start Time',
+      '`start`_time': 'Start Time',
       'end_time': 'End Time',
+      'start_end_time': 'Start Time - End Time',
       'applay_unite': 'Joint agency',
       'have': 'have',
       'not': 'not',
@@ -220,7 +215,10 @@ export default {
       'update_user_info': 'Update Personal Information',
       'old_password': 'Old Password',
       'new_password': 'New Password',
-      'new_password_confirmation': 'New Password Confirmation'
+      'new_password_confirmation': 'New Password Confirmation',
+      'remember': 'Remember Me',
+      'remember_placeholder': 'Do not check this on your own computer',
+      'code_placeholder': 'Loading verification code ...'
     },
     page: {
       users: 'Users',
@@ -308,8 +306,9 @@ export default {
       system_manage: 'System Manage',
       type: 'Type Manage',
       applicat: 'Applicat',
-      applicat_review: 'Applicat review',
       applicat_manage: 'Applicat Manage',
+      applicat_review: 'Applicat Review',
+      review_manage: 'Review Manage',
       log: 'Log',
       notice: 'Notice',
       personal_file: 'Folder'
@@ -355,7 +354,11 @@ export default {
       day: ' day ago',
       hour: ' hour ago',
       minute: ' minute ago',
-      second: ' second ago'
+      second: ' second ago',
+      emptyText: 'No Data',
+      confirmFilter: 'Confirm',
+      resetFilter: 'Reset',
+      clearFilter: 'All'
     },
     notification: {
         update_profile: 'Update data is successful!',

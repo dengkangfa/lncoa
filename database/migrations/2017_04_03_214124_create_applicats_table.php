@@ -28,7 +28,7 @@ class CreateApplicatsTable extends Migration
             $table->text('goods')->nullable()->comment('物资申请');
             $table->text('files')->nullable();
             $table->tinyInteger('stage')->nullable()->default(0)->comment('阶段');
-            $table->enum('status', ['待审核','进行中','审核中','审核通过','审核不通过','已取消','已结束'])->comment('状态');
+            $table->enum('status', ['待审核','待评价','进行中','审核中','审核通过','审核不通过','已取消','已结束','已删除'])->comment('状态');
             $table->timestamps();
 
             $table->foreign('mechanism_id')->references('id')->on('mechanisms')

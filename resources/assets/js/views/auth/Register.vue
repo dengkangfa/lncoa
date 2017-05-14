@@ -224,14 +224,17 @@
           },
           //注册
           register(event) {
-            axios.post('/api/register',this.form).then( response => {
-                let vm = this;
+            let vm = this;
+            vm.$loading()
+            axios.post('/api/register',vm.form).then( response => {
                 if(response.data.status == 'success') {
                     localStorage.setItem(vm.form.name + '_refresh_token', response.data.refresh_token);
                     localStorage.access_token = response.data.access_token;
+                    vm.$loading().close()
                     vm.$router.push('/');
                 }
             }, error => {
+                vm.$loading().close()
                 if(error.response.status == 422){
                   stack_error(error.response.data)
                 }else{

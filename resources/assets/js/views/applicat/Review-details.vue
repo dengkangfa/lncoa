@@ -52,7 +52,7 @@
     </div>
     <!-- 申请列表END -->
     <template v-if="applicats.length > 0">
-    <div class="col-md-8 col-xs-12"  v-if="applicat">
+    <div class="col-md-8 col-xs-12"  v-if="show">
               <div class="wrapper wrapper-content animated fadeInUp">
                   <div class="ibox">
                       <div class="ibox-content">
@@ -66,7 +66,7 @@
                           </div>
 
                           <div class="row m-t-sm">
-                            <el-tabs type="card" value="detail" class="tabs"  @tab-click="forwardClick">
+                            <el-tabs type="card" v-model="activeName" class="tabs"  @tab-click="forwardClick">
                                 <el-tab-pane :label="$t('el.page.details')" name="detail">
                                   <dl class="dl-horizontal" v-if="applicat">
                                     <dt>{{$t('el.table.status')}}：</dt>
@@ -120,7 +120,7 @@
                                               <img class="img-circle" :src="opinion.user.avatar" alt="">
                                             </a>
                                             <div class="media-body">
-                                                <small class="pull-right">{{ opinion.create_at }}</small>
+                                                <small class="pull-right">{{ opinion.created_at }}</small>
                                                 <strong>{{opinion.user.name }}</strong>
                                                 <div class="well">
                                                   {{ opinion.opinion }}
@@ -155,7 +155,7 @@
                                                      <el-radio-button :label="$t('el.form.pass')"></el-radio-button>
                                                      <el-radio-button :label="$t('el.form.no_pass')"></el-radio-button>
                                                    </el-radio-group>
-                                                     <button type="submit" class="btn btn-info btn-sm" :disabled="!(form.radio&&form.opinion)"  style="float: right">发表</button>
+                                                     <button type="submit" class="btn btn-info btn-sm" :disabled="!(form.radio&&form.opinion)"  style="float: right">{{$t('el.form.submit')}}</button>
                                              </div>
                                            </form>
                                           </div>
@@ -185,26 +185,36 @@
                                     </el-form>
                                 </el-tab-pane>
                                 <!-- 转发面板END -->
-                                <el-tab-pane label="审批" v-if="applicat.status == '审核通过' || applicat.status == '进行中'">
-                                    <div class="">
-
-                                    </div>
+                                <el-tab-pane label="审批" v-if="applicat.status == '审核通过'">
                                     <div>
                                       时段: {{applicat.startTime}} - {{applicat.endTime}}
                                     </div>
                                     <button type="button" class="btn btn-info" name="button" @click="approval(applicat)">批准</button>
                                 </el-tab-pane>
-                                <el-tab-pane label="评价">
+                                <el-tab-pane label="审批" v-if="applicat.status == '进行中'">
+                                    <div class="">
+                                      {{applicat.endTime}}
+                                    </div>
+                                    <button type="button" class="btn btn-info" name="button" @click="end(applicat)">结束</button>
+                                </el-tab-pane>
+                                <!-- 评价面板 -->
+                                <el-tab-pane label="评价" v-if="applicat.status == '待评价'">
                                   <div class="block">
+                                    <!-- 反馈输入框 -->
                                     <el-input type="textarea" v-model="appraisal_form.appraisal" placeholder="反馈"></el-input>
-                                    <el-rate
-                                      v-model="appraisal_form.score"
-                                      show-text
-                                      :colors="['#99A9BF', '#F7BA2A', '#FF9900']">
-                                    </el-rate>
-                                    <button type="button" class="btn btn-info pull-right" :disabled="!appraisalCanSubmit" name="button" @click="appraisal">提交</button>
+                                    <!-- 反馈输入框END -->
+                                    <!-- <el-form-item label="评分"> -->
+                                      <el-rate
+                                        v-model="appraisal_form.score"
+                                        show-text
+                                        :colors="['#99A9BF', '#F7BA2A', '#FF9900']">
+                                      </el-rate>
+                                    <!-- </el-form-item> -->
+
+                                    <button type="button" class="btn btn-info pull-right" :disabled="!appraisalCanSubmit" name="button" @click="appraisal(applicat)">{{$t('el.form.submit')}}</button>
                                   </div>
                                 </el-tab-pane>
+                                <!-- 评价面板END -->
                               </el-tabs>
                           </div>
                       </div>
@@ -251,7 +261,8 @@
               roles: null,
               users: null,
               keyWord: '',
-              rate: null
+              rate: null,
+              activeName: 'detail'
           }
       },
       created() {
@@ -262,7 +273,9 @@
           this.currentPage = this.$route.query.page;
           this.pageSize = parseInt(this.$route.query.pageSize);
           this.loadData();
-          this.loadCurrentData();
+          if(this.$route.fullPath != '/review/details'){
+            this.loadCurrentData();
+          }
       },
       watch: {
           '$route.params': 'currentApplicat'
@@ -290,6 +303,9 @@
           },
           appraisalCanSubmit() {
               return this.appraisal_form.appraisal != null || this.appraisal_form.score != null;
+          },
+          show() {
+              return !$.isEmptyObject(this.applicat);
           }
       },
       methods: {
@@ -333,6 +349,7 @@
             //请求当前id对应的详细资源
             axios.get('/api/applicat/' + this.$route.params.id + '?include=opinions').then( response => {
                 this.applicat = response.data.data;
+                //清除通知
                 this.DELETE_NOTIFICAT(this.applicat.id);
                 // this.isOpinion();
             })
@@ -342,6 +359,7 @@
               for (var i = 0; i < this.applicats.length; i++) {
                   if(this.applicats[i].id == this.$route.params.id) {
                       this.applicat = this.applicats[i];
+                      //清除通知
                       this.DELETE_NOTIFICAT(this.applicats[i].id);
                       // this.isOpinion();
                       break;
@@ -361,17 +379,7 @@
           //     }
           //     this.is_opinion = true;
           // },
-          // 提交审核
-          submit() {
-              this.form.applicat_id = this.$route.params.id;
-              this.form.fileList = this.fileList;
-              axios.post('/api/opinion/', this.form).then( response => {
-                  toastr.success(this.$t('el.notification.review_success'));
-                  this.$router.push('/review');
-              }, error => {
-                  toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
-              })
-          },
+
           //条数更改事件回调
           handleSizeChange(val) {
               this.pageSize = val;
@@ -439,10 +447,24 @@
                 this.users = response.data.data;
             })
          },
-         forward() {
+         // 提交审核
+         submit() {
+             let vm = this;
+             vm.form.applicat_id = vm.$route.params.id;
+             vm.form.fileList = vm.fileList;
+             axios.post('/api/opinion/', vm.form).then( response => {
+                 this.removeCurrentApplicat()
+                 toastr.success(vm.$t('el.notification.review_success'));
+                 vm.$router.push('/review/details');
+             }, error => {
+                 toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+             })
+         },
+         forward(applicat) {
             axios.post('/api/applicat/' + this.$route.params.id +'/forward',this.forward_form).then( response => {
                 toastr.success('申请已转发!');
-                this.$router.push('/review');
+                this.removeCurrentApplicat()
+                this.$router.push('/review/details');
             })
          },
          approval(applicat) {
@@ -455,14 +477,36 @@
                           continue;
                        }
                    }
+                   this.activeName = 'detail';
                    toastr.success('审批成功!');
                })
              }
          },
-         appraisal() {
+         appraisal(applicat) {
             axios.post('/api/applicat/' + this.$route.params.id + '/appraisal',this.appraisal_form).then( response => {
-                console.log(response);
+                this.removeCurrentApplicat()
+                this.$router.push('/review/details');
             })
+         },
+         end(applicat) {
+           axios.put('/api/applicat/' + this.$route.params.id + '/end').then( response => {
+               applicat.status = '待评价';
+               for (var i = 0; i < this.applicats.length; i++) {
+                   if(this.applicats[i].id == applicat.id){
+                      this.applicats[i].status = '待评价';
+                      continue;
+                   }
+               }
+               this.activeName = 'detail';
+           })
+         },
+         removeCurrentApplicat() {
+             for (var i = 0; i < this.applicats.length; i++) {
+                 if(this.applicats[i].id == this.applicat.id){
+                    this.applicats.splice(i,1);
+                    return;
+                 }
+             }
          }
       }
   }

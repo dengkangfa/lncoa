@@ -124,10 +124,16 @@ export default [
                 ]
             },
             {
-                path: '/applicat',
-                component: require('./views/applicat/Applicat.vue'),
+                path: 'applicat',
+                component: Parent,
                 beforeEnter: checkUrl,
-                meta: { requiresAuth: true}
+                children: [
+                    {
+                        path: '/',
+                        component: require('./views/applicat/Applicat.vue'),
+                        meta: { requiresAuth: true }
+                    },
+                ]
             },
             {
                 path: 'review',
@@ -141,6 +147,11 @@ export default [
                     },
                     {
                         path: 'details/:id',
+                        component: require('./views/applicat/Review-details.vue'),
+                        meta: { requiresAuth: true}
+                    },
+                    {
+                        path: 'details',
                         component: require('./views/applicat/Review-details.vue'),
                         meta: { requiresAuth: true}
                     }
@@ -164,6 +175,18 @@ export default [
                     {
                         path: 'details/:id',
                         component: require('./views/applicat/Applicat-manage-details.vue'),
+                        meta: { requiresAuth: true }
+                    }
+                ]
+            },
+            {
+                path: '/review-manage',
+                component: Parent,
+                beforeEnter: checkUrl,
+                children: [
+                    {
+                        path: '/',
+                        component: require('./views/applicat/Review-manage.vue'),
                         meta: { requiresAuth: true }
                     }
                 ]

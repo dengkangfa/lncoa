@@ -13,7 +13,7 @@ class OpinionTransformer extends TransformerAbstract
             'opinion' => $opinion->opinion,
             'user' => $opinion->user,
             'files' => $opinion->files,
-            'create_at' => $opinion->created_at->toDateTimeString(),
+            'created_at' => $opinion->created_at->toDateTimeString(),
         ];
     }
 }

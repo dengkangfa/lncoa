@@ -1,7 +1,7 @@
 <template>
   <div style="margin-bottom: 5px; min-width: 220px">
     <div id="geetest-captcha"></div>
-    <p id="wait">正在加载验证码...</p>
+    <p id="wait">{{$t('el.form.code_placeholder')}}</p>
   </div>
 </template>
 

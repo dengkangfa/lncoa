@@ -95,7 +95,7 @@
                     <el-col :span="15" v-else>
                         <el-date-picker
                         type="datetimerange"
-                        placeholder="开始时间-结束时间"
+                        :placeholder="$t('el.form.start_end_time')"
                         v-model="date"
                         style="width: 100%;"
                         >

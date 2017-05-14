@@ -133,7 +133,7 @@
                                  <img class="img-circle" :src="opinion.user.avatar" alt="">
                                </a>
                                <div class="media-body">
-                                   <small class="pull-right">{{ opinion.create_at }}</small>
+                                   <small class="pull-right">{{ opinion.created_at }}</small>
                                    <strong>{{opinion.user.name }}</strong>
                                    <div class="well">
                                      {{ opinion.opinion }}
@@ -147,6 +147,21 @@
                                </div>
                                <hr>
                            </div>
+                       </el-tab-pane>
+                       <el-tab-pane v-if="show" label="评价">
+                         <div class="feed-element">
+                             <a href="#" class="pull-left">
+                               <img class="img-circle" :src="appraisal.user.avatar" alt="">
+                             </a>
+                             <div class="media-body">
+                                 <small class="pull-right">{{ appraisal.created_at }}</small>
+                                 <strong>{{appraisal.user.name }}</strong>
+                                 <div class="well">
+                                   {{ appraisal.appraisal }}
+                                 </div>
+                             </div>
+                             <hr>
+                         </div>
                        </el-tab-pane>
                       <!-- END审核员意见 -->
                      </el-tabs>
@@ -167,6 +182,7 @@
               is_update: false,
               headers: {},
               opinions: [],
+              appraisal: {}
           }
       },
       created() {
@@ -175,11 +191,17 @@
               'Authorization': 'Bearer ' + this.$store.state.access_token
           }
           //请求当前id对应的详细资源
-          axios.get('/api/applicat/' + this.$route.params.id + '?include=opinions').then( response => {
+          axios.get('/api/applicat/' + this.$route.params.id + '?include=opinions,appraisal').then( response => {
               this.applicat = response.data.data;
               this.opinions = response.data.data.opinions.data;
+              this.appraisal = response.data.data.appraisal ? response.data.data.appraisal.data : {};
               this.fileList = JSON.parse(this.applicat.files);
           })
+      },
+      computed: {
+          show() {
+              return !$.isEmptyObject(this.appraisal);
+          }
       },
       components: {
           Status

@@ -50,6 +50,9 @@ class ApplicatController extends ApiController
       if($request->has('pageSize')){
         return $this->respondWithPaginator($this->applicat->page($request->pageSize), new ApplicatTransformer);
       }
+      if($request->has('condition')){
+        return $this->respondWithPaginator($this->applicat->page($request->pageSize, $request->condition), new ApplicatTransformer);
+      }
         return $this->respondWithPaginator($this->applicat->page(), new ApplicatTransformer);
     }
 
@@ -188,6 +191,13 @@ class ApplicatController extends ApiController
         $this->applicat->updateColumn($id,['status' => '已结束']);
 
         return $this->respondWithItem($model,new AppraisalTransformer);
+    }
+
+    public function end($id)
+    {
+        $this->applicat->updateColumn($id,['status' => '待评价']);
+
+        return $this->noContent();
     }
 
 }

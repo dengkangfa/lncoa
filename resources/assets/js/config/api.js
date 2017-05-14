@@ -20,7 +20,7 @@ let api = {
 
 let client = {
     client_id: '1',
-    client_secret: 'nZAeqSGsKOTvTbVH2tQsZLyU05ruFHQTAHMX7YhI'
+    client_secret: 'nu7fyK26YDz6w9d6uE4jRifTSxthB4RVmRHlYMD3'
 }
 
 export default {

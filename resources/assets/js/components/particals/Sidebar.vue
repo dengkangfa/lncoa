@@ -26,12 +26,12 @@
             <el-col>
                 <el-menu :router="true" theme="dark"
                   :unique-opened="true" :default-active="defaultActive" :default-openeds="defaultMenu" @select="select">
-                  <el-submenu :index="menu.id+''" v-for="menu in menus" :key="menu.id" v-if="menu.items.length != 0" class="menu-height">
+                  <el-submenu :index="menu.id+''" v-for="menu in menus" v-if="menu.items.length != 0" class="menu-height">
                     <template slot="title"><i :class="menu.icon"></i>{{ $t("el.sidebar."+menu.title) }}</template>
                       <el-menu-item :index="item.uri" v-for="item in menu.items"><i :class="item.icon"></i>{{ $t("el.sidebar."+item.title) }}</el-menu-item>
                   </el-submenu>
                   <el-menu-item :index="menu.uri" v-else><i :class="menu.icon"></i>{{ $t("el.sidebar."+menu.title) }}</el-menu-item>
-                  <el-menu-item index="logout" @click="logout"><i class="ion-power"></i>{{$t('el.page.logout')}}</el-menu-item>
+                  <el-menu-item index="logout" v-if="show" @click="logout"><i class="ion-power"></i>{{$t('el.page.logout')}}</el-menu-item>
                 </el-menu>
             </el-col>
         </ul>
@@ -63,6 +63,9 @@
             ...mapState([
                 'user'
             ]),
+            show() {
+              return !$.isEmptyObject(this.menus);
+            }
         },
         watch: {
             '$route': 'currentDefaultActive'
@@ -97,15 +100,18 @@
             this.defaultActive = '';
             this.hideWrapper();
         },
+        // 退出
         logout: function(){
             this.OUT_LOGIN();
             this.$router.push('/login');
         },
+        // 手机情况下点击菜单隐藏左侧
         hideWrapper() {
             if(this.$store.state.isPhone) {
               this.TOGGLE();
             }
         },
+        //菜单激活回调
         select() {
             this.hideWrapper();
         }

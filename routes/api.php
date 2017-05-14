@@ -68,6 +68,7 @@ Route::group([
     Route::delete('applicat/{id}/softdelete', 'ApplicatController@SoftDeletes');
     Route::put('applicat/{id}/cancel', 'ApplicatController@cancel');
     Route::post('applicat/{id}/appraisal', 'ApplicatController@appraisal');
+    Route::put('applicat/{id}/end', 'ApplicatController@end');
 
     Route::resource('opinion', 'OpinionController');
 

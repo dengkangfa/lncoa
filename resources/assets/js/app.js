@@ -55,7 +55,10 @@ import {
     Tree,
     Slider,
     Loading,
-    Rate
+    Rate,
+    CheckboxGroup,
+    Table,
+    TableColumn
 } from 'element-ui'
 
 Vue.use(Tag)
@@ -92,6 +95,9 @@ Vue.use(Tree)
 Vue.use(Slider)
 Vue.use(Loading)
 Vue.use(Rate)
+Vue.use(CheckboxGroup)
+Vue.use(Table)
+Vue.use(TableColumn)
 
 
 import 'element-ui/lib/theme-default/index.css'
@@ -100,6 +106,10 @@ import server from './config/api'
 
 Vue.use(VueI18n);
 Vue.use(VueRouter);
+Vue.config.lang =localStorage.Language ? window.Language = localStorage.Language : window.Language;
+Object.keys(locales).forEach(function (lang){
+    Vue.locale(lang,locales[lang])
+})
 // Add locale helper.
 Validator.addLocale(zh_CN);
 const validate_config = {
@@ -120,13 +130,7 @@ const validate_config = {
   }
 };
 Vue.use(VeeValidate, validate_config);
-Vue.config.lang =localStorage.Language ? window.Language = localStorage.Language : window.Language;
-Object.keys(locales).forEach(function (lang){
-    Vue.locale(lang,locales[lang])
-})
 Vue.prototype.$loading = Loading.service
-// Vue.validator.setLocale(window.Language);
-// Validator.setLocale(window.Language);
 
 //消息提示框对象
 window.toastr = require('toastr/build/toastr.min.js');

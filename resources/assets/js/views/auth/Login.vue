@@ -45,9 +45,9 @@
                           </div>
                           <div class="checkbox row" style="padding-bottom: 5px;">
                             <label>
-                              <input type="checkbox" v-model="remember"> 记住我
+                              <input type="checkbox" v-model="remember"> {{$t('el.form.remember')}}
                             </label>
-                            <p class="remember" v-show="remember">不是自己的电脑上不要勾选此项</p>
+                            <p class="remember" v-show="remember">{{$t('el.form.remember_placeholder')}}</p>
                           </div>
                             <Geetest @validate="validate"></Geetest>
                           <div class="form-group">

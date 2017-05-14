@@ -82,12 +82,6 @@ export default {
       preview: '查看图片',
       continue: '继续上传'
     },
-    table: {
-      emptyText: '暂无数据',
-      confirmFilter: '筛选',
-      resetFilter: '重置',
-      clearFilter: '全部'
-    },
     tree: {
       emptyText: '暂无数据'
     },
@@ -197,6 +191,7 @@ export default {
       'borrow_period': '借用时段',
       'start_time': '开始时间',
       'end_time': '结束时间',
+      'start_end_time': '开始时间-结束时间',
       'applay_unite': '联合机构',
       'have': '有',
       'not': '无',
@@ -220,7 +215,10 @@ export default {
       'update_user_info': '更新资料',
       'old_password': '旧密码',
       'new_password': '新密码',
-      'new_password_confirmation': '确定新密码'
+      'new_password_confirmation': '确定新密码',
+      'remember': '记住我',
+      'remember_placeholder': '不是自己的电脑上不要勾选此项',
+      'code_placeholder': '正在加载验证码...'
     },
     page: {
       users: '用户列表',
@@ -302,8 +300,9 @@ export default {
       system_manage: '系统管理',
       type: '类型管理',
       applicat: '申请中心',
-      applicat_review: '申请审核',
       applicat_manage: '申请管理',
+      applicat_review: '申请审核',
+      review_manage: '审核管理',
       log: '日志',
       notice: '站点通告',
       personal_file: '个人文件夹'
@@ -349,7 +348,11 @@ export default {
       day: '天前',
       hour: '小时前',
       minute: '分钟前',
-      second: '秒前'
+      second: '秒前',
+      emptyText: '暂无数据',
+      confirmFilter: '筛选',
+      resetFilter: '重置',
+      clearFilter: '全部'
     },
     notification: {
         update_profile: '更新资料成功!',

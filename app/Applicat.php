@@ -42,6 +42,11 @@ class Applicat extends Model
         return $this->hasMany('App\Opinion');
     }
 
+    public function appraisal()
+    {
+        return $this->hasOne('App\Appraisal');
+    }
+
     /**
      * The "booting" method of the model.
      *
