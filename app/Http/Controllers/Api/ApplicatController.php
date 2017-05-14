@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Auth;
+use App\User;
 use Illuminate\Http\Request;
 use App\Notifications\pendReview;
 use App\Http\Requests\ApplicatRequest;
