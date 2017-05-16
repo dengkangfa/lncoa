@@ -14,7 +14,7 @@ class LoginController extends ApiController
     public function login(LoginRequest $request)
     {
         $result = $this->validate($request, [
-          'geetest_challenge' => 'required',
+          'geetest_challenge' => 'geetest',
         ], [
           'required' => '请正确完成验证码操作'
         ]);

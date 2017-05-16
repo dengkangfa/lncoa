@@ -7,6 +7,12 @@
 
 <script>
   export default {
+      data() {
+        return {
+            gtserver: '',
+            user_id: ''
+        }
+      },
       created() {
            this.geetest('/geetest');
       },
@@ -21,8 +27,10 @@
                   $("#wait")[0].className = "hide";
                 });
                 captchaObj.onSuccess(() => {
-                  console.log(captchaObj.getValidate());
-                    vm.$emit('validate',captchaObj.getValidate())
+                    let data = captchaObj.getValidate()
+                    data.gtserver = vm.gtserver;
+                    data.user_id = vm.user_id
+                    vm.$emit('validate',data)
                 })
             };
             $.ajax({
@@ -30,6 +38,8 @@
                 type: "get",
                 dataType: "json",
                 success: function(data) {
+                    vm.gtserver = data.gtserver;
+                    vm.user_id = data.user_id;
                     initGeetest({
                         gt: data.gt,
                         challenge: data.challenge,
