@@ -12,17 +12,23 @@
         <div class="ibox-content">
             <!-- 搜索控件 -->
             <div class="row">
-                <div class="col-md-1 col-sm-1 col-xs-3">
+                <!-- <div class="col-md-1 col-sm-1 col-xs-3" :class="{'no-padding': isPhone}">
                     <div class="btn-group">
                         <el-button type="primary" size="small" style="padding:8px 9px" :loading="showLoading" icon="ion-refresh" @click="loadData">
                           <i class="ion-refresh" v-if="!showLoading"></i> {{ loading_text }}
                         </el-button>
                     </div>
-                </div>
-                <div class="col-md-11 col-sm-11 col-xs-9">
+                </div> -->
+                <div class="col-md-12 col-sm-12 col-xs-12" :class="{'no-padding': isPhone}">
                     <div class="input-group">
-                        <input type="text" v-model="keyWord" :placeholder="$t('el.form.review_filter_placeholder')" class="input-sm form-control"> <span class="input-group-btn">
-                            <button type="button" @click="search" class="btn btn-sm btn-primary"> {{ $t('el.page.search') }}</button> </span>
+                        <span class="input-group-btn" style="width: 81px;">
+                          <button class="btn btn-sm btn-default" @click="loadData" type="button" style="width: 81px;"><i :class="showLoading ? 'el-icon-loading': 'ion-refresh'"></i> {{ loading_text }}</button>
+                        </span>
+                        <input type="text" v-model="keyWord" :placeholder="$t('el.form.review_filter_placeholder')" class="input-sm form-control" style="height: 31px">
+                        <span class="input-group-btn">
+                          <button class="btn btn-sm btn-default" type="button">{{ $t('el.page.search') }}</button>
+                        </span>
+                        <!-- <button type="button" @click="search" class="btn btn-sm btn-primary"> {{ $t('el.page.search') }}</button> </span> -->
                     </div>
                 </div>
             </div>
@@ -36,38 +42,36 @@
                         <!-- 手机ui -->
                         <template v-if="isPhone">
                           <tr class="row" style="border-bottom: 1px solid #aac0da;" v-for="(applicat, index) in applicatlist">
-                              <div class="row title">
-                                  <Status :status="applicat.status"></Status>
-                                  <router-link :to="$route.path + '/details/' + applicat.id">
-                                    {{ applicat.mechanism }} - {{ applicat.type }} >
+                            <div class="panel panel-default">
+                              <div class="panel-heading">
+                                <h5 class="panel-title">
+                                  <Status :statusClass="false" :status="applicat.status"></Status>
+                                  <router-link :to="$route.path + '/details/' + applicat.id" style="line-height: 16px;font-size: 12px;">
+                                    {{ applicat.mechanism }} - {{ applicat.type }}
                                   </router-link>
+                                </h5>
                               </div>
-                              <div class="row">
-                                <el-row :gutter="10">
-                                    <el-steps center align-center :space="110" :active="applicat.stage" finish-status="success"  v-if="applicat.status != '审核通过' && applicat.status != '已结束'">
-                                      <el-step v-for="(role, index) in applicat.roles.data"
-                                        :description="role.display_name"
-                                        :status="(applicat.status == '审核不通过' && index == applicat.stage-1) ? 'error' : '' "></el-step>
-                                    </el-steps>
-                                    <template v-else>
-                                        <td v-if="applicat.status == '已结束'">
-                                          <el-rate
-                                            v-model="score"
-                                            disabled-void-color="#b0b1b3"
-                                            disabled
-                                            >
-                                          </el-rate>
-                                        </td>
-                                        <td v-else>
-                                          <img src="http://lncoa.app/images/pass.png" width=350 height=48 alt="">
-                                        </td>
-                                    </template>
-                                </el-row>
+                              <div class="panel-body" style="text-align: center;">
+                                <el-steps center :space="110" :active="applicat.stage" finish-status="success"  v-if="applicat.status == '已结束'">
+                                  <el-step v-for="(role, index) in applicat.roles.data"
+                                    :description="role.display_name"
+                                    :status="(applicat.status == '审核不通过' && index == applicat.stage-1) ? 'error' : '' "
+                                    ></el-step>
+                                </el-steps>
+                                <template v-else>
+                                      <el-rate
+                                        v-model="score"
+                                        disabled-void-color="#b0b1b3"
+                                        disabled
+                                        v-if="applicat.status == '已结束'"
+                                        >
+                                      </el-rate>
+                                      <img src="http://lncoa.app/images/pass.png" width="90%" v-else>
+                                </template>
                               </div>
-                              <div class="row">
+                              <div class="panel-footer">
                                 <router-link :to="$route.path + '/details/' + applicat.id" style="margin-right: 10px;">
                                     <el-button  type="text" size="small">{{ $t('el.form.look') }}</el-button>
-                                    <!-- <i class="btn btn-white btn-sm ion-folder"> {{ $t('el.form.look') }}</i> -->
                                 </router-link>
                                 <!-- 放弃申请 -->
                                 <el-popover
@@ -95,8 +99,8 @@
                                    </div>
                                    <el-button slot="reference" type="text" size="small" style="float:right">{{$t('el.form.delete')}}</el-button>
                                 </el-popover>
-                                <!-- 删除申请 -->
                               </div>
+                            </div>
                           </tr>
                         </template>
                         <!-- 手机uiEND -->
@@ -331,7 +335,11 @@
   }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
+  .none {
+      color: #ECF0F1;
+      padding-bottom: 20px;
+  }
   .progress-mini, .progress-mini .progress-bar {
       height: 5px;
       margin-bottom: 0px;
@@ -370,5 +378,15 @@
       line-height: 30px;
       margin-bottom: 5px;
       background: #ebf2f7;
+  }
+  .no-padding {
+      padding-left: 0;
+      padding-right: 0;
+  }
+  .panel-title {
+      font-size: 1em;
+  }
+  #apply-manage td:nth-child(3) {
+      text-align: center;
   }
 </style>

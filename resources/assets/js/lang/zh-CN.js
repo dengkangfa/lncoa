@@ -286,7 +286,12 @@ export default {
       night: '夜间',
       day: '白天',
       real_time: '实时',
-      considerable_humidity: '相对湿度'
+      considerable_humidity: '相对湿度',
+      appraisal: '评价',
+      approval: '审批',
+      end: '结束',
+      borrow_period: '时段',
+      feedback: '反馈'
     },
     sidebar: {
       dashboard: '面板',

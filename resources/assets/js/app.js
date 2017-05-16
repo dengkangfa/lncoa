@@ -148,11 +148,6 @@ window.toastr.options = {
 };
 
 Vue.component(
-    'vue-table-pagination',
-    require('./components/TablePagination.vue')
-);
-
-Vue.component(
     'vue-table',
     require('./components/Table.vue')
 );

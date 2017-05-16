@@ -286,7 +286,12 @@ export default {
       night: 'Night',
       day: 'Today',
       real_time: 'Real Time',
-      considerable_humidity: 'Considerable Humidity'
+      considerable_humidity: 'Considerable Humidity',
+      appraisal: 'Appraisal',
+      approval: 'Approval',
+      end: 'End',
+      borrow_period: 'Borrow Period',
+      feedback: 'Feedback'
     },
     sidebar: {
       dashboard: 'Dashboard',

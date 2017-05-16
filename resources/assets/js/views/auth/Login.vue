@@ -93,6 +93,17 @@
               fullscreenLoading: false
           }
       },
+      created() {
+        //验证字段名称
+        this.$validator.updateDictionary({
+              zh_CN: {
+                  attributes: {
+                      username: '用户名',
+                      password: '密码'
+                  }
+              }
+        });
+      },
       components: {
           Geetest
       },
@@ -171,12 +182,12 @@
                   //判断是否需要记住该账号，需要则将令牌存储在localStorage中，反之只
                   //存储在sessionStorage中
                   if(vm.remember) {
-                    //将用于刷新的令牌存储进localstorage
-                    localStorage.setItem(vm.username + '_refresh_token', response.data.refresh_token)
                     localStorage.setItem('access_token', response.data.access_token)
                   }else{
                     sessionStorage.setItem('access_token', response.data.access_token)
                   }
+                  //将用于刷新的令牌存储进localstorage
+                  localStorage.setItem(vm.username + '_refresh_token', response.data.refresh_token)
                   //将用于验证身份的令牌存储进vuex
                   vm.SET_ACCESS_TOKEN(response.data.access_token);
                   // vm.LOGIN();

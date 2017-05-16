@@ -16,10 +16,6 @@ class CheckMenu
      */
     public function handle($request, Closure $next)
     {
-
-        \Log::info($request->getClientIp());
-        \Log::info(Auth::user());
-        \Log::info($request->user());
         if(Auth::user()->hasMenu($menu)) {
              return redirect()->route('/');
         }

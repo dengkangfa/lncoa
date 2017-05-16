@@ -16,7 +16,7 @@
             </div>
             <!-- 搜索控件END -->
             <!-- 申请列表 -->
-            <table class="table table-hover">
+            <table class="table table-hover" v-loading="loading">
                 <tbody>
                 <template v-if="applicatlist.length > 0">
                   <tr v-for="applicat in applicatlist" :class="{'current' : $route.params.id == applicat.id}">
@@ -70,9 +70,9 @@
                                 <el-tab-pane :label="$t('el.page.details')" name="detail">
                                   <dl class="dl-horizontal" v-if="applicat">
                                     <dt>{{$t('el.table.status')}}：</dt>
-                                      <dd><Status :status="applicat.status"></Status></dd>
+                                      <dd><Status :statusClass="false" :status="applicat.status"></Status></dd>
                                       <dt>{{$t('el.table.applicat_user')}}：</dt>
-                                      <dd>{{applicat.user}}:</dd>
+                                      <dd>{{applicat.user}}</dd>
                                       <dt>{{$t('el.form.mechanism')}}：</dt>
                                       <dd>{{applicat.mechanism}}</dd>
                                       <dt>{{$t('el.form.principal')}}：</dt>
@@ -168,7 +168,11 @@
                                 <el-tab-pane :label="$t('el.page.forwarding')" name="forward" class="forward">
                                     <el-form label-position="top" :model="forward_form" label-width="80px">
                                         <el-form-item :label="$t('el.form.recipient')">
-                                          <el-select v-model="forward_form.role_id" :placeholder="$t('el.form.recipient_placeholder')">
+                                          <select v-if="isPhone" v-model="forward_form.role_id" class="form-control" :placeholder="$t('el.form.recipient_placeholder')">
+                                            <option v-for="role in roles" :label="role.display_name" :value="role.id">
+                                            </option>
+                                          </select>
+                                          <el-select v-else v-model="forward_form.role_id" :placeholder="$t('el.form.recipient_placeholder')">
                                             <el-option v-for="role in roles" :label="role.display_name" :value="role.id">
                                             </el-option>
                                           </el-select>
@@ -180,28 +184,28 @@
                                         </el-form-item>
                                         <el-input type="textarea" v-model="forward_form.opinion" :placeholder="$t('el.form.opinion_placeholder')" class="opinion"></el-input>
                                          <el-form-item>
-                                           <el-button type="primary" class="btn btn-info btn-sm" @click="forward" style="float:right">{{ $t('el.form.submit') }}</elbutton>
+                                           <el-button type="primary" class="btn btn-info btn-sm" :disabled="!forward_form.role_id" @click="forward" style="float:right">{{ $t('el.form.submit') }}</elbutton>
                                          </el-form-item>
                                     </el-form>
                                 </el-tab-pane>
                                 <!-- 转发面板END -->
-                                <el-tab-pane label="审批" v-if="applicat.status == '审核通过'">
+                                <el-tab-pane :label="$t('el.page.approval')" v-if="applicat.status == '审核通过'">
                                     <div>
-                                      时段: {{applicat.startTime}} - {{applicat.endTime}}
+                                      {{$t('el.page.borrow_period')}}: {{applicat.startTime}} - {{applicat.endTime}}
                                     </div>
-                                    <button type="button" class="btn btn-info" name="button" @click="approval(applicat)">批准</button>
+                                    <button type="button" class="btn btn-info" name="button" @click="approval(applicat)">{{$t('el.page.approval')}}</button>
                                 </el-tab-pane>
-                                <el-tab-pane label="审批" v-if="applicat.status == '进行中'">
+                                <el-tab-pane :label="$t('el.page.approval')" v-if="applicat.status == '进行中'">
                                     <div class="">
                                       {{applicat.endTime}}
                                     </div>
-                                    <button type="button" class="btn btn-info" name="button" @click="end(applicat)">结束</button>
+                                    <button type="button" class="btn btn-info" name="button" @click="end(applicat)">{{$t('el.page.end')}}</button>
                                 </el-tab-pane>
                                 <!-- 评价面板 -->
-                                <el-tab-pane label="评价" v-if="applicat.status == '待评价'">
+                                <el-tab-pane :label="$t('el.page.appraisal')" v-if="applicat.status == '待评价'">
                                   <div class="block">
                                     <!-- 反馈输入框 -->
-                                    <el-input type="textarea" v-model="appraisal_form.appraisal" placeholder="反馈"></el-input>
+                                    <el-input type="textarea" v-model="appraisal_form.appraisal" placeholder="$t('el.page.feedback')"></el-input>
                                     <!-- 反馈输入框END -->
                                     <!-- <el-form-item label="评分"> -->
                                       <el-rate
@@ -244,13 +248,12 @@
                   fileList: [],
               },
               forward_form: {
-                  opinion: '',
-                  role_id: '',
-                  user_id: '',
+                  opinion: null,
+                  role_id: null
               },
               appraisal_form: {
                   appraisal: null,
-                  score: null,
+                  score: null
               },
               total: 0,
               totalPage: 0,
@@ -262,7 +265,8 @@
               users: null,
               keyWord: '',
               rate: null,
-              activeName: 'detail'
+              activeName: 'detail',
+              loading: false
           }
       },
       created() {
@@ -313,6 +317,7 @@
               'DELETE_NOTIFICAT'
           ]),
           loadData() {
+              this.loading = true;
               //加载数据
               this.id = this.$route.params.id;
               let url = '/api/applicats?include=opinions';
@@ -343,6 +348,7 @@
                       this.totalPage = response.data.meta.pagination.total_pages
                       this.currentPage = response.data.meta.pagination.current_page
                       this.total = response.data.meta.pagination.total
+                      this.loading = false;
                   })
           },
           loadCurrentData() {
@@ -453,8 +459,8 @@
              vm.form.applicat_id = vm.$route.params.id;
              vm.form.fileList = vm.fileList;
              axios.post('/api/opinion/', vm.form).then( response => {
-                 this.removeCurrentApplicat()
                  toastr.success(vm.$t('el.notification.review_success'));
+                 this.removeCurrentApplicat()
                  vm.$router.push('/review/details');
              }, error => {
                  toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
@@ -486,6 +492,8 @@
             axios.post('/api/applicat/' + this.$route.params.id + '/appraisal',this.appraisal_form).then( response => {
                 this.removeCurrentApplicat()
                 this.$router.push('/review/details');
+            }, error => {
+                toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
             })
          },
          end(applicat) {
@@ -498,12 +506,16 @@
                    }
                }
                this.activeName = 'detail';
+           }, error => {
+               toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
            })
          },
          removeCurrentApplicat() {
              for (var i = 0; i < this.applicats.length; i++) {
                  if(this.applicats[i].id == this.applicat.id){
                     this.applicats.splice(i,1);
+                    this.applicat = {};
+                    this.fileList = [];
                     return;
                  }
              }
@@ -530,7 +542,6 @@
    }
 
    #review-details .ibox {
-     margin-top: 15px;
      margin-bottom: 10px;
    }
 
@@ -563,7 +574,7 @@
       margin-bottom: 10px;
   }
   .tabs .forward .opinion {
-      margin-bottom: 5px;
+      margin-bottom: 10px;
   }
   .media-body .opinion {
       margin-bottom: 15px;

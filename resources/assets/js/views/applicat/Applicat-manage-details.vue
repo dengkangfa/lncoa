@@ -18,7 +18,10 @@
                       <el-tabs value="detail" type="card">
                         <!-- 申请详情 -->
                        <el-tab-pane :label="$t('el.page.details')" name="detail">
-                         <div class="row"  :class="{pass:applicat.status == '审核通过'}">
+                         <div class="row"  :class="{pass:applicat.status != '待审核'
+                           && applicat.status != '审核中'
+                           && applicat.status != '审核不通过'
+                           && applicat.status != '已取消'}">
                              <div class="col-sm-5">
                                  <dl class="dl-horizontal">
 
@@ -148,7 +151,7 @@
                                <hr>
                            </div>
                        </el-tab-pane>
-                       <el-tab-pane v-if="show" label="评价">
+                       <el-tab-pane v-if="show" :label="$t('el.page.appraisal')">
                          <div class="feed-element">
                              <a href="#" class="pull-left">
                                <img class="img-circle" :src="appraisal.user.avatar" alt="">
@@ -294,10 +297,13 @@
     .textarea .dl-horizontal dd {
         margin-bottom: 15px;
     }
-    .pass {
-        background-image: url(http://lncoa.app/images/pass.png);
-        background-repeat: no-repeat;
-        background-position: center;
+    @media(min-width:768px) {
+      .pass {
+          background-image: url(http://lncoa.app/images/pass.png);
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: auto;
+      }
     }
     .feed-element img.img-circle {
         width:38px;

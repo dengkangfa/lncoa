@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Carbon\Carbon;
 use Laravel\Passport\Passport;
+use App\Policies\ApplicatPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -17,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         // 'App\Model' => 'App\Policies\ModelPolicy',
         // 'App\Applicat' => 'App\Policies\ApplyPolicy'
+        'App\Applicat' => ApplicatPolicy::class
     ];
 
     /**

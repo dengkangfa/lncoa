@@ -57,7 +57,7 @@
                       v-model="form.type_id"
                       :placeholder="$t('el.form.type_placeholder')"
                       :options="types"
-                      filterable
+                      :filterable="isPhone ? false : true"
                       :show-all-levels="false"
                       :props=props
                       :clearable="true"
@@ -75,6 +75,7 @@
                              :placeholder="$t('el.form.start_time')"
                              :picker-options="startPickerOptions"
                              v-model="form.startTime"
+                             :editable="false"
                              style="width: 100%;">
                            </el-date-picker>
                          </el-form-item>
@@ -87,6 +88,7 @@
                             :placeholder="$t('el.form.end_time')"
                             :picker-options="endPickerOptions"
                             v-model="form.endTime"
+                            :editable="false"
                             style="width: 100%;">
                            </el-date-picker>
                          </el-form-item>
@@ -339,6 +341,11 @@
         },
         handleUpload(file) {
           //上传之前的回调函数
+          const isLt2M = file.size / 1024 / 1024 < 2;
+          if (!isLt2M) {
+             toastr.warning('上传活动筹划大小不能超过 2MB!');
+             return false;
+          }
           let fileList = this.fileList;
           let flag = true;
           for (let i = 0; i < fileList.length; i++) {

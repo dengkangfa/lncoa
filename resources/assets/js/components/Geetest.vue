@@ -21,6 +21,7 @@
                   $("#wait")[0].className = "hide";
                 });
                 captchaObj.onSuccess(() => {
+                  console.log(captchaObj.getValidate());
                     vm.$emit('validate',captchaObj.getValidate())
                 })
             };

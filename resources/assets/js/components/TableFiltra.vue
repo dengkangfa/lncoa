@@ -153,10 +153,12 @@ value<template>
                         queryVal[e.name] = statusId;
                   }else if( e.name == 'created_at'){
                       if(e.value != ''){
-                        let startTime = vm.formatDataTime(e.value[0]);
-                        let endTime = vm.formatDataTime(e.value[1]);
-                        let created_at = startTime + "#" + endTime;
-                        queryVal[e.name] = created_at;
+                        console.log(e.value);
+                        let startTime = e.value[0] ? vm.formatDataTime(e.value[0]) : null;
+                        let endTime = e.value[1] ? vm.formatDataTime(e.value[1]) : null;
+                        // let created_at = startTime + "#" + endTime;
+                        queryVal['startTime'] = startTime;
+                        queryVal['endTime'] = endTime;
                       }else{
                         queryVal[e.name] = '';
                       }
@@ -169,7 +171,7 @@ value<template>
               vm.dialogVisible = false;
           },
           refresh() {
-              this.$router.push({ path: this.$route.fullPath, query: { id: '', name: '', email: '', status: '', created_at: '' }})
+              this.$router.push({ path: this.$route.fullPath, query: { id: '', name: '', email: '', status: '', startTime: '', endTime: '' }})
           },
           formatDataTime (date) {
             //时间格式化

@@ -6,7 +6,7 @@
             </small>
             <h5>{{ title }}</h5>
         </div>
-        <div class="ibox-content table-responsive no-padding" v-loading=loading>
+        <div class="ibox-content table-responsive no-padding" v-loading="loading">
             <table :class="tableClass">
                 <thead>
                     <tr>
@@ -70,9 +70,12 @@
                                 </template>
                             </template>
                         </tr>
-                        <el-dialog title="提示" v-model="permissionVisible" size="tiny">
+                        <modal title="提示" :show="permissionVisible"  @cancel="permissionVisible = false" :full="true">
                           <el-tag type="success" v-for="permission in permissions" style="margin: 0 5px 5px 0">{{ permission.display_name }}</el-tag>
-                        </el-dialog>
+                        </modal>
+                        <!-- <el-dialog title="提示" v-model="permissionVisible" size="tiny">
+                          <el-tag type="success" v-for="permission in permissions" style="margin: 0 5px 5px 0">{{ permission.display_name }}</el-tag>
+                        </el-dialog> -->
 
                         <!-- <el-dialog title="可见菜单" v-model="treeVisible" size="tiny"> -->
                         <modal :show="treeVisible" @cancel="treeVisible = false" :full="true">
@@ -88,10 +91,9 @@
 
             <h3 class="none text-center" v-if="items.length == 0">{{ $t('el.page.nothing') }}</h3>
             <!-- <table-pagination ref="pagination" v-on:loadPage="loadPage" v-if="showPaginate && items.length > 0"></table-pagination> -->
-        </div>
-        <nav class="text-center row col-md-12">
-            <div v-if="items.length < 1"></div>
-            <template v-else>
+            <nav class="text-center row col-md-12" style="margin-bottom: 20px;">
+              <div v-if="items.length < 1"></div>
+              <template v-else>
                 <el-pagination
                 v-if="!isPhone"
                 @size-change="handleSizeChange"
@@ -112,13 +114,13 @@
               :total="total">
             </el-pagination>
           </template>
-      </nav>
+        </nav>
+        </div>
     </div>
 </template>
 
 <script>
     import CustomAction from './CustomAction.vue'
-    import TablePagination from './TablePagination.vue'
     import Modal from '../components/Modal'
     import { mapState } from 'vuex'
 
@@ -176,7 +178,6 @@
             '$route': 'loadData'
         },
         components: {
-            TablePagination,
             CustomAction,
             Modal,
         },

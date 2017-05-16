@@ -69,7 +69,6 @@ Route::group([
     Route::put('applicat/{id}/cancel', 'ApplicatController@cancel');
     Route::post('applicat/{id}/appraisal', 'ApplicatController@appraisal');
     Route::put('applicat/{id}/end', 'ApplicatController@end');
-
     Route::resource('opinion', 'OpinionController');
 
     Route::get('system', 'SystemController@getSystemInfo');

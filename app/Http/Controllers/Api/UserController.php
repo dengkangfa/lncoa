@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Auth;
 use Hash;
 use Image;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Events\UserAccessEvent;
 use App\Http\Requests\UserRequest;
@@ -58,8 +59,11 @@ class UserController extends ApiController
         $request->has('email') ? $option[] = ['email',$request->email] : '';
         // 激活状态
         $request->has('status') ? $option[] = ['status',$request->status] : '';
+        $create_at = [];
+        $create_at[] = $request->has('startTime') ?  $request->startTime : '1970-01-01 00:00:01';
+        $create_at[] = $request->has('endTime') ? $request->endTime : Carbon::now();
         //某段时间创建的用户
-        $create_at = $request->has('created_at') ? explode('#', $request->created_at) : '';
+        // $create_at = $request->has('created_at') ? explode('#', $request->created_at) : '';
         if($request->has('pageSize')){
           return $this->respondWithPaginator($this->user->page($option, $create_at, $request->pageSize), new UserTransformer);
         }

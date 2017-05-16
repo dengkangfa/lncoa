@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use Auth;
+use Gate;
 use App\User;
+use App\Applicat;
 use Illuminate\Http\Request;
 use App\Notifications\pendReview;
 use App\Http\Requests\ApplicatRequest;
@@ -82,7 +84,7 @@ class ApplicatController extends ApiController
             //找到优先级第一管理该类型申请的管理员用户组
             $users = $role->users;
         }else{
-            $request->merge(['role_id' => 1, 'type_id' => $type_id]);
+            $request->merge(['role_id' => 1, 'type_id' => $type_id, 'stage' => Null]);
             $applicat = $this->applicat->store($request->all());
             $users = User::find(1);
         }
@@ -126,7 +128,11 @@ class ApplicatController extends ApiController
      */
     public function forward($id, Request $request)
     {
-        $this->applicat->forward($id, $request->all());
+        $applicat = Applicat::findOrFail($id);
+        if (Gate::denies('forward', $applicat)) {
+            abort(403);
+        }
+        $this->applicat->forward($applicat, $request->all());
         if($request->get('opinion') != ''){
           $this->opinion->forwardOpinion($id, $request->all());
         }
@@ -147,24 +153,34 @@ class ApplicatController extends ApiController
      */
     public function softDeletes($id)
     {
-        $this->applicat->destroy($id);
+        $applicat = Applicat::findOrFail($id);
+        if (Gate::denies('updateUser', $applicat)) {
+            abort(403);
+        }
+        // $this->applicat->destroy($id);
+        $applicat->status = "已删除";
+        $applicat->save();
+        $applicat->delete();
 
         return $this->noContent();
     }
 
     /**
-     * 权限申请
+     * 取消申请
      * @param  int  $id
      * @param  Request $request
      * @return json
      */
     public function cancel($id,Request $request)
     {
+        $applicat = Applicat::findOrFail($id);
+        if (Gate::denies('updateUser', $applicat)) {
+            abort(403);
+        }
         $stautsName = $request->get('status');
 
-        $this->applicat->updateColumn($id,['status' => $stautsName]);
-
-        return $this->noContent();
+        $applicat->status = $stautsName;
+        return $applicat->save();
     }
 
     /**
@@ -179,8 +195,19 @@ class ApplicatController extends ApiController
         return $this->noContent();
     }
 
+    /**
+     * 评价
+     * @param  int              $id
+     * @param  Request             $request
+     * @param  AppraisalRepository $appraisal
+     * @return
+     */
     public function appraisal($id, Request $request,AppraisalRepository $appraisal)
     {
+        $applicat = Applicat::findOrFail($id);
+        if (Gate::denies('appraisal', $applicat)) {
+            abort(403);
+        }
         $data = array_merge(
           $request->all(),[
           'user_id' => \Auth::id(),
@@ -189,16 +216,25 @@ class ApplicatController extends ApiController
         //新增评论
         $model = $appraisal->store($data);
         //添加成功则修改申请状态
-        $this->applicat->updateColumn($id,['status' => '已结束']);
+        $applicat->status = '已结束';
+        $applicat->save();
 
         return $this->respondWithItem($model,new AppraisalTransformer);
     }
 
+    /**
+     * [end description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
     public function end($id)
     {
-        $this->applicat->updateColumn($id,['status' => '待评价']);
-
-        return $this->noContent();
+        $applicat = Applicat::findOrFail($id);
+        if (Gate::denies('end', $applicat)) {
+            abort(403);
+        }
+        $applicat->status = '待评价';
+        return $applicat->save();
     }
 
 }

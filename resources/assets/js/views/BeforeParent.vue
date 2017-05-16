@@ -34,6 +34,7 @@
       color: #5D5F63;
       background: #293949;
       font-family: 'Open Sans',sans-serif;
+      /*font: normal 100% Helvetica,Arial, Sans-serif;*/
       padding: 0;
       margin: 0;
       text-rendering: optimizeLegibility;

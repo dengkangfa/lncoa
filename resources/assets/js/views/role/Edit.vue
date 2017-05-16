@@ -3,7 +3,7 @@
         <div slot="buttons">
             <router-link to="/roles" class="btn btn-default" exact>{{ $t('el.form.back') }}</router-link>
         </div>
-        <div slot="content">
+        <div slot="content" id="role-edit">
             <div class="row">
                 <form class="form col-md-4 col-md-offset-4" role="form" @submit.prevent="edit">
                     <div class="form-group">
@@ -20,7 +20,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="permission">权限</label>
+                        <label for="permission" style="display: block;">权限</label>
+                        <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
                         <div id="permission">
                           <el-checkbox-group v-model="permsId" @change="handleCheckedCitiesChange">
                             <el-checkbox v-for="permission in permissions" :label="permission.id">{{permission.display_name}}</el-checkbox>
@@ -145,69 +146,76 @@
                 }
             })
         },
+        //当前角色拥有的权限
         setPermsId(){
             let permissions = this.role['permissions'].data,vm = this;
             permissions.forEach(function(value, index, array){
                 vm.permsId.push(value['id']);
             })
         },
-      //   handleCheckAllChange(event) {
-      //   this.checkedCities = event.target.checked ? cityOptions : [];
-      //   this.isIndeterminate = false;
-      // },
-      handleCheckedCitiesChange(value) {
-        let checkedCount = value.length;
-        this.checkAll = checkedCount === this.cities.length;
-        this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
-      },
-      updateRoleMenuValue() {
-          //如果可见菜单未做修改，则将role对象的menus字段设为null
-          if(typeof this.$refs.tree == 'undefined'){
-              this.role['menus'] = null;
-          }else{
-              let temp = [], items = this.$refs.tree.getCheckedNodes();
-              for (var i = 0; i < items.length; i++) {
-                temp.push(items[i].id);
-                if(items[i].parent_id != null) {
-                    temp.push(items[i].parent_id);
-                }
-              }
-              let a = {}, j=0;
-              for(var i = 0; i < temp.length; i++){
-                if(typeof a[temp[i]] == "undefined")
-                    a[temp[i]] = 1;
-              }
-              temp.splice(0,temp.length);
-
-              for(let i in a)
-                temp.push(i);
-              temp.splice(-1,1)
-              this.role['menus'] = temp;
+        //全选回调
+        handleCheckAllChange(event) {
+          let permissionsId = [];
+          for (var i = 0; i < this.permissions.length; i++) {
+            permissionsId.push(this.permissions[i].id);
           }
-      },
-      //为了不影响原值，使用克隆后的值来做修改
-      deepCopy(source) {
-        //克隆对象
-        var result={};
-         for (var key in source) {
-              result[key] = typeof source[key]==='object'? this.deepCopy(source[key]): source[key];
-           }
-           return result;
-      },
-      openTree() {
-          //设置菜单面板打开时调用
-          this.oldCheckList = this.menus;
-          this.treeVisible = true;
-      },
-      cancel() {
-          //弹出框取消事件函数，将其拥有的角色数据回调到打开弹出框前。
-          this.menus = this.oldCheckList;
-          this.treeVisible = false;
-      },
-      //提交隐藏树弹出框
-      confirm() {
-          this.treeVisible = false;
-      },
+          this.permsId = event.target.checked ? permissionsId : [];
+          this.isIndeterminate = false;
+        },
+        //判断当前是否已全选
+        handleCheckedCitiesChange(value) {
+          let checkedCount = value.length;
+          this.checkAll = checkedCount === this.permissions.length;
+          this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+        },
+        updateRoleMenuValue() {
+            //如果可见菜单未做修改，则将role对象的menus字段设为null
+            if(typeof this.$refs.tree == 'undefined'){
+                this.role['menus'] = null;
+            }else{
+                let temp = [], items = this.$refs.tree.getCheckedNodes();
+                for (var i = 0; i < items.length; i++) {
+                  temp.push(items[i].id);
+                  if(items[i].parent_id != null) {
+                      temp.push(items[i].parent_id);
+                  }
+                }
+                let a = {}, j=0;
+                for(var i = 0; i < temp.length; i++){
+                  if(typeof a[temp[i]] == "undefined")
+                      a[temp[i]] = 1;
+                }
+                temp.splice(0,temp.length);
+
+                for(let i in a)
+                  temp.push(i);
+                temp.splice(-1,1)
+                this.role['menus'] = temp;
+            }
+        },
+        //为了不影响原值，使用克隆后的值来做修改
+        deepCopy(source) {
+          //克隆对象
+          var result={};
+           for (var key in source) {
+                result[key] = typeof source[key]==='object'? this.deepCopy(source[key]): source[key];
+             }
+             return result;
+        },
+        openTree() {
+            //设置菜单面板打开时调用
+            this.oldCheckList = this.menus;
+            this.treeVisible = true;
+        },
+        cancel() {
+            //弹出框取消事件函数，将其拥有的角色数据回调到打开弹出框前。
+            this.menus = this.oldCheckList;
+            this.treeVisible = false;
+        },
+        //提交隐藏树弹出框
+        confirm() {
+            this.treeVisible = false;
+        },
 
     },
   }
@@ -217,5 +225,9 @@
     .dialog {
       width: 70%;
     }
+  }
+
+  #role-edit .el-checkbox-group label:nth-child(1) {
+      margin-left: 15px;
   }
 </style>

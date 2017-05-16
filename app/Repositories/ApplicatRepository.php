@@ -85,7 +85,7 @@ class ApplicatRepository
     public function getByType($type_id)
     {
         return $this->model->where('type_id', $type_id)
-                    ->where('status','审核通过')
+                    ->whereIn('status',['审核通过'])
                       ->get();
     }
 
@@ -136,9 +136,8 @@ class ApplicatRepository
      * @param  array $input
      * @return [type]
      */
-    public function forward($id, $input)
+    public function forward(Applicat $applicat, $input)
     {
-        $applicat = $this->getById($id);
         $applicat->role_id = $input['role_id'];
         $applicat->stage = null;
         return $applicat->save();

@@ -53,7 +53,7 @@
           <button type="submit" class="btn btn-info" :disabled="!formDirty" name="button">{{$t('el.form.edit')}}</button>
       </form>
    </el-tab-pane>
-   <el-tab-pane :label="$t('el.page.my_type')" name="my_type" id="type">
+   <el-tab-pane :label="$t('el.page.my_type')" name="my_type" id="type" v-if="show_type">
       <div class="row" v-for="(type, index) in types">
         <div class="col-md-offset-4 col-md-4 col-sm-12">
           <!-- 类型名称 -->
@@ -73,6 +73,8 @@
 <script>
     import { stack_error } from '../../config/helper.js'
     import { mapFields } from 'vee-validate';
+    import { mapState } from 'vuex'
+
     export default {
         data() {
             return {
@@ -83,11 +85,13 @@
                 },
                 types: [],
                 space: 200,
+                show_type: false
             }
         },
         created() {
+          let vm = this;
           //验证字段名称
-          this.$validator.updateDictionary({
+          vm.$validator.updateDictionary({
                 zh_CN: {
                     attributes: {
                         old_password: '旧密码',
@@ -96,10 +100,16 @@
                     }
                 }
           });
-          this.space = this.$store.state.isPhone ? 75 : 200
-          axios.get('/api/type/me').then( response => {
-              this.types = response.data;
-          })
+          vm.space = vm.$store.state.isPhone ? 75 : 200
+          for (let i = 0; i < vm.permissions.length; i++) {
+              if(vm.permissions[i].name == 'show-type') {
+                  vm.show_type = true;
+                  axios.get('/api/type/me').then( response => {
+                      vm.types = response.data;
+                  });
+                  continue;
+              }
+          }
         },
         computed: {
           ...mapFields({
@@ -111,7 +121,10 @@
           formDirty() {
             // are some fields dirty?
             return Object.keys(this.validataFields).some(key => this.validataFields[key].dirty);
-          }
+          },
+          ...mapState([
+              'permissions'
+          ]),
         },
         methods: {
           //提交之前验证所有表单信息

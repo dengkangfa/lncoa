@@ -107,6 +107,12 @@
             width: 100%;
             background: rgba(14, 14, 14, 0.32);
         }
+        a {
+            font-size: 12px;
+        }
+        h3 {
+            font-size: 24px
+        }
     }
 
     @media(min-width:768px) {
