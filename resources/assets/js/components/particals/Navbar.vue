@@ -52,7 +52,7 @@
 
                     <!--头像-->
                     <li v-show="userInfoShowed" class="user-profile-photo">
-                        <img :src="user.avatar ? user.avatar : 'http://lncoa.app/images/default.png'" alt="" class="img-responsive img-circle"/>
+                        <img :src="user.avatar ? user.avatar : '../../../../../public/images/default.png'" alt="" class="img-responsive img-circle"/>
                     </li>
                     <!-- 头像END -->
                     <!--用户名/昵称 -->

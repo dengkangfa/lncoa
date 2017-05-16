@@ -52,7 +52,7 @@
                                 </h5>
                               </div>
                               <div class="panel-body" style="text-align: center;">
-                                <el-steps center :space="110" :active="applicat.stage" finish-status="success"  v-if="applicat.status == '已结束'">
+                                <el-steps center :space="110" :active="applicat.stage" finish-status="success"  v-if="applicat.status != '审核通过' && applicat.status != '已结束'">
                                   <el-step v-for="(role, index) in applicat.roles.data"
                                     :description="role.display_name"
                                     :status="(applicat.status == '审核不通过' && index == applicat.stage-1) ? 'error' : '' "
@@ -66,7 +66,7 @@
                                         v-if="applicat.status == '已结束'"
                                         >
                                       </el-rate>
-                                      <img src="http://lncoa.app/images/pass.png" width="90%" v-else>
+                                      <img src="../../../../../public/images/pass.png" width="90%" v-else>
                                 </template>
                               </div>
                               <div class="panel-footer">
@@ -131,7 +131,7 @@
                                       </el-rate>
                                     </td>
                                     <td v-else>
-                                      <img src="http://lncoa.app/images/pass.png" width=350 height=48 alt="">
+                                      <img src="../../../../../public/images/pass.png" width=350 height=48 alt="">
                                     </td>
                                 </template>
                                 <td class="project-actions col-md-2">
