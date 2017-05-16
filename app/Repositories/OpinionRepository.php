@@ -5,6 +5,7 @@ namespace App\Repositories;
 use DB;
 use Auth;
 use App\User;
+use App\Role;
 use App\Opinion;
 use App\Notifications\PendReview;
 use App\Notifications\ReviewResults;
@@ -54,7 +55,10 @@ class OpinionRepository
                       //找出下一审核组成员，并发送邮件提示
                       $users = $role->users;
                   }else{
-                      $users = User::find(1);
+                      $role = Role::find(1);
+                      $applicat->role_id = $role->id;
+                      $applicat->stage = null;
+                      $users = $role->users;
                   }
                   \Notification::send($users, new PendReview($applicat));
 
