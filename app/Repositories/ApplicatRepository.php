@@ -51,6 +51,7 @@ class ApplicatRepository
                 }
             }
             $applicats = $this->model
+                        ->withTrashed()
                         ->whereIn('type_id', array_unique($typeId))
                         ->with('user', 'mechanism', 'type', 'opinions')
                           ->orderBy($sortColumn, $sort)
@@ -141,5 +142,10 @@ class ApplicatRepository
         $applicat->role_id = $input['role_id'];
         $applicat->stage = null;
         return $applicat->save();
+    }
+
+    public function getById($id)
+    {
+        return $this->model->withTrashed()->findOrFail($id);
     }
 }
