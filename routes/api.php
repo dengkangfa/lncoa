@@ -64,13 +64,13 @@ Route::group([
     Route::resource('applicat', 'ApplicatController');
     Route::get('applicat', 'ApplicatController@me');
     Route::post('applicat/{id}/forward', 'ApplicatController@forward');
-    Route::put('applicat/{id}/approval', 'ApplicatController@approval');
     Route::get('applicat/{type_id}/dateTakeUp', 'ApplicatController@dateTakeUp');
     Route::get('applicats', 'ApplicatController@index');
     Route::delete('applicat/{id}', 'ApplicatController@destroy');
     Route::delete('applicat/{id}/softdelete', 'ApplicatController@SoftDeletes');
     Route::put('applicat/{id}/cancel', 'ApplicatController@cancel');
     Route::post('applicat/{id}/appraisal', 'ApplicatController@appraisal');
+    Route::put('applicat/{id}/approval', 'ApplicatController@approval');
     Route::put('applicat/{id}/end', 'ApplicatController@end');
     Route::resource('opinion', 'OpinionController');
 
