@@ -8,7 +8,7 @@ use App\User;
 use App\Applicat;
 use Illuminate\Http\Request;
 use App\Notifications\pendReview;
-use App\Notifications\Appraisal;
+use App\Notifications\AppraisalNotification;
 use App\Http\Requests\ApplicatRequest;
 use App\Repositories\ApplicatRepository;
 use App\Repositories\OpinionRepository;
