@@ -1,6 +1,6 @@
 value<template>
   <span>
-      <el-button type="primary" size="mini"><i class="ion-archive"></i> {{ $t('el.page.export') }}</el-button>
+      <!-- <el-button type="primary" size="mini" @click="exportUserInfo"><i class="ion-archive"></i> {{ $t('el.page.export') }}</el-button> -->
     <el-button-group style="margin-bottom:2px">
       <el-button type="primary" icon="search" size="mini" @click="dialogVisible=true">{{ $t('el.page.search') }}</el-button>
       <el-button type="primary" size="mini" @click="refresh"><i class="ion-refresh"></i></el-button>
@@ -188,6 +188,13 @@ value<template>
              }
              return date;
          },
+         exportUserInfo() {
+            axios.get('/api/user/export').then(response => {
+                console.log(response);
+            }, error => {
+                console.log(error);
+            })
+         }
       }
   }
 </script>

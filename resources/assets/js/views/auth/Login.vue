@@ -49,7 +49,7 @@
                             </label>
                             <p class="remember" v-show="remember">{{$t('el.form.remember_placeholder')}}</p>
                           </div>
-                            <Geetest @validate="validate"></Geetest>
+                            <Geetest ref="geetest" @validate="validate"></Geetest>
                           <div class="form-group">
                               <div class="col-md-12">
                                   <button type="submit"
@@ -197,6 +197,7 @@
                   vm.$loading().close();
                   vm.$router.push('/');
               }, error => {
+                  vm.$refs.geetest.reset();
                   vm.$loading().close();
                   if(error.response.status == 403){
                     vm.message = error.response.data.message;

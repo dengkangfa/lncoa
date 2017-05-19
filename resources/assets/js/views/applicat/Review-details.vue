@@ -130,7 +130,7 @@
                                       </template>
                                       <!-- 审核意见END -->
                                       <!-- 审核控件 -->
-                                      <div class="feed-element">
+                                      <div class="feed-element" v-show="applicat.status == '待审核' || applicat.status == '审核中'">
                                           <div class="media-body ">
                                             <form  @submit.prevent="submit">
                                               <el-input type="textarea" v-model="form.opinion" :placeholder="$t('el.form.opinion_placeholder')" class="opinion"></el-input>
@@ -169,7 +169,8 @@
                                     <el-form label-position="top" :model="forward_form" label-width="80px">
                                         <el-form-item :label="$t('el.form.recipient')">
                                           <select v-if="isPhone" v-model="forward_form.role_id" class="form-control" :placeholder="$t('el.form.recipient_placeholder')">
-                                            <option v-for="role in roles" :label="role.display_name" :value="role.id">
+                                            <option v-for="role in roles" :value="role.id">
+                                              {{role.display_name}}
                                             </option>
                                           </select>
                                           <el-select v-else v-model="forward_form.role_id" :placeholder="$t('el.form.recipient_placeholder')">
@@ -205,7 +206,7 @@
                                 <el-tab-pane :label="$t('el.page.appraisal')" v-if="applicat.status == '待评价'">
                                   <div class="block">
                                     <!-- 反馈输入框 -->
-                                    <el-input type="textarea" v-model="appraisal_form.appraisal" placeholder="$t('el.page.feedback')"></el-input>
+                                    <el-input type="textarea" v-model="appraisal_form.appraisal" :placeholder="$t('el.page.feedback')"></el-input>
                                     <!-- 反馈输入框END -->
                                     <!-- <el-form-item label="评分"> -->
                                       <el-rate

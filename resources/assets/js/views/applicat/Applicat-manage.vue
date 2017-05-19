@@ -54,13 +54,13 @@
                               <div class="panel-body" style="text-align: center;">
                                 <el-steps center :space="110" :active="applicat.stage" finish-status="success"  v-if="applicat.status != '审核通过' && applicat.status != '已结束'">
                                   <el-step v-for="(role, index) in applicat.roles.data"
-                                    :description="role.display_name"
+                                    :title="role.display_name"
                                     :status="(applicat.status == '审核不通过' && index == applicat.stage-1) ? 'error' : '' "
                                     ></el-step>
                                 </el-steps>
                                 <template v-else>
                                       <el-rate
-                                        v-model="score"
+                                        v-model="applicat.appraisal.data.score"
                                         disabled-void-color="#b0b1b3"
                                         disabled
                                         v-if="applicat.status == '已结束'"
@@ -140,10 +140,11 @@
                                       <!-- <i class="btn btn-white btn-sm ion-folder"> {{ $t('el.form.look') }}</i> -->
                                   </router-link>
                                   <el-popover
-                                     v-if="applicat.status == '待审核' || applicat.status == '审核中'"
+                                     v-show="applicat.status == '待审核' || applicat.status == '审核中'"
                                      placement="top"
                                      trigger="click"
-                                     width="160">
+                                     width="160"
+                                     :value="show">
                                      <p>确定放弃这条申请吗？</p>
                                      <div style="text-align: right; margin: 0">
                                        <el-button type="primary" size="mini" @click="cancelApplicat(applicat)">{{$t('el.messagebox.confirm')}}</el-button>
@@ -152,10 +153,11 @@
                                   </el-popover>
 
                                   <el-popover
-                                     v-else
+                                     v-show="applicat.status != '待审核' && applicat.status != '审核中'"
                                      placement="top"
                                      trigger="click"
-                                     width="160">
+                                     width="160"
+                                     :value="show">
                                      <p>确定删除这条申请吗？</p>
                                      <div style="text-align: right; margin: 0">
                                        <el-button type="primary" size="mini" @click="removeApplicat(applicat, index)">{{$t('el.messagebox.confirm')}}</el-button>
@@ -218,7 +220,7 @@
               keyWord: '',
               query: {},
               popoverVisible: false,
-              score: 3
+              show: false,
           }
       },
       created() {
@@ -314,16 +316,19 @@
                 this.loadData();
             }
          },
-         //权限申请
+         //取消申请
          cancelApplicat(applicat) {
+            this.show = false;
             axios.put('/api/applicat/'+ applicat.id + '/cancel',{'status':'已取消'}).then( response => {
                 toastr.success(this.$t('el.notification.applicat_cancel'));
                 //更改该申请状态
                 applicat.status = '已取消';
+                console.log(2);
             })
          },
          //删除申请
          removeApplicat(applicat, index) {
+            this.show = false;
             axios.delete('/api/applicat/'+ applicat.id +'/softdelete').then( response => {
                 this.applicats.splice(index,1);
                 toastr.success(this.$t('el.notification.applicat_remove'));

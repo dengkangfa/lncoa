@@ -34,6 +34,8 @@ class ResetPasswordController extends ApiController
      */
     public function __construct()
     {
+        parent::__construct();
+        
         $this->middleware('guest');
     }
 
@@ -46,9 +48,9 @@ class ResetPasswordController extends ApiController
     public function reset(Request $request)
     {
         $result = $this->validate($request, [
-          'geetest_challenge' => 'required',
+          'geetest_challenge' => 'geetest',
         ], [
-          'required' => \Config::get('geetest.server_fail_alert')
+          'geetest' => \Config::get('geetest.server_fail_alert')
         ]);
         $this->validate($request, $this->rules(), $this->validationErrorMessages());
 
@@ -90,8 +92,8 @@ class ResetPasswordController extends ApiController
         $request = request();
         $request->request->add([
             'grant_type' => 'password',
-            'client_id' => '2',
-            'client_secret' => 'OkABZOuxDMaiaaFJBrESpYnmIMf6eSwyU42fPVdM',
+            'client_id' => '1',
+            'client_secret' => 'nu7fyK26YDz6w9d6uE4jRifTSxthB4RVmRHlYMD3',
             'username' => $user->email,
             'scope' => ''
         ]);

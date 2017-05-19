@@ -16,7 +16,7 @@ class LoginController extends ApiController
         $result = $this->validate($request, [
           'geetest_challenge' => 'geetest',
         ], [
-          'required' => '请正确完成验证码操作'
+          'geetest' => \Config::get('geetest.server_fail_alert')
         ]);
 
         $field = filter_var($request->input('username'), FILTER_VALIDATE_EMAIL) ? 'email' : 'name';

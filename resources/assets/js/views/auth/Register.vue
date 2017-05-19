@@ -97,7 +97,7 @@
                                 </span>
                                 <!-- 错误消息END -->
                             </div>
-                            <Geetest @validate="validate"></Geetest>
+                            <Geetest ref="geetest" @validate="validate"></Geetest>
                             <button type="submit" class="btn btn-primary btn-block" :disabled= "!formDirty || validateGeetest">{{$t('el.form.sign_up')}}</button>
                         </form>
                     </div>
@@ -234,7 +234,8 @@
                     vm.$router.push('/');
                 }
             }, error => {
-                vm.$loading().close()
+                vm.$loading().close();
+                vm.$refs.geetest.reset();
                 if(error.response.status == 422){
                   stack_error(error.response.data)
                 }else{

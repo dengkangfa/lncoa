@@ -55,7 +55,7 @@
                             </span>
                             <!-- 错误消息END -->
                         </div>
-                        <Geetest @validate="validate"></Geetest>
+                        <Geetest ref="geetest" @validate="validate"></Geetest>
                         <button type="submit" class="btn btn-primary btn-block" :disabled= "!formDirty || validateGeetest">{{$t('el.form.reset')}}</button>
                     </form>
                   </div>
@@ -140,6 +140,7 @@
                     localStorage.access_token = data.access_token;
                     this.$router.push('/');
                 },error => {
+                    vm.$refs.geetest.reset();
                     if(error.response.status == 422){
                       //表单验证有错误执行
                       if(error.response.data.error){

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Api\ApiController;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
-class ForgotPasswordController extends Controller
+class ForgotPasswordController extends ApiController
 {
     /*
     |--------------------------------------------------------------------------
@@ -28,6 +30,8 @@ class ForgotPasswordController extends Controller
      */
     public function __construct()
     {
+        parent::__construct();
+
         $this->middleware('guest');
     }
 
@@ -41,9 +45,9 @@ class ForgotPasswordController extends Controller
     {
         $this->validate($request, [
           'email' => 'required|email',
-          'geetest_challenge' => 'required'
+          'geetest_challenge' => 'geetest'
         ], [
-          'geetest_challenge.required' => \Config::get('geetest.server_fail_alert')
+          'geetest_challenge' => \Config::get('geetest.server_fail_alert')
         ]);
 
         // We will send the password reset link to this user. Once we have attempted
@@ -56,5 +60,29 @@ class ForgotPasswordController extends Controller
         return $response == Password::RESET_LINK_SENT
                     ? $this->sendResetLinkResponse($response)
                     : $this->sendResetLinkFailedResponse($request, $response);
+    }
+
+    /**
+     * Get the response for a successful password reset link.
+     *
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function sendResetLinkResponse($response)
+    {
+        return $this->respondWithArray(['status' => [trans($response)]]);
+    }
+
+    /**
+     * Get the response for a failed password reset link.
+     *
+     * @param  \Illuminate\Http\Request
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function sendResetLinkFailedResponse(Request $request, $response)
+    {
+        $this->setStatusCode(403);
+        return $this->respondWithError(['email' => trans($response)],403);
     }
 }

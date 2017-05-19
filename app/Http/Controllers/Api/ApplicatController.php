@@ -8,6 +8,7 @@ use App\User;
 use App\Applicat;
 use Illuminate\Http\Request;
 use App\Notifications\pendReview;
+use App\Notifications\Appraisal;
 use App\Http\Requests\ApplicatRequest;
 use App\Repositories\ApplicatRepository;
 use App\Repositories\OpinionRepository;
@@ -180,7 +181,10 @@ class ApplicatController extends ApiController
         $stautsName = $request->get('status');
 
         $applicat->status = $stautsName;
-        return $applicat->save();
+        $applicat->role_id = null;
+        $applicat->save();
+
+        return $this->noContent();
     }
 
     /**
@@ -219,6 +223,9 @@ class ApplicatController extends ApiController
         $applicat->status = '已结束';
         $applicat->save();
 
+        $user = User::findOrFail($applicat->user_id);
+        $user->notify(new AppraisalNotification($applicat));
+
         return $this->respondWithItem($model,new AppraisalTransformer);
     }
 
@@ -234,7 +241,9 @@ class ApplicatController extends ApiController
             abort(403);
         }
         $applicat->status = '待评价';
-        return $applicat->save();
+        $applicat->save();
+
+        return $this->noContent();
     }
 
 }

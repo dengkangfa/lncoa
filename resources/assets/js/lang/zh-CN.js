@@ -291,7 +291,8 @@ export default {
       approval: '审批',
       end: '结束',
       borrow_period: '时段',
-      feedback: '反馈'
+      feedback: '反馈',
+      notification: '消息通知'
     },
     sidebar: {
       dashboard: '面板',

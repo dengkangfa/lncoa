@@ -4,6 +4,7 @@ namespace App;
 
 use App\Scopes\StatusScope;
 use Laravel\Passport\HasApiTokens;
+use App\Notifications\ResetPassword;
 use Illuminate\Notifications\Notifiable;
 // use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -135,5 +136,22 @@ class User extends Authenticatable
     public function scopeNormal($query)
     {
         return $query->where('status',self::STATUS_NORMAL);
+    }
+
+    /**
+     * Route notifications for the mail channel.
+     *
+     * @return string
+     */
+    public function routeNotificationForMail()
+    {
+        if (auth()->id() != $this->id && $this->email_notify_enabled == 'yes' && config('lnc.mail_notification')) {
+            return $this->email;
+        }
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPassword($token));
     }
 }

@@ -24,7 +24,7 @@
                           </span>
                           <!-- 错误消息END -->
                         </div>
-                        <Geetest @validate="validate"></Geetest>
+                        <Geetest ref="geetest" @validate="validate"></Geetest>
                         <div class="form-group">
                             <div>
                               <button type="submit" class="btn btn-primary col-md-12" :class="{'success': ok}" :disabled="!formDirty || disabled || validateGeetest" name="button">
@@ -101,6 +101,7 @@
                 axios.post('/api/password/email',{'email': this.email}).then( response => {
                     this.ok = true;
                 }, error => {
+                    vm.$refs.geetest.reset();
                     if(error.response.status == 422){
                       this.disabled = false;
                       stack_error(error.response.data)

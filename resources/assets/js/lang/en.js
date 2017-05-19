@@ -291,7 +291,8 @@ export default {
       approval: 'Approval',
       end: 'End',
       borrow_period: 'Borrow Period',
-      feedback: 'Feedback'
+      feedback: 'Feedback',
+      notification: 'Notification'
     },
     sidebar: {
       dashboard: 'Dashboard',

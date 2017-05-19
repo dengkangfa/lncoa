@@ -61,7 +61,6 @@
                       :show-all-levels="false"
                       :props=props
                       :clearable="true"
-                      @change="typeChange"
                     ></el-cascader>
                   </el-form-item>
                   <!-- 申请类型END -->
@@ -97,6 +96,7 @@
                     <el-col :span="15" v-else>
                         <el-date-picker
                         type="datetimerange"
+                        :picker-options="startPickerOptions"
                         :placeholder="$t('el.form.start_end_time')"
                         v-model="date"
                         style="width: 100%;"
@@ -189,7 +189,9 @@
             }
        };
        return {
-         startPickerOptions: {},
+         startPickerOptions: {
+           selectableRange: '18:30:00 - 20:30:00'
+         },
          endPickerOptions: {},
          dateTakeUp: [],
          date: [],
@@ -366,21 +368,21 @@
             }
         },
         //当级联选择框内容改变时调用
-        typeChange(el) {
-            // let temp = this.types;
-            // for (var i = 0; i < el.length; i++) {
-            //     temp = this.currentType(temp,el[i]);
-            // }
-            // if(temp.date_unique) {
-            //     axios.get('/api/applicat/' + temp.id + '/dateTakeUp').then( response => {
-            //       console.log(response);
-            //       this.dateTakeUp = response.data.data;
-            //         // let startTime = response.data.data.startTime;
-            //         // let entTime = response.data.data.entTime;
-            //         // this.dateTakeUp = startTime + '-' + endTime;
-            //     });
-            // }
-        },
+        // typeChange(el) {
+        //     let temp = this.types;
+        //     for (var i = 0; i < el.length; i++) {
+        //         temp = this.currentType(temp,el[i]);
+        //     }
+        //     if(temp.date_unique) {
+        //         axios.get('/api/applicat/' + temp.id + '/dateTakeUp').then( response => {
+        //           console.log(response);
+        //           this.dateTakeUp = response.data.data;
+        //             // let startTime = response.data.data.startTime;
+        //             // let entTime = response.data.data.entTime;
+        //             // this.dateTakeUp = startTime + '-' + endTime;
+        //         });
+        //     }
+        // },
         //获取用户当前选择的类型
         currentType(types, id) {
             for (var i = 0; i < types.length; i++) {

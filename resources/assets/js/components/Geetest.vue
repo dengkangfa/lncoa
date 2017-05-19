@@ -10,7 +10,8 @@
       data() {
         return {
             gtserver: '',
-            user_id: ''
+            user_id: '',
+            captchaObj: {}
         }
       },
       created() {
@@ -20,6 +21,7 @@
           geetest(url) {
             let vm = this;
             var handlerEmbed = function(captchaObj) {
+                vm.captchaObj = captchaObj;
                 if(!$('#geetest-captcha').html()){
                   captchaObj.appendTo("#geetest-captcha");
                 }
@@ -51,6 +53,9 @@
                     }, handlerEmbed);
                 }
             });
+          },
+          reset() {
+              this.captchaObj.reset();
           }
       }
   }

@@ -328,6 +328,27 @@ class UserController extends ApiController
         return $this->manager->dirSize($path);
     }
 
+    // public function export()
+    // {
+    //   $cellData = [
+    //         ['学号','姓名','成绩'],
+    //         ['10001','AAAAA','99'],
+    //         ['10002','BBBBB','92'],
+    //         ['10003','CCCCC','95'],
+    //         ['10004','DDDDD','89'],
+    //         ['10005','EEEEE','96'],
+    //       ];
+    //       $headers = [
+    //         'Content-type' => 'application/octet-stream',
+    //         'Content-Disposition' => 'attachment; filename=abc.txt'
+    //       ];
+    //       \Excel::create('abc',function($excel) use ($cellData){
+    //         $excel->sheet('score', function($sheet) use ($cellData){
+    //           $sheet->rows($cellData);
+    //         });
+    //       })->export('xls');
+    // }
+
     // /**
     //  * 新注册用户激活操作
     //  * @param  [type] $token [description]

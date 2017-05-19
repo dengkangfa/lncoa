@@ -1,6 +1,7 @@
 <template lang="html">
   <el-tabs value="reset_password">
    <el-tab-pane :label="$t('el.page.reset_password')" name="reset_password">
+     <span slot="label"><i class="ion-locked"></i> {{$t('el.page.reset_password')}}</span>
       <form class="col-sm-4 col-sm-offset-4" @submit.prevent="validateBeforeSubmit">
           <!-- 旧密码 -->
           <div class="form-group has-feedback" :class="{'has-error': oldPasswordFlags.invalid, 'has-success': oldPasswordFlags.valid}">
@@ -53,7 +54,39 @@
           <button type="submit" class="btn btn-info" :disabled="!formDirty" name="button">{{$t('el.form.edit')}}</button>
       </form>
    </el-tab-pane>
-   <el-tab-pane :label="$t('el.page.my_type')" name="my_type" id="type" v-if="show_type">
+   <el-tab-pane>
+        <span slot="label"><i class="ion-android-notifications"></i> {{$t('el.page.notification')}}</span>
+        <div class="col-md-12">
+            <div class="panel panel-default panel-md">
+                <div class="panel-body">
+                    <h2 style="font-size: 30px;">
+                      <i class="ion-gear-b"></i>  Email 通知设置
+                    </h2>
+                    <hr/>
+                    <form @submit.prevent="submit">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label text-right" for="email_nitificat">开启邮件通知？</label>
+                            <div class="col-sm-9">
+                              <el-switch
+                                name="email_nitificat"
+                                v-model="email_notify_enabled"
+                                on-color="#13ce66"
+                                off-color="#ff4949">
+                              </el-switch>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="">
+                                <button type="submit" class="btn btn-primary btn-lg" name="button">应用修改</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+   </el-tab-pane>
+   <el-tab-pane name="my_type" id="type" v-if="show_type">
+      <span slot="label"><i class="ion-clipboard"></i> {{$t('el.page.my_type')}}</span>
       <div class="row" v-for="(type, index) in types">
         <div class="col-md-offset-4 col-md-4 col-sm-12">
           <!-- 类型名称 -->
@@ -85,11 +118,13 @@
                 },
                 types: [],
                 space: 200,
-                show_type: false
+                show_type: false,
+                email_notify_enabled: true,
             }
         },
         created() {
           let vm = this;
+          vm.email_notify_enabled = vm.$store.state.user.email_notify_enabled;
           //验证字段名称
           vm.$validator.updateDictionary({
                 zh_CN: {
@@ -151,15 +186,26 @@
                         }
                     })
                 }
+            },
+            submit() {
+                axios.put('/api/setting/notification',{'email_notify_enabled' : this.email_notify_enabled}).then( response => {
+                    console.log(response);
+                })
             }
         }
     }
 </script>
 
-<style lang="css">
+<style lang="css" >
   .bg > div:first-child {
       background: #20a0ff !important;
       border-color: #20a0ff !important;
+  }
+
+  @media (min-width: 768px) {
+      .text-right{
+          text-align: right;
+      }
   }
 
 </style>

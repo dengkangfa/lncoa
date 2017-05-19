@@ -10,8 +10,7 @@
                                   <h3>{{applicat.mechanism}} - {{applicat.type}}</h3>
                               </div>
                               <dl class="dl-horizontal">
-                                  <dt>{{$t('el.table.status')}}：</dt>
-                                  <dd><Status :status="applicat.status"></Status></dd>
+                                <span>{{$t('el.table.status')}}：<Status :status="applicat.status"></Status></span>
                               </dl>
                           </div>
                       </div>

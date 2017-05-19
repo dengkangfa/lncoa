@@ -85,7 +85,7 @@ class ApplicatRepository
     public function getByType($type_id)
     {
         return $this->model->where('type_id', $type_id)
-                    ->whereIn('status',['审核通过'])
+                    ->whereIn('status',['审核通过','进行中'])
                       ->get();
     }
 

@@ -37,6 +37,9 @@ Route::group([
     Route::post('/user/file/delete', 'UserController@deleteFile');
     Route::post('/user/folder', 'UserController@createFolder');
     Route::post('/user/file/rename', 'UserController@renameFile');
+    Route::get('/user/export', 'UserController@export');
+
+    Route::put('/setting/notification', 'SettingController@setNotification');
 
     Route::get('/menu', 'MenuController@me');
     Route::get('/menus', 'MenuController@index');

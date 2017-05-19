@@ -26,6 +26,7 @@ class UserTransformer extends TransformerAbstract
             'status' => $user->status,
             'nickname' => $user->nickname,
             'description' => $user->description,
+            'email_notify_enabled' => $user->email_notify_enabled === 'yes' ? true : false,
             'created_at' => $user->created_at->toDateTimeString(),
         ];
     }

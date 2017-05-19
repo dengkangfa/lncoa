@@ -12,4 +12,7 @@ return [
         'sign'  => env('K780_SIGN') ?: 'k780-ign',
         'weaid' => env('K780_WEAID') ?: '清远'
     ],
+
+    // Mail Notification
+    'mail_notification' => env('MAIL_NOTIFICATION') ?: false,
 ];
