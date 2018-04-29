@@ -10,7 +10,7 @@
           </span>
         </div>
         <ol  class="dd-list">
-          <type-item v-for="children in type.children" :type="children"></type-item>
+          <type-item v-for="children in type.children" :key="children.id" :type="children"></type-item>
         </ol>
     </li>
     <li class="dd-item" :data-id="type.id" v-else>

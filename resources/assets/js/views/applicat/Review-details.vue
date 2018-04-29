@@ -169,12 +169,12 @@
                                     <el-form label-position="top" :model="forward_form" label-width="80px">
                                         <el-form-item :label="$t('el.form.recipient')">
                                           <select v-if="isPhone" v-model="forward_form.role_id" class="form-control" :placeholder="$t('el.form.recipient_placeholder')">
-                                            <option v-for="role in roles" :value="role.id">
+                                            <option v-for="role in roles" :value="role.id" :key="role.id">
                                               {{role.display_name}}
                                             </option>
                                           </select>
                                           <el-select v-else v-model="forward_form.role_id" :placeholder="$t('el.form.recipient_placeholder')">
-                                            <el-option v-for="role in roles" :label="role.display_name" :value="role.id">
+                                            <el-option v-for="role in roles" :label="role.display_name" :key="role.id" :value="role.id">
                                             </el-option>
                                           </el-select>
                                           <!-- -
@@ -185,7 +185,7 @@
                                         </el-form-item>
                                         <el-input type="textarea" v-model="forward_form.opinion" :placeholder="$t('el.form.opinion_placeholder')" class="opinion"></el-input>
                                          <el-form-item>
-                                           <el-button type="primary" class="btn btn-info btn-sm" :disabled="!forward_form.role_id" @click="forward" style="float:right">{{ $t('el.form.submit') }}</elbutton>
+                                           <el-button type="primary" class="btn btn-info btn-sm" :disabled="!forward_form.role_id" @click="forward" style="float:right">{{ $t('el.form.submit') }}</el-button>
                                          </el-form-item>
                                     </el-form>
                                 </el-tab-pane>

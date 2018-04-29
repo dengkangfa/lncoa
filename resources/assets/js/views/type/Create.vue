@@ -55,6 +55,7 @@
                             v-for="item in roles"
                             :label="item.display_name"
                             :value="item.id"
+                            :key="item.id"
                             :disabled="item.disabled">
                           </el-option>
                         </el-select>
@@ -113,6 +114,7 @@
               </el-form>
           <div>
       </div>
+          </div></div>
   </vue-form>
 </template>
 

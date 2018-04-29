@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="row">
       <div class="ibox">
           <div class="ibox-title">
@@ -44,7 +44,7 @@
                     <div slot="footer" style="text-align:center">
                       <nav class="text-center">
                         <div v-if="applicats.length < 1"></div>
-                        <template v-else>
+                        <div v-else>
                           <el-pagination
                           v-if="!isPhone"
                           @size-change="handleSizeChange"
@@ -64,11 +64,12 @@
                         :layout="'prev, pager, next'"
                         :total="total">
                       </el-pagination>
-                    </template>
+                    </div>
                   </nav>
                 </div>
           </div>
     </div>
+  </div>
 </template>
 
 <script>

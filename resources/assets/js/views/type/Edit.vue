@@ -15,44 +15,45 @@
                       <el-input type="textarea" autosize :placeholder="$t('el.form.description')" v-model="type.describe"></el-input>
                   </el-form-item>
                   <!-- 审核人组 -->
-                  <template v-if="type.roles">
-                  <el-form-item
-                    v-for="(approver, index) in type.roles.data"
-                    :label="$t('el.form.approver') + (index + 1)"
-                    :key="approver.name"
-                    :prop="'roles.data.' + index + '.id'"
-                  >
-                    <el-select v-model="approver.id" filterable :placeholder="$t('el.form.approver_select')" @change="change">
-                      <el-option
-                        v-for="item in roles"
-                        :label="item.display_name"
-                        :value="item.id"
-                        :disabled="item.disabled">
-                      </el-option>
-                    </el-select>
-                    <el-button @click.prevent="removeApprover(approver)" style="padding: 10px;">{{ $t('el.form.delete') }}</el-button>
-                  </el-form-item>
-                </template>
-                <el-row :gutter="20">
-                  <el-col :span="8">
-                    <el-form-item :label="$t( 'el.form.is_enable' )">
-                      <el-switch
-                        v-model="status"
-                        on-text=""
-                        off-text="">
-                      </el-switch>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :span="8">
-                      <el-form-item prop="date_unique" label="唯一时间段">
-                        <el-switch
-                        v-model="type.date_unique"
-                        on-text=""
-                        off-text="">
-                      </el-switch>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
+                    <template v-if="type.roles">
+                      <el-form-item
+                        v-for="(approver, index) in type.roles.data"
+                        :label="$t('el.form.approver') + (index + 1)"
+                        :key="approver.name"
+                        :prop="'roles.data.' + index + '.id'"
+                      >
+                        <el-select v-model="approver.id" filterable :placeholder="$t('el.form.approver_select')" @change="change">
+                          <el-option
+                            v-for="item in roles"
+                            :label="item.display_name"
+                            :value="item.id"
+                            :key="item.id"
+                            :disabled="item.disabled">
+                          </el-option>
+                        </el-select>
+                        <el-button @click.prevent="removeApprover(approver)" style="padding: 10px;">{{ $t('el.form.delete') }}</el-button>
+                      </el-form-item>
+                    </template>
+                    <el-row :gutter="20">
+                      <el-col :span="8">
+                        <el-form-item :label="$t( 'el.form.is_enable' )">
+                          <el-switch
+                            v-model="status"
+                            on-text=""
+                            off-text="">
+                          </el-switch>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="8">
+                          <el-form-item prop="date_unique" label="唯一时间段">
+                            <el-switch
+                            v-model="type.date_unique"
+                            on-text=""
+                            off-text="">
+                          </el-switch>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
                   <!-- <el-form-item
                     :label="$t( 'el.form.is_enable' )"
                     prop="disabled"
@@ -69,7 +70,7 @@
                     <!-- <el-button @click="resetForm('type')">{{ $t('el.form.reset') }}</el-button> -->
                   </el-form-item>
                 </el-form>
-            <div>
+            </div>
         </div>
     </vue-form>
 </template>

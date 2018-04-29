@@ -94,7 +94,7 @@
           <!-- 管理该类型的角色组 -->
           <template v-for="(roles, priority) in type">
               <el-steps :space="space">
-                <el-step v-for="(role, index) in roles" :class="{'bg' : index == priority}" :title="role.display_name"></el-step>
+                <el-step v-for="(role, index) in roles" :class="{'bg' : index == priority}" :key="role.id" :title="role.display_name"></el-step>
               </el-steps>
           </template>
         </div>

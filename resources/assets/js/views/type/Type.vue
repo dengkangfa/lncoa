@@ -35,7 +35,7 @@
             <!-- 类型列表 -->
             <div class="dd" >
               <ol class="dd-list" v-if="show" >
-                <type-item v-for="type in types" :type="type"></type-item>
+                <type-item v-for="type in types" :key="type.id" :type="type"></type-item>
               </ol>
             </div>
             <!-- 类型列表END -->
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-  import Nestable from 'Nestable'
+//  import Nestable from 'Nestable'
   import server from '../../config/api';
   import { mapState, mapMutations } from 'vuex'
 
@@ -67,7 +67,7 @@
               'SET_TYPES'
           ]),
           createNestable() {
-            $('.dd').nestable();
+//            $('.dd').nestable();
           },
           loadData() {
               let vm = this;
@@ -90,11 +90,11 @@
           },
           toogle() {
               //展开/收缩
-              if(this.listToggle){
-                $('.dd').nestable('collapseAll');
-              }else{
-                $('.dd').nestable('expandAll');
-              }
+//              if(this.listToggle){
+//                $('.dd').nestable('collapseAll');
+//              }else{
+//                $('.dd').nestable('expandAll');
+//              }
               this.listToggle = !this.listToggle;
           },
           refresh() {

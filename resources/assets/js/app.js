@@ -99,17 +99,21 @@ Vue.use(CheckboxGroup)
 Vue.use(Table)
 Vue.use(TableColumn)
 
-
 import 'element-ui/lib/theme-default/index.css'
 import App from './App.vue';
 import server from './config/api'
 
-Vue.use(VueI18n);
 Vue.use(VueRouter);
+Vue.use(VueI18n);
 Vue.config.lang =localStorage.Language ? window.Language = localStorage.Language : window.Language;
-Object.keys(locales).forEach(function (lang){
-    Vue.locale(lang,locales[lang])
+const i18n = new VueI18n({
+  locale: Vue.config.lang,
+  messages: locales
 })
+// Object.keys(locales).forEach(function (lang){
+//   console.log(Vue.locale())
+//     Vue.locale(lang,locales[lang])
+// })
 // Add locale helper.
 Validator.addLocale(zh_CN);
 const validate_config = {
@@ -165,7 +169,6 @@ Vue.component(
 Vue.component('avatar', require('./components/AvatarUpload.vue'));
 
 Vue.component('type-item', require('./components/TypeItem.vue'));
-
 
 const router = new VueRouter({
     mode: 'history',
@@ -225,4 +228,5 @@ router.beforeEach ((to, from, next) => {
     }
     return next();
 });
-new Vue(Vue.util.extend({ router, store },App)).$mount('#app');
+
+new Vue(Vue.util.extend({ router, i18n, store },App)).$mount('#app');

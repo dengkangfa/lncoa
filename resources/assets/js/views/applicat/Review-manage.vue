@@ -10,7 +10,7 @@
                style="width: 100%"
                :default-sort = "{prop: 'created_at', order: 'descending'}">
                <el-table-column type="expand">
-                 <template scope="props">
+                 <template slot-scope="props">
                    <el-form label-position="left" inline class="demo-table-expand">
                      <el-form-item :label="$t('el.form.principal')">
                        <span>{{ props.row.principal }}</span>
@@ -41,7 +41,7 @@
                    :label="$t('el.table.date')"
                    sortable
                   :width="isPhone ? 180 : ''">
-                 <template scope="scope">
+                 <template slot-scope="scope">
                     <el-icon name="time"></el-icon>
                     <span style="margin-left: 10px">{{ scope.row.created_at.split(' ')[0] }}</span>
                   </template>
@@ -52,7 +52,7 @@
                  :filters="filters"
                  :filter-method="filterStatus"
                  :width="isPhone ? 180 : ''">
-                 <template scope="scope">
+                 <template slot-scope="scope">
                       <status :status="scope.row.status" :statusClass="false"></status>
                   </template>
                </el-table-column>
@@ -71,7 +71,7 @@
                <el-table-column
                 :label="$t('el.table.action')"
                 :width="isPhone ? 180 : ''">
-                <template scope="scope">
+                <template slot-scope="scope">
                   <router-link :to="'/applicat-manage/details/' + scope.row.id">
                       <el-button  type="text" size="small">{{ $t('el.form.look') }}</el-button>
                   </router-link>

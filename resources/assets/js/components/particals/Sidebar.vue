@@ -8,7 +8,7 @@
                 <div class="nickname">
                     <p>{{ user.nickname ? user.nickname : user.name }}</p>
                     <span v-for="role in user.roles">
-                      <el-tag type="success" v-for="data in role">{{ data.display_name }}</el-tag>
+                      <el-tag type="success" v-for="data in role" :key="data.id">{{ data.display_name }}</el-tag>
                     </span>
                 </div>
                 <div class="buttons">
@@ -26,9 +26,9 @@
             <el-col>
                 <el-menu :router="true" theme="dark"
                   :unique-opened="true" :default-active="defaultActive" :default-openeds="defaultMenu" @select="select">
-                  <el-submenu :index="menu.id+''" v-for="menu in menus" v-if="menu.items.length != 0" class="menu-height">
+                  <el-submenu :index="menu.id+''" v-for="menu in menus" :key="menu.id" v-if="menu.items.length != 0" class="menu-height">
                     <template slot="title"><i :class="menu.icon"></i>{{ $t("el.sidebar."+menu.title) }}</template>
-                      <el-menu-item :index="item.uri" v-for="item in menu.items"><i :class="item.icon"></i>{{ $t("el.sidebar."+item.title) }}</el-menu-item>
+                      <el-menu-item :index="item.uri" v-for="item in menu.items" :key="item.id"><i :class="item.icon"></i>{{ $t("el.sidebar."+item.title) }}</el-menu-item>
                   </el-submenu>
                   <el-menu-item :index="menu.uri" v-else><i :class="menu.icon"></i>{{ $t("el.sidebar."+menu.title) }}</el-menu-item>
                   <el-menu-item index="logout" v-if="show" @click="logout"><i class="ion-power"></i>{{$t('el.page.logout')}}</el-menu-item>

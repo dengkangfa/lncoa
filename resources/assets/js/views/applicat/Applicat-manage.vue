@@ -55,6 +55,7 @@
                                 <el-steps center :space="110" :active="applicat.stage" finish-status="success"  v-if="applicat.status != '审核通过' && applicat.status != '已结束'">
                                   <el-step v-for="(role, index) in applicat.roles.data"
                                     :title="role.display_name"
+                                    :key="index"
                                     :status="(applicat.status == '审核不通过' && index == applicat.stage-1) ? 'error' : '' "
                                     ></el-step>
                                 </el-steps>
@@ -118,6 +119,7 @@
                                   <el-steps :space="150" :active="applicat.stage" :direction="isPhone ? 'vertical' : 'horizontal'" finish-status="success">
                                     <el-step v-for="(role, index) in applicat.roles.data"
                                       :description="role.display_name"
+                                      :key="index"
                                       :status="(applicat.status == '审核不通过' && index == applicat.stage-1) ? 'error' : '' "></el-step>
                                   </el-steps>
                                 </td>

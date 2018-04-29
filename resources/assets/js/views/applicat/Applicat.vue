@@ -24,7 +24,7 @@
                   <el-form-item :label="$t('el.form.mobile')" prop="mobile">
                     <el-col :xs="24" :sm="8" :md="8" style="min-width:90px">
                         <el-input v-model.number="form.mobile" ></el-input>
-                    <el-col>
+                    </el-col>
                   </el-form-item>
                   <!-- 联系方式END -->
                   <!-- 申请机构 -->
@@ -34,6 +34,7 @@
                           v-for="item in options"
                           :label="item.name"
                           :value="item.id"
+                          :key="item.id"
                           >
                         </el-option>
                       </el-select>

@@ -38,7 +38,7 @@
                     <div class="form-group">
                       <label for="role">{{ $t('el.table.role') }}</label>
                       <div id="role">
-                        <el-tag v-for="role in user_role" style="margin-right:5px">{{role}}</el-tag>
+                        <el-tag v-for="role in user_role" :key="role.id" style="margin-right:5px">{{role}}</el-tag>
                         <i @click="openRole" class="el-icon-edit"></i>
                       </div>
                     </div>
@@ -46,7 +46,7 @@
                     <!-- 设置角色弹出框 -->
                     <el-dialog title="设置角色" v-model="dialogFormVisible">
                       <el-checkbox-group v-model="user_role">
-                        <el-checkbox v-for="role in roles" :label="role.display_name" :data="role.id"></el-checkbox>
+                        <el-checkbox v-for="role in roles" :key="role.id" :label="role.display_name" :data="role.id"></el-checkbox>
                       </el-checkbox-group>
                     <div slot="footer" class="dialog-footer">
                       <el-button @click="cancel">{{ $t('el.form.cancel') }}</el-button>

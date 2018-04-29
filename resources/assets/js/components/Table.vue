@@ -47,7 +47,7 @@
                                       </td>
                                       <td :class="field.dataClass" v-else>
                                           <span style="display:block;">{{ item['name'] }}</span>
-                                          <el-tooltip  v-for="role in item['roles'].data" class="item" effect="dark" :content="role.description" placement="top">
+                                          <el-tooltip  v-for="role in item['roles'].data" :key="role.id" class="item" effect="dark" :content="role.description" placement="top">
                                             <el-tag style="margin-right:5px">{{ role.display_name }}</el-tag>
                                           </el-tooltip>
                                       </td>
@@ -71,7 +71,7 @@
                             </template>
                         </tr>
                         <modal title="提示" :show="permissionVisible"  @cancel="permissionVisible = false" :full="true">
-                          <el-tag type="success" v-for="permission in permissions" style="margin: 0 5px 5px 0">{{ permission.display_name }}</el-tag>
+                          <el-tag type="success" v-for="permission in permissions" :key="permission.id" style="margin: 0 5px 5px 0">{{ permission.display_name }}</el-tag>
                         </modal>
                         <!-- <el-dialog title="提示" v-model="permissionVisible" size="tiny">
                           <el-tag type="success" v-for="permission in permissions" style="margin: 0 5px 5px 0">{{ permission.display_name }}</el-tag>
