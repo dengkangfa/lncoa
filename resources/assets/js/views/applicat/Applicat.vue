@@ -253,41 +253,41 @@
          options:[],
        }
      },
-     created() {
-         //请求头(用于文件上传的请求头)
-         this.headers = {
-             'Authorization': 'Bearer ' + this.$store.state.access_token,
-             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-         }
-         //禁止开始选择日期框选择的日期
-         this.startPickerOptions.disabledDate = (time) => {
-           return time.getTime() < Date.now() - 8.64e7;
-         };
-        //禁止结束选择日期框选择的日期
-         this.endPickerOptions.disabledDate = (time) => {
-           return time.getTime() < Date.now() - 8.64e7 || time.getTime() < this.form.startTime;
-         };
-         //获取所有申请类型，并要求服务端格式化成树结构
-         axios.get(server.api.type + "?structure=tree").then( response => {
-             this.types = response.data;
-         },error => {
-             toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
-         });
-         //获取机构列表
-         axios.get(server.api.mechanism).then( response => {
-            this.options = response.data;
-         }, error => {
-            toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
-         })
-     },
-     computed: {
-         ...mapState([
-             'isPhone'
-         ]),
-     },
-     methods: {
-       //提交
-       onSubmit(formName) {
+    created() {
+     //请求头(用于文件上传的请求头)
+     this.headers = {
+         'Authorization': 'Bearer ' + this.$store.state.access_token,
+         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+     }
+     //禁止开始选择日期框选择的日期
+     this.startPickerOptions.disabledDate = (time) => {
+       return time.getTime() < Date.now() - 8.64e7;
+     };
+    //禁止结束选择日期框选择的日期
+     this.endPickerOptions.disabledDate = (time) => {
+       return time.getTime() < Date.now() - 8.64e7 || time.getTime() < this.form.startTime;
+     };
+     //获取所有申请类型，并要求服务端格式化成树结构
+     axios.get(server.api.type + "?structure=tree").then( response => {
+         this.types = response.data;
+     },error => {
+         toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+     });
+     //获取机构列表
+     axios.get(server.api.mechanism).then( response => {
+        this.options = response.data;
+     }, error => {
+        toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+     })
+    },
+    computed: {
+     ...mapState([
+         'isPhone'
+     ]),
+    },
+    methods: {
+        //提交
+        onSubmit(formName) {
          let vm = this;
          //再次验证所有表单是否符合要求
          vm.$refs[formName].validate((valid) => {
@@ -319,7 +319,7 @@
                 return false;
             }
          })
-       },
+        },
         handleRemove(file, fileList) {
           //删除文件
           if(file) {
@@ -392,12 +392,7 @@
                 }
             }
         },
-        pickerOptions: {
-         disabledDate(time) {
-           return time.getTime() < Date.now() - 8.64e7;
-         }
-       },
-       formatDataTime (date) {
+        formatDataTime (date) {
          //时间格式化
          if(date.getFullYear){
             var y = date.getFullYear();
@@ -411,11 +406,11 @@
             return y + '-' + m + '-' + d+' '+h+':'+minute;
           }
           return date;
-      },
-      handleError(err){
+        },
+        handleError(err){
           console.log(err);
-      }
-     }
+        }
+    }
   }
 </script>
 

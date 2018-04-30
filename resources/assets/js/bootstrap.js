@@ -8,7 +8,7 @@ window._ = require('lodash');
  */
 
 window.$ = window.jQuery = require('jquery');
-// require('Nestable')
+require('Nestable')
 require('bootstrap-sass');
 window.swal = require('sweetalert');
 

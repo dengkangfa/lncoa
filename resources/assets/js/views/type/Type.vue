@@ -45,7 +45,6 @@
 </template>
 
 <script>
-//  import Nestable from 'Nestable'
   import server from '../../config/api';
   import { mapState, mapMutations } from 'vuex'
 
@@ -67,7 +66,7 @@
               'SET_TYPES'
           ]),
           createNestable() {
-//            $('.dd').nestable();
+            $('.dd').nestable();
           },
           loadData() {
               let vm = this;
@@ -90,11 +89,11 @@
           },
           toogle() {
               //展开/收缩
-//              if(this.listToggle){
-//                $('.dd').nestable('collapseAll');
-//              }else{
-//                $('.dd').nestable('expandAll');
-//              }
+              if(this.listToggle){
+                $('.dd').nestable('collapseAll');
+              }else{
+                $('.dd').nestable('expandAll');
+              }
               this.listToggle = !this.listToggle;
           },
           refresh() {

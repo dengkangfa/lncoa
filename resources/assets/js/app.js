@@ -105,7 +105,7 @@ import server from './config/api'
 
 Vue.use(VueRouter);
 Vue.use(VueI18n);
-Vue.config.lang =localStorage.Language ? window.Language = localStorage.Language : window.Language;
+Vue.config.lang = localStorage.Language ? window.Language = localStorage.Language : window.Language;
 const i18n = new VueI18n({
   locale: Vue.config.lang,
   messages: locales

@@ -129,6 +129,7 @@
           ]),
           validate(val) {
               this.geetest = val;
+              console.log(val)
           },
           //提交之前验证所有表单信息
           validateBeforeSubmit(event) {
@@ -147,32 +148,12 @@
           onLogin(){
               var vm = this;
               vm.$loading()
-              let data = {};
               if(!this.geetest){
                   return;
               }
-              //如果存在refresh_token则重新刷新令牌，反之重新获取令牌
-              let refresh_token = localStorage.getItem(vm.username + '_refresh_token');
-              //如果存在refresh_token，则刷新令牌，反之请求令牌
-              if(refresh_token) {
-                  //刷新令牌参数
-                  data = {
-                        'grant_type': 'refresh_token',
-                        'username' : vm.username,
-                        'password' : vm.password,
-                        'client_id': server.client.client_id,
-                        'client_secret': server.client.client_secret,
-                        'refresh_token': refresh_token
-                    }
-              }else{
-                  //请求令牌参数
-                  data = {
-                      'grant_type': 'password',
-                      'username' : vm.username,
-                      'password' : vm.password,
-                      'client_id': server.client.client_id,
-                      'client_secret': server.client.client_secret,
-                  }
+              let data = {
+                  'username' : vm.username,
+                  'password' : vm.password,
               }
               Object.assign(data,this.geetest);
               //请求登录

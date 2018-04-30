@@ -24,11 +24,17 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'grant_type' => 'required',
-            'client_id' => 'required',
-            'client_secret' => 'required',
             'username' => 'required',
-            'password' => 'required'
+            'password' => 'required',
+            'geetest_challenge' => 'required|geetest',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'geetest_challenge.required' => \Config::get('geetest.client_fail_alert'),
+            'geetest_challenge.geetest' => \Config::get('geetest.server_fail_alert')
         ];
     }
 }

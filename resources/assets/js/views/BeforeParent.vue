@@ -1,9 +1,9 @@
 <template>
   <div class="before-parent">
     <h5 class="local">
-      <span class="lang" @click="switchLang('zh_cn')" v-bind:class="{active: lang!='en'}">中文</span>
+      <span class="lang" @click="switchLang('zh_cn')" :class="{active: lang!='en'}">中文</span>
       <span>/</span>
-      <span class="lang" @click="switchLang('en')" v-bind:class="{active: lang=='en'}">En</span>
+      <span class="lang" @click="switchLang('en')" :class="{active: lang=='en'}">En</span>
     </h5>
     <router-view></router-view>
   </div>
@@ -21,7 +21,7 @@
         },
         methods: {
             switchLang: function(lang){
-                Vue.config.lang = lang;
+                this.$i18n.locale = lang;
                 this.lang = lang;
                 localStorage.Language = lang;
             },

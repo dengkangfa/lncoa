@@ -90,6 +90,8 @@ Route::group([
     'namespace' => 'Api',
 ], function () {
     Route::post('login', 'LoginController@login');
+    Route::post('logout', 'LoginController@logout');
+    Route::post('/token/refresh', 'LoginController@refresh');
     Route::get('register/{rule}/check', 'RegisterController@check');
     Route::post('register', 'RegisterController@register');
     Route::get('mechanism', 'MechanismController@index');

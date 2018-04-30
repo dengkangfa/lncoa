@@ -258,6 +258,7 @@
   import { mapState } from 'vuex'
   import Chart from '../components/Chartjs.vue'
   import TimeInterval from '../components/TimeInterval.vue'
+
   export default {
      data () {
           return {
@@ -287,21 +288,21 @@
               data: {
                   labels : ["January","February","March","April","May","June","July"],
                   datasets : [
-                          		{
-                                label: this.$t('el.page.login_history'),
-                          			fill: false,
-                                borderColor: "rgba(75,192,192,1)",
-                          			pointStrokeColor : "#fff",
-                          			data : [65,59,90,81,56,55,40]
-                          		},
-                          		{
-                                label: this.$t('el.page.applicat_number'),
-                                fill: false,
-                                borderColor: "rgba(255,192,70,1)",
-                          			pointStrokeColor : "#fff",
-                          			data : [28,48,40,19,96,27,100]
-                          		}
-                          	]
+                      {
+                          label: 'login history',
+                          fill: false,
+                          borderColor: "rgba(75,192,192,1)",
+                          pointStrokeColor : "#fff",
+                          data : [65,59,90,81,56,55,40]
+                      },
+                      {
+                          label: 'applicat number',
+                          fill: false,
+                          borderColor: "rgba(255,192,70,1)",
+                          pointStrokeColor : "#fff",
+                          data : [28,48,40,19,96,27,100]
+                      }
+                  ]
               }
           }
       },

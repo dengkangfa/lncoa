@@ -150,7 +150,7 @@
             },
         },
         mounted() {
-            this.user = this.$store.state.user;
+//            this.user = this.$store.state.user;
             this.lang = window.Language;
         },
         computed: {
