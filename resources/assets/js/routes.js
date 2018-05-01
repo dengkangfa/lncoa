@@ -2,7 +2,193 @@ import Dashboard from './views/Dashboard.vue'
 import Parent from './views/Parent.vue'
 import BeforeParent from './views/BeforeParent.vue'
 import server from './config/api'
-import store from './vuex/store.js';
+import store from './vuex/store.js'
+
+const Index = (resolve) => {
+  import('./views/Index.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const User = (resolve) => {
+    import('./views/user/User.vue').then(module => {
+        resolve(module)
+    })
+}
+
+const UserCreate = (resolve) => {
+  import('./views/user/Create.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const UserEdit = (resolve) => {
+  import('./views/user/Edit.vue').then(module => {
+    resolve(module)
+  })
+}
+//
+// const User = (resolve) => {
+//   import('./views/user/User.vue').then(module => {
+//     resolve(module)
+//   })
+// }
+
+const Profile = (resolve) => {
+  import('./views/user/Profile').then(module => {
+    resolve(module)
+  })
+}
+
+const Setting = (resolve) => {
+  import('./views/user/Setting').then(module => {
+    resolve(module)
+  })
+}
+
+const Role = (resolve) => {
+  import('./views/role/Role.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const RoleCreate = (resolve) => {
+  import('./views/role/Create.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const RoleEdit = (resolve) => {
+  import('./views/role/Edit.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const Permission = (resolve) => {
+  import('./views/permission/Permission.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const PermissionCreate = (resolve) => {
+  import('./views/permission/Create.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const PermissionEdit = (resolve) => {
+  import('./views/permission/Edit.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const Type = (resolve) => {
+  import('./views/type/Type.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const TypeCreate = (resolve) => {
+  import('./views/type/Create.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const TypeEdit = (resolve) => {
+  import('./views/type/Edit.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const Applicat = (resolve) => {
+  import('./views/applicat/Applicat.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const Review = (resolve) => {
+  import('./views/applicat/Review.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const ReviewDetails = (resolve) => {
+  import('./views/applicat/Review-details.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const ApplicatManage = (resolve) => {
+  import('./views/applicat/Applicat-manage.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const ApplicatManageDetails = (resolve) => {
+  import('./views/applicat/Applicat-manage-details.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const ReviewManage = (resolve) => {
+  import('./views/applicat/Review-manage.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const Filing = (resolve) => {
+  import('./views/system/Filing.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const Notice = (resolve) => {
+  import('./views/system/Notice.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const Log = (resolve) => {
+  import('./views/Log.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const System = (resolve) => {
+  import('./views/System.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const Folder = (resolve) => {
+  import('./views/user/Folder.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const Login = (resolve) => {
+  import('./views/auth/Login.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const Register = (resolve) => {
+  import('./views/auth/Register.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const ResetPassword = (resolve) => {
+  import('./views/auth/Password.vue').then(module => {
+    resolve(module)
+  })
+}
+
+const Reset = (resolve) => {
+  import('./views/auth/Reset.vue').then(module => {
+    resolve(module)
+  })
+}
 
 export default [
     {
@@ -11,7 +197,7 @@ export default [
         children: [
             {
                 path: '',
-                component: require('./views/Index.vue'),
+                component: Index,
                 meta: { requiresAuth: true }
             },
             {
@@ -21,17 +207,17 @@ export default [
                 children: [
                     {
                         path: '/',
-                        component: require('./views/user/User.vue'),
+                        component: User,
                         meta: { requiresAuth: true }
                     },
                     {
                         path: 'create',
-                        component: require('./views/user/Create.vue'),
+                        component: UserCreate,
                         meta: { requiresAuth: true }
                     },
                     {
                         path: ':id/edit',
-                        component: require('./views/user/Edit.vue'),
+                        component: UserEdit,
                         meta: { requiresAuth: true }
                     }
                 ]
@@ -40,19 +226,14 @@ export default [
                 path: 'user',
                 component: Parent,
                 children: [
-                    // {
-                    //     path: ':name',
-                    //     component: require('./views/user/Home.vue'),
-                    //     meta: { requiresAuth: true }
-                    // },
                     {
                         path: 'profile',
-                        component: require('./views/user/Profile'),
+                        component: Profile,
                         meta: { requiresAuth: true }
                     },
                     {
                         path: 'setting',
-                        component: require('./views/user/setting'),
+                        component: Setting,
                         meta: { requiresAuth: true }
                     }
                 ]
@@ -64,17 +245,17 @@ export default [
                 children: [
                     {
                         path: '/',
-                        component: require('./views/role/Role.vue'),
+                        component: Role,
                         meta: { requiresAuth: true }
                     },
                     {
                         path: 'create',
-                        component: require('./views/role/Create.vue'),
+                        component: RoleCreate,
                         meta: { requiresAuth: true }
                     },
                     {
                         path: ':id/edit',
-                        component: require('./views/role/Edit.vue'),
+                        component: RoleEdit,
                         meta: { requiresAuth: true }
                     }
                 ]
@@ -86,17 +267,17 @@ export default [
                 children: [
                     {
                         path: '/',
-                        component: require('./views/permission/Permission.vue'),
+                        component: Permission,
                         meta: { requiresAuth: true }
                     },
                     {
                         path: 'create',
-                        component: require('./views/permission/Create.vue'),
+                        component: PermissionCreate,
                         meta: { requiresAuth: true }
                     },
                     {
                         path: ':id/edit',
-                        component: require('./views/permission/Edit.vue'),
+                        component: PermissionEdit,
                         meta: { requiresAuth: true }
                     }
                 ]
@@ -108,17 +289,17 @@ export default [
                 children: [
                     {
                         path: '/',
-                        component: require('./views/type/Type.vue'),
+                        component: Type,
                         meta: { requiresAuth: true }
                     },
                     {
                         path: 'create',
-                        component: require('./views/type/Create.vue'),
+                        component: TypeCreate,
                         meta: { requiresAuth: true}
                     },
                     {
                         path: ':id/edit',
-                        component: require('./views/type/Edit.vue'),
+                        component: TypeEdit,
                         meta: { requiresAuth: true }
                     }
                 ]
@@ -130,7 +311,7 @@ export default [
                 children: [
                     {
                         path: '/',
-                        component: require('./views/applicat/Applicat.vue'),
+                        component: Applicat,
                         meta: { requiresAuth: true }
                     },
                 ]
@@ -142,17 +323,17 @@ export default [
                 children: [
                     {
                         path: '/',
-                        component: require('./views/applicat/Review.vue'),
+                        component: Review,
                         meta: { requiresAuth: true }
                     },
                     {
                         path: 'details/:id',
-                        component: require('./views/applicat/Review-details.vue'),
+                        component: ReviewDetails,
                         meta: { requiresAuth: true}
                     },
                     {
                         path: 'details',
-                        component: require('./views/applicat/Review-details.vue'),
+                        component: ReviewDetails,
                         meta: { requiresAuth: true}
                     }
                 ]
@@ -169,12 +350,12 @@ export default [
                 children: [
                     {
                         path: '/',
-                        component: require('./views/applicat/Applicat-manage.vue'),
+                        component: ApplicatManage,
                         meta: { requiresAuth: true }
                     },
                     {
                         path: 'details/:id',
-                        component: require('./views/applicat/Applicat-manage-details.vue'),
+                        component: ApplicatManageDetails,
                         meta: { requiresAuth: true }
                     }
                 ]
@@ -186,37 +367,37 @@ export default [
                 children: [
                     {
                         path: '/',
-                        component: require('./views/applicat/Review-manage.vue'),
+                        component: ReviewManage,
                         meta: { requiresAuth: true }
                     }
                 ]
             },
             {
                 path: 'system-files',
-                component: require('./views/system/Filing.vue'),
+                component: Filing,
                 beforeEnter: checkUrl,
                 meta: { requiresAuth: true }
             },
             {
               path: '/notice',
-              component: require('./views/system/Notice.vue'),
+              component: Notice,
               beforeEnter: checkUrl,
               meta: { requiresAuth: true }
             },
             {
                 path: 'log',
-                component: require('./views/Log.vue'),
+                component: Log,
                 meta: { requiresAuth: true }
             },
             {
                 path: 'system',
-                component: require('./views/System.vue'),
+                component: System,
                 beforeEnter: checkUrl,
                 meta: { requiresAuth: true }
             },
             {
                 path: '/files',
-                component: require('./views/user/Folder.vue'),
+                component: Folder,
                 beforeEnter: checkUrl,
                 meta: { requiresAuth: true }
             },
@@ -233,25 +414,25 @@ export default [
             {
                 path: '/login',
                 beforeEnter: checkLogin,
-                component: require('./views/auth/Login.vue'),
+                component: Login,
                 meta: { requiresAuth: false }
             },
             {
                 path: '/register',
                 beforeEnter: checkLogin,
-                component: require('./views/auth/Register.vue'),
+                component: Register,
                 meta: { requiresAuth: false }
             },
             {
                 path: '/password_reset',
                 beforeEnter: checkLogin,
-                component: require('./views/auth/Password.vue'),
+                component: ResetPassword,
                 meta: { requiresAuth: false }
             },
             {
                 path: 'password/reset/:token',
                 beforeEnter: checkLogin,
-                component: require('./views/auth/Reset.vue'),
+                component: Reset,
                 meta: { requiresAuth: false }
             }
         ]

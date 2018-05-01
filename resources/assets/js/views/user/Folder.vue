@@ -163,11 +163,11 @@
               proportion_text: '',
               file_system_digital_size: 0,
               types: {
-                  'all': 'display_all',
-                  'image': 'display_img',
-                  'video': 'display_video',
-                  'audio': 'display_audio',
-                  'excel': 'display_document',
+                  'all': this.$i18n.t('el.page.display_all'),
+                  'image': this.$i18n.t('el.page.display_img'),
+                  'video': this.$i18n.t('el.page.display_video'),
+                  'audio': this.$i18n.t('el.page.display_audio'),
+                  'excel': this.$i18n.t('el.page.display_document'),
               }
           }
       },

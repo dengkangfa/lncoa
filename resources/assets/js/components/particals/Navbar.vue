@@ -144,7 +144,7 @@
                 this.$router.push('/login');
             },
             switchLang: function(lang){
-                Vue.config.lang = lang;
+                this.$i18n.locale = lang;
                 this.lang = lang;
                 localStorage.Language = lang;
             },

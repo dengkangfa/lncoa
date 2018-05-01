@@ -289,14 +289,14 @@
                   labels : ["January","February","March","April","May","June","July"],
                   datasets : [
                       {
-                          label: 'login history',
+                          label: this.$i18n.t('el.page.login_history'),
                           fill: false,
                           borderColor: "rgba(75,192,192,1)",
                           pointStrokeColor : "#fff",
                           data : [65,59,90,81,56,55,40]
                       },
                       {
-                          label: 'applicat number',
+                          label: this.$i18n.t('el.page.applicat_number'),
                           fill: false,
                           borderColor: "rgba(255,192,70,1)",
                           pointStrokeColor : "#fff",

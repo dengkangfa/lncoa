@@ -28,7 +28,7 @@
                   </el-form-item>
                   <!-- 联系方式END -->
                   <!-- 申请机构 -->
-                  <el-form-item :label="$t('el.form.mechanism')" prop="mechanism" required>
+                  <el-form-item :label="$t('el.form.mechanism')" prop="mechanism">
                       <el-select v-model="form.mechanism_id" allow-create filterable :placeholder="$t('el.select.placeholder')">
                         <el-option
                           v-for="item in options"

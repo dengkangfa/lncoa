@@ -1,6 +1,10 @@
 const { mix } = require('laravel-mix');
 
 mix.webpackConfig({
+  output: {
+    publicPath: "/",
+    chunkFilename: 'js/[name].[chunkhash].js'
+  },
   module: {
     loaders: [
       {

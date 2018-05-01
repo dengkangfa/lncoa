@@ -75,120 +75,119 @@
 <script>
   import Geetest from '../../components/Geetest'
   import server from '../../config/api'
-  import { mapMutations } from 'vuex'
-  import { mapFields } from 'vee-validate';
+  import {mapMutations} from 'vuex'
+  import {mapFields} from 'vee-validate';
 
   export default {
-      name : 'login',
-      data(){
-          return {
-              username : null,
-              password : null,
-              emailError: null,
-              PasswordError: null,
-              state: '',
-              message: '',
-              remember: false,
-              geetest: {},
-              fullscreenLoading: false
+    name: 'login',
+    data(){
+      return {
+        username: null,
+        password: null,
+        emailError: null,
+        PasswordError: null,
+        state: '',
+        message: '',
+        remember: false,
+        geetest: {},
+        fullscreenLoading: false
+      }
+    },
+    created() {
+      //验证字段名称
+      this.$validator.updateDictionary({
+        zh_CN: {
+          attributes: {
+            username: '用户名',
+            password: '密码'
           }
+        }
+      });
+    },
+    components: {
+      Geetest
+    },
+    computed: {
+      ...mapFields({
+        usernameFlags: 'username',
+        passwordFlags: 'password',
+      }),
+      //表单是否有更改
+      formDirty() {
+        // are some fields dirty?
+        return Object.keys(this.validataFields).some(key => this.validataFields[key].dirty);
       },
-      created() {
-        //验证字段名称
-        this.$validator.updateDictionary({
-              zh_CN: {
-                  attributes: {
-                      username: '用户名',
-                      password: '密码'
-                  }
-              }
+      validateGeetest() {
+        return $.isEmptyObject(this.geetest);
+      }
+    },
+    methods: {
+      ...mapMutations([
+        'SET_ACCESS_TOKEN',
+        'LOGIN',
+        'SET_USER'
+      ]),
+      validate(val) {
+        this.geetest = val;
+      },
+      //提交之前验证所有表单信息
+      validateBeforeSubmit(event) {
+        let vm = this;
+        vm.$validator.validateAll().then(() => {
+          //验证是否正确完成验证码操作
+          if (!vm.validateGeetest) {
+            vm.onLogin(event);
+          } else {
+            toastr.warning(this.$t('el.notification.code_warning'));
+          }
+        }).catch(() => {
+          toastr.error(vm.$t('el.notification.submit_data_error'))
         });
       },
-      components: {
-          Geetest
-      },
-      computed: {
-        ...mapFields({
-            usernameFlags: 'username',
-            passwordFlags: 'password',
-        }),
-        //表单是否有更改
-        formDirty() {
-            // are some fields dirty?
-            return Object.keys(this.validataFields).some(key => this.validataFields[key].dirty);
-        },
-        validateGeetest() {
-            return $.isEmptyObject(this.geetest);
+      onLogin(){
+        var vm = this;
+        vm.$loading()
+        if (!this.geetest) {
+          return;
         }
-      },
-      methods:{
-          ...mapMutations([
-              'SET_ACCESS_TOKEN',
-              'LOGIN',
-              'SET_USER'
-          ]),
-          validate(val) {
-              this.geetest = val;
-              console.log(val)
-          },
-          //提交之前验证所有表单信息
-          validateBeforeSubmit(event) {
-              let vm = this;
-              vm.$validator.validateAll().then(() => {
-                  //验证是否正确完成验证码操作
-                  if(!vm.validateGeetest) {
-                      vm.onLogin(event);
-                  }else {
-                      toastr.warning(this.$t('el.notification.code_warning'));
-                  }
-              }).catch(() => {
-                toastr.error(vm.$t('el.notification.submit_data_error'))
-              });
-          },
-          onLogin(){
-              var vm = this;
-              vm.$loading()
-              if(!this.geetest){
-                  return;
-              }
-              let data = {
-                  'username' : vm.username,
-                  'password' : vm.password,
-              }
-              Object.assign(data,this.geetest);
-              //请求登录
-              axios.post(server.api.login, data).then( response => {
-                  vm.message = '';
-                  vm.state = 'success';
-                  //判断是否需要记住该账号，需要则将令牌存储在localStorage中，反之只
-                  //存储在sessionStorage中
-                  if(vm.remember) {
-                    localStorage.setItem('access_token', response.data.access_token)
-                  }else{
-                    sessionStorage.setItem('access_token', response.data.access_token)
-                  }
-                  //将用于刷新的令牌存储进localstorage
-                  localStorage.setItem(vm.username + '_refresh_token', response.data.refresh_token)
-                  //将用于验证身份的令牌存储进vuex
-                  vm.SET_ACCESS_TOKEN(response.data.access_token);
-                  // vm.LOGIN();
-                  axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access_token;
-                  vm.SET_USER(response.data);
-                  // vm.$router.go(-1);
-                  vm.$loading().close();
-                  vm.$router.push('/');
-              }, error => {
-                  vm.$refs.geetest.reset();
-                  vm.$loading().close();
-                  if(error.response.status == 403){
-                    vm.message = error.response.data.message;
-                    vm.state = error.response.data.status;
-                  }else{
-                    toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
-                  }
-              })
+        let data = {
+          'username': vm.username,
+          'password': vm.password,
+        }
+        Object.assign(data, this.geetest);
+        //请求登录
+        axios.post(server.api.login, data).then(response => {
+          vm.message = '';
+          vm.state = 'success';
+          //判断是否需要记住该账号，需要则将令牌存储在localStorage中，反之只
+          //存储在sessionStorage中
+          if (vm.remember) {
+            localStorage.setItem('access_token', response.data.access_token)
+          } else {
+            sessionStorage.setItem('access_token', response.data.access_token)
           }
+          //将用于刷新的令牌存储进localstorage
+          localStorage.setItem(vm.username + '_refresh_token', response.data.refresh_token)
+          //将用于验证身份的令牌存储进vuex
+          vm.SET_ACCESS_TOKEN(response.data.access_token);
+          // vm.LOGIN();
+          axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access_token;
+          vm.SET_USER(response.data);
+          // vm.$router.go(-1);
+          vm.$loading().close();
+          vm.$router.push('/');
+        }, error => {
+          vm.$refs.geetest.reset();
+          vm.$loading().close();
+          if (error.response.status == 403) {
+            vm.message = error.response.data.message;
+            vm.state = error.response.data.status;
+          } else {
+            toastr.error(error.response.status + ' : Resource ' + error.response.statusText)
+          }
+        })
       }
+    }
   }
 </script>
 
